@@ -34,7 +34,7 @@ testthat::test_that(
     p_subtitle <-
       ggstatsplot::subtitle_onesample_proptest(
         data = ggplot2::msleep,
-        main = "vore",
+        x = "vore",
         nboot = 25
       )
 
@@ -49,7 +49,7 @@ testthat::test_that(
     )
     testthat::expect_equal(dat$counts, c(20L, 5L, 32L, 19))
     testthat::expect_equal(
-      as.character(dat$main),
+      as.character(dat$vore),
       c("omni", "insecti", "herbi", "carni")
     )
     testthat::expect_identical(
@@ -154,8 +154,8 @@ testthat::test_that(
     p_subtitle <-
       ggstatsplot::subtitle_contingency_tab(
         data = mtcars,
-        main = "am",
-        condition = "cyl",
+        x = "am",
+        y = "cyl",
         simulate.p.value = TRUE,
         nboot = 25,
         B = 3000,
@@ -180,11 +180,11 @@ testthat::test_that(
       tolerance = 0.001
     )
     testthat::expect_equal(p1$data$counts, c(12L, 4L, 3L))
-    testthat::expect_identical(levels(p1$data$main), c("8", "6", "4"))
-    testthat::expect_identical(levels(p1$data$condition), c("0"))
+    testthat::expect_identical(levels(p1$data$cyl), c("8", "6", "4"))
+    testthat::expect_identical(levels(p1$data$am), c("0"))
     testthat::expect_identical(
       colnames(p1$data),
-      c("condition", "main", "counts", "perc", "slice.label")
+      c("am", "cyl", "counts", "perc", "slice.label")
     )
 
     # checking layer data
@@ -324,8 +324,8 @@ testthat::test_that(
     # test layout
     df_layout <- tibble::as_tibble(pb$layout$layout)
     testthat::expect_equal(dim(df_layout), c(3L, 6L))
-    testthat::expect_identical(class(df_layout$condition), "factor")
-    testthat::expect_identical(levels(df_layout$condition), c("4", "6", "8"))
+    testthat::expect_identical(class(df_layout$cyl), "factor")
+    testthat::expect_identical(levels(df_layout$cyl), c("4", "6", "8"))
   }
 )
 
@@ -356,8 +356,8 @@ testthat::test_that(
     set.seed(123)
     p_subtitle <- ggstatsplot::subtitle_contingency_tab(
       data = as.data.frame(Titanic),
-      main = Sex,
-      condition = Survived,
+      x = Sex,
+      y = Survived,
       counts = Freq,
       nboot = 25,
       conf.level = 0.95,
@@ -381,10 +381,10 @@ testthat::test_that(
     # testing everything is okay with data
     testthat::expect_equal(data_dims, c(4L, 5L))
     testthat::expect_equal(dat$perc, c(8.46, 48.38, 91.54, 51.62), tolerance = 1e-3)
-    testthat::expect_equal(dat$condition[1], "No")
-    testthat::expect_equal(dat$condition[4], "Yes")
-    testthat::expect_equal(dat$main[2], "Female")
-    testthat::expect_equal(dat$main[3], "Male")
+    testthat::expect_equal(dat$Survived[1], "No")
+    testthat::expect_equal(dat$Survived[4], "Yes")
+    testthat::expect_equal(dat$Sex[2], "Female")
+    testthat::expect_equal(dat$Sex[3], "Male")
     testthat::expect_identical(dat$counts, c(126L, 344L, 1364L, 367L))
 
     # checking plot labels
@@ -438,8 +438,8 @@ testthat::test_that(
     set.seed(123)
     p_subtitle <- ggstatsplot::subtitle_contingency_tab(
       data = survey.data,
-      main = `1st survey`,
-      condition = `2nd survey`,
+      x = `1st survey`,
+      y = `2nd survey`,
       counts = Counts,
       nboot = 25,
       paired = TRUE,
@@ -635,34 +635,37 @@ testthat::test_that(
     )
 
     # tests
-    testthat::expect_identical(p_sub, ggplot2::expr(
-      paste(
-        NULL,
-        chi["Pearson"]^2,
-        "(",
-        "8",
-        ") = ",
-        "109.2007",
-        ", ",
-        italic("p"),
-        " = ",
-        "< 0.001",
-        ", ",
-        italic("V")["Cramer"],
-        " = ",
-        "0.1594",
-        ", CI"["95%"],
-        " [",
-        "0.0916",
-        ", ",
-        "0.1278",
-        "]",
-        ", ",
-        italic("n"),
-        " = ",
-        2148L
+    testthat::expect_identical(
+      p_sub,
+      ggplot2::expr(
+        paste(
+          NULL,
+          chi["Pearson"]^2,
+          "(",
+          "8",
+          ") = ",
+          "109.2007",
+          ", ",
+          italic("p"),
+          " = ",
+          "< 0.001",
+          ", ",
+          italic("V")["Cramer"],
+          " = ",
+          "0.1594",
+          ", CI"["95%"],
+          " [",
+          "0.1236",
+          ", ",
+          "0.1814",
+          "]",
+          ", ",
+          italic("n"),
+          " = ",
+          2148L
+        )
       )
-    ))
+    )
 
     testthat::expect_identical(
       p_cap,

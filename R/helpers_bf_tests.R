@@ -21,8 +21,7 @@
 #' @export
 
 # function body
-bf_extractor <- function(bf.object,
-                         ...) {
+bf_extractor <- function(bf.object, ...) {
   ellipsis::check_dots_used()
 
   # preparing the dataframe
@@ -275,16 +274,16 @@ bf_corr_test <- function(data,
 #' # to get caption (in favor of null)
 #' bf_contingency_tab(
 #'   data = mtcars,
-#'   main = am,
-#'   condition = cyl,
+#'   x = am,
+#'   y = cyl,
 #'   fixed.margin = "cols"
 #' )
 #'
 #' # to get caption (in favor of alternative)
 #' bf_contingency_tab(
 #'   data = mtcars,
-#'   main = am,
-#'   condition = cyl,
+#'   x = am,
+#'   y = cyl,
 #'   fixed.margin = "rows",
 #'   output = "alternative"
 #' )
@@ -292,8 +291,8 @@ bf_corr_test <- function(data,
 #' # to see results
 #' bf_contingency_tab(
 #'   data = mtcars,
-#'   main = am,
-#'   condition = cyl,
+#'   x = am,
+#'   y = cyl,
 #'   sampling.plan = "jointMulti",
 #'   fixed.margin = "rows",
 #'   prior.concentration = 1
@@ -303,15 +302,15 @@ bf_corr_test <- function(data,
 #'
 #' bf_contingency_tab(
 #'   data = mtcars,
-#'   main = am,
+#'   x = am,
 #'   prior.concentration = 10
 #' )
 #' @export
 
 # function body
 bf_contingency_tab <- function(data,
-                               main,
-                               condition = NULL,
+                               x,
+                               y = NULL,
                                counts = NULL,
                                ratio = NULL,
                                sampling.plan = "indepMulti",
@@ -321,53 +320,43 @@ bf_contingency_tab <- function(data,
                                output = "null",
                                k = 2,
                                ...) {
+
+  # ensure the variables work quoted or unquoted
+  x <- rlang::ensym(x)
+  y <- if (!rlang::quo_is_null(rlang::enquo(y))) rlang::ensym(y)
+  counts <- if (!rlang::quo_is_null(rlang::enquo(counts))) rlang::ensym(counts)
   ellipsis::check_dots_used()
 
   # =============================== dataframe ================================
 
   # creating a dataframe
   data %<>%
-    dplyr::select(
-      .data = .,
-      main = {{ main }},
-      condition = {{ condition }},
-      counts = {{ counts }}
-    ) %>%
+    dplyr::select(.data = ., {{ x }}, {{ y }}, {{ counts }}) %>%
     tidyr::drop_na(data = .) %>%
     tibble::as_tibble(x = .)
 
-  # =========================== converting counts ============================
-
-  # untable the dataframe based on the count for each obervation
-  if ("counts" %in% names(data)) {
+  # untable the dataframe based on the count for each observation
+  if (!rlang::quo_is_null(rlang::enquo(counts))) {
     data %<>%
       tidyr::uncount(
         data = .,
-        weights = counts,
+        weights = {{ counts }},
         .remove = TRUE,
         .id = "id"
       )
   }
 
-  # main and condition need to be a factor for this analysis
+  # x and y need to be a factor for this analysis
   # also drop the unused levels of the factors
 
-  # main
-  data %<>%
-    dplyr::mutate(.data = ., main = droplevels(as.factor(main)))
+  # x
+  data %<>% dplyr::mutate(.data = ., {{ x }} := droplevels(as.factor({{ x }})))
 
-  # ratio
-  if (is.null(ratio)) {
-    ratio <- rep(1 / length(table(data$main)), length(table(data$main)))
-  }
+  # ========================= contingency tabs =============================
 
-  # ========================= caption preparation ==========================
-
-  if ("condition" %in% names(data)) {
-
+  if (!rlang::quo_is_null(rlang::enquo(y))) {
     # dropping unused levels
-    data %<>%
-      dplyr::mutate(.data = ., condition = droplevels(as.factor(condition)))
+    data %<>% dplyr::mutate(.data = ., {{ y }} := droplevels(as.factor({{ y }})))
 
     # detailed text of sample plan
     sampling_plan_text <-
@@ -383,7 +372,10 @@ bf_contingency_tab <- function(data,
     bf_results <-
       bf_extractor(
         BayesFactor::contingencyTableBF(
-          x = table(data$main, data$condition),
+          x = table(
+            data %>% dplyr::pull({{ x }}),
+            data %>% dplyr::pull({{ y }})
+          ),
           sampleType = sampling.plan,
           fixedMargin = fixed.margin,
           priorConcentration = prior.concentration,
@@ -396,19 +388,30 @@ bf_contingency_tab <- function(data,
         fixed.margin = fixed.margin,
         prior.concentration = prior.concentration
       )
-  } else {
-    # no. of levels in `main` variable
-    n_levels <- length(as.vector(table(data$main)))
+  }
 
+  # ========================= goodness of fit =============================
+
+  if (rlang::quo_is_null(rlang::enquo(y))) {
+    # ratio
+    if (is.null(ratio)) {
+      x_length <- length(table(data %>% dplyr::pull({{ x }})))
+      ratio <- rep(1 / x_length, x_length)
+    }
+
+    # no. of levels in `x` variable
+    n_levels <- length(as.vector(table(data %>% dplyr::pull({{ x }}))))
+
+    # probability can't be exactly 0 or 1
     if (1 / n_levels == 0 || 1 / n_levels == 1) {
       return(NULL)
     }
 
     # one sample goodness of fit test for equal proportions
-    y <- as.matrix(table(data$main))
+    x_vec <- as.matrix(table(data %>% dplyr::pull({{ x }})))
 
     # (log) prob of data under null
-    pr_y_h0 <- stats::dmultinom(x = y, prob = ratio, log = TRUE)
+    pr_y_h0 <- stats::dmultinom(x = x_vec, prob = ratio, log = TRUE)
 
     # estimate log prob of data under null with Monte Carlo
     M <- 100000
@@ -416,8 +419,13 @@ bf_contingency_tab <- function(data,
     tmp_pr_h1 <-
       sapply(
         X = 1:M,
-        FUN = function(i)
-          stats::dmultinom(x = y, prob = p1s[i, ], log = TRUE)
+        FUN = function(i) {
+          stats::dmultinom(
+            x = x_vec,
+            prob = p1s[i, ],
+            log = TRUE
+          )
+        }
       )
 
     # estimate log prob of data under alternative
@@ -441,6 +449,8 @@ bf_contingency_tab <- function(data,
       dplyr::mutate(.data = ., prior.concentration = prior.concentration)
   }
 
+  # ========================= caption preparation =============================
+
   # changing aspects of the caption based on what output is needed
   if (output %in% c("null", "caption", "H0", "h0")) {
     hypothesis.text <- "In favor of null: "
@@ -453,7 +463,7 @@ bf_contingency_tab <- function(data,
   }
 
   # prepare the Bayes Factor message
-  if ("condition" %in% names(data)) {
+  if (!rlang::quo_is_null(rlang::enquo(y))) {
     bf_message <-
       substitute(
         atop(
@@ -544,6 +554,7 @@ bf_contingency_tab <- function(data,
 #'
 #' # for reproducibility
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # to get caption (default)
 #' bf_ttest(
@@ -612,38 +623,18 @@ bf_ttest <- function(data,
   # make sure both quoted and unquoted arguments are allowed
   x <- rlang::ensym(x)
   y <- if (!rlang::quo_is_null(rlang::enquo(y))) rlang::ensym(y)
+  ellipsis::check_dots_used()
 
-  # -------------------------- between-subjects design -------------------
+  # -------------------------- two-sample tests ------------------------------
 
   if (!rlang::quo_is_null(rlang::enquo(y))) {
-
     # dropping unused factor levels from `x` variable
     data %<>% dplyr::mutate(.data = ., {{ x }} := droplevels(as.factor({{ x }})))
 
-    # running bayesian analysis
-    if (isFALSE(paired)) {
-
-      # removing NAs
-      data %<>% dplyr::filter(.data = ., !is.na({{ x }}), !is.na({{ y }}))
-
-      # extracting results from bayesian test and creating a dataframe
-      bf_object <-
-        BayesFactor::ttestBF(
-          formula = rlang::new_formula({{ y }}, {{ x }}),
-          data = as.data.frame(data),
-          rscale = bf.prior,
-          paired = FALSE,
-          progress = FALSE,
-          ...
-        )
-    } else {
+    # within-subjects design
+    if (isTRUE(paired)) {
       # the data needs to be in wide format
-      data_wide <-
-        long_to_wide_converter(
-          data = data,
-          x = {{ x }},
-          y = {{ y }}
-        )
+      data_wide <- long_to_wide_converter(data = data, x = {{ x }}, y = {{ y }})
 
       # change names for convenience
       colnames(data_wide) <- c("rowid", "col1", "col2")
@@ -659,7 +650,28 @@ bf_ttest <- function(data,
           ...
         )
     }
-  } else {
+
+    # between-subjects design
+    if (isFALSE(paired)) {
+      # removing NAs
+      data %<>% dplyr::filter(.data = ., !is.na({{ x }}), !is.na({{ y }}))
+
+      # extracting results from bayesian test and creating a dataframe
+      bf_object <-
+        BayesFactor::ttestBF(
+          formula = rlang::new_formula({{ y }}, {{ x }}),
+          data = as.data.frame(data),
+          rscale = bf.prior,
+          paired = FALSE,
+          progress = FALSE,
+          ...
+        )
+    }
+  }
+
+  # -------------------------- one-sample tests ------------------------------
+
+  if (rlang::quo_is_null(rlang::enquo(y))) {
     bf_object <-
       BayesFactor::ttestBF(
         x = data %>% dplyr::pull({{ x }}),
@@ -675,6 +687,8 @@ bf_ttest <- function(data,
     bf_extractor(bf.object = bf_object) %>%
     dplyr::mutate(.data = ., bf.prior = bf.prior)
 
+  # ============================ return ==================================
+
   # prepare the Bayes factor message
   if (output != "results") {
     bf_message <-
@@ -685,8 +699,6 @@ bf_ttest <- function(data,
         caption = caption
       )
   }
-
-  # ============================ return ==================================
 
   # return the text results or the dataframe with results
   return(switch(
@@ -754,25 +766,26 @@ bf_oneway_anova <- function(data,
                             k = 2,
                             ...) {
 
+  # make sure both quoted and unquoted arguments are allowed
+  x <- rlang::ensym(x)
+  y <- rlang::ensym(y)
+  ellipsis::check_dots_used()
+
   # ============================ data preparation ==========================
 
   # creating a dataframe
   data %<>%
-    dplyr::select(.data = ., x = {{ x }}, y = {{ y }}) %>%
-    dplyr::mutate(.data = ., x = droplevels(as.factor(x))) %>%
+    dplyr::select(.data = ., {{ x }}, {{ y }}) %>%
+    dplyr::mutate(.data = ., {{ x }} := droplevels(as.factor({{ x }}))) %>%
     tibble::as_tibble(.)
 
-  # ========================= subtitle preparation ==========================
+  # ========================= within-subjects design ==========================
 
   if (isTRUE(paired)) {
     # converting to long format and then getting it back in wide so that the
     # rowid variable can be used as the block variable
     df <-
-      long_to_wide_converter(
-        data = data,
-        x = x,
-        y = y
-      ) %>%
+      long_to_wide_converter(data = data, x = {{ x }}, y = {{ y }}) %>%
       tidyr::gather(data = ., key, value, -rowid) %>%
       dplyr::arrange(.data = ., rowid) %>%
       dplyr::mutate(.data = ., rowid = as.factor(rowid), key = as.factor(key))
@@ -780,7 +793,7 @@ bf_oneway_anova <- function(data,
     # extracting results from bayesian test and creating a dataframe
     bf_results <-
       bf_extractor(BayesFactor::anovaBF(
-        value ~ key + rowid,
+        formula = value ~ key + rowid,
         data = as.data.frame(df),
         whichRandom = "rowid",
         rscaleFixed = bf.prior,
@@ -789,15 +802,19 @@ bf_oneway_anova <- function(data,
         ...
       )) %>%
       dplyr::mutate(.data = ., bf.prior = bf.prior)
-  } else {
+  }
+
+  # ========================= between-subjects design =========================
+
+  if (isFALSE(paired)) {
     # remove NAs listwise for between-subjects design
-    df <- tidyr::drop_na(data = data)
+    df <- tidyr::drop_na(data)
 
     # extracting results from bayesian test and creating a dataframe
     bf_results <-
       bf_extractor(
         BayesFactor::anovaBF(
-          formula = y ~ x,
+          formula = rlang::new_formula({{ y }}, {{ x }}),
           data = as.data.frame(df),
           rscaleFixed = bf.prior,
           progress = FALSE,
@@ -806,6 +823,8 @@ bf_oneway_anova <- function(data,
       ) %>%
       dplyr::mutate(.data = ., bf.prior = bf.prior)
   }
+
+  # ============================ return ==================================
 
   # prepare the bayes factor message
   if (output != "results") {
@@ -817,8 +836,6 @@ bf_oneway_anova <- function(data,
         caption = caption
       )
   }
-
-  # ============================ return ==================================
 
   # return the text results or the dataframe with results
   return(switch(

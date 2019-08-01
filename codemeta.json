@@ -313,19 +313,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "DescTools",
-      "name": "DescTools",
-      "version": ">= 0.99.28",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=DescTools"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
       "version": ">= 0.8.3",
@@ -341,7 +328,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ellipsis",
       "name": "ellipsis",
-      "version": ">= 0.2.0",
+      "version": ">= 0.2.0.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -502,6 +489,7 @@
       "@type": "SoftwareApplication",
       "identifier": "MCMCpack",
       "name": "MCMCpack",
+      "version": ">= 1.4-4",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -597,7 +585,7 @@
       "@type": "SoftwareApplication",
       "identifier": "rcompanion",
       "name": "rcompanion",
-      "version": ">= 2.2.1",
+      "version": ">= 2.2.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",

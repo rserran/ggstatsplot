@@ -87,8 +87,7 @@ testthat::test_that(
     ))
 
     # creating a tidy dataframe
-    dat_tidy <- dat %>%
-      tidyr::gather(data = ., key, value, c(HDLF, HDHF))
+    dat_tidy <- tidyr::gather(data = dat, key, value, c(HDLF, HDHF))
 
     # extracting results from where this function is implemented
     set.seed(123)
@@ -286,7 +285,7 @@ testthat::test_that(
     df_results <- ggstatsplot::bf_oneway_anova(
       data = dat,
       x = Wine,
-      y = Taste,
+      y = "Taste",
       paired = TRUE,
       bf.prior = 0.99,
       output = "results"
@@ -296,7 +295,7 @@ testthat::test_that(
     set.seed(123)
     results1 <- ggstatsplot::bf_oneway_anova(
       data = dat,
-      x = Wine,
+      x = "Wine",
       y = Taste,
       k = 4,
       paired = TRUE,
@@ -366,7 +365,6 @@ testthat::test_that(
   }
 )
 
-
 # bayes factor (proportion test) --------------------------------------
 
 testthat::test_that(
@@ -378,7 +376,7 @@ testthat::test_that(
     set.seed(123)
     df <- ggstatsplot::bf_contingency_tab(
       data = mtcars,
-      main = am,
+      x = am,
       output = "results"
     )
 
@@ -393,7 +391,7 @@ testthat::test_that(
     set.seed(123)
     caption_text <- ggstatsplot::bf_contingency_tab(
       data = mtcars,
-      main = cyl,
+      x = "cyl",
       output = "alternative",
       prior.concentration = 10
     )
@@ -439,8 +437,8 @@ testthat::test_that(
     set.seed(123)
     df_results <- ggstatsplot::bf_contingency_tab(
       data = mtcars,
-      main = am,
-      condition = cyl,
+      x = am,
+      y = cyl,
       sampling.plan = "jointMulti",
       fixed.margin = "rows",
       output = "results"
@@ -449,8 +447,8 @@ testthat::test_that(
     # caption
     caption_text <- ggstatsplot::bf_contingency_tab(
       data = mtcars,
-      main = am,
-      condition = cyl,
+      x = am,
+      y = "cyl",
       sampling.plan = "jointMulti",
       fixed.margin = "rows",
       output = "alternative"
@@ -459,8 +457,8 @@ testthat::test_that(
     # with counts
     caption_text2 <- ggstatsplot::bf_contingency_tab(
       data = as.data.frame(Titanic),
-      main = Survived,
-      condition = Sex,
+      x = "Survived",
+      y = Sex,
       counts = "Freq",
       sampling.plan = "jointMulti",
       fixed.margin = "rows",

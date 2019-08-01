@@ -110,6 +110,8 @@ grouped_ggpiestats <- function(data,
                                ggplot.component = NULL,
                                return = "plot",
                                messages = TRUE,
+                               x = NULL,
+                               y = NULL,
                                ...) {
 
   # ======================== check user input =============================
@@ -140,73 +142,36 @@ grouped_ggpiestats <- function(data,
 
   # ensure the grouping variable works quoted or unquoted
   grouping.var <- rlang::ensym(grouping.var)
+  main <- rlang::ensym(main)
+  condition <- if (!rlang::quo_is_null(rlang::enquo(condition))) rlang::ensym(condition)
+  x <- if (!rlang::quo_is_null(rlang::enquo(x))) rlang::ensym(x)
+  y <- if (!rlang::quo_is_null(rlang::enquo(y))) rlang::ensym(y)
+  x <- x %||% main
+  y <- y %||% condition
+  counts <- if (!rlang::quo_is_null(rlang::enquo(counts))) rlang::ensym(counts)
 
   # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) {
-    title.prefix <- rlang::as_name(grouping.var)
-  }
+  if (is.null(title.prefix)) title.prefix <- rlang::as_name(grouping.var)
 
   # ======================== preparing dataframe =============================
 
   # creating a dataframe
   df <-
-    data %>%
-    dplyr::select(
-      .data = .,
-      {{ grouping.var }},
-      {{ main }},
-      {{ condition }},
-      {{ counts }}
-    ) %>%
+    dplyr::select(.data = data, {{ grouping.var }}, {{ x }}, {{ y }}, {{ counts }}) %>%
     tidyr::drop_na(data = .) %>% # creating a list for grouped analysis
     grouped_list(data = ., grouping.var = {{ grouping.var }})
 
-  # ============== build pmap list based on conditions =====================
-
-  if (!missing(condition) && missing(counts)) {
-    flexiblelist <- list(
-      data = df,
-      main = rlang::quo_text(ensym(main)),
-      condition = rlang::quo_text(ensym(condition)),
-      title = glue::glue("{title.prefix}: {names(df)}")
-    )
-  }
-
-  if (missing(condition) && missing(counts)) {
-    flexiblelist <- list(
-      data = df,
-      main = rlang::quo_text(ensym(main)),
-      title = glue::glue("{title.prefix}: {names(df)}")
-    )
-  }
-
-  if (!missing(condition) && !missing(counts)) {
-    flexiblelist <- list(
-      data = df,
-      main = rlang::quo_text(ensym(main)),
-      condition = rlang::quo_text(ensym(condition)),
-      counts = rlang::quo_text(ensym(counts)),
-      title = glue::glue("{title.prefix}: {names(df)}")
-    )
-  }
-
-  if (missing(condition) && !missing(counts)) {
-    flexiblelist <- list(
-      data = df,
-      main = rlang::quo_text(ensym(main)),
-      counts = rlang::quo_text(ensym(counts)),
-      title = glue::glue("{title.prefix}: {names(df)}")
-    )
-  }
-
-  # ==================== creating a list of plots =======================
+  # ==================== creating a list of return objects ===================
 
   # creating a list of plots using `pmap`
   plotlist_purrr <-
     purrr::pmap(
-      .l = flexiblelist,
+      .l = list(data = df, title = glue::glue("{title.prefix}: {names(df)}")),
       .f = ggstatsplot::ggpiestats,
       # put common parameters here
+      x = {{ x }},
+      y = {{ y }},
+      counts = {{ counts }},
       ratio = ratio,
       paired = paired,
       results.subtitle = results.subtitle,
@@ -246,21 +211,11 @@ grouped_ggpiestats <- function(data,
     )
 
   # combining the list of plots into a single plot
+  # inform user this can't be modified further with ggplot commands
   if (return == "plot") {
-    combined_object <-
-      ggstatsplot::combine_plots(
-        plotlist = plotlist_purrr,
-        ...
-      )
-
-    # inform user this can't be modified further with ggplot commands
-    if (isTRUE(messages)) {
-      grouped_message()
-    }
+    if (isTRUE(messages)) grouped_message()
+    return(ggstatsplot::combine_plots(plotlist = plotlist_purrr, ...))
   } else {
-    combined_object <- plotlist_purrr
+    return(plotlist_purrr)
   }
-
-  # return the combined plot
-  return(combined_object)
 }

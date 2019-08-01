@@ -5,8 +5,8 @@
 #'   categorical variable.
 #' @author Indrajeet Patil
 #'
-#' @param main The variable to use as the **rows** in the contingency table.
-#' @param condition The variable to use as the **columns** in the contingency
+#' @param x The variable to use as the **rows** in the contingency table.
+#' @param y The variable to use as the **columns** in the contingency
 #'   table. Default is `NULL`. If `NULL`, one-sample proportion test (a goodness
 #'   of fit test) will be run for the `main` variable. Otherwise an appropriate
 #'   association test will be run.
@@ -53,12 +53,13 @@
 #' # ------------------------ association tests -----------------------------
 #'
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # without counts data
 #' ggstatsplot::subtitle_contingency_tab(
 #'   data = mtcars,
-#'   main = am,
-#'   condition = cyl,
+#'   x = am,
+#'   y = cyl,
 #'   nboot = 15
 #' )
 #'
@@ -70,8 +71,8 @@
 #'   dplyr::filter(.data = ., Sex == "Male") %>%
 #'   subtitle_contingency_tab(
 #'     data = .,
-#'     main = Hair,
-#'     condition = Sex,
+#'     x = Hair,
+#'     y = Sex,
 #'     counts = Freq
 #'   )
 #'
@@ -83,7 +84,7 @@
 #' # with counts
 #' subtitle_contingency_tab(
 #'   data = as.data.frame(HairEyeColor),
-#'   main = Eye,
+#'   x = Eye,
 #'   counts = Freq,
 #'   ratio = c(0.2, 0.2, 0.3, 0.3)
 #' )
@@ -91,14 +92,14 @@
 #' # in case of no variation, only sample size will be shown
 #' subtitle_contingency_tab(
 #'   data = cbind.data.frame(x = rep("a", 10)),
-#'   main = x
+#'   x = x
 #' )
 #' @export
 
 # function body
 subtitle_contingency_tab <- function(data,
-                                     main,
-                                     condition = NULL,
+                                     x,
+                                     y = NULL,
                                      counts = NULL,
                                      ratio = NULL,
                                      nboot = 100,
@@ -113,87 +114,85 @@ subtitle_contingency_tab <- function(data,
                                      k = 2,
                                      messages = TRUE,
                                      ...) {
+
+  # ensure the variables work quoted or unquoted
+  x <- rlang::ensym(x)
+  y <- if (!rlang::quo_is_null(rlang::enquo(y))) rlang::ensym(y)
+  counts <- if (!rlang::quo_is_null(rlang::enquo(counts))) rlang::ensym(counts)
   ellipsis::check_dots_used()
 
   # =============================== dataframe ================================
 
   # creating a dataframe
   data %<>%
-    dplyr::select(
-      .data = .,
-      main = {{ main }},
-      condition = {{ condition }},
-      counts = {{ counts }}
-    ) %>%
-    tidyr::drop_na(data = .)
-
-  # main and condition need to be a factor for this analysis
-  # also drop the unused levels of the factors
-
-  # main
-  data %<>%
-    dplyr::mutate(.data = ., main = droplevels(as.factor(main))) %>%
+    dplyr::select(.data = ., {{ x }}, {{ y }}, {{ counts }}) %>%
+    tidyr::drop_na(data = .) %>%
     tibble::as_tibble(x = .)
 
-  # condition
-  if ("condition" %in% names(data)) {
+  # x and y need to be a factor for this analysis
+  # also drop the unused levels of the factors
+
+  # x
+  data %<>% dplyr::mutate(.data = ., {{ x }} := droplevels(as.factor({{ x }})))
+
+  # untable the dataframe based on the count for each observation
+  if (!rlang::quo_is_null(rlang::enquo(counts))) {
     data %<>%
-      dplyr::mutate(.data = ., condition = droplevels(as.factor(condition)))
+      tidyr::uncount(
+        data = .,
+        weights = {{ counts }},
+        .remove = TRUE,
+        .id = "id"
+      )
+  }
+
+  # y
+  if (!rlang::quo_is_null(rlang::enquo(y))) {
+    # drop the unused levels of the column variable
+    data %<>% dplyr::mutate(.data = ., {{ y }} := droplevels(as.factor({{ y }})))
 
     # in case there is no variation, no subtitle will be shown
-    if (length(unique(levels(data$condition))) == 1L) {
+    if (nlevels(data %>% dplyr::pull({{ y }}))[[1]] == 1L) {
       # display message
       message(cat(
         crayon::red("Error: "),
-        crayon::blue("Row variable 'condition' contains less than 2 levels.\n"),
+        crayon::blue("Row variable 'y' contains less than 2 levels.\n"),
         crayon::blue("Chi-squared test can't be run; no subtitle displayed."),
         sep = ""
       ))
 
-      # assigning NULL to subtitle
-      subtitle <- NULL
-
       # return early
-      return(subtitle)
+      return(NULL)
     }
   }
 
-  # ============================ converting counts ===========================
-
-  # untable the dataframe based on the count for each observation
-  if ("counts" %in% names(data)) {
-    data %<>%
-      tidyr::uncount(
-        data = .,
-        weights = counts,
-        .remove = TRUE,
-        .id = "id"
-      ) %>%
-      tibble::as_tibble(.)
-  }
-
-  # =============================== Pearson's chi-square =====================
+  # =============================== association tests ========================
 
   # sample size
   sample_size <- nrow(data)
 
   # ratio
   if (is.null(ratio)) {
-    ratio <- rep(1 / length(table(data$main)), length(table(data$main)))
+    x_vec <- data %>% dplyr::pull({{ x }})
+    ratio <- rep(1 / length(table(x_vec)), length(table(x_vec)))
   }
 
   # association tests
-  if ("condition" %in% names(data)) {
+  if (!rlang::quo_is_null(rlang::enquo(y))) {
 
-    # running Pearson's Chi-square test of independence
-    if (!isTRUE(paired)) {
-      # ======================== Pearson's test ==============================
+    # ======================== Pearson's test ================================
+
+    if (isFALSE(paired)) {
+      # creating a matrix with frequencies and cleaning it up
+      x_arg <- as.matrix(table(
+        data %>% dplyr::pull({{ x }}),
+        data %>% dplyr::pull({{ y }})
+      ))
 
       # object containing stats
       stats_df <-
         broomExtra::tidy(stats::chisq.test(
-          x = data$main,
-          y = data$condition,
+          x = x_arg,
           correct = FALSE,
           rescale.p = FALSE,
           simulate.p.value = simulate.p.value,
@@ -204,23 +203,16 @@ subtitle_contingency_tab <- function(data,
       effsize_df <-
         tryCatch(
           expr = rcompanion::cramerV(
-            x = as.integer(data$main),
-            y = as.integer(data$condition),
+            x = x_arg,
             ci = TRUE,
             conf = conf.level,
             type = conf.type,
             R = nboot,
             histogram = FALSE,
-            digits = k,
+            digits = 5,
             bias.correct = bias.correct
           ) %>%
-            tibble::as_tibble(x = .) %>%
-            dplyr::rename(
-              .data = .,
-              estimate = Cramer.V,
-              conf.low = lower.ci,
-              conf.high = upper.ci
-            ),
+            rcompanion_cleaner(object = ., estimate.col = "Cramer.V"),
           error = function(x) {
             tibble::tribble(
               ~estimate, ~conf.low, ~conf.high,
@@ -229,70 +221,70 @@ subtitle_contingency_tab <- function(data,
           }
         )
 
-      # ======================== McNemar's test =================================
-    } else {
+      # effect size text
+      effsize.text <- quote(italic("V")["Cramer"])
+      statistic.text <- quote(chi["Pearson"]^2)
+    }
 
+    # ======================== McNemar's test ================================
+
+    if (isTRUE(paired)) {
       # figuring out all unique factor levels across two variables
-      factor.levels <- dplyr::union(levels(data$main), levels(data$condition))
+      factor.levels <- dplyr::union(
+        levels(data %>% dplyr::pull({{ x }})),
+        levels(data %>% dplyr::pull({{ y }}))
+      )
 
       # introducing dropped levels back into the variables
       data %<>%
         dplyr::mutate_at(
           .tbl = .,
-          .vars = dplyr::vars(main, condition),
+          .vars = dplyr::vars({{ x }}, {{ y }}),
           .funs = factor,
           levels = factor.levels
         )
 
       # creating a matrix with frequencies and cleaning it up
-      mat_df <- as.matrix(table(data$main, data$condition))
+      x_arg <- as.matrix(table(
+        data %>% dplyr::pull({{ x }}),
+        data %>% dplyr::pull({{ y }})
+      ))
 
       # computing effect size + CI
-      stats_df <- broomExtra::tidy(
-        stats::mcnemar.test(
-          x = mat_df,
-          y = NULL,
+      stats_df <-
+        broomExtra::tidy(stats::mcnemar.test(
+          x = x_arg,
           correct = FALSE
-        )
-      )
+        ))
 
       # computing effect size + CI
-      effsize_df <- rcompanion::cohenG(
-        x = mat_df,
-        ci = TRUE,
-        conf = conf.level,
-        type = conf.type,
-        R = nboot,
-        histogram = FALSE,
-        digits = 5
-      )$Global.statistics %>%
-        tibble::as_tibble(x = .) %>%
-        dplyr::rename(
-          .data = .,
-          estimate = Value,
-          conf.low = lower.ci,
-          conf.high = upper.ci
-        ) %>%
+      effsize_df <-
+        rcompanion::cohenG(
+          x = x_arg,
+          ci = TRUE,
+          conf = conf.level,
+          type = conf.type,
+          R = nboot,
+          histogram = FALSE,
+          digits = 5
+        )$Global.statistics %>%
+        rcompanion_cleaner(object = ., estimate.col = "Value") %>%
         dplyr::filter(.data = ., Statistic == "g")
-    }
 
-    # effect size text
-    if (isTRUE(paired)) {
+      # effect size text
       effsize.text <- quote(italic("g")["Cohen"])
       statistic.text <- quote(chi["McNemar"]^2)
-    } else {
-      effsize.text <- quote(italic("V")["Cramer"])
-      statistic.text <- quote(chi["Pearson"]^2)
     }
-  } else {
-    # ======================== goodness of fit test ========================
+  }
 
+  # ======================== goodness of fit test ========================
+
+  if (rlang::quo_is_null(rlang::enquo(y))) {
     # checking if the chi-squared test can be run
     stats_df <-
       tryCatch(
         expr = stats::chisq.test(
-          x = table(data$main),
-          y = NULL,
+          x = table(data %>% dplyr::pull({{ x }})),
           correct = FALSE,
           p = ratio,
           rescale.p = FALSE,
@@ -307,34 +299,33 @@ subtitle_contingency_tab <- function(data,
         }
       )
 
-    # if there is no value corresponding to one of the levels of the 'main'
+    # if there is no value corresponding to one of the levels of the 'x'
     # variable, then no subtitle is needed
     if (is.nan(stats_df$statistic[[1]])) {
       subtitle <-
-        substitute(
-          expr = paste(italic("n"), " = ", n),
-          env = list(n = sample_size)
-        )
+        substitute(expr = paste(italic("n"), " = ", n), env = list(n = sample_size))
 
       # display message
       message(cat(
         crayon::red("Warning: "),
-        crayon::blue("Proportion test will not be run because it requires "),
-        crayon::yellow(legend.title),
-        crayon::blue(" to have at least \n2 levels with non-zero frequencies."),
+        crayon::blue("Proportion test could not be run. Only sample size returned."),
         sep = ""
       ))
 
       # return early
       return(subtitle)
-    } else {
+    }
 
-      # tidying up the results
-      stats_df <- broomExtra::tidy(stats_df)
+    # tidying up the results
+    stats_df <- broomExtra::tidy(stats_df)
 
-      # dataframe with effect size and its confidence intervals
-      effsize_df <- rcompanion::cramerVFit(
-        x = as.vector(table(data$main)),
+    # `x` argument for effect size function
+    x_arg <- as.vector(table(data %>% dplyr::pull({{ x }})))
+
+    # dataframe with effect size and its confidence intervals
+    effsize_df <-
+      rcompanion::cramerVFit(
+        x = x_arg,
         p = ratio,
         ci = TRUE,
         conf = conf.level,
@@ -343,18 +334,11 @@ subtitle_contingency_tab <- function(data,
         histogram = FALSE,
         digits = 5
       ) %>%
-        tibble::as_tibble(x = .) %>%
-        dplyr::rename(
-          .data = .,
-          estimate = Cramer.V,
-          conf.low = lower.ci,
-          conf.high = upper.ci
-        )
+      rcompanion_cleaner(object = ., estimate.col = "Cramer.V")
 
-      # effect size is Cramer's V
-      effsize.text <- quote(italic("V")["Cramer"])
-      statistic.text <- quote(chi["gof"]^2)
-    }
+    # effect size text
+    effsize.text <- quote(italic("V")["Cramer"])
+    statistic.text <- quote(chi["gof"]^2)
   }
 
   # preparing subtitle
@@ -376,9 +360,7 @@ subtitle_contingency_tab <- function(data,
   )
 
   # message about effect size measure
-  if (isTRUE(messages)) {
-    effsize_ci_message(nboot = nboot, conf.level = conf.level)
-  }
+  if (isTRUE(messages)) effsize_ci_message(nboot, conf.level)
 
   # return the subtitle
   return(subtitle)

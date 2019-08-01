@@ -12,8 +12,9 @@ testthat::test_that(
     using_function1 <-
       ggstatsplot::subtitle_anova_nonparametric(
         data = ggstatsplot::movies_long,
-        x = genre,
+        x = "genre",
         y = length,
+        conf.type = "norm",
         paired = FALSE,
         k = 5,
         messages = TRUE
@@ -117,8 +118,9 @@ testthat::test_that(
     using_function1 <- ggstatsplot::subtitle_anova_nonparametric(
       data = ggstatsplot::bugs_long,
       x = condition,
-      y = desire,
+      y = "desire",
       k = 4,
+      conf.type = "norm",
       paired = TRUE,
       conf.level = 0.99,
       messages = FALSE
@@ -145,9 +147,9 @@ testthat::test_that(
           "0.6148",
           ", CI"["99%"],
           " [",
-          "0.4901",
+          "0.3390",
           ", ",
-          "0.7424",
+          "0.7058",
           "]",
           ", ",
           italic("n"),
@@ -164,8 +166,9 @@ testthat::test_that(
     using_function2 <- ggstatsplot::subtitle_anova_nonparametric(
       data = iris_long,
       x = condition,
-      y = value,
+      y = "value",
       k = 3,
+      conf.type = "perc",
       paired = TRUE,
       conf.level = 0.90,
       messages = FALSE
@@ -192,9 +195,9 @@ testthat::test_that(
           "0.486",
           ", CI"["90%"],
           " [",
-          "0.442",
+          "0.345",
           ", ",
-          "0.533",
+          "0.977",
           "]",
           ", ",
           italic("n"),

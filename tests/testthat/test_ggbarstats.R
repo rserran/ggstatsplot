@@ -37,8 +37,8 @@ testthat::test_that(
     set.seed(123)
     p_subtitle <- ggstatsplot::subtitle_contingency_tab(
       data = as.data.frame(Titanic),
-      main = "Sex",
-      condition = "Survived",
+      x = "Sex",
+      y = "Survived",
       counts = Freq,
       conf.level = 0.95,
       messages = FALSE
@@ -65,10 +65,10 @@ testthat::test_that(
       c(8.46, 48.38, 91.54, 51.62),
       tolerance = 1e-3
     )
-    testthat::expect_equal(dat$condition[1], "No")
-    testthat::expect_equal(dat$condition[4], "Yes")
-    testthat::expect_equal(dat$main[2], "Female")
-    testthat::expect_equal(dat$main[3], "Male")
+    testthat::expect_equal(dat$Survived[1], "No")
+    testthat::expect_equal(dat$Survived[4], "Yes")
+    testthat::expect_equal(dat$Sex[2], "Female")
+    testthat::expect_equal(dat$Sex[3], "Male")
     testthat::expect_identical(dat$counts, c(126L, 344L, 1364L, 367L))
 
     # checking plot labels
@@ -89,8 +89,8 @@ testthat::test_that(
       pb$data[[2]]$label,
       c("91.54%", "8.46%", "51.62%", "48.38%")
     )
-    testthat::expect_identical(pb$data[[3]]$label, c("***", "ns"))
-    testthat::expect_identical(pb$data[[4]]$label, c("(n = 1490)", "(n = 711)"))
+    testthat::expect_identical(pb$data[[3]]$label, c("ns", "***"))
+    testthat::expect_identical(pb$data[[4]]$label, c("(n = 711)", "(n = 1490)"))
 
     # checking geoms data
     testthat::expect_equal(
@@ -263,9 +263,9 @@ testthat::test_that(
           "0.1594",
           ", CI"["95%"],
           " [",
-          "0.0916",
+          "0.1236",
           ", ",
-          "0.1278",
+          "0.1814",
           "]",
           ", ",
           italic("n"),

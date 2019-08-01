@@ -76,15 +76,15 @@ cat_label_df <- function(data,
 }
 
 
-#' @title Preparing dataframe with counts and percentages for categorical
+#' @title Dataframe with counts and percentages for categorical
 #'   variables.
-#' @name cat_counter
+#' @name subtitle_contingency_tab
 #' @author Indrajeet Patil
 #'
-#' @inheritParams ggpiestats
 #' @param ... Additional grouping variables.
+#' @inheritParams ggpiestats
 #'
-#' @importFrom rlang enquos !! quo_is_null
+#' @importFrom rlang enquos !! quo_is_null ensym
 #' @importFrom purrr discard
 #' @importFrom dplyr select group_by summarize n arrange desc
 #' @importFrom dplyr mutate mutate_at mutate_if group_by_at
@@ -94,39 +94,34 @@ cat_label_df <- function(data,
 #' @keywords internal
 
 # function body
-cat_counter <- function(data, main, condition = NULL, ...) {
+cat_counter <- function(data, x, y = NULL, ...) {
   # massaging the inputs
-  dots <- rlang::enquos(condition, main, ..., .ignore_empty = "all")
+  dots <- rlang::enquos(y, x, ..., .ignore_empty = "all")
 
   # discarding NULL arguments
   purrr::discard(.x = dots, .p = rlang::quo_is_null)
 
   # creating a dataframe with counts
-  df <-
+  return(
     data %>%
-    dplyr::group_by_at(.tbl = ., .vars = dots, .drop = TRUE) %>%
-    dplyr::summarize(.data = ., counts = dplyr::n()) %>%
-    dplyr::mutate(.data = ., perc = (counts / sum(counts)) * 100) %>%
-    dplyr::ungroup(x = .) %>%
-    dplyr::arrange(.data = ., dplyr::desc(!!rlang::ensym(main))) %>%
-    dplyr::filter(.data = ., counts != 0L)
-
-  # return the final dataframe
-  return(df)
+      dplyr::group_by_at(.tbl = ., .vars = dots, .drop = TRUE) %>%
+      dplyr::summarize(.data = ., counts = dplyr::n()) %>%
+      dplyr::mutate(.data = ., perc = (counts / sum(counts)) * 100) %>%
+      dplyr::ungroup(x = .) %>%
+      dplyr::arrange(.data = ., dplyr::desc(!!rlang::ensym(x))) %>%
+      dplyr::filter(.data = ., counts != 0L)
+  )
 }
 
 #' @noRd
 #' @keywords internal
 
+# combine info about sample size plus
 df_facet_label <- function(data, x, y) {
-
-  # combine info about sample size plus
-  df <- data %>% {
+  data %>% {
     dplyr::full_join(
-      x = dplyr::group_by(.data = ., {{ y }}) %>%
-        dplyr::summarize(.data = ., N = dplyr::n()) %>%
-        dplyr::mutate(.data = ., N = paste0("(n = ", N, ")", sep = "")) %>%
-        dplyr::ungroup(x = .),
+      x = cat_counter(data = ., x = {{ y }}) %>%
+        dplyr::mutate(.data = ., N = paste0("(n = ", counts, ")", sep = "")),
       y = groupedstats::grouped_proptest(
         data = .,
         grouping.vars = {{ y }},
@@ -136,7 +131,4 @@ df_facet_label <- function(data, x, y) {
       by = rlang::as_name(rlang::ensym(y))
     )
   }
-
-  # return the final dataframe
-  return(df)
 }

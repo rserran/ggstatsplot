@@ -12,8 +12,8 @@ testthat::test_that(
     using_function1 <-
       suppressWarnings(ggstatsplot::subtitle_contingency_tab(
         data = ggstatsplot::Titanic_full,
-        main = "Survived",
-        condition = Class,
+        x = "Survived",
+        y = Class,
         stat.title = "Testing",
         k = 5,
         conf.level = 0.99,
@@ -43,9 +43,9 @@ testthat::test_that(
           "0.29412",
           ", CI"["99%"],
           " [",
-          "0.15228",
+          "0.26922",
           ", ",
-          "0.17109",
+          "0.31248",
           "]",
           ", ",
           italic("n"),
@@ -61,8 +61,8 @@ testthat::test_that(
     set.seed(123)
     using_function2 <- ggstatsplot::subtitle_contingency_tab(
       data = as.data.frame(Titanic),
-      main = Sex,
-      condition = Survived,
+      x = Sex,
+      y = Survived,
       counts = "Freq",
       messages = FALSE
     )
@@ -86,9 +86,9 @@ testthat::test_that(
           "0.46",
           ", CI"["95%"],
           " [",
-          "0.42",
+          "0.41",
           ", ",
-          "0.49",
+          "0.50",
           "]",
           ", ",
           italic("n"),
@@ -108,7 +108,6 @@ testthat::test_that(
   desc = "subtitle_contingency_tab works - data with NAs",
   code = {
     testthat::skip_on_cran()
-
 
     # introduce NAs
     # check that 2-by-2 doesn't produce continuity correction
@@ -130,8 +129,8 @@ testthat::test_that(
     using_function1 <-
       suppressWarnings(ggstatsplot::subtitle_contingency_tab(
         data = df,
-        main = am,
-        condition = "cyl",
+        x = am,
+        y = "cyl",
         conf.level = .990,
         conf.type = "perc",
         nboot = 15,
@@ -160,9 +159,9 @@ testthat::test_that(
           "0.43",
           ", CI"["99%"],
           " [",
-          "0.05",
+          "0.02",
           ", ",
-          "0.87",
+          "0.83",
           "]",
           ", ",
           italic("n"),

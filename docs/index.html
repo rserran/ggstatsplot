@@ -179,14 +179,14 @@
 <td><a href="https://cran.r-project.org/web/checks/check_results_ggstatsplot.html"><img src="https://cranchecks.info/badges/summary/ggstatsplot" alt="CRAN Checks"></a></td>
 <td><a href="https://ci.appveyor.com/project/IndrajeetPatil/ggstatsplot"><img src="https://ci.appveyor.com/api/projects/status/github/IndrajeetPatil/ggstatsplot?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></td>
 <td><a href="https://CRAN.R-project.org/package=ggstatsplot"><img src="https://cranlogs.r-pkg.org/badges/last-week/ggstatsplot?color=blue" alt="Weekly downloads badge"></a></td>
-<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/"><img src="https://img.shields.io/badge/forks-65-blue.svg" alt="Forks"></a></td>
+<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/"><img src="https://img.shields.io/badge/forks-68-blue.svg" alt="Forks"></a></td>
 <td><a href="https://www.rdocumentation.org/packages/ggstatsplot"><img src="https://www.rdocumentation.org/badges/version/ggstatsplot" alt="Rdoc"></a></td>
 </tr>
 <tr class="odd">
 <td><a href="https://cran.r-project.org/"><img src="https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg" alt="minimal R version"></a></td>
 <td><a href="https://www.tidyverse.org/lifecycle/"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></td>
 <td><a href="https://CRAN.R-project.org/package=ggstatsplot"><img src="https://cranlogs.r-pkg.org/badges/last-month/ggstatsplot?color=blue" alt="Monthly downloads badge"></a></td>
-<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/issues"><img src="https://img.shields.io/badge/issues-24-red.svg" alt="Github Issues"></a></td>
+<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/issues"><img src="https://img.shields.io/badge/issues-23-red.svg" alt="Github Issues"></a></td>
 <td><a href="https://CRAN.R-project.org/package=ggstatsplot/vignettes/"><img src="https://img.shields.io/badge/vignettes-0.0.12-orange.svg?colorB=FF5722" alt="vignettes"></a></td>
 </tr>
 <tr class="even">
@@ -200,12 +200,12 @@
 <td><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/licence-GPL--3-blue.svg" alt="Licence"></a></td>
 <td><a href="https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master"><img src="https://codecov.io/gh/IndrajeetPatil/ggstatsplot/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></td>
 <td><a href="http://hits.dwyl.io/IndrajeetPatil/ggstatsplot"><img src="http://hits.dwyl.io/IndrajeetPatil/ggstatsplot.svg" alt="HitCount"></a></td>
-<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/commits/master"><img src="https://img.shields.io/badge/last%20change-2019--07--21-yellowgreen.svg" alt="Last-changedate"></a></td>
+<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/commits/master"><img src="https://img.shields.io/badge/last%20change-2019--07--31-yellowgreen.svg" alt="Last-changedate"></a></td>
 <td><a href="https://github.com/IndrajeetPatil/ggstatsplot/commits/master"><img src="https://img.shields.io/github/last-commit/IndrajeetPatil/ggstatsplot.svg" alt="GitHub last commit"></a></td>
 </tr>
 <tr class="even">
 <td><a href="https://CRAN.R-project.org/package=ggstatsplot"><img src="https://tinyverse.netlify.com/badge/ggstatsplot" alt="status"></a></td>
-<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/master/tests/README.md"><img src="https://img.shields.io/badge/covrpage-Last_Build_2019_07_16-yellowgreen.svg" alt="Covrpage Summary"></a></td>
+<td><a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/master/tests/README.md"><img src="https://img.shields.io/badge/covrpage-Last_Build_2019_07_31-yellowgreen.svg" alt="Covrpage Summary"></a></td>
 <td><a href="https://saythanks.io/to/IndrajeetPatil"><img src="https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg" alt="saythanks"></a></td>
 <td><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status"></a></td>
 <td><a href="https://github.com/IndrajeetPatil/ggstatsplot/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a></td>
@@ -600,40 +600,16 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># function to convert class of any object to `ggplot` class</span></a>
 <a class="sourceLine" id="cb7-2" title="2">ggstatsplot<span class="op">::</span>ggplot_converter</a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; function(plot) {</span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   # convert the saved plot</span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt;   p &lt;- cowplot::ggdraw() +</span></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt;     cowplot::draw_grob(grid::grobTree(plot))</span></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt;   # returning the converted plot</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt;   return(p)</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; &lt;bytecode: 0x0000000035132868&gt;</span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; &lt;environment: namespace:ggstatsplot&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt;   return(cowplot::ggdraw() + cowplot::draw_grob(grid::grobTree(plot)))</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; }</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; &lt;bytecode: 0x0000000038118a30&gt;</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; &lt;environment: namespace:ggstatsplot&gt;</span></a></code></pre></div>
 <p>If you are not familiar either with what the namespace <code>::</code> does or how to use pipe operator <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code>, something this package and its documentation relies a lot on, you can check out these links-</p>
 <ul>
 <li><a href="http://r-pkgs.had.co.nz/namespace.html" class="uri">http://r-pkgs.had.co.nz/namespace.html</a></li>
 <li><a href="http://r4ds.had.co.nz/pipes.html" class="uri">http://r4ds.had.co.nz/pipes.html</a></li>
 </ul>
 </div>
-</div>
-<div id="usage-and-syntax" class="section level1">
-<h1 class="hasAnchor">
-<a href="#usage-and-syntax" class="anchor"></a>Usage and syntax</h1>
-<p><code>ggstatsplot</code> relies on non-standard evaluation (NSE), i.e., rather than looking at the values of arguments (<code>x</code>, <code>y</code>), it instead looks at their expressions. This means that you <strong>shouldn’t</strong> enter arguments with the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator and set <code>data = NULL</code> (e.g., <code>data = NULL, x = data$x, y = data$y</code>). You <strong>must</strong> always specify the <code>data</code> argument for all functions. On the plus side, you can enter arguments either as a string (<code>x = "x", y = "y"</code>) or as a bare expression (<code>x = x, y = y</code>) and it wouldn’t matter. To read more about NSE, see- <a href="http://adv-r.had.co.nz/Computing-on-the-language.html" class="uri">http://adv-r.had.co.nz/Computing-on-the-language.html</a></p>
-<p><code>ggstatsplot</code> is a very chatty package and will by default print helpful notes on assumptions about statistical tests, warnings, etc. If you don’t want your console to be cluttered with such messages, they can be turned off by setting argument <code>messages = FALSE</code> in the function call.</p>
-<p>Most functions share a <code>type</code> (of test) argument that is helpful to specify the type of statistical analysis:</p>
-<ul>
-<li>
-<code>"p"</code> (for <strong>parametric</strong>)</li>
-<li>
-<code>"np"</code> (for <strong>non-parametric</strong>)</li>
-<li>
-<code>"r"</code> (for <strong>robust</strong>)</li>
-<li>
-<code>"bf"</code> (for <strong>Bayes Factor</strong>)</li>
-</ul>
-<p>All relevant functions in <code>ggstatsplot</code> have a <code>return</code> argument which can be used to not only return plots (which is the default), but also to return a <code>subtitle</code> or <code>caption</code>, which are objects of type <code>call</code> and can be used to display statistical details in conjunction with a custom plot and at a custom location in the plot.</p>
-<p>Additionally, all functions share the <code>ggtheme</code> and <code>palette</code> arguments that can be used to specify your favorite <code>ggplot</code> theme and color palette.</p>
 </div>
 <div id="primary-functions" class="section level1">
 <h1 class="hasAnchor">
@@ -674,35 +650,31 @@
 <a class="sourceLine" id="cb9-8" title="8"></a>
 <a class="sourceLine" id="cb9-9" title="9"><span class="co"># let's change the levels of our factors, a common routine in data analysis</span></a>
 <a class="sourceLine" id="cb9-10" title="10"><span class="co"># pipeline, to see if this function respects the new factor levels</span></a>
-<a class="sourceLine" id="cb9-11" title="11">iris2<span class="op">$</span>Species &lt;-</a>
-<a class="sourceLine" id="cb9-12" title="12"><span class="st">  </span>base<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(</a>
-<a class="sourceLine" id="cb9-13" title="13">    <span class="dt">x =</span> iris2<span class="op">$</span>Species,</a>
-<a class="sourceLine" id="cb9-14" title="14">    <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"virginica"</span>, <span class="st">"versicolor"</span>)</a>
-<a class="sourceLine" id="cb9-15" title="15">  )</a>
-<a class="sourceLine" id="cb9-16" title="16"></a>
-<a class="sourceLine" id="cb9-17" title="17"><span class="co"># plot</span></a>
-<a class="sourceLine" id="cb9-18" title="18">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/ggbetweenstats.html">ggbetweenstats</a></span>(</a>
-<a class="sourceLine" id="cb9-19" title="19">  <span class="dt">data =</span> iris2,</a>
-<a class="sourceLine" id="cb9-20" title="20">  <span class="dt">x =</span> Species,</a>
-<a class="sourceLine" id="cb9-21" title="21">  <span class="dt">y =</span> Sepal.Length,</a>
-<a class="sourceLine" id="cb9-22" title="22">  <span class="dt">notch =</span> <span class="ot">TRUE</span>, <span class="co"># show notched box plot</span></a>
-<a class="sourceLine" id="cb9-23" title="23">  <span class="dt">mean.plotting =</span> <span class="ot">TRUE</span>, <span class="co"># whether mean for each group is to be displayed</span></a>
-<a class="sourceLine" id="cb9-24" title="24">  <span class="dt">mean.ci =</span> <span class="ot">TRUE</span>, <span class="co"># whether to display confidence interval for means</span></a>
-<a class="sourceLine" id="cb9-25" title="25">  <span class="dt">mean.label.size =</span> <span class="fl">2.5</span>, <span class="co"># size of the label for mean</span></a>
-<a class="sourceLine" id="cb9-26" title="26">  <span class="dt">type =</span> <span class="st">"p"</span>, <span class="co"># which type of test is to be run</span></a>
-<a class="sourceLine" id="cb9-27" title="27">  <span class="dt">k =</span> <span class="dv">3</span>, <span class="co"># number of decimal places for statistical results</span></a>
-<a class="sourceLine" id="cb9-28" title="28">  <span class="dt">outlier.tagging =</span> <span class="ot">TRUE</span>, <span class="co"># whether outliers need to be tagged</span></a>
-<a class="sourceLine" id="cb9-29" title="29">  <span class="dt">outlier.label =</span> Sepal.Width, <span class="co"># variable to be used for the outlier tag</span></a>
-<a class="sourceLine" id="cb9-30" title="30">  <span class="dt">outlier.label.color =</span> <span class="st">"darkgreen"</span>, <span class="co"># changing the color for the text label</span></a>
-<a class="sourceLine" id="cb9-31" title="31">  <span class="dt">xlab =</span> <span class="st">"Type of Species"</span>, <span class="co"># label for the x-axis variable</span></a>
-<a class="sourceLine" id="cb9-32" title="32">  <span class="dt">ylab =</span> <span class="st">"Attribute: Sepal Length"</span>, <span class="co"># label for the y-axis variable</span></a>
-<a class="sourceLine" id="cb9-33" title="33">  <span class="dt">title =</span> <span class="st">"Dataset: Iris flower data set"</span>, <span class="co"># title text for the plot</span></a>
-<a class="sourceLine" id="cb9-34" title="34">  <span class="dt">ggtheme =</span> ggthemes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ggthemes/man/theme_fivethirtyeight.html">theme_fivethirtyeight</a></span>(), <span class="co"># choosing a different theme</span></a>
-<a class="sourceLine" id="cb9-35" title="35">  <span class="dt">ggstatsplot.layer =</span> <span class="ot">FALSE</span>, <span class="co"># turn off ggstatsplot theme layer</span></a>
-<a class="sourceLine" id="cb9-36" title="36">  <span class="dt">package =</span> <span class="st">"wesanderson"</span>, <span class="co"># package from which color palette is to be taken</span></a>
-<a class="sourceLine" id="cb9-37" title="37">  <span class="dt">palette =</span> <span class="st">"Darjeeling1"</span>, <span class="co"># choosing a different color palette</span></a>
-<a class="sourceLine" id="cb9-38" title="38">  <span class="dt">messages =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb9-39" title="39">)</a></code></pre></div>
+<a class="sourceLine" id="cb9-11" title="11">iris2<span class="op">$</span>Species &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="dt">x =</span> iris2<span class="op">$</span>Species, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"virginica"</span>, <span class="st">"versicolor"</span>))</a>
+<a class="sourceLine" id="cb9-12" title="12"></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co"># plot</span></a>
+<a class="sourceLine" id="cb9-14" title="14">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/ggbetweenstats.html">ggbetweenstats</a></span>(</a>
+<a class="sourceLine" id="cb9-15" title="15">  <span class="dt">data =</span> iris2,</a>
+<a class="sourceLine" id="cb9-16" title="16">  <span class="dt">x =</span> Species,</a>
+<a class="sourceLine" id="cb9-17" title="17">  <span class="dt">y =</span> Sepal.Length,</a>
+<a class="sourceLine" id="cb9-18" title="18">  <span class="dt">notch =</span> <span class="ot">TRUE</span>, <span class="co"># show notched box plot</span></a>
+<a class="sourceLine" id="cb9-19" title="19">  <span class="dt">mean.plotting =</span> <span class="ot">TRUE</span>, <span class="co"># whether mean for each group is to be displayed</span></a>
+<a class="sourceLine" id="cb9-20" title="20">  <span class="dt">mean.ci =</span> <span class="ot">TRUE</span>, <span class="co"># whether to display confidence interval for means</span></a>
+<a class="sourceLine" id="cb9-21" title="21">  <span class="dt">mean.label.size =</span> <span class="fl">2.5</span>, <span class="co"># size of the label for mean</span></a>
+<a class="sourceLine" id="cb9-22" title="22">  <span class="dt">type =</span> <span class="st">"parametric"</span>, <span class="co"># which type of test is to be run</span></a>
+<a class="sourceLine" id="cb9-23" title="23">  <span class="dt">k =</span> <span class="dv">3</span>, <span class="co"># number of decimal places for statistical results</span></a>
+<a class="sourceLine" id="cb9-24" title="24">  <span class="dt">outlier.tagging =</span> <span class="ot">TRUE</span>, <span class="co"># whether outliers need to be tagged</span></a>
+<a class="sourceLine" id="cb9-25" title="25">  <span class="dt">outlier.label =</span> Sepal.Width, <span class="co"># variable to be used for the outlier tag</span></a>
+<a class="sourceLine" id="cb9-26" title="26">  <span class="dt">outlier.label.color =</span> <span class="st">"darkgreen"</span>, <span class="co"># changing the color for the text label</span></a>
+<a class="sourceLine" id="cb9-27" title="27">  <span class="dt">xlab =</span> <span class="st">"Type of Species"</span>, <span class="co"># label for the x-axis variable</span></a>
+<a class="sourceLine" id="cb9-28" title="28">  <span class="dt">ylab =</span> <span class="st">"Attribute: Sepal Length"</span>, <span class="co"># label for the y-axis variable</span></a>
+<a class="sourceLine" id="cb9-29" title="29">  <span class="dt">title =</span> <span class="st">"Dataset: Iris flower data set"</span>, <span class="co"># title text for the plot</span></a>
+<a class="sourceLine" id="cb9-30" title="30">  <span class="dt">ggtheme =</span> ggthemes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ggthemes/man/theme_fivethirtyeight.html">theme_fivethirtyeight</a></span>(), <span class="co"># choosing a different theme</span></a>
+<a class="sourceLine" id="cb9-31" title="31">  <span class="dt">ggstatsplot.layer =</span> <span class="ot">FALSE</span>, <span class="co"># turn off ggstatsplot theme layer</span></a>
+<a class="sourceLine" id="cb9-32" title="32">  <span class="dt">package =</span> <span class="st">"wesanderson"</span>, <span class="co"># package from which color palette is to be taken</span></a>
+<a class="sourceLine" id="cb9-33" title="33">  <span class="dt">palette =</span> <span class="st">"Darjeeling1"</span>, <span class="co"># choosing a different color palette</span></a>
+<a class="sourceLine" id="cb9-34" title="34">  <span class="dt">messages =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb9-35" title="35">)</a></code></pre></div>
 <p><img src="reference/figures/README-ggbetweenstats2-1.png" width="100%"></p>
 <p>As can be seen from the plot, the function by default returns Bayes Factor for the test (here, Student’s <em>t</em>-test). If the null hypothesis can’t be rejected with the null hypothesis significance testing (NHST) approach, the Bayesian approach can help index evidence in favor of the null hypothesis (i.e., <span class="math inline">\(BF_{01}\)</span>).</p>
 <p>By default, natural logarithms are shown because Bayes Factor values can sometimes be pretty large. Having values on logarithmic scale also makes it easy to compare evidence in favor alternative (<span class="math inline">\(BF_{10}\)</span>) versus null (<span class="math inline">\(BF_{01}\)</span>) hypotheses (since <span class="math inline">\(log_{e}(BF_{01}) = - log_{e}(BF_{01})\)</span>).</p>
@@ -874,7 +846,7 @@
 <a class="sourceLine" id="cb12-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">123</span>)</a>
 <a class="sourceLine" id="cb12-3" title="3"></a>
 <a class="sourceLine" id="cb12-4" title="4"><span class="co"># getting data in tidy format</span></a>
-<a class="sourceLine" id="cb12-5" title="5">data_bugs &lt;-<span class="st"> </span>ggstatsplot<span class="op">::</span>bugs_long <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-5" title="5">data_bugs &lt;-<span class="st"> </span>ggstatsplot<span class="op">::</span>bugs_long <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb12-6" title="6"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="dt">.data =</span> ., region <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Europe"</span>, <span class="st">"North America"</span>))</a>
 <a class="sourceLine" id="cb12-7" title="7"></a>
 <a class="sourceLine" id="cb12-8" title="8"><span class="co"># plot</span></a>
@@ -1128,7 +1100,7 @@
 <a class="sourceLine" id="cb17-4" title="4"><span class="co"># plot</span></a>
 <a class="sourceLine" id="cb17-5" title="5">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/ggpiestats.html">ggpiestats</a></span>(</a>
 <a class="sourceLine" id="cb17-6" title="6">  <span class="dt">data =</span> ggplot2<span class="op">::</span>msleep,</a>
-<a class="sourceLine" id="cb17-7" title="7">  <span class="dt">main =</span> vore,</a>
+<a class="sourceLine" id="cb17-7" title="7">  <span class="dt">x =</span> vore,</a>
 <a class="sourceLine" id="cb17-8" title="8">  <span class="dt">title =</span> <span class="st">"Composition of vore types among mammals"</span>,</a>
 <a class="sourceLine" id="cb17-9" title="9">  <span class="dt">messages =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb17-10" title="10">)</a></code></pre></div>
@@ -1140,13 +1112,13 @@
 <a class="sourceLine" id="cb18-4" title="4"><span class="co"># plot</span></a>
 <a class="sourceLine" id="cb18-5" title="5">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/ggpiestats.html">ggpiestats</a></span>(</a>
 <a class="sourceLine" id="cb18-6" title="6">  <span class="dt">data =</span> mtcars,</a>
-<a class="sourceLine" id="cb18-7" title="7">  <span class="dt">main =</span> am,</a>
-<a class="sourceLine" id="cb18-8" title="8">  <span class="dt">condition =</span> cyl,</a>
+<a class="sourceLine" id="cb18-7" title="7">  <span class="dt">x =</span> am,</a>
+<a class="sourceLine" id="cb18-8" title="8">  <span class="dt">y =</span> cyl,</a>
 <a class="sourceLine" id="cb18-9" title="9">  <span class="dt">conf.level =</span> <span class="fl">0.99</span>, <span class="co"># confidence interval for effect size measure</span></a>
 <a class="sourceLine" id="cb18-10" title="10">  <span class="dt">title =</span> <span class="st">"Dataset: Motor Trend Car Road Tests"</span>, <span class="co"># title for the plot</span></a>
 <a class="sourceLine" id="cb18-11" title="11">  <span class="dt">stat.title =</span> <span class="st">"interaction: "</span>, <span class="co"># title for the results</span></a>
 <a class="sourceLine" id="cb18-12" title="12">  <span class="dt">legend.title =</span> <span class="st">"Transmission"</span>, <span class="co"># title for the legend</span></a>
-<a class="sourceLine" id="cb18-13" title="13">  <span class="dt">factor.levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1 = manual"</span>, <span class="st">"0 = automatic"</span>), <span class="co"># renaming the factor level names (`main`)</span></a>
+<a class="sourceLine" id="cb18-13" title="13">  <span class="dt">factor.levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"1 = manual"</span>, <span class="st">"0 = automatic"</span>), <span class="co"># renaming the factor level names (`x`)</span></a>
 <a class="sourceLine" id="cb18-14" title="14">  <span class="dt">facet.wrap.name =</span> <span class="st">"No. of cylinders"</span>, <span class="co"># name for the facetting variable</span></a>
 <a class="sourceLine" id="cb18-15" title="15">  <span class="dt">slice.label =</span> <span class="st">"counts"</span>, <span class="co"># show counts data instead of percentages</span></a>
 <a class="sourceLine" id="cb18-16" title="16">  <span class="dt">package =</span> <span class="st">"ggsci"</span>, <span class="co"># package from which color palette is to be taken</span></a>
@@ -1172,8 +1144,8 @@
 <a class="sourceLine" id="cb19-12" title="12"><span class="co"># plot</span></a>
 <a class="sourceLine" id="cb19-13" title="13">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/ggpiestats.html">ggpiestats</a></span>(</a>
 <a class="sourceLine" id="cb19-14" title="14">  <span class="dt">data =</span> survey.data,</a>
-<a class="sourceLine" id="cb19-15" title="15">  <span class="dt">main =</span> <span class="st">`</span><span class="dt">1st survey</span><span class="st">`</span>,</a>
-<a class="sourceLine" id="cb19-16" title="16">  <span class="dt">condition =</span> <span class="st">`</span><span class="dt">2nd survey</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb19-15" title="15">  <span class="dt">x =</span> <span class="st">`</span><span class="dt">1st survey</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb19-16" title="16">  <span class="dt">y =</span> <span class="st">`</span><span class="dt">2nd survey</span><span class="st">`</span>,</a>
 <a class="sourceLine" id="cb19-17" title="17">  <span class="dt">counts =</span> Counts,</a>
 <a class="sourceLine" id="cb19-18" title="18">  <span class="dt">paired =</span> <span class="ot">TRUE</span>, <span class="co"># within-subjects design</span></a>
 <a class="sourceLine" id="cb19-19" title="19">  <span class="dt">conf.level =</span> <span class="fl">0.99</span>, <span class="co"># confidence interval for effect size measure</span></a>
@@ -1184,14 +1156,14 @@
 <a class="sourceLine" id="cb19-24" title="24"><span class="co">#&gt; Note: 99% CI for effect size estimate was computed with 100 bootstrap samples.</span></a>
 <a class="sourceLine" id="cb19-25" title="25"><span class="co">#&gt; Note: Results from one-sample proportion tests for each level of the variable</span></a>
 <a class="sourceLine" id="cb19-26" title="26"><span class="co">#&gt; 2nd survey testing for equal proportions of the variable 1st survey.</span></a>
-<a class="sourceLine" id="cb19-27" title="27"><span class="co">#&gt; # A tibble: 2 x 8</span></a>
-<a class="sourceLine" id="cb19-28" title="28"><span class="co">#&gt;   condition N     Approve Disapprove `Chi-squared`    df `p-value`</span></a>
-<a class="sourceLine" id="cb19-29" title="29"><span class="co">#&gt;   &lt;fct&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb19-30" title="30"><span class="co">#&gt; 1 Approve   (n =~ 90.23%  9.77%               570.     1         0</span></a>
-<a class="sourceLine" id="cb19-31" title="31"><span class="co">#&gt; 2 Disappro~ (n =~ 20.83%  79.17%              245      1         0</span></a>
-<a class="sourceLine" id="cb19-32" title="32"><span class="co">#&gt; # ... with 1 more variable: significance &lt;chr&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb19-27" title="27"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
+<a class="sourceLine" id="cb19-28" title="28"><span class="co">#&gt;   `2nd survey` counts  perc N     Approve Disapprove `Chi-squared`    df</span></a>
+<a class="sourceLine" id="cb19-29" title="29"><span class="co">#&gt;   &lt;fct&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb19-30" title="30"><span class="co">#&gt; 1 Disapprove      720   45  (n =~ 20.83%  79.17%              245      1</span></a>
+<a class="sourceLine" id="cb19-31" title="31"><span class="co">#&gt; 2 Approve         880   55. (n =~ 90.23%  9.77%               570.     1</span></a>
+<a class="sourceLine" id="cb19-32" title="32"><span class="co">#&gt; # ... with 2 more variables: `p-value` &lt;dbl&gt;, significance &lt;chr&gt;</span></a></code></pre></div>
 <p><img src="reference/figures/README-ggpiestats3-1.png" width="100%"></p>
-<p>Note that when a two-way table is present (i.e., when both <code>main</code> and <code>condition</code> arguments are specified), <em>p</em>-values for results from one-sample proportion tests are displayed in each facet in the form of asterisks with the following convention: <br></p>
+<p>Note that when a two-way table is present (i.e., when both <code>x</code> and <code>y</code> arguments are specified), <em>p</em>-values for results from one-sample proportion tests are displayed in each facet in the form of asterisks with the following convention: <br></p>
 <ul>
 <li>
 <span class="math inline">\(***\)</span>: <span class="math inline">\(p &lt; 0.001\)</span>
@@ -1216,7 +1188,7 @@
 <a class="sourceLine" id="cb20-7" title="7">    <span class="dt">.data =</span> ggstatsplot<span class="op">::</span>movies_long,</a>
 <a class="sourceLine" id="cb20-8" title="8">    genre <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Action"</span>, <span class="st">"Action Comedy"</span>, <span class="st">"Action Drama"</span>, <span class="st">"Comedy"</span>)</a>
 <a class="sourceLine" id="cb20-9" title="9">  ),</a>
-<a class="sourceLine" id="cb20-10" title="10">  <span class="dt">main =</span> mpaa,</a>
+<a class="sourceLine" id="cb20-10" title="10">  <span class="dt">x =</span> mpaa,</a>
 <a class="sourceLine" id="cb20-11" title="11">  <span class="dt">grouping.var =</span> genre, <span class="co"># grouping variable</span></a>
 <a class="sourceLine" id="cb20-12" title="12">  <span class="dt">title.prefix =</span> <span class="st">"Movie genre"</span>, <span class="co"># prefix for the facetted title</span></a>
 <a class="sourceLine" id="cb20-13" title="13">  <span class="dt">label.text.size =</span> <span class="dv">3</span>, <span class="co"># text size for slice labels</span></a>
@@ -1300,8 +1272,8 @@
 <a class="sourceLine" id="cb21-4" title="4"><span class="co"># plot</span></a>
 <a class="sourceLine" id="cb21-5" title="5">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/ggbarstats.html">ggbarstats</a></span>(</a>
 <a class="sourceLine" id="cb21-6" title="6">  <span class="dt">data =</span> ggstatsplot<span class="op">::</span>movies_long,</a>
-<a class="sourceLine" id="cb21-7" title="7">  <span class="dt">main =</span> mpaa,</a>
-<a class="sourceLine" id="cb21-8" title="8">  <span class="dt">condition =</span> genre,</a>
+<a class="sourceLine" id="cb21-7" title="7">  <span class="dt">x =</span> mpaa,</a>
+<a class="sourceLine" id="cb21-8" title="8">  <span class="dt">y =</span> genre,</a>
 <a class="sourceLine" id="cb21-9" title="9">  <span class="dt">sampling.plan =</span> <span class="st">"jointMulti"</span>,</a>
 <a class="sourceLine" id="cb21-10" title="10">  <span class="dt">title =</span> <span class="st">"MPAA Ratings by Genre"</span>,</a>
 <a class="sourceLine" id="cb21-11" title="11">  <span class="dt">xlab =</span> <span class="st">"movie genre"</span>,</a>
@@ -1328,8 +1300,8 @@
 <a class="sourceLine" id="cb22-11" title="11"><span class="co"># plot</span></a>
 <a class="sourceLine" id="cb22-12" title="12">ggstatsplot<span class="op">::</span><span class="kw"><a href="https://indrajeetpatil.github.io/ggstatsplot//reference/grouped_ggbarstats.html">grouped_ggbarstats</a></span>(</a>
 <a class="sourceLine" id="cb22-13" title="13">  <span class="dt">data =</span> diamonds_short,</a>
-<a class="sourceLine" id="cb22-14" title="14">  <span class="dt">main =</span> color,</a>
-<a class="sourceLine" id="cb22-15" title="15">  <span class="dt">condition =</span> clarity,</a>
+<a class="sourceLine" id="cb22-14" title="14">  <span class="dt">x =</span> color,</a>
+<a class="sourceLine" id="cb22-15" title="15">  <span class="dt">y =</span> clarity,</a>
 <a class="sourceLine" id="cb22-16" title="16">  <span class="dt">grouping.var =</span> cut,</a>
 <a class="sourceLine" id="cb22-17" title="17">  <span class="dt">sampling.plan =</span> <span class="st">"poisson"</span>,</a>
 <a class="sourceLine" id="cb22-18" title="18">  <span class="dt">title.prefix =</span> <span class="st">"Quality"</span>,</a>
@@ -1363,7 +1335,7 @@
 <a class="sourceLine" id="cb23-5" title="5">  <span class="dt">fill.gradient =</span> <span class="ot">TRUE</span>, <span class="co"># use color gradient</span></a>
 <a class="sourceLine" id="cb23-6" title="6">  <span class="dt">test.value =</span> <span class="dv">10</span>, <span class="co"># the comparison value for t-test</span></a>
 <a class="sourceLine" id="cb23-7" title="7">  <span class="dt">test.value.line =</span> <span class="ot">TRUE</span>, <span class="co"># display a vertical line at test value</span></a>
-<a class="sourceLine" id="cb23-8" title="8">  <span class="dt">type =</span> <span class="st">"bf"</span>, <span class="co"># bayes factor for one sample t-test</span></a>
+<a class="sourceLine" id="cb23-8" title="8">  <span class="dt">type =</span> <span class="st">"bayes"</span>, <span class="co"># bayes factor for one sample t-test</span></a>
 <a class="sourceLine" id="cb23-9" title="9">  <span class="dt">bf.prior =</span> <span class="fl">0.8</span>, <span class="co"># prior width for calculating the bayes factor</span></a>
 <a class="sourceLine" id="cb23-10" title="10">  <span class="dt">messages =</span> <span class="ot">FALSE</span> <span class="co"># turn off the messages</span></a>
 <a class="sourceLine" id="cb23-11" title="11">)</a></code></pre></div>
@@ -1495,7 +1467,7 @@
 <a class="sourceLine" id="cb27-11" title="11">  <span class="dt">y =</span> manufacturer,</a>
 <a class="sourceLine" id="cb27-12" title="12">  <span class="dt">xlab =</span> <span class="st">"city miles per gallon"</span>,</a>
 <a class="sourceLine" id="cb27-13" title="13">  <span class="dt">ylab =</span> <span class="st">"car manufacturer"</span>,</a>
-<a class="sourceLine" id="cb27-14" title="14">  <span class="dt">type =</span> <span class="st">"np"</span>, <span class="co"># non-parametric test</span></a>
+<a class="sourceLine" id="cb27-14" title="14">  <span class="dt">type =</span> <span class="st">"nonparametric"</span>, <span class="co"># non-parametric test</span></a>
 <a class="sourceLine" id="cb27-15" title="15">  <span class="dt">grouping.var =</span> cyl, <span class="co"># grouping variable</span></a>
 <a class="sourceLine" id="cb27-16" title="16">  <span class="dt">test.value =</span> <span class="fl">15.5</span>,</a>
 <a class="sourceLine" id="cb27-17" title="17">  <span class="dt">title.prefix =</span> <span class="st">"cylinder count"</span>,</a>
@@ -1818,6 +1790,32 @@
 <a class="sourceLine" id="cb34-24" title="24">)</a></code></pre></div>
 <p><img src="reference/figures/README-pirateplot-1.png" width="100%"></p>
 </div>
+</div>
+<div id="usage-and-syntax-simplicity" class="section level1">
+<h1 class="hasAnchor">
+<a href="#usage-and-syntax-simplicity" class="anchor"></a>Usage and syntax simplicity</h1>
+<p>As seen from these examples, <code>ggstatsplot</code> relies on non-standard evaluation (NSE) - implemented via <code>rlang</code> - i.e., rather than looking at the values of arguments (<code>x</code>, <code>y</code>), it instead looks at their expressions. Therefore, the syntax is simpler and follows the following principles-</p>
+<ul>
+<li>When a given function depends on variables in a dataframe, <code>data</code> argument must always be specified.</li>
+<li>The <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator cannot be used to specify variables in a dataframe.</li>
+<li>All functions accept both quoted (<code>x = "var1"</code>) and unquoted (<code>x = var1</code>) arguments.</li>
+</ul>
+<p>These set principles combined with the fact that almost all functions produce publication-ready plots that require very few arguments if one finds the aesthetic and statistical defaults satisfying make the syntax much less cognitively demanding and easy to remember/reconstruct.</p>
+<p><img src="reference/figures/arguments.png" align="center"></p>
+<p><br><code>ggstatsplot</code> is a very chatty package and will by default print helpful notes on assumptions about statistical tests, warnings, etc. If you don’t want your console to be cluttered with such messages, they can be turned off by setting argument <code>messages = FALSE</code> in the function call.</p>
+<p>Most functions share a <code>type</code> (of test) argument that is helpful to specify the type of statistical analysis:</p>
+<ul>
+<li>
+<code>"p"</code> (for <strong>parametric</strong>)</li>
+<li>
+<code>"np"</code> (for <strong>non-parametric</strong>)</li>
+<li>
+<code>"r"</code> (for <strong>robust</strong>)</li>
+<li>
+<code>"bf"</code> (for <strong>Bayes Factor</strong>)</li>
+</ul>
+<p>All relevant functions in <code>ggstatsplot</code> have a <code>return</code> argument which can be used to not only return plots (which is the default), but also to return a <code>subtitle</code> or <code>caption</code>, which are objects of type <code>call</code> and can be used to display statistical details in conjunction with a custom plot and at a custom location in the plot.</p>
+<p>Additionally, all functions share the <code>ggtheme</code> and <code>palette</code> arguments that can be used to specify your favorite <code>ggplot</code> theme and color palette.</p>
 </div>
 <div id="code-coverage" class="section level1">
 <h1 class="hasAnchor">

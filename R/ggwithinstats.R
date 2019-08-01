@@ -1,5 +1,5 @@
 #' @title Box/Violin plots for group or condition comparisons in
-#'   **within**-subjects (or repeated measures) designs.
+#'   within-subjects (or repeated measures) designs.
 #' @name ggwithinstats
 #' @description A combination of box and violin plots along with raw
 #'   (unjittered) data points for within-subjects designs with statistical
@@ -122,15 +122,9 @@ ggwithinstats <- function(data,
 
   # ------------------------------ variable names ----------------------------
 
-  # if `xlab` is not provided, use the variable `x` name
-  if (is.null(xlab)) {
-    xlab <- rlang::as_name(rlang::ensym(x))
-  }
-
-  # if `ylab` is not provided, use the variable `y` name
-  if (is.null(ylab)) {
-    ylab <- rlang::as_name(rlang::ensym(y))
-  }
+  # if `xlab` and `ylab` is not provided, use the variable `x` and `y` name
+  if (is.null(xlab)) xlab <- rlang::as_name(rlang::ensym(x))
+  if (is.null(ylab)) ylab <- rlang::as_name(rlang::ensym(y))
 
   # --------------------------------- data -----------------------------------
 
@@ -201,10 +195,7 @@ ggwithinstats <- function(data,
   # --------------------------------- basic plot ------------------------------
 
   # plot
-  plot <- ggplot2::ggplot(
-    data = df,
-    mapping = ggplot2::aes(x = x, y = y, group = id)
-  ) +
+  plot <- ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = x, y = y, group = id)) +
     ggplot2::geom_point(
       alpha = 0.5,
       size = 3,
@@ -304,16 +295,12 @@ ggwithinstats <- function(data,
   # already created.
 
   if (isTRUE(outlier.tagging)) {
-    # finding and tagging the outliers
-    data_outlier_label <- df %>%
-      dplyr::filter(.data = ., isanoutlier) %>%
-      dplyr::select(.data = ., -outlier)
-
     # applying the labels to tagged outliers with ggrepel
     plot <-
       plot +
       ggrepel::geom_label_repel(
-        data = data_outlier_label,
+        data = dplyr::filter(.data = df, isanoutlier) %>%
+          dplyr::select(.data = ., -outlier),
         mapping = ggplot2::aes(x = x, y = y, label = outlier.label),
         fontface = "bold",
         color = outlier.label.color,
