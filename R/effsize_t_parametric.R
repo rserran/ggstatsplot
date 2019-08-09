@@ -35,7 +35,7 @@
 #' }
 #'
 #' @examples
-#' \donttest{
+#'
 #' #---------------- two-sample test ------------------------------------
 #'
 #' # creating a smaller dataset
@@ -90,7 +90,6 @@
 #'   noncentral = TRUE,
 #'   tobject = tobj3
 #' )
-#' }
 #' @keywords internal
 
 # function body
@@ -144,7 +143,7 @@ effsize_t_parametric <- function(formula = NULL,
   # ---------------two independent samples by factor -------------------
 
   # two samples by factor
-  if (length(formula) == 3 & !isTRUE(paired)) {
+  if (length(formula) == 3 & isFALSE(paired)) {
     # getting `x` and `y` in required format
     outcome <- eval(formula[[2]], data)
     group <- eval(formula[[3]], data)
@@ -233,12 +232,13 @@ effsize_t_parametric <- function(formula = NULL,
       end1 <- end1 + st
     }
     ncp1 <- uniroot(
-      function(x)
+      function(x) {
         (1 - civalue) / 2 - stats::pt(
           q = tvalue,
           df = dfvalue,
           ncp = x
-        ),
+        )
+      },
       c(2 * tvalue - end1, end1)
     )$root
     end2 <- tvalue
@@ -246,12 +246,13 @@ effsize_t_parametric <- function(formula = NULL,
       end2 <- end2 - st
     }
     ncp2 <- uniroot(
-      function(x)
+      function(x) {
         (1 + civalue) / 2 - stats::pt(
           q = tvalue,
           df = dfvalue,
           ncp = x
-        ),
+        )
+      },
       c(end2, 2 * tvalue - end2)
     )$root
 

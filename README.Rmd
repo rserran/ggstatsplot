@@ -28,7 +28,12 @@ Package | Status | Usage | GitHub | References
 [![status](https://tinyverse.netlify.com/badge/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot) | [![Covrpage Summary](https://img.shields.io/badge/covrpage-Last_Build_2019_07_31-yellowgreen.svg)](https://github.com/IndrajeetPatil/ggstatsplot/blob/master/tests/README.md) | [![saythanks](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/IndrajeetPatil) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) | [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/IndrajeetPatil/ggstatsplot/issues)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/ggstatsplot/community) | | | |
 
-# Overview
+# Raison d'être
+
+> "What is to be sought in designs for the display of information is the clear
+portrayal of complexity. Not the complication of the simple; rather ... the
+revelation of the complex."   
+- Edward R. Tufte
 
 [`ggstatsplot`](https://indrajeetpatil.github.io/ggstatsplot/) is an extension
 of [`ggplot2`](https://github.com/tidyverse/ggplot2) package for creating
@@ -38,9 +43,29 @@ code to produce information-rich plots. In a typical exploratory data analysis
 workflow, data visualization and statistical modeling are two different phases:
 visualization informs modeling, and modeling in its turn can suggest a
 different visualization method, and so on and so forth. The central idea of
-*ggstatsplot* is simple: combine these two phases into one in the form of
+`ggstatsplot` is simple: combine these two phases into one in the form of
 graphics with statistical details, which makes data exploration simpler and
 faster.
+
+# Summary of available plots
+
+It, therefore, produces a limited kinds of plots for the supported analyses:
+
+Function | Plot | Description
+------- | ---------- | ----------------- 
+`ggbetweenstats` | **violin plots** | for comparisons *between* groups/conditions
+`ggwithinstats` | **violin plots** | for comparisons *within* groups/conditions
+`gghistostats` | **histograms** | for distribution about numeric variable
+`ggdotplotstats` | **dot plots/charts** | for distribution about labeled numeric variable
+`ggpiestats`  | **pie charts** | for categorical data 
+`ggbarstats`  | **bar charts** | for categorical data 
+`ggscatterstats` | **scatterplots** | for correlations between two variables
+`ggcorrmat`  | **correlation matrices** | for correlations between multiple variables
+`ggcoefstats`  | **dot-and-whisker plots** | for regression models
+
+In addition to these basic plots, `ggstatsplot` also provides **`grouped_`**
+versions (see below) that makes it easy to repeat the same analysis for
+any grouping variable.
 
 # Summary of types of statistical analyses
 
@@ -48,22 +73,6 @@ Currently, it supports only the most common types of statistical tests:
 **parametric**, **nonparametric**, **robust**, and **bayesian** versions of
 **t-test**/**anova**, **correlation** analyses, **contingency table** analysis,
 and **regression** analyses.
-
-It, therefore, produces a limited kinds of plots for the supported analyses:
-
-  - **violin plots** (for comparisons *between* groups or conditions), 
-  - **pie charts** and **bar charts** (for categorical data),
-  - **scatterplots** (for correlations between two variables),
-  - **correlation matrices** (for correlations between multiple variables),
-  - **histograms** and **dot plots/charts** (for hypothesis about distributions),
-  - **dot-and-whisker plots** (for regression models).
-
-In addition to these basic plots, `ggstatsplot` also provides **`grouped_`**
-versions for most functions that makes it easy to repeat the same analysis for
-any grouping variable.
-
-Future versions will include other types of statistical analyses and plots as
-well.
 
 The table below summarizes all the different types of analyses currently
 supported in this package-
@@ -94,31 +103,29 @@ Here is a summary table of all the statistical tests currently supported across
 various functions:
 
 Functions | Type | Test | Effect size | 95% CI available? 
------------ | ----------- | ------------------ | ------------------ | -----  
-`ggbetweenstats` | Parametric | Student's and Welch's *t*-test | Cohen's *d*, Hedge's *g* | <font color="green">$\checkmark$</font> 
-`ggbetweenstats` | Parametric | Fisher's and Welch's one-way ANOVA | $$\eta^2, \eta^2_p, \omega^2, \omega^2_p$$ | <font color="green">$\checkmark$</font> 
-`ggbetweenstats` | Non-parametric | Mann-Whitney *U*-test | *r* | <font color="green">$\checkmark$</font> 
-`ggbetweenstats` | Non-parametric | Kruskal-Wallis Rank Sum Test | $$\epsilon^2$$ | <font color="green">$\checkmark$</font> 
-`ggbetweenstats` | Robust | Yuen's test for trimmed means | $$\xi$$ | <font color="green">$\checkmark$</font> 
-`ggbetweenstats` | Robust | Heteroscedastic one-way ANOVA for trimmed means | $$\xi$$ | <font color="green">$\checkmark$</font> 
-`ggwithinstats` | Parametric | Student's *t*-test | Cohen's *d*, Hedge's *g* | <font color="green">$\checkmark$</font> 
-`ggwithinstats` | Parametric | Fisher's one-way repeated measures ANOVA | $$\eta^2_p, \omega^2$$ | <font color="green">$\checkmark$</font> 
-`ggwithinstats` | Non-parametric | Wilcoxon signed-rank test | *r* | <font color="green">$\checkmark$</font> 
-`ggwithinstats` | Non-parametric | Friedman test | $$W_{Kendall}$$ | <font color="green">$\checkmark$</font>
-`ggwithinstats` | Robust | Yuen's test on trimmed means for dependent samples | $$\xi$$ | <font color="green">$\checkmark$</font> 
-`ggwithinstats` | Robust | Heteroscedastic one-way repeated measures ANOVA for trimmed means | <font color="red">$\times$</font> | <font color="red">$\times$</font>
-`ggpiestats` | Parametric | $$\text{Pearson's}~ \chi^2 ~\text{test}$$ | Cramér's *V* | <font color="green">$\checkmark$</font>
-`ggpiestats` | Parametric | McNemar's test | Cohen's *g* | <font color="green">$\checkmark$</font>
-`ggpiestats` | Parametric | One-sample proportion test | Cramér's *V* | <font color="green">$\checkmark$</font>
-`ggscatterstats`/`ggcorrmat` | Parametric | Pearson's *r* | *r* | <font color="green">$\checkmark$</font>
-`ggscatterstats`/`ggcorrmat` | Non-parametric | $$\text{Spearman's}~ \rho$$ | $$\rho$$ | <font color="green">$\checkmark$</font>
-`ggscatterstats`/`ggcorrmat` | Robust | Percentage bend correlation | *r* | <font color="green">$\checkmark$</font>
-`gghistostats`/`ggdotplotstats` | Parametric | One-sample *t*-test | Cohen's *d*, Hedge's *g* | <font color="green">$\checkmark$</font>
-`gghistostats` | Non-parametric | One-sample Wilcoxon signed rank test | *r* | <font color="green">$\checkmark$</font> 
-`gghistostats`/`ggdotplotstats` | Robust | One-sample percentile bootstrap | robust estimator | <font color="green">$\checkmark$</font>
-`gghistostats`/`ggdotplotstats` | Parametric | Regression models | $$\beta$$ | <font color="green">$\checkmark$</font>
-
-Work is in progress to add some of the currently missing functionality. 
+-------------- | ----------- | --------------------- | -------- | -----  
+`ggbetweenstats` (2 groups) | Parametric | Student's and Welch's *t*-test | Cohen's *d*, Hedge's *g* |  <font color="green">$\checkmark$</font>
+`ggbetweenstats` (> 2 groups) | Parametric | Fisher's and Welch's one-way ANOVA | $$\eta^2, \eta^2_p, \omega^2, \omega^2_p$$ |  <font color="green">$\checkmark$</font>
+`ggbetweenstats` (2 groups) | Non-parametric | Mann-Whitney *U*-test | *r* |  <font color="green">$\checkmark$</font>
+`ggbetweenstats` (> 2 groups) | Non-parametric | Kruskal-Wallis Rank Sum Test | $$\epsilon^2$$ |  <font color="green">$\checkmark$</font>
+`ggbetweenstats` (2 groups) | Robust | Yuen's test for trimmed means | $$\xi$$ |  <font color="green">$\checkmark$</font>
+`ggbetweenstats` (> 2 groups) | Robust | Heteroscedastic one-way ANOVA for trimmed means | $$\xi$$ |  <font color="green">$\checkmark$</font>
+`ggwithinstats` (2 groups) | Parametric | Student's *t*-test | Cohen's *d*, Hedge's *g* |  <font color="green">$\checkmark$</font>
+`ggwithinstats` (> 2 groups) | Parametric | Fisher's one-way repeated measures ANOVA | $$\eta^2_p, \omega^2$$ |  <font color="green">$\checkmark$</font>
+`ggwithinstats` (2 groups) | Non-parametric | Wilcoxon signed-rank test | *r* |  <font color="green">$\checkmark$</font>
+`ggwithinstats` (> 2 groups) | Non-parametric | Friedman rank sum test | $$W_{Kendall}$$ |  <font color="green">$\checkmark$</font>
+`ggwithinstats` (2 groups) | Robust | Yuen's test on trimmed means for dependent samples | $$\xi$$ |  <font color="green">$\checkmark$</font>
+`ggwithinstats` (> 2 groups) | Robust | Heteroscedastic one-way repeated measures ANOVA for trimmed means |  <font color="red">$\times$</font> | <font color="red">$\times$</font>
+`ggpiestats` and `ggbarstats` (unpaired) | Parametric | $$\text{Pearson's}~ \chi^2 ~\text{test}$$ | Cramér's *V* |  <font color="green">$\checkmark$</font>
+`ggpiestats` and `ggbarstats` (paired) | Parametric | McNemar's test | Cohen's *g* |  <font color="green">$\checkmark$</font>
+`ggpiestats` | Parametric | One-sample proportion test | Cramér's *V* |  <font color="green">$\checkmark$</font>
+`ggscatterstats` and `ggcorrmat` | Parametric | Pearson's *r* | *r* |  <font color="green">$\checkmark$</font>
+`ggscatterstats` and `ggcorrmat` | Non-parametric | $$\text{Spearman's}~ \rho$$ | $$\rho$$ |  <font color="green">$\checkmark$</font>
+`ggscatterstats`and `ggcorrmat` | Robust | Percentage bend correlation | *r* |  <font color="green">$\checkmark$</font>
+`gghistostats` and `ggdotplotstats` | Parametric | One-sample *t*-test | Cohen's *d*, Hedge's *g* |  <font color="green">$\checkmark$</font>
+`gghistostats` | Non-parametric | One-sample Wilcoxon signed rank test | *r* |  <font color="green">$\checkmark$</font>
+`gghistostats` and `ggdotplotstats` | Robust | One-sample percentile bootstrap | robust estimator |  <font color="green">$\checkmark$</font>
+`ggcoefstats` | Parametric | Regression models | $$\beta$$ |  <font color="green">$\checkmark$</font>
 
 # Installation
 
@@ -260,8 +267,13 @@ ggstatsplot::ggbetweenstats(
   ggplot2::scale_y_continuous(breaks = seq(3, 8, by = 1))
 ```
 
-Note that this function returns a `ggplot2` object and thus any of the graphics
-layers can be further modified.
+Note that this function returns object of class `ggplot` and thus can be further
+modified using `ggplot2` functions.
+
+A number of other arguments can be specified to make this plot even more
+informative or change some of the default options. Additionally, this time we
+will use a grouping variable that has only two levels. The function will
+automatically switch from carrying out an ANOVA analysis to a *t*-test.
 
 The `type` (of test) argument
 also accepts the following abbreviations: `"p"` (for *parametric*) or `"np"`
@@ -364,10 +376,10 @@ Following (between-subjects) tests are carried out for each type of analyses-
 
 Type | No. of groups | Test
 ----------- | --- | -------------------------
-Parametric | > 2 | Student's or Welch's one-way ANOVA
+Parametric | > 2 | Fisher's or Welch's one-way ANOVA
 Non-parametric | > 2 | Kruskal–Wallis one-way ANOVA
 Robust | > 2 | Heteroscedastic one-way ANOVA for trimmed means
-Bayes Factor | > 2 | Student's ANOVA
+Bayes Factor | > 2 | Fisher's ANOVA
 Parametric | 2 | Student's or Welch's *t*-test
 Non-parametric | 2 | Mann–Whitney *U* test
 Robust | 2 |  Yuen's test for trimmed means
@@ -694,7 +706,6 @@ ggstatsplot::ggpiestats(
   counts = Counts,
   paired = TRUE, # within-subjects design
   conf.level = 0.99, # confidence interval for effect size measure
-  stat.title = "McNemar's Test: ",
   package = "wesanderson",
   palette = "Royal1"
 )
@@ -752,9 +763,9 @@ of test-
 
 Type | Effect size | CI?
 --------------- | ------------------------- | --- 
-Pearson's chi-squared test | Cramer's *V* | <font color="green">Yes<font>
-McNemar's test | *g*  | <font color="green">Yes<font>
-Goodness of fit | *V*  | <font color="green">Yes<font>
+Pearson's chi-squared test | Cramér's *V* | <font color="green">Yes<font>
+McNemar's test | Cohen's *g*  | <font color="green">Yes<font>
+Goodness of fit | Cramér's *V*  | <font color="green">Yes<font>
 
 For more, see the `ggpiestats` vignette:
 <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html>
@@ -788,34 +799,30 @@ ggstatsplot::ggbarstats(
 
 And, needless to say, there is also a `grouped_` variant of this function-
 
-```{r ggbarstats2, message = FALSE, warning = FALSE, fig.height = 16, fig.width = 10}
+```{r ggbarstats2, message = FALSE, warning = FALSE, fig.height = 12, fig.width = 10}
 # setup
-library(ggstatsplot)
 set.seed(123)
 
-# let's create a smaller dataframe
-diamonds_short <- ggplot2::diamonds %>%
-  dplyr::filter(.data = ., cut %in% c("Very Good", "Ideal")) %>%
-  dplyr::filter(.data = ., clarity %in% c("SI1", "SI2", "VS1", "VS2", "VVS1")) %>%
-  dplyr::sample_frac(tbl = ., size = 0.05)
+# smaller dataset
+df <- dplyr::filter(
+  .data = forcats::gss_cat,
+  race %in% c("Black", "White"),
+  relig %in% c("Protestant", "Catholic", "None"),
+  !partyid %in% c("No answer", "Don't know", "Other party")
+)
 
 # plot
 ggstatsplot::grouped_ggbarstats(
-  data = diamonds_short,
-  x = color,
-  y = clarity,
-  grouping.var = cut,
-  sampling.plan = "poisson",
-  title.prefix = "Quality",
-  data.label = "both",
-  label.text.size = 3,
-  perc.k = 1,
-  package = "palettetown",
-  palette = "charizard",
+  data = df,
+  x = relig,
+  y = partyid,
+  grouping.var = race,
+  title.prefix = "Race",
+  xlab = "Party affiliation",
   ggtheme = ggthemes::theme_tufte(base_size = 12),
   ggstatsplot.layer = FALSE,
   messages = FALSE,
-  title.text = "Diamond quality and color combination",
+  title.text = "Race, religion, and political affiliation",
   nrow = 2
 )
 ```
@@ -826,17 +833,18 @@ This is identical to the `ggpiestats` function summary of tests.
 
 ## `gghistostats`
 
-In case you would like to see the distribution of a single variable and check if
-it is significantly different from a specified value with a one sample test,
-this function will let you do that.
+To visualize the distribution of a single variable and check if its mean is
+significantly different from a specified value with a one-sample test,
+`gghistostats` can be used.
 
 ```{r gghistostats1, message = FALSE, warning = FALSE}
 ggstatsplot::gghistostats(
   data = ToothGrowth, # dataframe from which variable is to be taken
   x = len, # numeric variable whose distribution is of interest
-  title = "Distribution of Sepal.Length", # title for the plot
+  xlab = "Tooth length", # `x`-axis label
+  title = "Distribution of  Tooth Length", # title for the plot
   fill.gradient = TRUE, # use color gradient
-  test.value = 10, # the comparison value for t-test
+  test.value = 10, # the comparison value for one-sample test
   test.value.line = TRUE, # display a vertical line at test value
   type = "bayes", # bayes factor for one sample t-test
   bf.prior = 0.8, # prior width for calculating the bayes factor
@@ -855,7 +863,7 @@ ggstatsplot::gghistostats(
   data = iris, # dataframe from which variable is to be taken
   x = Sepal.Length, # numeric variable whose distribution is of interest
   title = "Distribution of Iris sepal length", # title for the plot
-  caption = substitute(paste(italic("Source:", "Ronald Fisher's Iris data set"))),
+  caption = substitute(paste(italic("Source:"), "Ronald Fisher's Iris data set")),
   type = "parametric", # one sample t-test
   conf.level = 0.99, # changing confidence level for effect size
   bar.measure = "mix", # what does the bar length denote
@@ -915,6 +923,16 @@ Parametric | One-sample Student's *t*-test
 Non-parametric | One-sample Wilcoxon test 
 Robust | One-sample percentile bootstrap
 Bayes Factor | One-sample Student's *t*-test
+
+Following effect sizes (and confidence intervals/CI) are available for each type
+of test-
+
+Type | Effect size | CI?
+----------- | ------------------------- | --- 
+Parametric | Cohen's *d*, Hedge's *g* (central-and noncentral-*t* distribution based) | <font color="green">Yes<font>
+Non-parametric | *r* (computed as $Z/\sqrt{N_{obs}}$) | <font color="green">Yes<font>
+Robust | $M_{robust}$ (Robust location measure) | <font color="green">Yes<font>
+Bayes Factor | <font color="red">No<font> | <font color="red">No<font>
 
 For more, including information about the variant of this function
 `grouped_gghistostats`, see the `gghistostats` vignette:
@@ -1055,7 +1073,7 @@ ggstatsplot::ggcorrmat(
 ggstatsplot::ggcorrmat(
   data = ggplot2::msleep,
   cor.vars = sleep_total:bodywt,
-  corr.method = "kendall",
+  corr.method = "spearman",
   output = "ci",
   p.adjust.method = "holm"
 )
@@ -1114,8 +1132,27 @@ For examples and more information, see the `ggcorrmat` vignette:
 
 ## `ggcoefstats`
 
-`ggcoefstats` creates a dot-and-whisker plot point estimates for regression
-coefficients as dots with confidence intervals as whiskers.
+`ggcoefstats` creates a dot-and-whisker plot for regression models. Although the
+statistical models displayed in the plot may differ based on the class of models
+being investigated, there are few aspects of the plot that will be invariant
+across models:
+
+- The dot-whisker plot contains a dot representing the **estimate** and their
+**confidence intervals** (`95%` is the default). The estimate can either be
+  effect sizes (for tests that depend on the `F` statistic) or regression
+  coefficients (for tests with `t` and `z` statistic), etc. The function will, by
+  default, display a helpful `x`-axis label that should clear up what estimates are
+  being displayed. The confidence intervals can sometimes be asymmetric if
+  bootstrapping was used.
+  
+- The caption will always contain diagnostic information, if available, about
+  models that can be useful for model selection: The smaller the Akaike's
+  Information Criterion (**AIC**) and the Bayesian Information Criterion (**BIC**)
+  values, the "better" the model is. Additionally, the higher the
+**log-likelihood** value the "better" is the model fit.
+
+- The output of this function will be a `ggplot2` object and, thus, it can be
+  further modified (e.g., change themes, etc.) with `ggplot2` functions.
 
 ```{r ggcoefstats1, message = FALSE, warning = FALSE, fig.height = 5, fig.width = 6}
 # for reproducibility
@@ -1160,10 +1197,7 @@ ggstatsplot::ggcoefstats(
 ) + # further modification with the ggplot2 commands
   # note the order in which the labels are entered
   ggplot2::scale_y_discrete(labels = c("transmission", "cylinders", "interaction")) +
-  ggplot2::labs(
-    x = "regression coefficient",
-    y = NULL
-  )
+  ggplot2::labs(x = "regression coefficient", y = NULL)
 ```
 
 Most of the regression models that are supported in the `broom` and
@@ -1331,7 +1365,6 @@ location in the plot.
 Additionally, all functions share the `ggtheme` and `palette` arguments that can
 be used to specify your favorite `ggplot` theme and color palette.
 
-
 # Code coverage
 
 As the code stands right now, here is the code coverage for all primary
@@ -1361,10 +1394,8 @@ of commitment):
 Please note that this project is released with a 
 [Contributor Code of Conduct](https://github.com/IndrajeetPatil/ggstatsplot/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-
 # Session Information
 
-For details about the session information in which this `README` file was
-rendered, see-
+For reproducibility purposes, the details about the session information in which
+this document was rendered, see-
 <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/session_info.html>
-
