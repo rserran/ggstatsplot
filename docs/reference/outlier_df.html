@@ -75,7 +75,7 @@ of the functions in this package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@ of the functions in this package." />
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -120,6 +123,9 @@ of the functions in this package." />
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -176,7 +182,7 @@ of the functions in this package." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Adding a column to dataframe describing outlier status.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/helpers_ggbetweenstats.R'><code>R/helpers_ggbetweenstats.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/helpers_ggbetweenstats_graphics.R'><code>R/helpers_ggbetweenstats_graphics.R</code></a></small>
     <div class="hidden name"><code>outlier_df.Rd</code></div>
     </div>
 
@@ -208,7 +214,8 @@ dataframe <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>outlier.label</th>
-      <td><p>Label to put on the outliers that have been tagged.</p></td>
+      <td><p>Label to put on the outliers that have been tagged. This
+<strong>can't</strong> be the same as <code>x</code> argument.</p></td>
     </tr>
     <tr>
       <th>outlier.coef</th>
@@ -264,7 +271,7 @@ Quartile) <code>outlier.coef</code> times the Inter-Quartile Range (IQR) (Defaul
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

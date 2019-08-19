@@ -2,7 +2,6 @@
 title: "ggstatsplot: ggplot2 Based Plots with Statistical Details"
 author:
 - Indrajeet Patil^[Harvard University, patilindrajeet.science@gmail.com]
-- Fiery Cushman^[Harvard University]
 - Mina Cikara^[Harvard University]
 date: "`r Sys.Date()`"
 output: 
@@ -30,8 +29,12 @@ linkcolor: blue
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# needed libraries
 library(tidyverse)
 library(ggstatsplot)
+
+# show me all columns
+options(tibble.width = Inf) 
 
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -40,7 +43,9 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.pos = 'H',
   fig.path = "./figures/paper-",
-  dev = "png"
+  dev = "png",
+  message = FALSE,
+  warning = FALSE
 )
 options(device = function(file, width, height) {
   png(tempfile(), width = width, height = height)
@@ -65,6 +70,10 @@ different visualization method, and so on and so forth. The central idea of
 `ggstatsplot` is simple: combine these two phases into one in the form of
 graphics with statistical details, which makes data exploration simpler and
 faster.
+
+## Need for informative visualizations
+
+## Need for better statistical reporting
 
 But why would combining statistical analysis with data visualization be helpful?
 We list few reasons below-
@@ -201,8 +210,8 @@ set.seed(123)
 # plot
 ggstatsplot::ggpiestats(
   data = ggstatsplot::movies_long,
-  main = genre,
-  condition = mpaa,
+  x = genre,
+  y = mpaa,
   title = "Distribution of MPAA ratings by film genre",
   legend.title = "layout",
   caption = substitute(paste(
@@ -1366,10 +1375,10 @@ Most of the regression models that are supported in the `broom` and
 `epi.2by2`, `ergm`, `felm`, `fitdistr`, `glmerMod`, `glmmTMB`, `gls`, `gam`,
 `Gam`, `gamlss`, `garch`, `glm`, `glmmadmb`, `glmmPQL`, `glmmTMB`, `glmRob`,
 `glmrob`, `gmm`, `ivreg`, `lm`, `lm.beta`, `lmerMod`, `lmodel2`, `lmRob`,
-`lmrob`, `mcmc`, `MCMCglmm`, `mediate`, `mjoint`, `mle2`, `mlm`, `multinom`,
-`negbin`, `nlmerMod`, `nlrq`, `nls`, `orcutt`, `plm`, `polr`, `ridgelm`,
-`rjags`, `rlm`, `rlmerMod`, `rq`, `speedglm`, `speedlm`, `stanreg`, `survreg`,
-`svyglm`, `svyolr`, `svyglm`, etc.
+`lmrob`, `mcmc`, `MCMCglmm`, `mclogit`, `mmclogit`, `mediate`, `mjoint`, `mle2`,
+`mlm`, `multinom`, `negbin`, `nlmerMod`, `nlrq`, `nls`, `orcutt`, `plm`, `polr`,
+`ridgelm`, `rjags`, `rlm`, `rlmerMod`, `rq`, `speedglm`, `speedlm`, `stanreg`,
+`survreg`, `svyglm`, `svyolr`, `svyglm`, etc.
 
 Although not shown here, this function can also be used to carry out both
 frequentist and Bayesian random-effects meta-analysis.
@@ -1451,6 +1460,14 @@ location in the plot.
 
 Additionally, all functions share the `ggtheme` and `palette` arguments that can
 be used to specify your favorite `ggplot` theme and color palette.
+
+# Acknowledgments
+
+The authors would like to thank Chuck Powell, Daniel Heck, and Will Beasley for
+their contributions to the package. The authors would also like to acknowledge
+the help and support provided by the larger `#rstats` community on Twitter and
+StackOverflow for the development of this package. We also appreciate helpful
+discussions with Fiery Cushman.
 
 \newpage
 

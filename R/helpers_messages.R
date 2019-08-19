@@ -2,7 +2,7 @@
 #' @name normality_message
 #' @description A note to the user about the validity of assumptions for the
 #'   default linear model.
-#' @author Indrajeet Patil
+#' @author \href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 #'
 #' @param x A numeric vector.
 #' @param lab A character describing label for the variable. If `NULL`, a
@@ -76,7 +76,7 @@ normality_message <- function(x,
 #' @name bartlett_message
 #' @description A note to the user about the validity of assumptions for the
 #'   default linear model.
-#' @author Indrajeet Patil
+#' @author \href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 #'
 #' @param lab A character describing label for the variable. If `NULL`, variable
 #'   name will be used.
@@ -155,7 +155,7 @@ bartlett_message <- function(data,
 
 #' @title grouped_message
 #' @description A note to the user about the class of the output object.
-#' @author Indrajeet Patil
+#' @author \href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 #'
 #' @seealso \code{\link{grouped_ggbetweenstats}},
 #'   \code{\link{grouped_gghistostats}}, \code{\link{grouped_ggscatterstats}},
@@ -177,7 +177,7 @@ grouped_message <- function() {
 
 #' @title Message if palette doesn't have enough number of colors.
 #' @name palette_message
-#' @author Indrajeet Patil
+#' @author \href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 #' @description A note to the user about not using the default color palette
 #'   when the number of factor levels is greater than 8, the maximum number of
 #'   colors allowed by `"Dark2"` palette from the `RColorBrewer` package.
@@ -242,57 +242,4 @@ ggcorrmat_matrix_message <- function() {
       sep = ""
     )
   )
-}
-
-
-#' @title Message about bootstrapped confidence intervals for effect sizes.
-#' @name effsize_ci_message
-#' @author Indrajeet Patil
-#'
-#' @inheritParams t1way_ci
-#'
-#' @family helper_messages
-#'
-#' @keywords internal
-
-# displaying message about bootstrap
-effsize_ci_message <- function(nboot = 100, conf.level = 0.95) {
-  message(cat(
-    crayon::green("Note:"),
-    crayon::yellow(paste(conf.level * 100, "%", sep = "")),
-    crayon::blue("CI for effect size estimate was computed with"),
-    crayon::yellow(nboot),
-    crayon::blue("bootstrap samples.\n")
-  ),
-  sep = ""
-  )
-}
-
-
-#' @title Message about results from a single-sample proportion test.
-#' @name proptest_message
-#' @author Indrajeet Patil
-#'
-#' @param main,condition Character specifying names of variables used for
-#'   contingency table analyses.
-#'
-#' @examples
-#' \donttest{
-#' ggstatsplot:::proptest_message(main = "am", condition = "cyl")
-#' }
-#'
-#' @keywords internal
-
-# function body
-proptest_message <- function(main, condition) {
-  # tell the user what these results are
-  message(cat(
-    crayon::green("Note: "),
-    crayon::blue("Results from one-sample proportion tests for each level of the variable\n"),
-    crayon::yellow(condition),
-    crayon::blue(" testing for equal proportions of the variable "),
-    crayon::yellow(main),
-    crayon::blue(".\n"),
-    sep = ""
-  ))
 }

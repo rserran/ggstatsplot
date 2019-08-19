@@ -75,7 +75,7 @@ summary for categorical variables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@ summary for categorical variables." />
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -120,6 +123,9 @@ summary for categorical variables." />
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -176,7 +182,7 @@ summary for categorical variables." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary dataframe for categorical variables.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/helpers_ggcatstats.R'><code>R/helpers_ggcatstats.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/helpers_ggcatstats_graphics.R'><code>R/helpers_ggcatstats_graphics.R</code></a></small>
     <div class="hidden name"><code>cat_label_df.Rd</code></div>
     </div>
 
@@ -230,7 +236,7 @@ labels (Default: <code>0</code>).</p></td>
     <pre class="examples"><div class='input'>
 <span class='co'># dataframe with label column</span>
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>:::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/cat_label_df.html'>cat_label_df</a></span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>:::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/subtitle_contingency_tab.html'>cat_counter</a></span>(<span class='no'>mtcars</span>, <span class='no'>am</span>, <span class='no'>cyl</span>),
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>:::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/cat_counter.html'>cat_counter</a></span>(<span class='no'>mtcars</span>, <span class='no'>am</span>, <span class='no'>cyl</span>),
   <span class='kw'>label.col.name</span> <span class='kw'>=</span> <span class='st'>"slice.label"</span>,
   <span class='kw'>label.content</span> <span class='kw'>=</span> <span class='st'>"both"</span>,
   <span class='kw'>perc.k</span> <span class='kw'>=</span> <span class='fl'>1</span>
@@ -260,7 +266,7 @@ labels (Default: <code>0</code>).</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -156,7 +156,6 @@ games_howell <- function(data, x, y) {
 
 #' @title Pairwise comparison tests
 #' @name pairwise_p
-#' @aliases pairwise_p
 #' @description Calculate pairwise comparisons between group levels with
 #'   corrections for multiple testing.
 #' @author Indrajeet Patil
@@ -175,6 +174,7 @@ games_howell <- function(data, x, y) {
 #' @importFrom tibble as_tibble rowid_to_column enframe
 #' @importFrom jmv anovaNP anovaRMNP
 #' @importFrom forcats fct_relabel
+#' @importFrom statsExpressions long_to_wide_converter
 #'
 #' @seealso \code{\link{ggbetweenstats}}, \code{\link{grouped_ggbetweenstats}}
 #'
@@ -182,13 +182,14 @@ games_howell <- function(data, x, y) {
 #'
 #' @examples
 #'
+#' \donttest{
 #' # show all columns in a tibble
 #' options(tibble.width = Inf)
 #'
+#' #------------------- between-subjects design ----------------------------
+#'
 #' # for reproducibility
 #' set.seed(123)
-#'
-#' #------------------- between-subjects design ----------------------------
 #'
 #' # parametric
 #' # if `var.equal = TRUE`, then Student's *t*-test will be run
@@ -235,6 +236,7 @@ games_howell <- function(data, x, y) {
 #'
 #' #------------------- within-subjects design ----------------------------
 #'
+#' # for reproducibility
 #' set.seed(123)
 #'
 #' # parametric
@@ -266,6 +268,7 @@ games_howell <- function(data, x, y) {
 #'   paired = TRUE,
 #'   p.adjust.method = "hommel"
 #' )
+#' }
 #' @export
 
 # function body
@@ -319,7 +322,8 @@ pairwise_p <- function(data,
         )
 
       # extracting and cleaning up Tukey's HSD output
-      df_tukey <- stats::TukeyHSD(x = aovmodel, conf.level = 0.95) %>%
+      df_tukey <-
+        stats::TukeyHSD(x = aovmodel, conf.level = 0.95) %>%
         broomExtra::tidy(x = .) %>%
         dplyr::select(.data = ., comparison, estimate) %>%
         tidyr::separate(
@@ -340,16 +344,17 @@ pairwise_p <- function(data,
         )
 
       # tidy dataframe with results from pairwise tests
-      df_tidy <- broomExtra::tidy(
-        stats::pairwise.t.test(
-          x = data %>% dplyr::pull({{ y }}),
-          g = data %>% dplyr::pull({{ x }}),
-          p.adjust.method = p.adjust.method,
-          paired = paired,
-          alternative = "two.sided",
-          na.action = na.omit
-        )
-      ) %>%
+      df_tidy <-
+        broomExtra::tidy(
+          stats::pairwise.t.test(
+            x = data %>% dplyr::pull({{ y }}),
+            g = data %>% dplyr::pull({{ x }}),
+            p.adjust.method = p.adjust.method,
+            paired = paired,
+            alternative = "two.sided",
+            na.action = na.omit
+          )
+        ) %>%
         signif_column(data = ., p = p.value)
 
       # combining mean difference and results from pairwise t-test
@@ -402,7 +407,7 @@ pairwise_p <- function(data,
   # ---------------------------- nonparametric ----------------------------
 
   if (type %in% c("nonparametric", "np")) {
-    if (!isTRUE(paired)) {
+    if (isFALSE(paired)) {
       # running Dwass-Steel-Crichtlow-Fligner test using `jmv` package
       jmv_pairs <-
         jmv::anovaNP(
@@ -437,9 +442,12 @@ pairwise_p <- function(data,
           sep = ""
         ))
       }
-    } else {
-      # converting the entered long format data to wide format
-      data_wide <- long_to_wide_converter(data = data, x = {{ x }}, y = {{ y }})
+    }
+
+    # converting the entered long format data to wide format
+    if (isTRUE(paired)) {
+      data_wide <-
+        statsExpressions::long_to_wide_converter(data = data, x = {{ x }}, y = {{ y }})
 
       # running Durbin-Conover test using `jmv` package
       jmv_pairs <-
@@ -482,7 +490,7 @@ pairwise_p <- function(data,
   # ---------------------------- robust ----------------------------------
 
   if (type %in% c("robust", "r")) {
-    if (!isTRUE(paired)) {
+    if (isFALSE(paired)) {
       # object with all details about pairwise comparisons
       rob_pairwise_df <-
         WRS2::lincon(
@@ -490,24 +498,20 @@ pairwise_p <- function(data,
           data = data,
           tr = tr
         )
-    } else {
-      # converting to long format and then getting it back in wide so that the
-      # rowid variable can be used as the block variable for WRS2 functions
-      data_within <-
-        long_to_wide_converter(data = data, x = {{ x }}, y = {{ y }}) %>%
-        tidyr::gather(data = ., key, value, -rowid) %>%
-        dplyr::arrange(.data = ., rowid)
+    }
+
+    # converting to long format and then getting it back in wide so that the
+    # rowid variable can be used as the block variable
+    if (isTRUE(paired)) {
+      data %<>% df_cleanup_paired(data = ., x = {{ x }}, y = {{ y }})
 
       # running pairwise multiple comparison tests
       rob_pairwise_df <-
-        with(
-          data = data_within,
-          expr = WRS2::rmmcp(
-            y = value,
-            groups = key,
-            blocks = rowid,
-            tr = tr
-          )
+        WRS2::rmmcp(
+          y = data[[rlang::as_name(y)]],
+          groups = data[[rlang::as_name(x)]],
+          blocks = data[["rowid"]],
+          tr = tr
         )
     }
 
@@ -535,7 +539,7 @@ pairwise_p <- function(data,
             value = "rowid",
             group1:group2
           ),
-        # dataframe with factor level codings
+        # dataframe with factor levels
         y = rob_pairwise_df$fnames %>%
           tibble::enframe(x = ., name = "rowid"),
         by = "rowid"
@@ -601,8 +605,8 @@ pairwise_p <- function(data,
     dplyr::mutate(
       .data = .,
       p.value.label = dplyr::case_when(
-        label == "< 0.001" ~ "p <= 0.001",
-        TRUE ~ paste("p = ", label, sep = "")
+        label == "< 0.001" ~ paste("list(~italic(p)<=", "0.001", ")", sep = " "),
+        TRUE ~ paste("list(~italic(p)==", label, ")", sep = " ")
       )
     ) %>%
     dplyr::select(.data = ., -label)
@@ -610,6 +614,13 @@ pairwise_p <- function(data,
   # return
   return(tibble::as_tibble(df))
 }
+
+
+#' @name pairwise_p
+#' @aliases  pairwise_p
+#' @export
+
+pairwise_comparisons <- pairwise_p
 
 
 #' @noRd
@@ -643,17 +654,18 @@ pairwise_p_caption <- function(type,
   # ======================= pairwise test run ==============================
 
   # figuring out type of test needed to run
-  test.type <- switch(
-    EXPR = type,
-    parametric = "p",
-    p = "p",
-    robust = "r",
-    r = "r",
-    nonparametric = "np",
-    np = "np",
-    bayes = "bf",
-    bf = "bf"
-  )
+  test.type <-
+    switch(
+      EXPR = type,
+      parametric = "p",
+      p = "p",
+      robust = "r",
+      r = "r",
+      nonparametric = "np",
+      np = "np",
+      bayes = "bf",
+      bf = "bf"
+    )
 
   # figuring out which pairwise comparison test was run
   # parametric
@@ -679,34 +691,65 @@ pairwise_p_caption <- function(type,
     test.description <- "Yuen's trimmed means test"
   }
 
-  # ======================= adjustment method ==============================
-
-  # p value adjustment method description
-  p.adjust.method.text <-
-    p.adjust.method.description(p.adjust.method = p.adjust.method)
-
   # ==================== combining into a caption ==========================
 
-  # prepare the bayes factor message
+  # prepare the caption containing details about which pairwise test was run
   pairwise_caption <-
     substitute(
       atop(
         displaystyle(top.text),
-        expr =
-          paste(
-            "Pairwise comparisons: ",
-            bold(test.description),
-            "; Adjustment (p-value): ",
-            bold(p.adjust.method.text)
-          )
+        expr = paste(
+          "Pairwise comparisons: ",
+          bold(test.description),
+          "; Adjustment (p-value): ",
+          bold(p.adjust.method.text)
+        )
       ),
       env = list(
         top.text = caption,
         test.description = test.description,
-        p.adjust.method.text = p.adjust.method.text
+        p.adjust.method.text = p_adjust_text(p.adjust.method)
       )
     )
 
   # return the caption
   return(pairwise_caption)
+}
+
+
+#' @title Preparing text to describe which *p*-value adjustment method was used
+#' @name p_adjust_text
+#' @author Indrajeet Patil
+#' @return Standardized text description for what method was used.
+#'
+#' @inheritParams pairwise_p
+#'
+#' @keywords internal
+
+p_adjust_text <- function(p.adjust.method) {
+  switch(
+    EXPR = p.adjust.method,
+    none = "None",
+    bonferroni = "Bonferroni",
+    holm = "Holm",
+    hochberg = "Hochberg",
+    hommel = "Hommel",
+    BH = "Benjamini & Hochberg",
+    fdr = "Benjamini & Hochberg",
+    BY = "Benjamini & Yekutieli",
+    "Holm"
+  )
+}
+
+
+#' @noRd
+#' @keywords internal
+
+df_cleanup_paired <- function(data, x, y) {
+  data %<>%
+    statsExpressions::long_to_wide_converter(data = ., x = {{ x }}, y = {{ y }}) %>%
+    tidyr::gather(data = ., key, value, -rowid) %>%
+    dplyr::arrange(.data = ., rowid) %>%
+    dplyr::rename(.data = ., {{ x }} := key, {{ y }} := value) %>%
+    dplyr::mutate(.data = ., {{ x }} := factor({{ x }}))
 }

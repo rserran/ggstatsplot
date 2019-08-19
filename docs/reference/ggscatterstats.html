@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Scatterplot with marginal distributions — ggscatterstats • ggstatsplot</title>
+<title>Scatterplot with marginal distributions and statistical results — ggscatterstats • ggstatsplot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -40,7 +40,7 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Scatterplot with marginal distributions — ggscatterstats" />
+<meta property="og:title" content="Scatterplot with marginal distributions and statistical results — ggscatterstats" />
 
 <meta property="og:description" content="Scatterplots from ggplot2 combined with marginal
 histograms/boxplots/density plots with statistical details added as a
@@ -76,7 +76,7 @@ subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@ subtitle." />
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -121,6 +124,9 @@ subtitle." />
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -176,7 +182,7 @@ subtitle." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Scatterplot with marginal distributions</h1>
+    <h1>Scatterplot with marginal distributions and statistical results</h1>
     <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/ggscatterstats.R'><code>R/ggscatterstats.R</code></a></small>
     <div class="hidden name"><code>ggscatterstats.Rd</code></div>
     </div>
@@ -242,8 +248,8 @@ parametric/pearson's), <code>"np"</code> (nonparametric/spearman), <code>"r"</co
     </tr>
     <tr>
       <th>bf.prior</th>
-      <td><p>A number between 0.5 and 2 (default <code>0.707</code>), the prior width
-to use in calculating Bayes factors.</p></td>
+      <td><p>A numeric value between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the
+prior width to use in calculating Bayes Factors.</p></td>
     </tr>
     <tr>
       <th>bf.message</th>
@@ -279,7 +285,7 @@ variable names for <code>x</code> and <code>y</code> will be used.</p></td>
 e.g. <code>"auto"</code>, <code>"lm"</code>, <code>"glm"</code>, <code>"gam"</code>, <code>"loess"</code> or a function, e.g.
 <code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code> or <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam</a></code>, <code><a href='https://rdrr.io/r/stats/lm.html'>stats::lm</a></code>, or <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess</a></code>.</p>
 <p>For <code>method = "auto"</code> the smoothing method is chosen based on the
-size of the largest group (across all panels). <code><a href='https://rdrr.io/r/stats/loess.html'>loess()</a></code> is
+size of the largest group (across all panels). <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess()</a></code> is
 used for less than 1,000 observations; otherwise <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam()</a></code> is
 used with <code>formula = y ~ s(x, bs = "cs")</code>. Somewhat anecdotally,
 <code>loess</code> gives a better appearance, but is \(O(N^{2})\) in memory,
@@ -432,7 +438,8 @@ extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggtheme
       <th>ggstatsplot.layer</th>
       <td><p>Logical that decides whether <code>theme_ggstatsplot</code>
 theme elements are to be displayed along with the selected <code>ggtheme</code>
-(Default: <code>TRUE</code>).</p></td>
+(Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
+override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
       <th>ggplot.component</th>
@@ -440,18 +447,18 @@ theme elements are to be displayed along with the selected <code>ggtheme</code>
 by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
 of the current function. Default is <code>NULL</code>. The argument should be entered
 as a function. If the given function has an argument <code>axes.range.restrict</code>
-and if it has been set to <code>TRUE</code>, the added ggplot component <em>might</em> not
+and if it has been set to <code>TRUE</code>, the added <code>ggplot</code> component <em>might</em> not
 work as expected.</p></td>
     </tr>
     <tr>
       <th>return</th>
       <td><p>Character that describes what is to be returned: can be
 <code>"plot"</code> (default) or <code>"subtitle"</code> or <code>"caption"</code>. Setting this to
-<code>"subtitle"</code> will return the expression containing statistical results,
-which will be a <code>NULL</code> if you set <code>results.subtitle = FALSE</code>. Setting this
-to <code>"caption"</code> will return the expression containing details about Bayes
-Factor analysis, but valid only when <code>type = "p"</code> and <code>bf.message = TRUE</code>,
-otherwise this will return a <code>NULL</code>.</p></td>
+<code>"subtitle"</code> will return the expression containing statistical results. If
+you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
+Setting this to <code>"caption"</code> will return the expression containing details
+about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>messages</th>
@@ -464,6 +471,12 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
 
     
 <ul>
+<li><p>If you try including a <code>ggscatterstats()</code> plot inside an R Notebook or
+R Markdown code chunk, you will notice that the plot is not returned in the
+output. In order to get a <code>ggscatterstats()</code> to show up in these contexts,
+you need to save the <code>ggscatterstats</code> plot as a variable in one code chunk,
+and explicitly print it using the <code>grid</code> package in another chunk:
+<a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html</a></p></li>
 <li><p><code>marginal.type = "densigram"</code> will work only with the development
 version of <code>ggExtra</code> that you can download from <code>GitHub</code>:
 <code><a href='https://rdrr.io/pkg/remotes/man/install_github.html'>remotes::install_github("daattali/ggExtra")</a></code>.</p></li>
@@ -530,7 +543,7 @@ have a lot of labels that overlap.</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

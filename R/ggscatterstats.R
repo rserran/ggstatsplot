@@ -1,4 +1,4 @@
-#' @title Scatterplot with marginal distributions
+#' @title Scatterplot with marginal distributions and statistical results
 #' @name ggscatterstats
 #' @author Indrajeet Patil, Chuck Powell
 #' @description Scatterplots from `ggplot2` combined with marginal
@@ -39,7 +39,7 @@
 #' @param point.width.jitter,point.height.jitter Degree of jitter in `x` and `y`
 #'   direction, respectively. Defaults to `0` (0%) of the resolution of the
 #'   data.
-#' @inheritParams subtitle_ggscatterstats
+#' @inheritParams statsExpressions::expr_corr_test
 #' @inheritParams ggplot2::geom_smooth
 #' @inheritParams theme_ggstatsplot
 #' @inheritParams paletteer::paletteer_d
@@ -51,9 +51,10 @@
 #' @importFrom dplyr mutate mutate_at mutate_if
 #' @importFrom rlang !! enquo quo_name parse_expr ensym as_name enexpr
 #' @importFrom ggExtra ggMarginal
-#' @importFrom stats cor.test na.omit
+#' @importFrom stats cor.test
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom tibble as_tibble
+#' @importFrom statsExpressions expr_corr_test bf_corr_test
 #'
 #' @seealso \code{\link{grouped_ggscatterstats}}, \code{\link{ggcorrmat}},
 #' \code{\link{grouped_ggcorrmat}}
@@ -63,6 +64,13 @@
 #'
 #' @note
 #' \itemize{
+#' \item If you try including a `ggscatterstats()` plot inside an R Notebook or
+#' R Markdown code chunk, you will notice that the plot is not returned in the
+#' output. In order to get a `ggscatterstats()` to show up in these contexts,
+#' you need to save the `ggscatterstats` plot as a variable in one code chunk,
+#' and explicitly print it using the `grid` package in another chunk:
+#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html}
+#'
 #' \item `marginal.type = "densigram"` will work only with the development
 #'   version of `ggExtra` that you can download from `GitHub`:
 #'   `remotes::install_github("daattali/ggExtra")`.
@@ -230,24 +238,25 @@ ggscatterstats <- function(data,
 
   # adding a subtitle with statistical results
   if (isTRUE(results.subtitle)) {
-    subtitle <- subtitle_ggscatterstats(
-      data = data,
-      x = {{ x }},
-      y = {{ y }},
-      nboot = nboot,
-      beta = beta,
-      type = type,
-      conf.level = conf.level,
-      conf.type = "norm",
-      k = k,
-      stat.title = stat.title,
-      messages = messages
-    )
+    subtitle <-
+      statsExpressions::expr_corr_test(
+        data = data,
+        x = {{ x }},
+        y = {{ y }},
+        nboot = nboot,
+        beta = beta,
+        type = type,
+        conf.level = conf.level,
+        conf.type = "norm",
+        k = k,
+        stat.title = stat.title,
+        messages = messages
+      )
 
     # preparing the BF message for null hypothesis support
     if (isTRUE(bf.message)) {
       bf.caption.text <-
-        bf_corr_test(
+        statsExpressions::bf_corr_test(
           data = data,
           x = {{ x }},
           y = {{ y }},
@@ -275,13 +284,14 @@ ggscatterstats <- function(data,
 
   # if user has not specified colors, then use a color palette
   if (is.null(xfill) || is.null(yfill)) {
-    colors <- paletteer::paletteer_d(
-      package = !!package,
-      palette = !!palette,
-      n = 2,
-      direction = direction,
-      type = "discrete"
-    )
+    colors <-
+      paletteer::paletteer_d(
+        package = !!package,
+        palette = !!palette,
+        n = 2,
+        direction = direction,
+        type = "discrete"
+      )
 
     # assigning selected colors
     xfill <- colors[1]

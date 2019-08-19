@@ -76,7 +76,7 @@ resulting plots using ggstatsplot::combine_plots." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@ resulting plots using ggstatsplot::combine_plots." />
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -121,6 +124,9 @@ resulting plots using ggstatsplot::combine_plots." />
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -222,7 +228,7 @@ be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
       <th>condition</th>
       <td><p>The variable to use as the <strong>columns</strong> in the contingency
 table. Default is <code>NULL</code>. If <code>NULL</code>, one-sample proportion test (a goodness
-of fit test) will be run for the <code>main</code> variable. Otherwise an appropriate
+of fit test) will be run for the <code>x</code> variable. Otherwise an appropriate
 association test will be run.</p></td>
     </tr>
     <tr>
@@ -277,7 +283,7 @@ like <code>"main x condition"</code> or <code>"interaction"</code>.</p></td>
     <tr>
       <th>sample.size.label</th>
       <td><p>Logical that decides whether sample size information
-should be displayed for each level of the grouping variable <code>condition</code>
+should be displayed for each level of the grouping variable <code>y</code>
 (Default: <code>TRUE</code>).</p></td>
     </tr>
     <tr>
@@ -305,7 +311,7 @@ labels (Default: <code>white</code>).</p></td>
     <tr>
       <th>bf.message</th>
       <td><p>Logical that decides whether to display a caption with
-results from bayes factor test in favor of the null hypothesis (default:
+results from Bayes Factor test in favor of the null hypothesis (default:
 <code>FALSE</code>).</p></td>
     </tr>
     <tr>
@@ -343,8 +349,8 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
     </tr>
     <tr>
       <th>bf.prior</th>
-      <td><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
-width to use in calculating Bayes factors.</p></td>
+      <td><p>A numeric value between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the
+prior width to use in calculating Bayes Factors.</p></td>
     </tr>
     <tr>
       <th>nboot</th>
@@ -406,7 +412,8 @@ extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggtheme
       <th>ggstatsplot.layer</th>
       <td><p>Logical that decides whether <code>theme_ggstatsplot</code>
 theme elements are to be displayed along with the selected <code>ggtheme</code>
-(Default: <code>TRUE</code>).</p></td>
+(Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
+override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
       <th>package</th>
@@ -429,18 +436,18 @@ type. Default palette is <code>"Dark2"</code>.</p></td>
 by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
 of the current function. Default is <code>NULL</code>. The argument should be entered
 as a function. If the given function has an argument <code>axes.range.restrict</code>
-and if it has been set to <code>TRUE</code>, the added ggplot component <em>might</em> not
+and if it has been set to <code>TRUE</code>, the added <code>ggplot</code> component <em>might</em> not
 work as expected.</p></td>
     </tr>
     <tr>
       <th>return</th>
       <td><p>Character that describes what is to be returned: can be
 <code>"plot"</code> (default) or <code>"subtitle"</code> or <code>"caption"</code>. Setting this to
-<code>"subtitle"</code> will return the expression containing statistical results,
-which will be a <code>NULL</code> if you set <code>results.subtitle = FALSE</code>. Setting this
-to <code>"caption"</code> will return the expression containing details about Bayes
-Factor analysis, but valid only when <code>type = "p"</code> and <code>bf.message = TRUE</code>,
-otherwise this will return a <code>NULL</code>.</p></td>
+<code>"subtitle"</code> will return the expression containing statistical results. If
+you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
+Setting this to <code>"caption"</code> will return the expression containing details
+about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>messages</th>
@@ -455,7 +462,7 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
       <th>y</th>
       <td><p>The variable to use as the <strong>columns</strong> in the contingency
 table. Default is <code>NULL</code>. If <code>NULL</code>, one-sample proportion test (a goodness
-of fit test) will be run for the <code>main</code> variable. Otherwise an appropriate
+of fit test) will be run for the <code>x</code> variable. Otherwise an appropriate
 association test will be run.</p></td>
     </tr>
     <tr>
@@ -535,11 +542,11 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># grouped one-sample proportion tests</span>
+</div><div class='input'><span class='co'># grouped one-sample proportion tests</span>
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/grouped_ggpiestats.html'>grouped_ggpiestats</a></span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>,
   <span class='kw'>grouping.var</span> <span class='kw'>=</span> <span class='no'>am</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>cyl</span>
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>cyl</span>
 )</div><div class='output co'>#&gt; <span style='color: #00BB00;'>Note:</span><span> </span><span style='color: #BBBB00;'>95%</span><span> </span><span style='color: #0000BB;'>CI for effect size estimate was computed with</span><span> </span><span style='color: #BBBB00;'>100</span><span> </span><span style='color: #0000BB;'>bootstrap samples.
 #&gt; </span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note:</span><span> </span><span style='color: #BBBB00;'>95%</span><span> </span><span style='color: #0000BB;'>CI for effect size estimate was computed with</span><span> </span><span style='color: #BBBB00;'>100</span><span> </span><span style='color: #0000BB;'>bootstrap samples.
 #&gt; </span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #BB0000;'>Warning: </span><span style='color: #0000BB;'>Individual plots in the combined `grouped_` plot
@@ -550,7 +557,7 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/grouped_ggpiestats.html'>grouped_ggpiestats</a></span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>HairEyeColor</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>Hair</span>,
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Hair</span>,
   <span class='kw'>counts</span> <span class='kw'>=</span> <span class='no'>Freq</span>,
   <span class='kw'>grouping.var</span> <span class='kw'>=</span> <span class='no'>Sex</span>
 )</div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note:</span><span> </span><span style='color: #BBBB00;'>95%</span><span> </span><span style='color: #0000BB;'>CI for effect size estimate was computed with</span><span> </span><span style='color: #BBBB00;'>100</span><span> </span><span style='color: #0000BB;'>bootstrap samples.
@@ -570,8 +577,8 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 <span class='co'># plot</span>
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/grouped_ggpiestats.html'>grouped_ggpiestats</a></span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>diamonds_short</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='no'>color</span>,
-  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='no'>clarity</span>,
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>color</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>clarity</span>,
   <span class='kw'>grouping.var</span> <span class='kw'>=</span> <span class='no'>cut</span>,
   <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>sampling.plan</span> <span class='kw'>=</span> <span class='st'>"poisson"</span>,
@@ -580,8 +587,10 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
   <span class='kw'>messages</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>perc.k</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>3</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='grouped_ggpiestats-3.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `cols` is now required.</span>
+#&gt; <span class='warning'>Please use `cols = c(percentage, chi_sq)`</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `cols` is now required.</span>
+#&gt; <span class='warning'>Please use `cols = c(percentage, chi_sq)`</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `cols` is now required.</span>
+#&gt; <span class='warning'>Please use `cols = c(percentage, chi_sq)`</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='grouped_ggpiestats-3.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -605,7 +614,7 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -4,7 +4,7 @@
 #' @description A combination of box and violin plots along with raw
 #'   (unjittered) data points for within-subjects designs with statistical
 #'   details included in the plot as a subtitle.
-#' @author Indrajeet Patil
+#' @author \href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 #'
 #' @inheritParams ggbetweenstats
 #' @param path.point,path.mean Logical that decides whether individual data
@@ -13,13 +13,13 @@
 #'   there are two groups (i.e., in case of a *t*-test). In case of large number
 #'   of data points, it is advisable to set `path.point = FALSE` as these lines
 #'   can overwhelm the plot.
-#' @inheritParams subtitle_anova_parametric
+#' @inheritParams statsExpressions::expr_anova_parametric
 #'
 #' @seealso \code{\link{grouped_ggbetweenstats}}, \code{\link{ggbetweenstats}},
 #'  \code{\link{grouped_ggwithinstats}}, \code{\link{pairwise_p}}
 #'
-#' @importFrom forcats fct_reorder
-#' @importFrom rlang exec
+#' @importFrom rlang exec !! enquo :=
+#' @importFrom statsExpressions bf_ttest bf_oneway_anova
 #'
 #' @details
 #'
@@ -64,7 +64,7 @@ ggwithinstats <- function(data,
                           y,
                           type = "parametric",
                           pairwise.comparisons = FALSE,
-                          pairwise.annotation = "asterisk",
+                          pairwise.annotation = "p.value",
                           pairwise.display = "significant",
                           p.adjust.method = "holm",
                           effsize.type = "unbiased",
@@ -239,16 +239,13 @@ ggwithinstats <- function(data,
   # --------------------- subtitle/caption preparation ------------------------
 
   if (isTRUE(results.subtitle)) {
-    # figuring out which effect size to use
-    effsize.type <- effsize_type_switch(effsize.type)
-
     # preparing the bayes factor message
     if (type %in% c("parametric", "p") && isTRUE(bf.message)) {
       # choosing the appropriate test
       if (test == "t-test") {
-        .f <- bf_ttest
+        .f <- statsExpressions::bf_ttest
       } else {
-        .f <- bf_oneway_anova
+        .f <- statsExpressions::bf_oneway_anova
       }
 
       # preparing the BF message for null
@@ -388,7 +385,7 @@ ggwithinstats <- function(data,
       )
 
     # display the results if needed
-    if (isTRUE(messages)) print(df_pairwise)
+    if (isTRUE(messages)) print(dplyr::select(df_pairwise, -p.value.label))
 
     # adding the layer for pairwise comparisons
     plot <- ggsignif_adder(

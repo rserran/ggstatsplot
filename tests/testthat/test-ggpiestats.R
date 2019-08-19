@@ -6,7 +6,7 @@ context(desc = "ggpiestats")
 testthat::test_that(
   desc = "checking one sample proportion test",
   code = {
-    testthat::skip_on_cran()
+
 
     # creating the plot
     set.seed(123)
@@ -32,7 +32,7 @@ testthat::test_that(
     # subtitle used
     set.seed(123)
     p_subtitle <-
-      ggstatsplot::subtitle_onesample_proptest(
+      statsExpressions::expr_onesample_proptest(
         data = ggplot2::msleep,
         x = "vore",
         nboot = 25
@@ -152,7 +152,7 @@ testthat::test_that(
     # subtitle used
     set.seed(123)
     p_subtitle <-
-      ggstatsplot::subtitle_contingency_tab(
+      statsExpressions::expr_contingency_tab(
         data = mtcars,
         x = "am",
         y = "cyl",
@@ -294,7 +294,14 @@ testthat::test_that(
       pb$data[[2]]$label,
       c("n = 3", "n = 8", "n = 4", "n = 3", "n = 12", "n = 2")
     )
-    testthat::expect_identical(pb$data[[3]]$label, c("ns", "ns", "**"))
+    testthat::expect_identical(
+      pb$data[[3]]$label,
+      c(
+        "list(~chi['gof']^2~ ( 1 )== 2.27 , ~italic(p) == 0.132 )",
+        "list(~chi['gof']^2~ ( 1 )== 0.14 , ~italic(p) == 0.705 )",
+        "list(~chi['gof']^2~ ( 1 )== 7.14 , ~italic(p) == 0.008 )"
+      )
+    )
     testthat::expect_identical(
       pb$data[[4]]$label,
       c("(n = 11)", "(n = 7)", "(n = 14)")
@@ -334,7 +341,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking labels with counts",
   code = {
-    testthat::skip_on_cran()
+
 
     # plot
     set.seed(123)
@@ -354,7 +361,7 @@ testthat::test_that(
 
     # subtitle
     set.seed(123)
-    p_subtitle <- ggstatsplot::subtitle_contingency_tab(
+    p_subtitle <- statsExpressions::expr_contingency_tab(
       data = as.data.frame(Titanic),
       x = Sex,
       y = Survived,
@@ -406,7 +413,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking labels with contingency tab (paired)",
   code = {
-    testthat::skip_on_cran()
+
 
     # data
     set.seed(123)
@@ -436,7 +443,7 @@ testthat::test_that(
 
     # subtitle
     set.seed(123)
-    p_subtitle <- ggstatsplot::subtitle_contingency_tab(
+    p_subtitle <- statsExpressions::expr_contingency_tab(
       data = survey.data,
       x = `1st survey`,
       y = `2nd survey`,
@@ -450,7 +457,21 @@ testthat::test_that(
     # checking plot labels
     testthat::expect_identical(p$labels$subtitle, p_subtitle)
     testthat::expect_identical(pb$plot$plot_env$facet.wrap.name, "2nd survey")
-    testthat::expect_identical(pb$plot$plot_env$legend.title, "1st survey")
+    testthat::expect_identical(pb$plot$labels$group, "1st survey")
+    testthat::expect_identical(pb$plot$labels$fill, "1st survey")
+    testthat::expect_identical(pb$plot$labels$label, "slice.label")
+    testthat::expect_null(pb$plot$labels$x, NULL)
+    testthat::expect_null(pb$plot$labels$y, NULL)
+    testthat::expect_null(pb$plot$labels$title, NULL)
+
+    # labels
+    testthat::expect_identical(
+      pb$data[[3]]$label,
+      c(
+        "list(~chi['gof']^2~ ( 1 )== 569.62 , ~italic(p) <= 0.001 )",
+        "list(~chi['gof']^2~ ( 1 )== 245.00 , ~italic(p) <= 0.001 )"
+      )
+    )
   }
 )
 
@@ -459,7 +480,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking one sample prop test bf caption",
   code = {
-    testthat::skip_on_cran()
+
 
     # plots
     set.seed(123)
@@ -579,7 +600,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking if functions work without enough data",
   code = {
-    testthat::skip_on_cran()
     set.seed(123)
 
     # creating a dataframe
@@ -589,18 +609,10 @@ testthat::test_that(
     )
 
     # subtitle
-    p1 <- ggstatsplot::ggpiestats(data = df, main = x)
-
-    # expected output
-    p_subtitle1 <- ggplot2::expr(paste(italic("n"), " = ", 1L))
-
-    # testing overall call
-    testthat::expect_identical(p1$labels$subtitle, p_subtitle1)
-    testthat::expect_null(p1$labels$caption, NULL)
-    testthat::expect_error(ggstatsplot::ggpiestats(
+    testthat::expect_null(ggstatsplot::ggpiestats(
       data = df,
       main = x,
-      condition = y
+      return = "subtitle"
     ))
   }
 )
@@ -610,7 +622,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "subtitle return",
   code = {
-    testthat::skip_on_cran()
 
     # subtitle return
     set.seed(123)

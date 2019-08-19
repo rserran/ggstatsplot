@@ -76,7 +76,7 @@ user/reader." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@ user/reader." />
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -121,6 +124,9 @@ user/reader." />
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -177,7 +183,7 @@ user/reader." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Default theme used in all <code>ggstatsplot</code> package plots</h1>
-    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/theme_ggstatsplot.R'><code>R/theme_ggstatsplot.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/helpers_theme_ggstatsplot.R'><code>R/helpers_theme_ggstatsplot.R</code></a></small>
     <div class="hidden name"><code>theme_ggstatsplot.Rd</code></div>
     </div>
 
@@ -208,13 +214,14 @@ extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggtheme
       <th>ggstatsplot.layer</th>
       <td><p>Logical that decides whether <code>theme_ggstatsplot</code>
 theme elements are to be displayed along with the selected <code>ggtheme</code>
-(Default: <code>TRUE</code>).</p></td>
+(Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
+override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>ggplot2</code> object with the <code>theme_ggstatsplot</code> theme.</p>
+    <p>A <code>ggplot2</code> object with the <code>theme_ggstatsplot</code> theme overlaid.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -233,14 +240,14 @@ theme elements are to be displayed along with the selected <code>ggtheme</code>
           </ul>
 
     <h2>Author</h2>
-    <p>Indrajeet Patil</p>
+    <p><a href='https://github.com/IndrajeetPatil'>Indrajeet Patil</a></p>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

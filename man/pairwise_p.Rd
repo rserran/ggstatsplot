@@ -2,11 +2,16 @@
 % Please edit documentation in R/helpers_pairwise_comparison.R
 \name{pairwise_p}
 \alias{pairwise_p}
+\alias{pairwise_comparisons}
 \title{Pairwise comparison tests}
 \usage{
 pairwise_p(data, x, y, type = "parametric", tr = 0.1, paired = FALSE,
   var.equal = FALSE, p.adjust.method = "holm", k = 2,
   messages = TRUE, ...)
+
+pairwise_comparisons(data, x, y, type = "parametric", tr = 0.1,
+  paired = FALSE, var.equal = FALSE, p.adjust.method = "holm",
+  k = 2, messages = TRUE, ...)
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
@@ -56,13 +61,14 @@ corrections for multiple testing.
 }
 \examples{
 
+\donttest{
 # show all columns in a tibble
 options(tibble.width = Inf)
 
+#------------------- between-subjects design ----------------------------
+
 # for reproducibility
 set.seed(123)
-
-#------------------- between-subjects design ----------------------------
 
 # parametric
 # if `var.equal = TRUE`, then Student's *t*-test will be run
@@ -109,6 +115,7 @@ ggstatsplot::pairwise_p(
 
 #------------------- within-subjects design ----------------------------
 
+# for reproducibility
 set.seed(123)
 
 # parametric
@@ -141,11 +148,11 @@ ggstatsplot::pairwise_p(
   p.adjust.method = "hommel"
 )
 }
+}
 \seealso{
 \code{\link{ggbetweenstats}}, \code{\link{grouped_ggbetweenstats}}
 
 Other helper_messages: \code{\link{bartlett_message}},
-  \code{\link{effsize_ci_message}},
   \code{\link{ggcorrmat_matrix_message}},
   \code{\link{grouped_message}},
   \code{\link{normality_message}},

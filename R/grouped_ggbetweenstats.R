@@ -5,12 +5,11 @@
 #'   grouping variable.
 #' @author Indrajeet Patil, Chuck Powell
 #'
-#' @param grouping.var A single grouping variable (can be entered either as a
-#'   bare name `x` or as a string `"x"`).
 #' @param title.prefix Character string specifying the prefix text for the fixed
 #'   plot title (name of each factor level) (Default: `NULL`). If `NULL`, the
 #'   variable name entered for `grouping.var` will be used.
 #' @inheritParams ggbetweenstats
+#' @inheritParams grouped_list
 #' @inheritDotParams combine_plots
 #'
 #' @import ggplot2
@@ -18,7 +17,6 @@
 #' @importFrom dplyr select bind_rows summarize mutate mutate_at mutate_if
 #' @importFrom dplyr group_by n arrange
 #' @importFrom rlang !! enquo quo_name ensym
-#' @importFrom glue glue
 #' @importFrom purrr pmap
 #'
 #' @seealso \code{\link{ggbetweenstats}}, \code{\link{ggwithinstats}},
@@ -68,7 +66,7 @@ grouped_ggbetweenstats <- function(data,
                                    plot.type = "boxviolin",
                                    type = "parametric",
                                    pairwise.comparisons = FALSE,
-                                   pairwise.annotation = "asterisk",
+                                   pairwise.annotation = "p.value",
                                    pairwise.display = "significant",
                                    p.adjust.method = "holm",
                                    effsize.type = "unbiased",
@@ -174,7 +172,7 @@ grouped_ggbetweenstats <- function(data,
 
   plotlist_purrr <-
     purrr::pmap(
-      .l = list(data = df, title = glue::glue("{title.prefix}: {names(df)}")),
+      .l = list(data = df, title = paste(title.prefix, ": ", names(df), sep = "")),
       .f = ggstatsplot::ggbetweenstats,
       # put common parameters here
       x = {{ x }},

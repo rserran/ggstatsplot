@@ -3,7 +3,6 @@ context("argument_count")
 testthat::test_that(
   desc = "argument_count is correct",
   code = {
-    testthat::skip_on_cran()
 
     # compared to basic variant the grouped variant has-
     # additional: grouping.var, title.prefix, ...
@@ -11,7 +10,8 @@ testthat::test_that(
     # so the difference should be 2 for all functions
 
     # creating a dataframe with namespace from package of interest
-    ns_df <- getNamespaceExports(ns = "ggstatsplot") %>%
+    ns_df <-
+      getNamespaceExports(ns = "ggstatsplot") %>%
       tibble::enframe(x = .) %>%
       dplyr::select(.data = ., value) %>%
       dplyr::filter(.data = ., grepl("^gg|^grouped", value)) %>%
@@ -27,10 +27,7 @@ testthat::test_that(
           TRUE ~ "basic"
         )
       ) %>%
-      dplyr::mutate(
-        .data = .,
-        value = stringr::str_remove(value, "grouped_")
-      ) %>%
+      dplyr::mutate(.data = ., value = stringr::str_remove(value, "grouped_")) %>%
       dplyr::arrange(.data = ., value) %>%
       purrrlyr::by_row(
         .d = .,

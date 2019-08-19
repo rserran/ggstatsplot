@@ -14,19 +14,6 @@ testthat::test_that(
   }
 )
 
-# effsize_ci_message is working -------------------------------------------
-
-testthat::test_that(
-  desc = "effsize_ci_message is working",
-  code = {
-    testthat::expect_output(
-      ggstatsplot:::effsize_ci_message(),
-      "CI for effect size estimate was computed with",
-      fixed = TRUE
-    )
-  }
-)
-
 # ggcorrmat_matrix_message is working ------------------------------------
 
 testthat::test_that(
@@ -62,7 +49,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "normality_message is working",
   code = {
-    testthat::skip_on_cran()
+
 
     # message
     testthat::expect_output(
@@ -91,7 +78,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "bartlett_message is working",
   code = {
-    testthat::skip_on_cran()
+
 
     # without NA ------------------------------------------------------
 
@@ -191,18 +178,5 @@ testthat::test_that(
     testthat::expect_equal(df$p.value, df_broom$p.value, tolerance = 0.001)
     testthat::expect_equal(df$statistic, df_broom$statistic, tolerance = 0.001)
     testthat::expect_equal(df$parameter, df_broom$parameter)
-  }
-)
-
-# proptest_message is working ---------------------------------------------
-
-testthat::test_that(
-  desc = "proptest_message is working",
-  code = {
-    testthat::expect_output(
-      ggstatsplot:::proptest_message(main = "am", condition = "cyl"),
-      "Results from one-sample proportion tests",
-      fixed = TRUE
-    )
   }
 )

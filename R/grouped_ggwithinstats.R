@@ -14,7 +14,6 @@
 #' @importFrom dplyr select bind_rows summarize mutate mutate_at mutate_if
 #' @importFrom dplyr group_by n arrange
 #' @importFrom rlang !! enquo quo_name ensym !!!
-#' @importFrom glue glue
 #' @importFrom purrr pmap
 #'
 #' @seealso \code{\link{ggwithinstats}}, \code{\link{ggbetweenstats}},
@@ -47,7 +46,7 @@ grouped_ggwithinstats <- function(data,
                                   title.prefix = NULL,
                                   type = "parametric",
                                   pairwise.comparisons = FALSE,
-                                  pairwise.annotation = "asterisk",
+                                  pairwise.annotation = "p.value",
                                   pairwise.display = "significant",
                                   p.adjust.method = "holm",
                                   effsize.type = "unbiased",
@@ -151,7 +150,7 @@ grouped_ggwithinstats <- function(data,
 
   plotlist_purrr <-
     purrr::pmap(
-      .l = list(data = df, title = glue::glue("{title.prefix}: {names(df)}")),
+      .l = list(data = df, title = paste(title.prefix, ": ", names(df), sep = "")),
       .f = ggstatsplot::ggwithinstats,
       # put common parameters here
       x = {{ x }},

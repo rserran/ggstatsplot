@@ -52,7 +52,7 @@ effect being shown. An example of a \code{stat.title} argument will be something
 like \code{"main x condition"} or \code{"interaction"}.}
 
 \item{sample.size.label}{Logical that decides whether sample size information
-should be displayed for each level of the grouping variable \code{condition}
+should be displayed for each level of the grouping variable \code{y}
 (Default: \code{TRUE}).}
 
 \item{label.separator}{If \code{"both"} counts and proportion information is to be
@@ -70,7 +70,7 @@ labels (Default: \code{white}).}
 \code{"alpha"} for slice/bar labels (Default: \code{1} range \code{0} to \code{1}).}
 
 \item{bf.message}{Logical that decides whether to display a caption with
-results from bayes factor test in favor of the null hypothesis (default:
+results from Bayes Factor test in favor of the null hypothesis (default:
 \code{FALSE}).}
 
 \item{sampling.plan}{Character describing the sampling plan. Possible options
@@ -96,8 +96,8 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
 \item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
 \code{95\%} lower and upper confidence intervals (\code{0.95}).}
 
-\item{bf.prior}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
-width to use in calculating Bayes factors.}
+\item{bf.prior}{A numeric value between \code{0.5} and \code{2} (default \code{0.707}), the
+prior width to use in calculating Bayes Factors.}
 
 \item{nboot}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
@@ -135,7 +135,8 @@ extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
 
 \item{ggstatsplot.layer}{Logical that decides whether \code{theme_ggstatsplot}
 theme elements are to be displayed along with the selected \code{ggtheme}
-(Default: \code{TRUE}).}
+(Default: \code{TRUE}). \code{theme_ggstatsplot} is an opinionated theme layer that
+override some aspects of the selected \code{ggtheme}.}
 
 \item{package}{Name of package from which the palette is desired as string
 or symbol.}
@@ -150,16 +151,16 @@ type. Default palette is \code{"Dark2"}.}
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
 as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added ggplot component \emph{might} not
+and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
 work as expected.}
 
 \item{return}{Character that describes what is to be returned: can be
 \code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results,
-which will be a \code{NULL} if you set \code{results.subtitle = FALSE}. Setting this
-to \code{"caption"} will return the expression containing details about Bayes
-Factor analysis, but valid only when \code{type = "p"} and \code{bf.message = TRUE},
-otherwise this will return a \code{NULL}.}
+\code{"subtitle"} will return the expression containing statistical results. If
+you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
+Setting this to \code{"caption"} will return the expression containing details
+about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
 \item{messages}{Decides whether messages references, notes, and warnings are
 to be displayed (Default: \code{TRUE}).}
@@ -168,7 +169,7 @@ to be displayed (Default: \code{TRUE}).}
 
 \item{y, condition}{The variable to use as the \strong{columns} in the contingency
 table. Default is \code{NULL}. If \code{NULL}, one-sample proportion test (a goodness
-of fit test) will be run for the \code{main} variable. Otherwise an appropriate
+of fit test) will be run for the \code{x} variable. Otherwise an appropriate
 association test will be run.}
 }
 \value{
@@ -193,32 +194,32 @@ included in the plot as a subtitle.
 # for reproducibility
 set.seed(123)
 
-# simple function call with the defaults (without condition)
+# one sample goodness of fit proportion test
 ggstatsplot::ggpiestats(
   data = ggplot2::msleep,
-  main = vore,
+  x = vore,
   perc.k = 1,
   bf.message = FALSE,
   k = 3
 )
 
-# simple function call with the defaults (with condition)
+# association test (or contingency table analysis)
 ggstatsplot::ggpiestats(
-  data = datasets::mtcars,
-  main = vs,
-  condition = cyl,
+  data = mtcars,
+  x = vs,
+  y = cyl,
   bf.message = TRUE,
   nboot = 10,
   factor.levels = c("0 = V-shaped", "1 = straight"),
   legend.title = "Engine"
 )
 
-# simple function call with the defaults (without condition; with count data)
+# using `counts` argument
 library(jmv, warn.conflicts = FALSE)
 
 ggstatsplot::ggpiestats(
   data = as.data.frame(HairEyeColor),
-  main = Eye,
+  x = Eye,
   counts = Freq
 )
 }
@@ -230,5 +231,5 @@ ggstatsplot::ggpiestats(
 \code{\link{grouped_ggbarstats}}
 }
 \author{
-Indrajeet Patil
+\href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 }

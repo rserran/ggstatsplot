@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Model coefficients for fitted models with the model summary as a
-caption. — ggcoefstats • ggstatsplot</title>
+<title>Dot-and-whisker plots for regression analyses — ggcoefstats • ggstatsplot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -41,11 +40,9 @@ caption. — ggcoefstats • ggstatsplot</title>
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Model coefficients for fitted models with the model summary as a
-caption. — ggcoefstats" />
+<meta property="og:title" content="Dot-and-whisker plots for regression analyses — ggcoefstats" />
 
-<meta property="og:description" content="Model coefficients for fitted models with the model summary as a
-caption." />
+<meta property="og:description" content="Dot-and-whisker plots for regression analyses" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -77,7 +74,7 @@ caption." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -103,6 +100,9 @@ caption." />
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -122,6 +122,9 @@ caption." />
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -177,16 +180,14 @@ caption." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Model coefficients for fitted models with the model summary as a
-caption.</h1>
+    <h1>Dot-and-whisker plots for regression analyses</h1>
     <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/ggcoefstats.R'><code>R/ggcoefstats.R</code></a></small>
     <div class="hidden name"><code>ggcoefstats.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Model coefficients for fitted models with the model summary as a
-caption.</p>
+    <p>Dot-and-whisker plots for regression analyses</p>
     
     </div>
 
@@ -255,7 +256,7 @@ intervals (for more, see <code><a href='https://rdrr.io/pkg/lme4/man/confint.mer
 <code><a href='https://rdrr.io/pkg/broom.mixed/man/brms_tidiers.html'>?broom.mixed::tidy.brmsfit</a></code>). This argument has different defaults
 depending on the model object. For the <code>merMod</code> class model objects
 (<code>lmer</code>, <code>glmer</code>, <code>nlmer</code>, etc.), the default is <code>"Wald"</code> (other options
-are: <code>"profile"</code>, <code>"boot"</code>). For MCMC or brms fit model objects (Stan,
+are: <code>"profile"</code>, <code>"boot"</code>). For <code>MCMC</code> or <code>brms</code> fit model objects (Stan,
 JAGS, etc.), the default is <code>"quantile"</code>, while the only other options is
 <code>"HPDinterval"</code>.</p></td>
     </tr>
@@ -313,8 +314,8 @@ based on MCMC/Stan samples (<code>summarize = "stan"</code>).</p></td>
     <tr>
       <th>p.kr</th>
       <td><p>Logical, if <code>TRUE</code>, the computation of <em>p</em>-values for <code>lmer</code> is
-based on conditional F-tests with Kenward-Roger approximation for the df.
-For details, see <code><a href='https://rdrr.io/pkg/sjstats/man/p_value.html'>?sjstats::p_value</a></code>.</p></td>
+based on conditional <em>F</em>-tests with Kenward-Roger approximation for the
+<code>df</code>. For details, see <code><a href='https://rdrr.io/pkg/sjstats/man/p_value.html'>?sjstats::p_value</a></code>.</p></td>
     </tr>
     <tr>
       <th>p.adjust.method</th>
@@ -475,7 +476,7 @@ coefficient value.</p></td>
     </tr>
     <tr>
       <th>xlab</th>
-      <td><p>Label for <code>x</code> axis variable (Default: <code>"estimate"</code>).</p></td>
+      <td><p>Label for <code>x</code> axis variable (Default: <code>"regression coefficient"</code>).</p></td>
     </tr>
     <tr>
       <th>ylab</th>
@@ -573,9 +574,9 @@ nudge the starting position of each text label. Defaults to <code>0</code>.</p><
     </tr>
     <tr>
       <th>label.xlim, label.ylim</th>
-      <td><p>Limits for the x and y axes. Text labels will be
-constrained to these limits. By default, text labels are constrained to the
-entire plot area. Defaults to <code><a href='https://rdrr.io/r/base/c.html'>c(NA, NA)</a></code>.</p></td>
+      <td><p>Limits for the <code>x</code> and <code>y</code> axes. Text labels
+will be constrained to these limits. By default, text labels are
+constrained to the entire plot area. Defaults to <code><a href='https://rdrr.io/r/base/c.html'>c(NA, NA)</a></code>.</p></td>
     </tr>
     <tr>
       <th>label.direction</th>
@@ -606,7 +607,8 @@ extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggtheme
       <th>ggstatsplot.layer</th>
       <td><p>Logical that decides whether <code>theme_ggstatsplot</code>
 theme elements are to be displayed along with the selected <code>ggtheme</code>
-(Default: <code>TRUE</code>).</p></td>
+(Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
+override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
       <th>messages</th>
@@ -622,7 +624,8 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Plot with the regression coefficients' point estimates as dots with
-confidence interval whiskers.</p>
+confidence interval whiskers and other statistical details included as
+labels.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -641,14 +644,14 @@ confidence interval whiskers.</p>
 <span class='co'># to get a plot</span>
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>)</div><div class='img'><img src='ggcoefstats-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to get a tidy dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"tidy"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 12</span><span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"tidy"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 11</span><span>
 #&gt;   term  estimate conf.low conf.high std.error statistic p.value significance
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
 #&gt; </span><span style='color: #555555;'>1</span><span> cyl      -</span><span style='color: #BB0000;'>1.98</span><span>    -</span><span style='color: #BB0000;'>2.89</span><span>    -</span><span style='color: #BB0000;'>1.06</span><span>      0.449 -4.40     1.41</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span> ***         
 #&gt; </span><span style='color: #555555;'>2</span><span> am       10.2      1.36    19.0       4.30  2.36      2.53</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span> *           
 #&gt; </span><span style='color: #555555;'>3</span><span> cyl:~    -</span><span style='color: #BB0000;'>1.31</span><span>    -</span><span style='color: #BB0000;'>2.75</span><span>     0.143     0.707 -1.85     7.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span> ns          
-#&gt; </span><span style='color: #555555;'># ... with 4 more variables: p.value.formatted </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p.value.formatted2 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
-#&gt; #   df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, label </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'># ... with 3 more variables: p.value.formatted </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,
+#&gt; #   label </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='co'># to get a glance summary</span>
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 12</span><span>
 #&gt;   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
@@ -802,14 +805,14 @@ confidence interval whiskers.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Indrajeet Patil</p>
+    <p><a href='https://github.com/IndrajeetPatil'>Indrajeet Patil</a></p>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

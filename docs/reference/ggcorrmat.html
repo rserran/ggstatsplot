@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualization of a correlalogram (or correlation matrix) — ggcorrmat • ggstatsplot</title>
+<title>Visualization of a correlation matrix — ggcorrmat • ggstatsplot</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -40,9 +40,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Visualization of a correlalogram (or correlation matrix) — ggcorrmat" />
+<meta property="og:title" content="Visualization of a correlation matrix — ggcorrmat" />
 
-<meta property="og:description" content="Visualization of a correlalogram (or correlation matrix)" />
+<meta property="og:description" content="Visualization of a correlation matrix" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.9000</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -119,6 +122,9 @@
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -174,14 +180,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualization of a correlalogram (or correlation matrix)</h1>
+    <h1>Visualization of a correlation matrix</h1>
     <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/ggcorrmat.R'><code>R/ggcorrmat.R</code></a></small>
     <div class="hidden name"><code>ggcorrmat.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Visualization of a correlalogram (or correlation matrix)</p>
+    <p>Visualization of a correlation matrix</p>
     
     </div>
 
@@ -344,7 +350,8 @@ extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggtheme
       <th>ggstatsplot.layer</th>
       <td><p>Logical that decides whether <code>theme_ggstatsplot</code>
 theme elements are to be displayed along with the selected <code>ggtheme</code>
-(Default: <code>TRUE</code>).</p></td>
+(Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
+override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -521,14 +528,14 @@ of <em>p</em>-values.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Indrajeet Patil</p>
+    <p><a href='https://github.com/IndrajeetPatil'>Indrajeet Patil</a></p>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>, <a href='https://ibecav.github.io/'>Chuck Powell</a>.</p>
+  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

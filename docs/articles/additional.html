@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.12.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -60,6 +60,9 @@
       <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
+    </li>
+    <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
     </li>
     <li>
@@ -79,6 +82,9 @@
     </li>
     <li>
       <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
     </li>
     <li>
       <a href="../articles/web_only/gghistostats.html">gghistostats</a>
@@ -136,7 +142,7 @@
       <h1>additional vignettes</h1>
                         <h4 class="author">Indrajeet Patil</h4>
             
-            <h4 class="date">2019-08-06</h4>
+            <h4 class="date">2019-08-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/master/vignettes/additional.Rmd"><code>vignettes/additional.Rmd</code></a></small>
       <div class="hidden name"><code>additional.Rmd</code></div>
@@ -157,6 +163,7 @@
 <li><p><code>ggwithinstats</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html</a>)</p></li>
 <li><p><code>ggcorrmat</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html</a>)</p></li>
 <li><p><code>gghistostats</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/gghistostats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/gghistostats.html</a>)</p></li>
+<li><p><code>ggdotplotstats</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html</a>)</p></li>
 <li><p><code>ggpiestats</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html</a>)</p></li>
 <li><p><code>ggscatterstats</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html</a>)</p></li>
 <li><p><code>ggcoefstats</code>: (<a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html</a>)</p></li>
@@ -182,6 +189,18 @@
 <a href="#presentation" class="anchor"></a>Presentation</h1>
 <p>In addition to these vignettes, another quick way to get an overview of this package is to go through the following slides: <a href="https://indrajeetpatil.github.io/ggstatsplot_slides/slides/ggstatsplot_presentation.html#1" class="uri">https://indrajeetpatil.github.io/ggstatsplot_slides/slides/ggstatsplot_presentation.html#1</a></p>
 </div>
+<div id="components-of-ggstatsplot" class="section level1">
+<h1 class="hasAnchor">
+<a href="#components-of-ggstatsplot" class="anchor"></a>Components of <code>ggstatsplot</code>
+</h1>
+<p>To make the maintenance and development of <code>ggstatsplot</code> more manageable, it is being broken into smaller pieces.</p>
+<div id="statsexpressions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#statsexpressions" class="anchor"></a><code>statsExpressions</code>
+</h2>
+<p>The statistical backend that processes data and creates expressions containing results from statistical tests is <code>statsExpressions</code>. For more exhaustive documentation for this package, see: <a href="https://indrajeetpatil.github.io/statsExpressions/" class="uri">https://indrajeetpatil.github.io/statsExpressions/</a></p>
+</div>
+</div>
 <div id="suggestions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#suggestions" class="anchor"></a>Suggestions</h1>
@@ -201,6 +220,11 @@
       </ul>
 </li>
       <li><a href="#presentation">Presentation</a></li>
+      <li>
+<a href="#components-of-ggstatsplot">Components of <code>ggstatsplot</code></a><ul class="nav nav-pills nav-stacked">
+<li><a href="#statsexpressions"><code>statsExpressions</code></a></li>
+      </ul>
+</li>
       <li><a href="#suggestions">Suggestions</a></li>
       </ul>
 </div>
@@ -211,7 +235,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/">Indrajeet Patil</a>, <a href="https://ibecav.github.io/">Chuck Powell</a>.</p>
+  <p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/">Indrajeet Patil</a>.</p>
 </div>
 
 <div class="pkgdown">

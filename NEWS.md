@@ -1,7 +1,27 @@
-# ggstatsplot 0.0.12.9000
+# ggstatsplot 0.1.0
+
+ANNOUNCEMENTS
+
+`ggstatsplot` is undergoing *conscious uncoupling* whereby all the statistical
+processing functions are being moved to a new package called `statsExpressions`.
+This new package will act as a backend that handles all things statistical
+processing. This **will not** affect the end users of `ggstatsplot` unless you
+have been using the helper functions. 
+
+This uncoupling is designed to achieve two things:
+
+  - Make the code base of more manageable size in `ggstatsplot`, which will make
+    package development a bit easier.
+    
+  - Make the workflow more customizable since now you can prepare your own plots
+    and then use `statsExpressions` to display results in the plot rather than
+    relying on `ggstatsplot` default plots which are heavily opinionated and not
+    appealing to everyone.
 
 BREAKING CHANGES
 
+  - All helper functions `subtitle_*` and `bf_*` have been moved to the new
+    `statsExpressions` package.
   - To be consistent with all the other `subtitle_` and `bf_` functions,
     `subtitle_contingency_tab` and `bf_contingency_tab` now use the arguments
     `x` and `y` instead of `main` and `condition`.
@@ -15,8 +35,12 @@ MAJOR CHANGES
     pose any problems for scripts that used `main` and `condition` arguments in
     these functions.
   - Most subtitle expressions now report details about the design. In case of
-    between-subjects design, this will be $n_{obs}$, while in case of repeated
-    measures design, this will be $n_{pairs}$.
+    between-subjects design, this will be $n\_{obs}$, while in case of repeated
+    measures design, this will be $n\_{pairs}$.
+  - `pairwise.annotation` now defaults to `"p.value"` rather than `"asterisk"`
+    for `ggbetweenstats` and `ggwithinstats` (and their `grouped_` variants)
+    functions. This was done because the asterisk conventions are not consistent
+    across various scientific disciplines.
 
 MINOR CHANGES
 
@@ -24,6 +48,16 @@ MINOR CHANGES
     present in the data.
   - `ggstatsplot` now uses `rcompanion` to compute Spearman's *rho* and
     Kendall's *W*. Therefore, `DescTools` is removed from dependencies.
+  - `ggcoefstats` supports following objects: `lme`, `mclogit`, `mmclogit`,
+    `wblm`.
+  - `ggcoefstats` now respects `conf.int`. It internally always defaulted to
+    `conf.int = TRUE` in `broom::tidy` irrespective of what was specified by the
+    user.
+  - It was painfully confusing for a lot of users what exactly the asterisks in
+    each facet of `ggpiestats` signified. So instead now `ggpiestats` displays
+    more detailed results from a goodness of fit (gof) test. No such change is
+    made for `ggbarstats` because there is no space to include more details
+    above the bar.
 
 # ggstatsplot 0.0.12
 

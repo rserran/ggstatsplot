@@ -48,8 +48,8 @@ parametric/pearson's), \code{"np"} (nonparametric/spearman), \code{"r"} (robust)
 \item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
 \code{95\%} lower and upper confidence intervals (\code{0.95}).}
 
-\item{bf.prior}{A number between 0.5 and 2 (default \code{0.707}), the prior width
-to use in calculating Bayes factors.}
+\item{bf.prior}{A numeric value between \code{0.5} and \code{2} (default \code{0.707}), the
+prior width to use in calculating Bayes Factors.}
 
 \item{bf.message}{Logical that decides whether to display Bayes Factor in
 favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
@@ -78,7 +78,7 @@ e.g. \code{"auto"}, \code{"lm"}, \code{"glm"}, \code{"gam"}, \code{"loess"} or a
 \code{MASS::rlm} or \code{mgcv::gam}, \code{stats::lm}, or \code{stats::loess}.
 
 For \code{method = "auto"} the smoothing method is chosen based on the
-size of the largest group (across all panels). \code{\link[=loess]{loess()}} is
+size of the largest group (across all panels). \code{\link[stats:loess]{stats::loess()}} is
 used for less than 1,000 observations; otherwise \code{\link[mgcv:gam]{mgcv::gam()}} is
 used with \code{formula = y ~ s(x, bs = "cs")}. Somewhat anecdotally,
 \code{loess} gives a better appearance, but is \eqn{O(N^{2})}{O(N^2)} in memory,
@@ -196,22 +196,23 @@ extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
 
 \item{ggstatsplot.layer}{Logical that decides whether \code{theme_ggstatsplot}
 theme elements are to be displayed along with the selected \code{ggtheme}
-(Default: \code{TRUE}).}
+(Default: \code{TRUE}). \code{theme_ggstatsplot} is an opinionated theme layer that
+override some aspects of the selected \code{ggtheme}.}
 
 \item{ggplot.component}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
 as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added ggplot component \emph{might} not
+and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
 work as expected.}
 
 \item{return}{Character that describes what is to be returned: can be
 \code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results,
-which will be a \code{NULL} if you set \code{results.subtitle = FALSE}. Setting this
-to \code{"caption"} will return the expression containing details about Bayes
-Factor analysis, but valid only when \code{type = "p"} and \code{bf.message = TRUE},
-otherwise this will return a \code{NULL}.}
+\code{"subtitle"} will return the expression containing statistical results. If
+you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
+Setting this to \code{"caption"} will return the expression containing details
+about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
 \item{messages}{Decides whether messages references, notes, and warnings are
 to be displayed (Default: \code{TRUE}).}
