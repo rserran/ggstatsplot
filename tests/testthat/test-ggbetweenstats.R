@@ -5,6 +5,8 @@ context(desc = "ggbetweenstats")
 testthat::test_that(
   desc = "error when x and outlier.label are same",
   code = {
+    testthat::skip_on_cran()
+
     testthat::expect_error(
       suppressWarnings(ggstatsplot::ggbetweenstats(
         data = iris,
@@ -83,6 +85,8 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking sorting",
   code = {
+    testthat::skip_on_cran()
+
     set.seed(123)
     p1 <- ggstatsplot::ggbetweenstats(
       data = iris,
@@ -129,6 +133,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking labels and data from plot",
   code = {
+    testthat::skip_on_cran()
 
     # creating the plot
     set.seed(123)
@@ -249,6 +254,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking mean labels are working",
   code = {
+    testthat::skip_on_cran()
 
     # creating the plot
     set.seed(123)
@@ -282,9 +288,9 @@ testthat::test_that(
     testthat::expect_identical(
       pb$data[[6]]$label,
       c(
-        "2.290, 95% CI [1.907, 2.673]",
-        "3.120, 95% CI [2.787, 3.453]",
-        "4.000, 95% CI [3.561, 4.439]"
+        "list(~italic(mu)==2.290,CI[95*'%'](1.907,2.673))",
+        "list(~italic(mu)==3.120,CI[95*'%'](2.787,3.453))",
+        "list(~italic(mu)==4.000,CI[95*'%'](3.561,4.439))"
       )
     )
 
@@ -315,6 +321,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking mean labels are working",
   code = {
+    testthat::skip_on_cran()
     library(ggplot2)
 
     # caption for the plot
@@ -351,6 +358,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "checking if plot.type argument works",
   code = {
+    testthat::skip_on_cran()
     set.seed(123)
 
     # boxplot
@@ -456,7 +464,7 @@ testthat::test_that(
     testthat::expect_equal(dim(pb1$data[[5]]), c(2L, 15L))
     testthat::expect_equal(pb1$data[[4]]$x, c(1L, 2L))
     testthat::expect_identical(
-      as.character(round(pb1$data[[4]]$y, 2)),
+      c("list(~italic(mu)== 20.66 )", "list(~italic(mu)== 16.96 )"),
       pb1$data[[5]]$label
     )
     testthat::expect_equal(dim(pb1$data[[2]]), c(2L, 25L))
@@ -478,6 +486,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggplot component addition works",
   code = {
+    testthat::skip_on_cran()
 
     # plot
     p <- ggstatsplot::ggbetweenstats(
@@ -502,6 +511,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "subtitle return works",
   code = {
+    testthat::skip_on_cran()
 
     # plot
     set.seed(123)

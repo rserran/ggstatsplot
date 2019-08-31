@@ -11,7 +11,7 @@
 #' @inheritParams ggcoefstats
 #'
 #' @examples
-#'
+#' \donttest{
 #' # show all columns in output tibble
 #' options(tibble.width = Inf)
 #'
@@ -94,6 +94,7 @@
 #'   effsize = "omega",
 #'   partial = FALSE
 #' )
+#' }
 #' @keywords internal
 
 # function body
@@ -123,6 +124,8 @@ ggcoefstats_label_maker <- function(x,
   t.mods <-
     c(
       "biglm",
+      "bglmerMod",
+      "blmerMod",
       "cch",
       "coeftest",
       "drc",
@@ -165,6 +168,7 @@ ggcoefstats_label_maker <- function(x,
     c(
       "aareg",
       "clm",
+      "clm2",
       "clmm",
       "coxph",
       "ergm",
@@ -367,7 +371,9 @@ ggcoefstats_label_maker <- function(x,
           .$statistic,
           ", ~italic(p)",
           .$p.value.formatted,
-          ", ~", .$effsize.text, "==",
+          ", ~",
+          .$effsize.text,
+          "==",
           specify_decimal_p(x = .$estimate, k = k),
           ")",
           sep = ""

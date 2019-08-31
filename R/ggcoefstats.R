@@ -27,17 +27,6 @@
 #' @param ylab Label for `y` axis variable (Default: `"term"`).
 #' @param subtitle The text for the plot subtitle. The input to this argument
 #'   will be ignored if `meta.analytic.effect` is set to `TRUE`.
-#' @param conf.method Character describing method for computing confidence
-#'   intervals (for more, see `?lme4::confint.merMod` and
-#'   `?broom.mixed::tidy.brmsfit`). This argument has different defaults
-#'   depending on the model object. For the `merMod` class model objects
-#'   (`lmer`, `glmer`, `nlmer`, etc.), the default is `"Wald"` (other options
-#'   are: `"profile"`, `"boot"`). For `MCMC` or `brms` fit model objects (Stan,
-#'   JAGS, etc.), the default is `"quantile"`, while the only other options is
-#'   `"HPDinterval"`.
-#' @param p.kr Logical, if `TRUE`, the computation of *p*-values for `lmer` is
-#'   based on conditional *F*-tests with Kenward-Roger approximation for the
-#'   `df`. For details, see `?sjstats::p_value`.
 #' @param p.adjust.method Adjustment method for *p*-values for multiple
 #'   comparisons. Possible methods are: `"holm"`, `"hochberg"`, `"hommel"`,
 #'   `"bonferroni"`, `"BH"`, `"BY"`, `"fdr"`, `"none"`. Default is no correction
@@ -183,6 +172,7 @@
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
 #'
 #' @examples
+#' \donttest{
 #' # for reproducibility
 #' set.seed(123)
 #'
@@ -204,7 +194,7 @@
 #' ggstatsplot::ggcoefstats(x = mod, output = "augment")
 #'
 #' # -------------- with custom dataframe -----------------------------------
-#' \donttest{
+#'
 #' # creating a dataframe
 #' df <-
 #'   structure(
@@ -315,8 +305,6 @@ ggcoefstats <- function(x,
                         output = "plot",
                         statistic = NULL,
                         scales = NULL,
-                        conf.method = "Wald",
-                        conf.type = "Wald",
                         component = "survival",
                         bf.message = TRUE,
                         d = "norm",
@@ -325,7 +313,6 @@ ggcoefstats <- function(x,
                         tau.par = c(scale = 0.5),
                         iter = 5000,
                         summarize = "stan",
-                        p.kr = TRUE,
                         p.adjust.method = "none",
                         coefficient.type = c("beta", "location", "coefficient"),
                         by.class = FALSE,
@@ -405,6 +392,8 @@ ggcoefstats <- function(x,
   # only fixed effects will be selected
   mixed.mods <-
     c(
+      "bglmerMod",
+      "blmerMod",
       "brmsfit",
       "gamlss",
       "glmmadmb",
@@ -429,29 +418,15 @@ ggcoefstats <- function(x,
 
   # =================== types of models =====================================
 
-  # bayesian models (default `conf.method` won't work for these)
-  bayes.mods <- c(
-    "brmsfit",
-    "mcmc",
-    "MCMCglmm",
-    "rjags",
-    "stanreg",
-    "stanmvreg"
-  )
-
   # models for which statistic is F-value
-  f.mods <- c(
-    "aov",
-    "aovlist",
-    "anova",
-    "Gam",
-    "manova"
-  )
-
-  # changing `conf.method` to something suitable for Bayesian models
-  if (class(x)[[1]] %in% bayes.mods && conf.method == "Wald") {
-    conf.method <- "quantile"
-  }
+  f.mods <-
+    c(
+      "aov",
+      "aovlist",
+      "anova",
+      "Gam",
+      "manova"
+    )
 
   # ============================= model summary ============================
 
@@ -515,7 +490,6 @@ ggcoefstats <- function(x,
         conf.level = conf.level,
         effects = "fixed",
         scales = scales,
-        conf.method = conf.method,
         ...
       )
 
@@ -557,7 +531,6 @@ ggcoefstats <- function(x,
         conf.level = conf.level,
         se.type = se.type,
         by_class = by.class,
-        conf.type = conf.type,
         component = component,
         # exponentiate = exponentiate,
         parametric = TRUE, # relevant for `gam` objects
@@ -640,7 +613,7 @@ ggcoefstats <- function(x,
   # =================== p-value computation ==================================
 
   # p-values won't be computed by default for some of the models
-  if (!"p.value" %in% names(tidy_df)) {
+  if (!class(x)[[1]] %in% df.mods && !"p.value" %in% names(tidy_df)) {
     # use `sjstats` S3 methods to add them to the tidy dataframe
     tryCatch(
       expr = tidy_df %<>%
@@ -650,7 +623,7 @@ ggcoefstats <- function(x,
             .vars = "term",
             .funs = ~ as.character(x = .)
           ),
-          y = sjstats::p_value(fit = x, p.kr = p.kr) %>%
+          y = sjstats::p_value(x) %>%
             dplyr::select(.data = ., -std.error) %>%
             dplyr::mutate_at(
               .tbl = .,
@@ -661,9 +634,7 @@ ggcoefstats <- function(x,
         ) %>%
         dplyr::filter(.data = ., !is.na(estimate)) %>%
         tibble::as_tibble(x = .),
-      error = function(e) {
-        tidy_df
-      }
+      error = function(e) tidy_df
     )
   }
 

@@ -5,6 +5,7 @@ context("ggcoefstats")
 testthat::test_that(
   desc = "ggcoefstats with lm model",
   code = {
+    testthat::skip_on_cran()
     set.seed(123)
 
     # model
@@ -91,6 +92,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats with glmer model",
   code = {
+    testthat::skip_on_cran()
     library(lme4)
 
     # model
@@ -151,7 +153,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats with partial variants of effect size for f-statistic",
   code = {
-
+    testthat::skip_on_cran()
 
     ## partial eta-squared
 
@@ -352,7 +354,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats with non-partial variants of effect size for f-statistic",
   code = {
-
+    testthat::skip_on_cran()
 
     # model
     set.seed(123)
@@ -412,6 +414,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check merMod output",
   code = {
+    testthat::skip_on_cran()
 
     # setup
     set.seed(123)
@@ -493,6 +496,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check glm output",
   code = {
+    testthat::skip_on_cran()
 
     # set up
     set.seed(123)
@@ -565,7 +569,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check mlm output",
   code = {
-
+    testthat::skip_on_cran()
 
     # model (converting all numeric columns in data to z-scores)
     res <- stats::lm(
@@ -591,7 +595,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check aareg output",
   code = {
-
+    testthat::skip_on_cran()
 
     # model
     library(survival)
@@ -630,7 +634,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats works with glmmPQL object",
   code = {
-
+    testthat::skip_on_cran()
 
     # setup
     set.seed(123)
@@ -673,7 +677,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check clm models (minimal)",
   code = {
-
+    testthat::skip_on_cran()
 
     # clm model
     set.seed(123)
@@ -736,7 +740,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats works with data frames",
   code = {
-
+    testthat::skip_on_cran()
 
     # setup
     library(lme4)
@@ -797,6 +801,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats works with data frames",
   code = {
+    testthat::skip_on_cran()
     set.seed(123)
 
     # creating dataframe
@@ -999,6 +1004,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "ggcoefstats works with data frames (with NAs)",
   code = {
+    testthat::skip_on_cran()
     set.seed(123)
 
     # creating dataframe
@@ -1115,6 +1121,11 @@ testthat::test_that(
       )
     broom_df2 <- broom.mixed::glance(x = mod2)
     glance_df2 <- ggstatsplot::ggcoefstats(x = mod2, output = "glance")
+    tidy_df2 <- ggstatsplot::ggcoefstats(
+      x = mod2,
+      output = "tidy",
+      exclude.intercept = FALSE
+    )
 
     # checking if they are equal
     testthat::expect_identical(broom_df1, glance_df1)
@@ -1122,6 +1133,14 @@ testthat::test_that(
 
     testthat::expect_true(inherits(glance_df1, what = "tbl_df"))
     testthat::expect_true(inherits(glance_df2, what = "tbl_df"))
+
+    testthat::expect_identical(
+      tidy_df2$label,
+      c(
+        "list(~italic(beta)==251.41, ~italic(t)(174)==36.84, ~italic(p)<= 0.001)",
+        "list(~italic(beta)==10.47, ~italic(t)(174)==6.77, ~italic(p)<= 0.001)"
+      )
+    )
   }
 )
 
@@ -1131,7 +1150,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check if augment works",
   code = {
-
+    testthat::skip_on_cran()
 
     # set up
     library(lme4)
@@ -1147,12 +1166,21 @@ testthat::test_that(
 
     # mixed-effects model
     set.seed(123)
-    mod2 <- lme4::lmer(
-      formula = Reaction ~ Days + (Days | Subject),
-      data = sleepstudy
-    )
+    library(MASS)
+    mod2 <-
+      MASS::rlm(
+        formula = stack.loss ~ .,
+        data = stackloss,
+        psi = psi.hampel,
+        init = "lts"
+      )
     df2.broom <- tibble::as_tibble(broom.mixed::augment(mod2))
     df2.ggstats <- ggstatsplot::ggcoefstats(x = mod2, output = "augment")
+    df2.tidy <- ggstatsplot::ggcoefstats(
+      x = mod2,
+      output = "tidy",
+      exclude.intercept = FALSE
+    )
 
     # model with F-statistic
     set.seed(123)
@@ -1170,6 +1198,16 @@ testthat::test_that(
     testthat::expect_true(inherits(df1.ggstats, what = "tbl_df"))
     testthat::expect_true(inherits(df2.ggstats, what = "tbl_df"))
     testthat::expect_true(inherits(df3.ggstats, what = "tbl_df"))
+
+    testthat::expect_identical(
+      df2.tidy$label,
+      c(
+        "list(~italic(beta)==-40.47, ~italic(t)==-3.40, ~italic(p)== 0.001)",
+        "list(~italic(beta)==0.74, ~italic(t)==5.50, ~italic(p)<= 0.001)",
+        "list(~italic(beta)==1.23, ~italic(t)==3.33, ~italic(p)== 0.001)",
+        "list(~italic(beta)==-0.15, ~italic(t)==-0.93, ~italic(p)== 0.352)"
+      )
+    )
   }
 )
 
@@ -1178,6 +1216,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "augment with lm works",
   code = {
+    testthat::skip_on_cran()
     testthat::skip_on_appveyor()
     testthat::skip_on_travis()
 
@@ -1206,6 +1245,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "check if p-value adjustment works",
   code = {
+    testthat::skip_on_cran()
     set.seed(123)
 
     # model
@@ -1243,7 +1283,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "testing aesthetic modifications",
   code = {
-
+    testthat::skip_on_cran()
 
     # model
     set.seed(123)
@@ -1295,5 +1335,128 @@ testthat::test_that(
     testthat::expect_error(ggstatsplot::ggcoefstats(stats::acf(lh, plot = FALSE)))
     testthat::expect_null(pb$plot$labels$subtitle, NULL)
     testthat::expect_null(pb$plot$labels$caption, NULL)
+  }
+)
+
+
+context("ggcoefstats_label_maker")
+
+# glm works -------------------------------------------------------
+
+testthat::test_that(
+  desc = "glm works",
+  code = {
+    testthat::skip_on_cran()
+
+    # setup
+    set.seed(123)
+    counts <- c(18, 17, 15, 20, 10, 20, 25, 13, 12)
+    outcome <- gl(3, 1, 9)
+    treatment <- gl(3, 3)
+    d.AD <- data.frame(treatment, outcome, counts)
+
+    # model
+    set.seed(123)
+    m1 <- stats::glm(
+      formula = counts ~ outcome + treatment,
+      family = stats::poisson(),
+      data = d.AD
+    )
+
+    # tidy dataframe
+    df <-
+      ggstatsplot:::ggcoefstats_label_maker(
+        x = m1,
+        tidy_df = broom::tidy(m1),
+        glance_df = broom::glance(m1)
+      )
+
+    # checking the labels
+    testthat::expect_equal(
+      df$label,
+      c(
+        "list(~italic(beta)==3.04, ~italic(z)==17.81, ~italic(p)<= 0.001)",
+        "list(~italic(beta)==-0.45, ~italic(z)==-2.25, ~italic(p)== 0.025)",
+        "list(~italic(beta)==-0.29, ~italic(z)==-1.52, ~italic(p)== 0.128)",
+        "list(~italic(beta)==0.00, ~italic(z)==0.00, ~italic(p)== 1.000)",
+        "list(~italic(beta)==0.00, ~italic(z)==0.00, ~italic(p)== 1.000)"
+      )
+    )
+  }
+)
+
+# glmerMod works -------------------------------------------------------
+
+testthat::test_that(
+  desc = "glmerMod works",
+  code = {
+    testthat::skip_on_cran()
+    library(lme4)
+
+    # data
+    anorexia <- structure(list(Treat = structure(c(
+      2L, 2L, 2L, 2L, 2L, 2L, 2L,
+      2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L,
+      2L, 2L, 2L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
+      1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
+      3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L, 3L,
+      3L
+    ), .Label = c("CBT", "Cont", "FT"), class = "factor"), Prewt = c(
+      80.7,
+      89.4, 91.8, 74, 78.1, 88.3, 87.3, 75.1, 80.6, 78.4, 77.6, 88.7,
+      81.3, 78.1, 70.5, 77.3, 85.2, 86, 84.1, 79.7, 85.5, 84.4, 79.6,
+      77.5, 72.3, 89, 80.5, 84.9, 81.5, 82.6, 79.9, 88.7, 94.9, 76.3,
+      81, 80.5, 85, 89.2, 81.3, 76.5, 70, 80.4, 83.3, 83, 87.7, 84.2,
+      86.4, 76.5, 80.2, 87.8, 83.3, 79.7, 84.5, 80.8, 87.4, 83.8, 83.3,
+      86, 82.5, 86.7, 79.6, 76.9, 94.2, 73.4, 80.5, 81.6, 82.1, 77.6,
+      83.5, 89.9, 86, 87.3
+    ), Postwt = c(
+      80.2, 80.1, 86.4, 86.3, 76.1,
+      78.1, 75.1, 86.7, 73.5, 84.6, 77.4, 79.5, 89.6, 81.4, 81.8, 77.3,
+      84.2, 75.4, 79.5, 73, 88.3, 84.7, 81.4, 81.2, 88.2, 78.8, 82.2,
+      85.6, 81.4, 81.9, 76.4, 103.6, 98.4, 93.4, 73.4, 82.1, 96.7,
+      95.3, 82.4, 72.5, 90.9, 71.3, 85.4, 81.6, 89.1, 83.9, 82.7, 75.7,
+      82.6, 100.4, 85.2, 83.6, 84.6, 96.2, 86.7, 95.2, 94.3, 91.5,
+      91.9, 100.3, 76.7, 76.8, 101.6, 94.9, 75.2, 77.8, 95.5, 90.7,
+      92.5, 93.8, 91.7, 98
+    )), class = "data.frame", row.names = c(
+      NA,
+      72L
+    ))
+
+    # model
+    set.seed(123)
+    mod <-
+      lme4::glmer(
+        formula = Postwt ~ Prewt + (1 | Treat),
+        family = stats::Gamma(),
+        control = lme4::glmerControl(
+          "Nelder_Mead",
+          check.conv.grad = .makeCC(
+            action = "message",
+            tol = 0.01,
+            relTol = NULL
+          ),
+          check.conv.singular = .makeCC(action = "message", tol = 0.01),
+          check.conv.hess = .makeCC(action = "message", tol = 0.01)
+        ),
+        data = anorexia
+      )
+
+    # dataframe with labels
+    df <- ggstatsplot:::ggcoefstats_label_maker(
+      x = mod,
+      tidy_df = broom.mixed::tidy(x = mod, effects = "fixed"),
+      glance_df = broom.mixed::glance(mod)
+    )
+
+    # checking the labels
+    testthat::expect_equal(
+      df$label,
+      c(
+        "list(~italic(beta)==0.02, ~italic(t)(68)==41.12, ~italic(p)<= 0.001)",
+        "list(~italic(beta)==0.00, ~italic(t)(68)==-7.27, ~italic(p)<= 0.001)"
+      )
+    )
   }
 )

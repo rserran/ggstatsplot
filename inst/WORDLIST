@@ -1,6 +1,5 @@
 Aalen's
 aareg
-aaronsc
 accidently
 al
 anova
@@ -27,7 +26,6 @@ codecov
 Codecov
 codesize
 colorbar
-confidendence
 Conover
 correlalogram
 couter
@@ -96,9 +94,7 @@ hc
 HDHF
 HDLF
 HFHD
-histo
 HitCount
-howell
 http
 https
 hv
@@ -114,7 +110,6 @@ issuecomment
 jitter
 js
 Kass
-Kenward
 labelled
 labeller
 Lakens
@@ -182,11 +177,8 @@ reproducibility
 ridgeplot
 rlbt
 Royston
-rpubs
-RPubs
 RStudio
 saythanks
-Schlegel
 sdcor
 setosa
 softwares
@@ -204,6 +196,7 @@ tibble
 tibbles
 tidiers
 tidyverse
+tobit
 Tufte
 uber
 uk
@@ -217,6 +210,7 @@ Welch
 Welch's
 Welch’s
 Wilk
+Winsorized
 WRS
 www
 xy

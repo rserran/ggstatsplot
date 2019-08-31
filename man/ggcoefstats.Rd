@@ -5,15 +5,14 @@
 \title{Dot-and-whisker plots for regression analyses}
 \usage{
 ggcoefstats(x, output = "plot", statistic = NULL, scales = NULL,
-  conf.method = "Wald", conf.type = "Wald", component = "survival",
-  bf.message = TRUE, d = "norm", d.par = c(mean = 0, sd = 0.3),
-  tau = "halfcauchy", tau.par = c(scale = 0.5), iter = 5000,
-  summarize = "stan", p.kr = TRUE, p.adjust.method = "none",
-  coefficient.type = c("beta", "location", "coefficient"),
-  by.class = FALSE, effsize = "eta", partial = TRUE, nboot = 500,
-  meta.analytic.effect = FALSE, point.color = "blue", point.size = 3,
-  point.shape = 16, conf.int = TRUE, conf.level = 0.95,
-  se.type = "nid", k = 2, k.caption.summary = 0,
+  component = "survival", bf.message = TRUE, d = "norm",
+  d.par = c(mean = 0, sd = 0.3), tau = "halfcauchy",
+  tau.par = c(scale = 0.5), iter = 5000, summarize = "stan",
+  p.adjust.method = "none", coefficient.type = c("beta", "location",
+  "coefficient"), by.class = FALSE, effsize = "eta", partial = TRUE,
+  nboot = 500, meta.analytic.effect = FALSE, point.color = "blue",
+  point.size = 3, point.shape = 16, conf.int = TRUE,
+  conf.level = 0.95, se.type = "nid", k = 2, k.caption.summary = 0,
   exclude.intercept = TRUE, exponentiate = FALSE,
   errorbar.color = "black", errorbar.height = 0,
   errorbar.linetype = "solid", errorbar.size = 0.5, vline = TRUE,
@@ -52,19 +51,6 @@ kind of model it is dealing with.}
 
 \item{scales}{scales on which to report the variables: for random effects, the choices are \sQuote{"sdcor"} (standard deviations and correlations: the default if \code{scales} is \code{NULL}) or \sQuote{"vcov"} (variances and covariances). \code{NA} means no transformation, appropriate e.g. for fixed effects.}
 
-\item{conf.method}{Character describing method for computing confidence
-intervals (for more, see \code{?lme4::confint.merMod} and
-\code{?broom.mixed::tidy.brmsfit}). This argument has different defaults
-depending on the model object. For the \code{merMod} class model objects
-(\code{lmer}, \code{glmer}, \code{nlmer}, etc.), the default is \code{"Wald"} (other options
-are: \code{"profile"}, \code{"boot"}). For \code{MCMC} or \code{brms} fit model objects (Stan,
-JAGS, etc.), the default is \code{"quantile"}, while the only other options is
-\code{"HPDinterval"}.}
-
-\item{conf.type}{Whether to use \code{"profile"} or \code{"Wald"} confidendence
-intervals, passed to the \code{type} argument of \code{\link[ordinal:confint.clm]{ordinal::confint.clm()}}.
-Defaults to \code{"profile"}.}
-
 \item{component}{Character specifying whether to tidy the survival or
 the longitudinal component of the model. Must be either \code{"survival"} or
 \code{"longitudinal"}. Defaults to \code{"survival"}.}
@@ -93,10 +79,6 @@ specifies the type of family).}
 \item{summarize}{how to estimate parameter summaries (mean, median, SD,
 etc.): Either by numerical integration (\code{summarize = "integrate"}) or
 based on MCMC/Stan samples (\code{summarize = "stan"}).}
-
-\item{p.kr}{Logical, if \code{TRUE}, the computation of \emph{p}-values for \code{lmer} is
-based on conditional \emph{F}-tests with Kenward-Roger approximation for the
-\code{df}. For details, see \code{?sjstats::p_value}.}
 
 \item{p.adjust.method}{Adjustment method for \emph{p}-values for multiple
 comparisons. Possible methods are: \code{"holm"}, \code{"hochberg"}, \code{"hommel"},
@@ -299,6 +281,7 @@ labels.
 Dot-and-whisker plots for regression analyses
 }
 \examples{
+\donttest{
 # for reproducibility
 set.seed(123)
 
@@ -320,7 +303,7 @@ ggstatsplot::ggcoefstats(x = mod, output = "glance")
 ggstatsplot::ggcoefstats(x = mod, output = "augment")
 
 # -------------- with custom dataframe -----------------------------------
-\donttest{
+
 # creating a dataframe
 df <-
   structure(

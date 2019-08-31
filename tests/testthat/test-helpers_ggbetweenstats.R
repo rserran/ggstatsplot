@@ -1,12 +1,11 @@
-# mean_ggrepel ----------------------------------------------
-
-context(desc = "mean_ggrepel")
 
 # mean_ggrepel works ----------------------------------------------
 
 testthat::test_that(
   desc = "mean_ggrepel works",
   code = {
+    testthat::skip_on_cran()
+
     set.seed(123)
     library(ggplot2)
 
@@ -61,16 +60,12 @@ testthat::test_that(
 )
 
 
-# mean labelling ------------------------------------------------------
-
-context(desc = "mean_labeller")
-
 # mean labelling works -------------------------------------------------------
 
 testthat::test_that(
   desc = "mean_labeller works",
   code = {
-
+    testthat::skip_on_cran()
 
     # ----------------------- data without NAs ------------------------------
 
@@ -99,14 +94,13 @@ testthat::test_that(
 
     # check mean label for first factor level
     testthat::expect_identical(
-      object = mean_dat$label[[1]],
-      expected = "3819.580, 95% CI [3140.804, 4498.356]"
-    )
-
-    # check mean label for first factor level
-    testthat::expect_identical(
-      object = mean_dat$label[[4]],
-      expected = "4602.090, 95% CI [4274.733, 4929.447]"
+      mean_dat$label,
+      c(
+        "list(~italic(mu)==3819.580,CI[95*'%'](3140.804,4498.356))",
+        "list(~italic(mu)==4053.440,CI[95*'%'](3613.102,4493.778))",
+        "list(~italic(mu)==3928.250,CI[95*'%'](3607.033,4249.467))",
+        "list(~italic(mu)==4602.090,CI[95*'%'](4274.733,4929.447))"
+      )
     )
 
     # check sample size label for first factor level
@@ -142,7 +136,6 @@ testthat::test_that(
   }
 )
 
-
 # outlier_df ----------------------------------------------------
 
 context(desc = "outlier_df")
@@ -152,6 +145,7 @@ context(desc = "outlier_df")
 testthat::test_that(
   desc = "outlier_df works as expected",
   code = {
+    testthat::skip_on_cran()
     set.seed(123)
 
     # dataframe with outlier column (data without NA)
@@ -182,15 +176,12 @@ testthat::test_that(
   }
 )
 
-# sort_xy -----------------------------------------------------------------
-
-context(desc = "sort_xy")
-
 # sort_xy works as expected ---------------------------------------------------
 
 testthat::test_that(
   desc = "sort_xy works as expected",
   code = {
+    testthat::skip_on_cran()
     library(ggplot2)
 
     # without NAs

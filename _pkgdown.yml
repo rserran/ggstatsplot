@@ -14,8 +14,6 @@ development:
 authors:
   Indrajeet Patil:
     href: https://sites.google.com/site/indrajeetspatilmorality/
-  Chuck Powell:
-    href: https://ibecav.github.io/
 
 reference:
   - title: Primary functions
@@ -23,7 +21,6 @@ reference:
     contents:
       - starts_with("gg")
       - combine_plots
-      - ggplot_converter
 
   - title: Grouped variants of primary functions
     desc:  Convenience functions to run the main functions repeatedly across all levels of a single grouping variable.
@@ -40,6 +37,8 @@ reference:
       - "%>%"
       - "%<>%"
       - "%$%"
+      - "%||%"
+      - "%|%"
 
   - title: Helper functions (messages)
     desc:  Simple function to display messages from tests carried out to check statistical assumptions of tests.
@@ -49,7 +48,6 @@ reference:
   - title: Miscellaneous
     desc: Sundry of helpful statistical functions.
     contents:
-      - pairwise_p
       - subtitle_meta_parametric
 
   - title: Themes used

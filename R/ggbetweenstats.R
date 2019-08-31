@@ -126,11 +126,11 @@
 #' @importFrom crayon blue green red yellow
 #' @importFrom paletteer scale_color_paletteer_d scale_fill_paletteer_d
 #' @importFrom ggsignif geom_signif
-#' @importFrom purrrlyr by_row
 #' @importFrom statsExpressions bf_ttest bf_oneway_anova
+#' @importFrom pairwiseComparisons pairwise_comparisons pairwise_comparisons_caption
 #'
 #' @seealso \code{\link{grouped_ggbetweenstats}}, \code{\link{ggwithinstats}},
-#'  \code{\link{grouped_ggwithinstats}}, \code{\link{pairwise_p}}
+#'  \code{\link{grouped_ggwithinstats}}
 #'
 #' @details
 #' For parametric tests, Welch's ANOVA/*t*-test are used as a default (i.e.,
@@ -157,7 +157,7 @@
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html}
 #'
 #' @examples
-#'
+#' \donttest{
 #' # to get reproducible results from bootstrapping
 #' set.seed(123)
 #' library(ggstatsplot)
@@ -170,7 +170,7 @@
 #'   title = "Fuel efficiency by type of car transmission",
 #'   caption = "Transmission (0 = automatic, 1 = manual)"
 #' )
-#' \donttest{
+#'
 #' # more detailed function call
 #' ggstatsplot::ggbetweenstats(
 #'   data = datasets::morley,
@@ -539,7 +539,7 @@ ggbetweenstats <- function(data,
   if (isTRUE(pairwise.comparisons) && test == "anova") {
     # creating dataframe with pairwise comparison results
     df_pairwise <-
-      pairwise_p(
+      pairwiseComparisons::pairwise_comparisons(
         data = data,
         x = {{ x }},
         y = {{ y }},
@@ -568,7 +568,7 @@ ggbetweenstats <- function(data,
 
     # preparing the caption for pairwise comparisons test
     caption <-
-      pairwise_p_caption(
+      pairwiseComparisons::pairwise_comparisons_caption(
         type = type,
         var.equal = var.equal,
         paired = FALSE,

@@ -1,12 +1,15 @@
-# ggstatsplot 0.1.0
+# ggstatsplot 0.1.1
 
 ANNOUNCEMENTS
 
 `ggstatsplot` is undergoing *conscious uncoupling* whereby all the statistical
-processing functions are being moved to a new package called `statsExpressions`.
-This new package will act as a backend that handles all things statistical
-processing. This **will not** affect the end users of `ggstatsplot` unless you
-have been using the helper functions. 
+processing functions that make stats subtitles are being moved to a new package
+called `statsExpressions`. This new package will act as a backend that handles
+all things statistical processing. This **will not** affect the end users of
+`ggstatsplot` unless you have been using the helper functions.
+
+Additionally, multiple pairwise comparison tests are being moved to an
+independent package called `pairwiseComparisons`.
 
 This uncoupling is designed to achieve two things:
 
@@ -29,6 +32,9 @@ BREAKING CHANGES
 MAJOR CHANGES
 
   - Major refactoring to reduce the codesize and to rely fully on `rlang`.
+  - There was confusion about what did the red point in `ggbetweenstats` and
+    `ggbetweenstats` plots represents. Now the label also contains $\mu$ to
+    highlight that what is being displayed is a mean value.
   - To be consistent with the rest of the functions, `ggpiestats` and
     `ggbarstats` now uses the following aliases for arguments: `x` for `main`
     and `y` for `condition`. This change is backward-compatible and should not
@@ -48,8 +54,8 @@ MINOR CHANGES
     present in the data.
   - `ggstatsplot` now uses `rcompanion` to compute Spearman's *rho* and
     Kendall's *W*. Therefore, `DescTools` is removed from dependencies.
-  - `ggcoefstats` supports following objects: `lme`, `mclogit`, `mmclogit`,
-    `wblm`.
+  - `ggcoefstats` supports following objects: `bglmerMod`, `blmerMod`, `lme`,
+    `mclogit`, `mmclogit`, `tobit`, `wblm`.
   - `ggcoefstats` now respects `conf.int`. It internally always defaulted to
     `conf.int = TRUE` in `broom::tidy` irrespective of what was specified by the
     user.
@@ -58,6 +64,10 @@ MINOR CHANGES
     more detailed results from a goodness of fit (gof) test. No such change is
     made for `ggbarstats` because there is no space to include more details
     above the bar.
+  - Removed `conf.method` and `conf.type` arguments for `ggcoefstats`. Also,
+    `p.kr` argument removed because `ggcoefstats` will begin to rely on
+    `parameters` instead of `sjstats` package to compute *p*-values for some
+    regression models.
 
 # ggstatsplot 0.0.12
 

@@ -5,7 +5,10 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 notes
 
-  - Bug fix and maintenance release with some minor code refactoring.
-  - Makes the package compatible with `metaBMA` package updates.
+  - I am getting 1 `NOTE` on Windows machines about the installed size being
+    bigger than 5 MB. This is because of the images included in `README`.
+  - Skipping a number of tests to reduce the check time on `CRAN` machines to be
+    less than 10 minutes.
+  - Makes `ggstatsplot` compatible with the upcoming release of `tidyr`.
