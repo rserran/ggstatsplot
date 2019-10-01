@@ -4,22 +4,51 @@
 \alias{ggpiestats}
 \title{Pie charts with statistical tests}
 \usage{
-ggpiestats(data, main, condition = NULL, counts = NULL, ratio = NULL,
-  paired = FALSE, results.subtitle = TRUE, factor.levels = NULL,
-  stat.title = NULL, sample.size.label = TRUE,
-  label.separator = "\\n", label.text.size = 4,
-  label.fill.color = "white", label.fill.alpha = 1,
-  bf.message = TRUE, sampling.plan = "indepMulti",
-  fixed.margin = "rows", prior.concentration = 1, title = NULL,
-  subtitle = NULL, caption = NULL, conf.level = 0.95,
-  bf.prior = 0.707, nboot = 100, simulate.p.value = FALSE,
-  B = 2000, bias.correct = FALSE, legend.title = NULL,
-  facet.wrap.name = NULL, k = 2, perc.k = 0,
-  slice.label = "percentage", facet.proptest = TRUE,
-  ggtheme = ggplot2::theme_bw(), ggstatsplot.layer = TRUE,
-  package = "RColorBrewer", palette = "Dark2", direction = 1,
-  ggplot.component = NULL, return = "plot", messages = TRUE,
-  x = NULL, y = NULL)
+ggpiestats(
+  data,
+  main,
+  condition = NULL,
+  counts = NULL,
+  ratio = NULL,
+  paired = FALSE,
+  results.subtitle = TRUE,
+  factor.levels = NULL,
+  stat.title = NULL,
+  sample.size.label = TRUE,
+  label.separator = "\\n",
+  label.text.size = 4,
+  label.fill.color = "white",
+  label.fill.alpha = 1,
+  bf.message = TRUE,
+  sampling.plan = "indepMulti",
+  fixed.margin = "rows",
+  prior.concentration = 1,
+  title = NULL,
+  subtitle = NULL,
+  caption = NULL,
+  conf.level = 0.95,
+  bf.prior = 0.707,
+  nboot = 100,
+  simulate.p.value = FALSE,
+  B = 2000,
+  bias.correct = FALSE,
+  legend.title = NULL,
+  facet.wrap.name = NULL,
+  k = 2,
+  perc.k = 0,
+  slice.label = "percentage",
+  facet.proptest = TRUE,
+  ggtheme = ggplot2::theme_bw(),
+  ggstatsplot.layer = TRUE,
+  package = "RColorBrewer",
+  palette = "Dark2",
+  direction = 1,
+  ggplot.component = NULL,
+  return = "plot",
+  messages = TRUE,
+  x = NULL,
+  y = NULL
+)
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
@@ -58,7 +87,7 @@ should be displayed for each level of the grouping variable \code{y}
 \item{label.separator}{If \code{"both"} counts and proportion information is to be
 displayed in a label, this argument decides whether these two pieces of
 information are going to be on the same line (\code{" "}) or on separate lines
-(\code{"\n"}).}
+(\code{"\\n"}).}
 
 \item{label.text.size}{Numeric that decides text size for slice/bar labels
 (Default: \code{4}).}
@@ -230,7 +259,4 @@ ggstatsplot::ggpiestats(
 \seealso{
 \code{\link{grouped_ggpiestats}}, \code{\link{ggbarstats}},
 \code{\link{grouped_ggbarstats}}
-}
-\author{
-\href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 }

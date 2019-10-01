@@ -4,9 +4,13 @@
 \alias{cat_label_df}
 \title{Summary dataframe for categorical variables.}
 \usage{
-cat_label_df(data, label.col.name = "slice.label",
-  label.content = "percentage", label.separator = c("\\n", " "),
-  perc.k = 1)
+cat_label_df(
+  data,
+  label.col.name = "slice.label",
+  label.content = "percentage",
+  label.separator = c("\\n", " "),
+  perc.k = 1
+)
 }
 \arguments{
 \item{data}{A dataframe containing summaries for categorical variables.
@@ -23,7 +27,7 @@ on the label in each pie or bar slice. Possible options are \code{"percentage"}
 \item{label.separator}{If \code{"both"} counts and proportion information is to be
 displayed in a label, this argument decides whether these two pieces of
 information are going to be on the same line (\code{" "}) or on separate lines
-(\code{"\n"}).}
+(\code{"\\n"}).}
 
 \item{perc.k}{Numeric that decides number of decimal places for percentage
 labels (Default: \code{0}).}
@@ -41,8 +45,5 @@ ggstatsplot:::cat_label_df(
   label.content = "both",
   perc.k = 1
 )
-}
-\author{
-Indrajeet Patil
 }
 \keyword{internal}

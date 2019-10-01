@@ -5,22 +5,59 @@
 \title{Scatterplot with marginal distributions for all levels of a grouping
 variable}
 \usage{
-grouped_ggscatterstats(data, x, y, grouping.var, type = "pearson",
-  conf.level = 0.95, bf.prior = 0.707, bf.message = TRUE,
-  label.var = NULL, label.expression = NULL, title.prefix = NULL,
-  xlab = NULL, ylab = NULL, method = "lm", method.args = list(),
-  formula = y ~ x, point.color = "black", point.size = 3,
-  point.alpha = 0.4, line.size = 1.5, point.width.jitter = 0,
-  point.height.jitter = 0, line.color = "blue", marginal = TRUE,
-  marginal.type = "histogram", marginal.size = 5, margins = c("both",
-  "x", "y"), package = "wesanderson", palette = "Royal1",
-  direction = 1, xfill = "#009E73", yfill = "#D55E00", xalpha = 1,
-  yalpha = 1, xsize = 0.7, ysize = 0.7, centrality.para = NULL,
-  results.subtitle = TRUE, stat.title = NULL, caption = NULL,
-  subtitle = NULL, nboot = 100, beta = 0.1, k = 2,
-  axes.range.restrict = FALSE, ggtheme = ggplot2::theme_bw(),
-  ggstatsplot.layer = TRUE, ggplot.component = NULL, return = "plot",
-  messages = TRUE, ...)
+grouped_ggscatterstats(
+  data,
+  x,
+  y,
+  grouping.var,
+  type = "pearson",
+  conf.level = 0.95,
+  bf.prior = 0.707,
+  bf.message = TRUE,
+  label.var = NULL,
+  label.expression = NULL,
+  title.prefix = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  method = "lm",
+  method.args = list(),
+  formula = y ~ x,
+  point.color = "black",
+  point.size = 3,
+  point.alpha = 0.4,
+  line.size = 1.5,
+  point.width.jitter = 0,
+  point.height.jitter = 0,
+  line.color = "blue",
+  marginal = TRUE,
+  marginal.type = "histogram",
+  marginal.size = 5,
+  margins = c("both", "x", "y"),
+  package = "wesanderson",
+  palette = "Royal1",
+  direction = 1,
+  xfill = "#009E73",
+  yfill = "#D55E00",
+  xalpha = 1,
+  yalpha = 1,
+  xsize = 0.7,
+  ysize = 0.7,
+  centrality.para = NULL,
+  results.subtitle = TRUE,
+  stat.title = NULL,
+  caption = NULL,
+  subtitle = NULL,
+  nboot = 100,
+  beta = 0.1,
+  k = 2,
+  axes.range.restrict = FALSE,
+  ggtheme = ggplot2::theme_bw(),
+  ggstatsplot.layer = TRUE,
+  ggplot.component = NULL,
+  return = "plot",
+  messages = TRUE,
+  ...
+)
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
@@ -106,11 +143,11 @@ function defined by \code{method}.}
 \item{line.size}{Size for the regression line.}
 
 \item{point.width.jitter}{Degree of jitter in \code{x} and \code{y}
-direction, respectively. Defaults to \code{0} (0%) of the resolution of the
+direction, respectively. Defaults to \code{0} (0\%) of the resolution of the
 data.}
 
 \item{point.height.jitter}{Degree of jitter in \code{x} and \code{y}
-direction, respectively. Defaults to \code{0} (0%) of the resolution of the
+direction, respectively. Defaults to \code{0} (0\%) of the resolution of the
 data.}
 
 \item{line.color}{color for the regression line.}
@@ -161,7 +198,8 @@ default is \code{1} for both axes.}
 
 \item{centrality.para}{Decides \emph{which} measure of central tendency (\code{"mean"}
 or \code{"median"}) is to be displayed as vertical (for \code{x}) and horizontal (for
-\code{y}) lines.}
+\code{y}) lines. Note that mean values corresponds to arithmetic mean and not
+geometric mean.}
 
 \item{results.subtitle}{Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
@@ -217,54 +255,55 @@ about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 \item{messages}{Decides whether messages references, notes, and warnings are
 to be displayed (Default: \code{TRUE}).}
 
-\item{...}{Arguments passed on to \code{combine_plots}
-\describe{
-  \item{title.text}{String or plotmath expression to be drawn as title for the
+\item{...}{
+  Arguments passed on to \code{\link[=combine_plots]{combine_plots}}
+  \describe{
+    \item{\code{title.text}}{String or plotmath expression to be drawn as title for the
 \emph{combined plot}.}
-  \item{title.color}{Text color for title.}
-  \item{title.size}{Point size of title text.}
-  \item{title.vjust}{Vertical justification for title. Default = \code{0.5}
+    \item{\code{title.color}}{Text color for title.}
+    \item{\code{title.size}}{Point size of title text.}
+    \item{\code{title.vjust}}{Vertical justification for title. Default = \code{0.5}
 (centered on \code{y}). \code{0} = baseline at \code{y}, \code{1} = ascender at \code{y}.}
-  \item{title.hjust}{Horizontal justification for title. Default = \code{0.5}
+    \item{\code{title.hjust}}{Horizontal justification for title. Default = \code{0.5}
 (centered on \code{x}). \code{0} = flush-left at x, \code{1} = flush-right.}
-  \item{title.fontface}{The font face (\code{"plain"}, \code{"bold"} (default),
+    \item{\code{title.fontface}}{The font face (\code{"plain"}, \code{"bold"} (default),
 \code{"italic"}, \code{"bold.italic"}) for title.}
-  \item{caption.text}{String or plotmath expression to be drawn as the caption
+    \item{\code{caption.text}}{String or plotmath expression to be drawn as the caption
 for the \emph{combined plot}.}
-  \item{caption.color}{Text color for caption.}
-  \item{caption.size}{Point size of title text.}
-  \item{caption.vjust}{Vertical justification for caption. Default = \code{0.5}
+    \item{\code{caption.color}}{Text color for caption.}
+    \item{\code{caption.size}}{Point size of title text.}
+    \item{\code{caption.vjust}}{Vertical justification for caption. Default = \code{0.5}
 (centered on y). \code{0} = baseline at y, \code{1} = ascender at y.}
-  \item{caption.hjust}{Horizontal justification for caption. Default = \code{0.5}
+    \item{\code{caption.hjust}}{Horizontal justification for caption. Default = \code{0.5}
 (centered on x). \code{0} = flush-left at x, \code{1} = flush-right.}
-  \item{caption.fontface}{The font face (\code{"plain"} (default), \code{"bold"},
+    \item{\code{caption.fontface}}{The font face (\code{"plain"} (default), \code{"bold"},
 \code{"italic"}, \code{"bold.italic"}) for caption.}
-  \item{sub.text}{The label with which the \emph{combined plot} should be annotated.
+    \item{\code{sub.text}}{The label with which the \emph{combined plot} should be annotated.
 Can be a plotmath expression.}
-  \item{sub.color}{Text color for annotation label (Default: \code{"black"}).}
-  \item{sub.size}{Point size of annotation text (Default: \code{12}).}
-  \item{sub.x}{The x position of annotation label (Default: \code{0.5}).}
-  \item{sub.y}{The y position of annotation label (Default: \code{0.5}).}
-  \item{sub.hjust}{Horizontal justification for annotation label (Default:
+    \item{\code{sub.color}}{Text color for annotation label (Default: \code{"black"}).}
+    \item{\code{sub.size}}{Point size of annotation text (Default: \code{12}).}
+    \item{\code{sub.x}}{The x position of annotation label (Default: \code{0.5}).}
+    \item{\code{sub.y}}{The y position of annotation label (Default: \code{0.5}).}
+    \item{\code{sub.hjust}}{Horizontal justification for annotation label (Default:
 \code{0.5}).}
-  \item{sub.vjust}{Vertical justification for annotation label (Default:
+    \item{\code{sub.vjust}}{Vertical justification for annotation label (Default:
 \code{0.5}).}
-  \item{sub.vpadding}{Vertical padding. The total vertical space added to the
+    \item{\code{sub.vpadding}}{Vertical padding. The total vertical space added to the
 label, given in grid units. By default, this is added equally above and
 below the label. However, by changing the y and vjust parameters, this can
 be changed (Default: \code{grid::unit(1, "lines")}).}
-  \item{sub.fontface}{The font face (\code{"plain"} (default), \code{"bold"}, \code{"italic"},
+    \item{\code{sub.fontface}}{The font face (\code{"plain"} (default), \code{"bold"}, \code{"italic"},
 \code{"bold.italic"}) for the annotation label.}
-  \item{sub.angle}{Angle at which annotation label is to be drawn (Default:
+    \item{\code{sub.angle}}{Angle at which annotation label is to be drawn (Default:
 \code{0}).}
-  \item{sub.lineheight}{Line height of annotation label.}
-  \item{title.caption.rel.heights}{Numerical vector of relative columns heights
+    \item{\code{sub.lineheight}}{Line height of annotation label.}
+    \item{\code{title.caption.rel.heights}}{Numerical vector of relative columns heights
 while combining (title, plot, caption).}
-  \item{title.rel.heights}{Numerical vector of relative columns heights while
+    \item{\code{title.rel.heights}}{Numerical vector of relative columns heights while
 combining (title, plot).}
-  \item{caption.rel.heights}{Numerical vector of relative columns heights while
+    \item{\code{caption.rel.heights}}{Numerical vector of relative columns heights while
 combining (plot, caption).}
-}}
+  }}
 }
 \description{
 Grouped scatterplots from \code{ggplot2} combined with marginal
@@ -333,7 +372,4 @@ ggstatsplot::grouped_ggscatterstats(
 \seealso{
 \code{\link{ggscatterstats}}, \code{\link{ggcorrmat}},
 \code{\link{grouped_ggcorrmat}}
-}
-\author{
-Indrajeet Patil
 }

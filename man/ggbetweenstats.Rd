@@ -5,27 +5,65 @@
 \title{Box/Violin plots for group or condition comparisons in
 between-subjects designs.}
 \usage{
-ggbetweenstats(data, x, y, plot.type = "boxviolin",
-  type = "parametric", pairwise.comparisons = FALSE,
-  pairwise.annotation = "p.value", pairwise.display = "significant",
-  p.adjust.method = "holm", effsize.type = "unbiased",
-  partial = TRUE, effsize.noncentral = TRUE, bf.prior = 0.707,
-  bf.message = TRUE, results.subtitle = TRUE, xlab = NULL,
-  ylab = NULL, caption = NULL, title = NULL, subtitle = NULL,
-  stat.title = NULL, sample.size.label = TRUE, k = 2,
-  var.equal = FALSE, conf.level = 0.95, nboot = 100, tr = 0.1,
-  sort = "none", sort.fun = mean, axes.range.restrict = FALSE,
-  mean.label.size = 3, mean.label.fontface = "bold",
-  mean.label.color = "black", notch = FALSE, notchwidth = 0.5,
-  linetype = "solid", outlier.tagging = FALSE, outlier.shape = 19,
-  outlier.label = NULL, outlier.label.color = "black",
-  outlier.color = "black", outlier.coef = 1.5, mean.plotting = TRUE,
-  mean.ci = FALSE, mean.size = 5, mean.color = "darkred",
-  point.jitter.width = NULL, point.jitter.height = 0,
-  point.dodge.width = 0.6, ggtheme = ggplot2::theme_bw(),
-  ggstatsplot.layer = TRUE, package = "RColorBrewer",
-  palette = "Dark2", direction = 1, ggplot.component = NULL,
-  return = "plot", messages = TRUE)
+ggbetweenstats(
+  data,
+  x,
+  y,
+  plot.type = "boxviolin",
+  type = "parametric",
+  pairwise.comparisons = FALSE,
+  pairwise.annotation = "p.value",
+  pairwise.display = "significant",
+  p.adjust.method = "holm",
+  effsize.type = "unbiased",
+  partial = TRUE,
+  effsize.noncentral = TRUE,
+  bf.prior = 0.707,
+  bf.message = TRUE,
+  results.subtitle = TRUE,
+  xlab = NULL,
+  ylab = NULL,
+  caption = NULL,
+  title = NULL,
+  subtitle = NULL,
+  stat.title = NULL,
+  sample.size.label = TRUE,
+  k = 2,
+  var.equal = FALSE,
+  conf.level = 0.95,
+  nboot = 100,
+  tr = 0.1,
+  sort = "none",
+  sort.fun = mean,
+  axes.range.restrict = FALSE,
+  mean.label.size = 3,
+  mean.label.fontface = "bold",
+  mean.label.color = "black",
+  notch = FALSE,
+  notchwidth = 0.5,
+  linetype = "solid",
+  outlier.tagging = FALSE,
+  outlier.shape = 19,
+  outlier.label = NULL,
+  outlier.label.color = "black",
+  outlier.color = "black",
+  outlier.coef = 1.5,
+  mean.plotting = TRUE,
+  mean.ci = FALSE,
+  mean.size = 5,
+  mean.color = "darkred",
+  point.jitter.width = NULL,
+  point.jitter.height = 0,
+  point.dodge.width = 0.6,
+  ggtheme = ggplot2::theme_bw(),
+  ggstatsplot.layer = TRUE,
+  package = "RColorBrewer",
+  palette = "Dark2",
+  direction = 1,
+  ggplot.component = NULL,
+  return = "plot",
+  messages = TRUE
+)
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
@@ -149,7 +187,7 @@ the label displaying mean. Defaults: \code{3}, \code{"bold"},\code{"black"}, res
 displayed. If \code{TRUE}, a notched box plot will be used. Notches are used to
 compare groups; if the notches of two boxes do not overlap, this suggests
 that the medians are significantly different. In a notched box plot, the
-notches extend \code{1.58 * IQR / sqrt(n)}. This gives a roughly \code{95\%}
+notches extend \code{1.58 * IQR / sqrt(n)}. This gives a roughly \verb{95\%}
 confidence interval for comparing medians. IQR: Inter-Quartile Range.}
 
 \item{notchwidth}{For a notched box plot, width of the notch relative to the
@@ -184,7 +222,7 @@ Quartile) \code{outlier.coef} times the Inter-Quartile Range (IQR) (Default:
 \item{mean.plotting}{Logical that decides whether mean is to be highlighted
 and its value to be displayed (Default: \code{TRUE}).}
 
-\item{mean.ci}{Logical that decides whether \code{95\%} confidence interval for
+\item{mean.ci}{Logical that decides whether \verb{95\%} confidence interval for
 mean is to be displayed (Default: \code{FALSE}).}
 
 \item{mean.size}{Point size for the data point corresponding to mean
@@ -194,7 +232,7 @@ mean is to be displayed (Default: \code{FALSE}).}
 \code{"darkred"}).}
 
 \item{point.jitter.width}{Numeric specifying the degree of jitter in \code{x}
-direction. Defaults to \code{40\%} of the resolution of the data.}
+direction. Defaults to \verb{40\%} of the resolution of the data.}
 
 \item{point.jitter.height}{Numeric specifying the degree of jitter in \code{y}
 direction. Defaults to \code{0.1}.}
@@ -307,7 +345,4 @@ ggstatsplot::ggbetweenstats(
 \seealso{
 \code{\link{grouped_ggbetweenstats}}, \code{\link{ggwithinstats}},
 \code{\link{grouped_ggwithinstats}}
-}
-\author{
-\href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 }

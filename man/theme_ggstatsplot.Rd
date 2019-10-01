@@ -5,8 +5,7 @@
 \alias{theme_mprl}
 \title{Default theme used in all \code{ggstatsplot} package plots}
 \usage{
-theme_ggstatsplot(ggtheme = ggplot2::theme_bw(),
-  ggstatsplot.layer = TRUE)
+theme_ggstatsplot(ggtheme = ggplot2::theme_bw(), ggstatsplot.layer = TRUE)
 
 theme_mprl(ggtheme = ggplot2::theme_bw(), ggstatsplot.layer = TRUE)
 }
@@ -31,7 +30,4 @@ user/reader.
 }
 \references{
 \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/theme_ggstatsplot.html}
-}
-\author{
-\href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 }

@@ -1,6 +1,5 @@
 #' @title Dot-and-whisker plots for regression analyses
 #' @name ggcoefstats
-#' @author \href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 #' @return Plot with the regression coefficients' point estimates as dots with
 #'   confidence interval whiskers and other statistical details included as
 #'   labels.
@@ -159,7 +158,6 @@
 #' @importFrom dplyr select bind_rows summarize mutate mutate_at mutate_if n
 #' @importFrom dplyr group_by arrange full_join vars matches desc everything
 #' @importFrom dplyr vars all_vars filter_at starts_with row_number
-#' @importFrom purrrlyr by_row
 #' @importFrom stats as.formula lm confint qnorm p.adjust
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom grid unit
@@ -167,6 +165,7 @@
 #' @importFrom tibble as_tibble rownames_to_column
 #' @importFrom tidyr unite
 #' @importFrom groupedstats lm_effsize_standardizer
+#' @importFrom insight is_model
 #'
 #' @references
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
@@ -377,17 +376,6 @@ ggcoefstats <- function(x,
 
   # =================== list of objects (for tidy and glance) ================
 
-  # dataframe objects
-  df.mods <- c(
-    "data.frame",
-    "data.table",
-    "grouped_df",
-    "tbl",
-    "tbl_df",
-    "spec_tbl_df",
-    "resampled_df"
-  )
-
   # creating a list of objects which will have fixed and random "effects"
   # only fixed effects will be selected
   mixed.mods <-
@@ -395,6 +383,7 @@ ggcoefstats <- function(x,
       "bglmerMod",
       "blmerMod",
       "brmsfit",
+      "brmsfit_multiple",
       "gamlss",
       "glmmadmb",
       "glmerMod",
@@ -434,108 +423,100 @@ ggcoefstats <- function(x,
   glance_df <- broomExtra::glance(x)
 
   # if the object is not a dataframe, check if summary caption is to be displayed
-  if (!class(x)[[1]] %in% df.mods) {
+  if (isTRUE(insight::is_model(x))) {
     # if glance is not available, inform the user
-    if (is.null(glance_df) && output == "plot") {
+    if (is.null(glance_df) || !all(c("logLik", "AIC", "BIC") %in% names(glance_df))) {
+      # inform the user
       message(cat(
         crayon::green("Note: "),
-        crayon::blue(
-          "No model diagnostics information available for the object of class",
-          crayon::yellow(class(x)[[1]]),
-          ".\n"
-        ),
+        crayon::blue("No model diagnostics information available, so skipping caption.\n"),
         sep = ""
       ))
 
       # and skip the caption
       caption.summary <- FALSE
-    } else {
-      # if glance is not null, but the needed metric are not available, skip caption
-      if (!all(c("logLik", "AIC", "BIC") %in% names(glance_df))) {
-        caption.summary <- FALSE
-      }
     }
   }
 
   # ============================= dataframe ===============================
 
-  if (class(x)[[1]] %in% df.mods) {
+  if (isFALSE(insight::is_model(x))) {
     # set tidy_df to entered dataframe
     tidy_df <- tibble::as_tibble(x)
 
-    # check that statistic is specified
+    # check that `statistic` is specified
     if (rlang::is_null(statistic)) {
-      message(cat(
-        crayon::red("Note"),
-        crayon::blue(
-          ": For the object of class",
-          crayon::yellow(class(x)[[1]]),
-          ", the argument `statistic` is not specified ('t', 'z', or 'f').\n",
-          "Statistical labels will therefore be skipped.\n"
-        ),
-        sep = ""
-      ))
-
       # skip labels
       stats.labels <- FALSE
-    }
-    # =========================== broom.mixed tidiers =======================
-  } else if (class(x)[[1]] %in% mixed.mods) {
-    # getting tidy output using `broom.mixed`
-    tidy_df <-
-      broomExtra::tidy(
-        x = x,
-        conf.int = conf.int,
-        # exponentiate = exponentiate,
-        conf.level = conf.level,
-        effects = "fixed",
-        scales = scales,
-        ...
-      )
 
-    # ====================== tidying F-statistic objects ===================
-  } else if (class(x)[[1]] %in% f.mods) {
-    # creating dataframe
-    tidy_df <-
-      groupedstats::lm_effsize_standardizer(
-        object = x,
-        effsize = effsize,
-        partial = partial,
-        conf.level = conf.level,
-        nboot = nboot
-      ) %>%
-      dplyr::rename(.data = ., statistic = F.value)
-
-    # renaming the `xlab` according to the estimate chosen
-    if (effsize == "eta") {
-      if (isTRUE(partial)) {
-        xlab <- "partial eta-squared"
-      } else {
-        xlab <- "eta-squared"
+      # inform the user
+      if (output == "plot") {
+        message(cat(
+          crayon::red("Note"),
+          crayon::blue(": For the object of class"),
+          crayon::yellow(class(x)[[1]]),
+          crayon::blue(", the argument `statistic` must be specified ('t', 'z', or 'f').\n"),
+          crayon::blue("Statistical labels will therefore be skipped.\n"),
+          sep = ""
+        ))
       }
     }
+  }
 
-    if (effsize == "omega") {
+  # =========================== broom.mixed tidiers =======================
+
+  if (isTRUE(insight::is_model(x))) {
+    if (class(x)[[1]] %in% mixed.mods) {
+      # getting tidy output using `broom.mixed`
+      tidy_df <-
+        broomExtra::tidy(
+          x = x,
+          conf.int = conf.int,
+          # exponentiate = exponentiate,
+          conf.level = conf.level,
+          effects = "fixed",
+          scales = scales,
+          ...
+        )
+
+      # ====================== tidying F-statistic objects ===================
+    } else if (class(x)[[1]] %in% f.mods) {
+      # creating dataframe
+      tidy_df <-
+        groupedstats::lm_effsize_standardizer(
+          object = x,
+          effsize = effsize,
+          partial = partial,
+          conf.level = conf.level,
+          nboot = nboot
+        ) %>%
+        dplyr::rename(.data = ., statistic = F.value)
+
+      # prefix for effect size
       if (isTRUE(partial)) {
-        xlab <- "partial omega-squared"
+        effsize.prefix <- "partial"
       } else {
-        xlab <- "omega-squared"
+        effsize.prefix <- NULL
       }
+
+      # renaming the `xlab` according to the estimate chosen
+      xlab <- paste(effsize.prefix, " ", effsize, "-squared", sep = "")
+
+      # ==================== tidying everything else ===========================
+    } else {
+      tidy_df <-
+        broomExtra::tidy(
+          x = x,
+          conf.int = conf.int,
+          conf.level = conf.level,
+          se.type = se.type,
+          by_class = by.class,
+          component = component,
+          # exponentiate = exponentiate,
+          parametric = TRUE, # relevant for `gam` objects
+          ...
+        )
     }
-    # ==================== tidying everything else ===========================
-  } else {
-    tidy_df <-
-      broomExtra::tidy(
-        x = x,
-        conf.int = conf.int,
-        conf.level = conf.level,
-        se.type = se.type,
-        by_class = by.class,
-        component = component,
-        # exponentiate = exponentiate,
-        parametric = TRUE, # relevant for `gam` objects
-        ...
-      )
   }
 
   # =================== tidy dataframe cleanup ================================
@@ -594,7 +575,7 @@ ggcoefstats <- function(x,
       tidyr::unite(
         data = .,
         col = "term",
-        dplyr::matches("term|variable|parameter|method|curveid|response"),
+        dplyr::matches("term|variable|parameter|method|curveid|curve|response"),
         remove = TRUE,
         sep = "_"
       )
@@ -613,7 +594,7 @@ ggcoefstats <- function(x,
   # =================== p-value computation ==================================
 
   # p-values won't be computed by default for some of the models
-  if (!class(x)[[1]] %in% df.mods && !"p.value" %in% names(tidy_df)) {
+  if (isTRUE(insight::is_model(x)) && !"p.value" %in% names(tidy_df)) {
     # use `sjstats` S3 methods to add them to the tidy dataframe
     tryCatch(
       expr = tidy_df %<>%
@@ -650,11 +631,8 @@ ggcoefstats <- function(x,
     if (output == "plot") {
       message(cat(
         crayon::green("Note: "),
-        crayon::blue(
-          "No p-values and/or statistic available for regression coefficients from",
-          crayon::yellow(class(x)[[1]]),
-          "object; \nskipping labels with stats.\n"
-        ),
+        crayon::blue("No p-values and/or statistic available for the model object;"),
+        crayon::blue("\nskipping labels with stats.\n"),
         sep = ""
       ))
     }
@@ -680,11 +658,7 @@ ggcoefstats <- function(x,
     } else {
       # add NAs so that only dots will be shown
       tidy_df %<>%
-        dplyr::mutate(
-          .data = .,
-          conf.low = NA_character_,
-          conf.high = NA_character_
-        )
+        dplyr::mutate(.data = ., conf.low = NA_character_, conf.high = NA_character_)
 
       # stop displaying whiskers
       conf.int <- FALSE
@@ -692,11 +666,8 @@ ggcoefstats <- function(x,
       # inform the user that skipping labels for the same reason
       message(cat(
         crayon::green("Note: "),
-        crayon::blue(
-          "No confidence intervals available for regression coefficients from",
-          crayon::yellow(class(x)[[1]]),
-          "object, so skipping whiskers in the plot.\n"
-        ),
+        crayon::blue("No confidence intervals available for regression coefficients"),
+        crayon::blue("object, so skipping whiskers in the plot.\n"),
         sep = ""
       ))
     }
@@ -731,9 +702,7 @@ ggcoefstats <- function(x,
     tidy_df %<>%
       dplyr::mutate_at(
         .tbl = .,
-        .vars = dplyr::vars(dplyr::matches(
-          match = "estimate|conf", ignore.case = TRUE
-        )),
+        .vars = dplyr::vars(dplyr::matches(match = "estimate|conf", ignore.case = TRUE)),
         .funs = ~ exp(x = .)
       )
   }
@@ -760,7 +729,9 @@ ggcoefstats <- function(x,
   # adding a column with labels to be used with `ggrepel`
   if (isTRUE(stats.labels)) {
     # in case a dataframe was entered, `x` and `tidy_df` are going to be same
-    if (class(x)[[1]] %in% df.mods) x <- tidy_df
+    if (isFALSE(insight::is_model(x))) {
+      x <- tidy_df
+    }
 
     # adding a column with labels using custom function
     tidy_df %<>%
@@ -779,14 +750,12 @@ ggcoefstats <- function(x,
 
   # check if meta-analysis is to be run
   if (isTRUE(meta.analytic.effect) && "std.error" %in% names(tidy_df)) {
-    if (dim(dplyr::filter(.data = tidy_df, is.na(std.error)))[[1]] > 0) {
+    if (dim(dplyr::filter(.data = tidy_df, is.na(std.error)))[[1]] > 0L) {
       # inform the user that skipping labels for the same reason
       message(cat(
         crayon::red("Error: "),
-        crayon::blue(
-          "At least one of the values in the `std.error` column is NA.\n",
-          "No meta-analysis will be carried out.\n"
-        ),
+        crayon::blue("At least one of the `std.error` column values is `NA`.\n"),
+        crayon::blue("No meta-analysis will be carried out.\n"),
         sep = ""
       ))
 
@@ -839,59 +808,58 @@ ggcoefstats <- function(x,
   # caption containing model diagnostics
   if (isTRUE(caption.summary)) {
     # for dataframe objects
-    if (class(x)[[1]] %in% df.mods && isTRUE(meta.analytic.effect)) {
+    if (isFALSE(insight::is_model(x)) && isTRUE(meta.analytic.effect)) {
       caption <- caption.meta
     }
 
     # for non-dataframe objects
-    if (!class(x)[[1]] %in% df.mods) {
-      if (!is.na(glance_df$AIC[[1]])) {
-        # preparing caption with model diagnostics
-        caption <-
-          substitute(
-            atop(displaystyle(top.text),
-              expr =
-                paste(
-                  "AIC = ",
-                  AIC,
-                  ", BIC = ",
-                  BIC,
-                  ", log-likelihood = ",
-                  LL
-                )
-            ),
-            env = list(
-              top.text = caption,
-              AIC = specify_decimal_p(x = glance_df$AIC[[1]], k = k.caption.summary),
-              BIC = specify_decimal_p(x = glance_df$BIC[[1]], k = k.caption.summary),
-              LL = specify_decimal_p(x = glance_df$logLik[[1]], k = k.caption.summary)
-            )
+    if (isTRUE(insight::is_model(x)) && !is.na(glance_df$AIC[[1]])) {
+      # preparing caption with model diagnostics
+      caption <-
+        substitute(
+          atop(displaystyle(top.text),
+            expr =
+              paste(
+                "AIC = ",
+                AIC,
+                ", BIC = ",
+                BIC,
+                ", log-likelihood = ",
+                LL
+              )
+          ),
+          env = list(
+            top.text = caption,
+            AIC = specify_decimal_p(x = glance_df$AIC[[1]], k = k.caption.summary),
+            BIC = specify_decimal_p(x = glance_df$BIC[[1]], k = k.caption.summary),
+            LL = specify_decimal_p(x = glance_df$logLik[[1]], k = k.caption.summary)
           )
-      }
+        )
     }
   }
 
   # ========================== sorting ===================================
 
   # whether the term need to be arranged in any specified order
-  tidy_df$term <- as.factor(tidy_df$term)
-  tidy_df %<>% tibble::rownames_to_column(.data = ., var = "rowid")
+  tidy_df %<>%
+    dplyr::mutate(.data = ., term = as.factor(term)) %>%
+    tibble::rownames_to_column(.data = ., var = "rowid")
 
   # sorting factor levels
-  if (sort != "none") {
-    if (sort == "ascending") {
-      new_order <- order(tidy_df$estimate, decreasing = FALSE)
-    } else {
-      new_order <- order(tidy_df$estimate, decreasing = TRUE)
-    }
-  } else {
-    new_order <- order(tidy_df$rowid, decreasing = FALSE)
-  }
+  new_order <-
+    switch(
+      sort,
+      "none" = order(tidy_df$rowid, decreasing = FALSE),
+      "ascending" = order(tidy_df$estimate, decreasing = FALSE),
+      "descending" = order(tidy_df$estimate, decreasing = TRUE),
+      order(tidy_df$rowid, decreasing = FALSE)
+    )
 
   # sorting `term` factor levels according to new sorting order
-  tidy_df$term <- as.character(tidy_df$term)
-  tidy_df$term <- factor(x = tidy_df$term, levels = tidy_df$term[new_order])
-  tidy_df %<>% dplyr::select(.data = ., -rowid)
+  tidy_df %<>%
+    dplyr::mutate(.data = ., term = as.character(term)) %>%
+    dplyr::mutate(.data = ., term = factor(x = term, levels = term[new_order])) %>%
+    dplyr::select(.data = ., -rowid)
 
   # ========================== basic plot ===================================
 
@@ -899,10 +867,7 @@ ggcoefstats <- function(x,
   if (output == "plot") {
     # setting up the basic architecture
     plot <-
-      ggplot2::ggplot(
-        data = tidy_df,
-        mapping = ggplot2::aes(x = estimate, y = factor(term))
-      )
+      ggplot2::ggplot(data = tidy_df, mapping = ggplot2::aes(x = estimate, y = term))
 
     # if needed, adding the vertical line
     if (isTRUE(vline)) {

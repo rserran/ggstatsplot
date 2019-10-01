@@ -4,8 +4,15 @@
 \alias{ggsignif_adder}
 \title{Adding \code{geom_signif} to \code{ggplot}}
 \usage{
-ggsignif_adder(plot, df_pairwise, data, x, y,
-  pairwise.annotation = "p.value", pairwise.display = "significant")
+ggsignif_adder(
+  plot,
+  df_pairwise,
+  data,
+  x,
+  y,
+  pairwise.annotation = "p.value",
+  pairwise.display = "significant"
+)
 }
 \arguments{
 \item{plot}{A \code{ggplot} object on which \code{geom_signif} needed to be added.}
@@ -57,8 +64,5 @@ ggstatsplot:::ggsignif_adder(
   y = Sepal.Length,
   df_pairwise = df_pair
 )
-}
-\author{
-\href{https://github.com/IndrajeetPatil}{Indrajeet Patil}
 }
 \keyword{internal}

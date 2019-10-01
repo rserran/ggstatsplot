@@ -5,20 +5,51 @@
 \title{Visualization of a correlalogram (or correlation matrix) for all
 levels of a grouping variable}
 \usage{
-grouped_ggcorrmat(data, cor.vars = NULL, cor.vars.names = NULL,
-  grouping.var, title.prefix = NULL, output = "plot",
-  matrix.type = "full", method = "square", corr.method = "pearson",
-  type = NULL, exact = FALSE, continuity = TRUE, beta = 0.1,
-  digits = 2, k = NULL, sig.level = 0.05, conf.level = 0.95,
-  p.adjust.method = "none", hc.order = FALSE, hc.method = "complete",
-  lab = TRUE, package = "RColorBrewer", palette = "Dark2",
-  direction = 1, colors = c("#E69F00", "white", "#009E73"),
-  outline.color = "black", ggtheme = ggplot2::theme_bw(),
-  ggstatsplot.layer = TRUE, subtitle = NULL, caption = NULL,
-  caption.default = TRUE, lab.col = "black", lab.size = 5,
-  insig = "pch", pch = 4, pch.col = "black", pch.cex = 11,
-  tl.cex = 12, tl.col = "black", tl.srt = 45, messages = TRUE,
-  return = NULL, ...)
+grouped_ggcorrmat(
+  data,
+  cor.vars = NULL,
+  cor.vars.names = NULL,
+  grouping.var,
+  title.prefix = NULL,
+  output = "plot",
+  matrix.type = "full",
+  method = "square",
+  corr.method = "pearson",
+  type = NULL,
+  exact = FALSE,
+  continuity = TRUE,
+  beta = 0.1,
+  digits = 2,
+  k = NULL,
+  sig.level = 0.05,
+  conf.level = 0.95,
+  p.adjust.method = "none",
+  hc.order = FALSE,
+  hc.method = "complete",
+  lab = TRUE,
+  package = "RColorBrewer",
+  palette = "Dark2",
+  direction = 1,
+  colors = c("#E69F00", "white", "#009E73"),
+  outline.color = "black",
+  ggtheme = ggplot2::theme_bw(),
+  ggstatsplot.layer = TRUE,
+  subtitle = NULL,
+  caption = NULL,
+  caption.default = TRUE,
+  lab.col = "black",
+  lab.size = 5,
+  insig = "pch",
+  pch = 4,
+  pch.col = "black",
+  pch.cex = 11,
+  tl.cex = 12,
+  tl.col = "black",
+  tl.srt = 45,
+  messages = TRUE,
+  return = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{Dataframe from which variables specified are preferentially to be
@@ -184,54 +215,55 @@ confidence intervals for unique correlation pairs; not available for robust
 correlation) or \code{"n"} (or \code{"sample.size"} for a tibble with sample sizes
 for each correlation pair).}
 
-\item{...}{Arguments passed on to \code{combine_plots}
-\describe{
-  \item{title.text}{String or plotmath expression to be drawn as title for the
+\item{...}{
+  Arguments passed on to \code{\link[=combine_plots]{combine_plots}}
+  \describe{
+    \item{\code{title.text}}{String or plotmath expression to be drawn as title for the
 \emph{combined plot}.}
-  \item{title.color}{Text color for title.}
-  \item{title.size}{Point size of title text.}
-  \item{title.vjust}{Vertical justification for title. Default = \code{0.5}
+    \item{\code{title.color}}{Text color for title.}
+    \item{\code{title.size}}{Point size of title text.}
+    \item{\code{title.vjust}}{Vertical justification for title. Default = \code{0.5}
 (centered on \code{y}). \code{0} = baseline at \code{y}, \code{1} = ascender at \code{y}.}
-  \item{title.hjust}{Horizontal justification for title. Default = \code{0.5}
+    \item{\code{title.hjust}}{Horizontal justification for title. Default = \code{0.5}
 (centered on \code{x}). \code{0} = flush-left at x, \code{1} = flush-right.}
-  \item{title.fontface}{The font face (\code{"plain"}, \code{"bold"} (default),
+    \item{\code{title.fontface}}{The font face (\code{"plain"}, \code{"bold"} (default),
 \code{"italic"}, \code{"bold.italic"}) for title.}
-  \item{caption.text}{String or plotmath expression to be drawn as the caption
+    \item{\code{caption.text}}{String or plotmath expression to be drawn as the caption
 for the \emph{combined plot}.}
-  \item{caption.color}{Text color for caption.}
-  \item{caption.size}{Point size of title text.}
-  \item{caption.vjust}{Vertical justification for caption. Default = \code{0.5}
+    \item{\code{caption.color}}{Text color for caption.}
+    \item{\code{caption.size}}{Point size of title text.}
+    \item{\code{caption.vjust}}{Vertical justification for caption. Default = \code{0.5}
 (centered on y). \code{0} = baseline at y, \code{1} = ascender at y.}
-  \item{caption.hjust}{Horizontal justification for caption. Default = \code{0.5}
+    \item{\code{caption.hjust}}{Horizontal justification for caption. Default = \code{0.5}
 (centered on x). \code{0} = flush-left at x, \code{1} = flush-right.}
-  \item{caption.fontface}{The font face (\code{"plain"} (default), \code{"bold"},
+    \item{\code{caption.fontface}}{The font face (\code{"plain"} (default), \code{"bold"},
 \code{"italic"}, \code{"bold.italic"}) for caption.}
-  \item{sub.text}{The label with which the \emph{combined plot} should be annotated.
+    \item{\code{sub.text}}{The label with which the \emph{combined plot} should be annotated.
 Can be a plotmath expression.}
-  \item{sub.color}{Text color for annotation label (Default: \code{"black"}).}
-  \item{sub.size}{Point size of annotation text (Default: \code{12}).}
-  \item{sub.x}{The x position of annotation label (Default: \code{0.5}).}
-  \item{sub.y}{The y position of annotation label (Default: \code{0.5}).}
-  \item{sub.hjust}{Horizontal justification for annotation label (Default:
+    \item{\code{sub.color}}{Text color for annotation label (Default: \code{"black"}).}
+    \item{\code{sub.size}}{Point size of annotation text (Default: \code{12}).}
+    \item{\code{sub.x}}{The x position of annotation label (Default: \code{0.5}).}
+    \item{\code{sub.y}}{The y position of annotation label (Default: \code{0.5}).}
+    \item{\code{sub.hjust}}{Horizontal justification for annotation label (Default:
 \code{0.5}).}
-  \item{sub.vjust}{Vertical justification for annotation label (Default:
+    \item{\code{sub.vjust}}{Vertical justification for annotation label (Default:
 \code{0.5}).}
-  \item{sub.vpadding}{Vertical padding. The total vertical space added to the
+    \item{\code{sub.vpadding}}{Vertical padding. The total vertical space added to the
 label, given in grid units. By default, this is added equally above and
 below the label. However, by changing the y and vjust parameters, this can
 be changed (Default: \code{grid::unit(1, "lines")}).}
-  \item{sub.fontface}{The font face (\code{"plain"} (default), \code{"bold"}, \code{"italic"},
+    \item{\code{sub.fontface}}{The font face (\code{"plain"} (default), \code{"bold"}, \code{"italic"},
 \code{"bold.italic"}) for the annotation label.}
-  \item{sub.angle}{Angle at which annotation label is to be drawn (Default:
+    \item{\code{sub.angle}}{Angle at which annotation label is to be drawn (Default:
 \code{0}).}
-  \item{sub.lineheight}{Line height of annotation label.}
-  \item{title.caption.rel.heights}{Numerical vector of relative columns heights
+    \item{\code{sub.lineheight}}{Line height of annotation label.}
+    \item{\code{title.caption.rel.heights}}{Numerical vector of relative columns heights
 while combining (title, plot, caption).}
-  \item{title.rel.heights}{Numerical vector of relative columns heights while
+    \item{\code{title.rel.heights}}{Numerical vector of relative columns heights while
 combining (title, plot).}
-  \item{caption.rel.heights}{Numerical vector of relative columns heights while
+    \item{\code{caption.rel.heights}}{Numerical vector of relative columns heights while
 combining (plot, caption).}
-}}
+  }}
 }
 \value{
 Correlation matrix plot or correlation coefficient matrix or matrix
@@ -293,7 +325,4 @@ ggstatsplot::grouped_ggcorrmat(
 \seealso{
 \code{\link{ggcorrmat}}, \code{\link{ggscatterstats}},
 \code{\link{grouped_ggscatterstats}}
-}
-\author{
-Indrajeet Patil, Chuck Powell
 }

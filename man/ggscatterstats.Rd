@@ -4,21 +4,57 @@
 \alias{ggscatterstats}
 \title{Scatterplot with marginal distributions and statistical results}
 \usage{
-ggscatterstats(data, x, y, type = "pearson", conf.level = 0.95,
-  bf.prior = 0.707, bf.message = TRUE, label.var = NULL,
-  label.expression = NULL, xlab = NULL, ylab = NULL, method = "lm",
-  method.args = list(), formula = y ~ x, point.color = "black",
-  point.size = 3, point.alpha = 0.4, point.width.jitter = 0,
-  point.height.jitter = 0, line.size = 1.5, line.color = "blue",
-  marginal = TRUE, marginal.type = "histogram", marginal.size = 5,
-  margins = c("both", "x", "y"), package = "wesanderson",
-  palette = "Royal1", direction = 1, xfill = "#009E73",
-  yfill = "#D55E00", xalpha = 1, yalpha = 1, xsize = 0.7,
-  ysize = 0.7, centrality.para = NULL, results.subtitle = TRUE,
-  stat.title = NULL, title = NULL, subtitle = NULL, caption = NULL,
-  nboot = 100, beta = 0.1, k = 2, axes.range.restrict = FALSE,
-  ggtheme = ggplot2::theme_bw(), ggstatsplot.layer = TRUE,
-  ggplot.component = NULL, return = "plot", messages = TRUE)
+ggscatterstats(
+  data,
+  x,
+  y,
+  type = "pearson",
+  conf.level = 0.95,
+  bf.prior = 0.707,
+  bf.message = TRUE,
+  label.var = NULL,
+  label.expression = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  method = "lm",
+  method.args = list(),
+  formula = y ~ x,
+  point.color = "black",
+  point.size = 3,
+  point.alpha = 0.4,
+  point.width.jitter = 0,
+  point.height.jitter = 0,
+  line.size = 1.5,
+  line.color = "blue",
+  marginal = TRUE,
+  marginal.type = "histogram",
+  marginal.size = 5,
+  margins = c("both", "x", "y"),
+  package = "wesanderson",
+  palette = "Royal1",
+  direction = 1,
+  xfill = "#009E73",
+  yfill = "#D55E00",
+  xalpha = 1,
+  yalpha = 1,
+  xsize = 0.7,
+  ysize = 0.7,
+  centrality.para = NULL,
+  results.subtitle = TRUE,
+  stat.title = NULL,
+  title = NULL,
+  subtitle = NULL,
+  caption = NULL,
+  nboot = 100,
+  beta = 0.1,
+  k = 2,
+  axes.range.restrict = FALSE,
+  ggtheme = ggplot2::theme_bw(),
+  ggstatsplot.layer = TRUE,
+  ggplot.component = NULL,
+  return = "plot",
+  messages = TRUE
+)
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
@@ -89,7 +125,7 @@ function defined by \code{method}.}
 (defaults: \code{point.color = "black"}, \code{point.size = 3},\code{point.alpha = 0.4}).}
 
 \item{point.width.jitter, point.height.jitter}{Degree of jitter in \code{x} and \code{y}
-direction, respectively. Defaults to \code{0} (0%) of the resolution of the
+direction, respectively. Defaults to \code{0} (0\%) of the resolution of the
 data.}
 
 \item{line.size}{Size for the regression line.}
@@ -130,7 +166,8 @@ default is \code{1} for both axes.}
 
 \item{centrality.para}{Decides \emph{which} measure of central tendency (\code{"mean"}
 or \code{"median"}) is to be displayed as vertical (for \code{x}) and horizontal (for
-\code{y}) lines.}
+\code{y}) lines. Note that mean values corresponds to arithmetic mean and not
+geometric mean.}
 
 \item{results.subtitle}{Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
@@ -228,7 +265,4 @@ ggstatsplot::ggscatterstats(
 \seealso{
 \code{\link{grouped_ggscatterstats}}, \code{\link{ggcorrmat}},
 \code{\link{grouped_ggcorrmat}}
-}
-\author{
-Indrajeet Patil, Chuck Powell
 }
