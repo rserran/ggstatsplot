@@ -392,7 +392,7 @@
       "@type": "SoftwareApplication",
       "identifier": "metaBMA",
       "name": "metaBMA",
-      "version": ">= 0.6.1",
+      "version": ">= 0.6.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -439,6 +439,19 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=paletteer"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "parameters",
+      "name": "parameters",
+      "version": ">= 0.2.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=parameters"
     },
     {
       "@type": "SoftwareApplication",
@@ -491,19 +504,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=scales"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "sjstats",
-      "name": "sjstats",
-      "version": ">= 0.17.6",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=sjstats"
     },
     {
       "@type": "SoftwareApplication",

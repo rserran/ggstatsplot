@@ -1,5 +1,16 @@
 # ggstatsplot 0.1.2.9000
 
+BUG FIXES
+
+  - `ggbetweenstats` and `ggwithinstats` no longer produce incorrect label if
+    the dataframe already contains a variable named `n` (#317).
+
+MINOR
+
+  - `ggcoefstats` now uses `parameters::p_value` instead of `sjstats::p_value`,
+    as requested by the maintainer of that package.
+  - More models supported in `ggcoefstats`: `bracl`, `brglm2`.
+
 # ggstatsplot 0.1.2
 
 MINOR

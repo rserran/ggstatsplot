@@ -123,7 +123,7 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
 \item{caption}{The text for the plot caption.}
 
 \item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
-\code{95\%} lower and upper confidence intervals (\code{0.95}).}
+\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
 
 \item{bf.prior}{A numeric value between \code{0.5} and \code{2} (default \code{0.707}), the
 prior width to use in calculating Bayes Factors.}
@@ -199,7 +199,8 @@ to be displayed (Default: \code{TRUE}).}
 \item{y, condition}{The variable to use as the \strong{columns} in the contingency
 table. Default is \code{NULL}. If \code{NULL}, one-sample proportion test (a goodness
 of fit test) will be run for the \code{x} variable. Otherwise an appropriate
-association test will be run.}
+association test will be run. This argument can not be \code{NULL} for
+\code{ggbarstats} function.}
 }
 \value{
 Unlike a number of statistical softwares, \code{ggstatsplot} doesn't
