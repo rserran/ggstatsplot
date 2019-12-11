@@ -320,7 +320,7 @@ Can be a plotmath expression.}
     \item{\code{sub.vpadding}}{Vertical padding. The total vertical space added to the
 label, given in grid units. By default, this is added equally above and
 below the label. However, by changing the y and vjust parameters, this can
-be changed (Default: \code{grid::unit(1, "lines")}).}
+be changed (Default: \code{ggplot2::unit(1, "lines")}).}
     \item{\code{sub.fontface}}{The font face (\code{"plain"} (default), \code{"bold"}, \code{"italic"},
 \code{"bold.italic"}) for the annotation label.}
     \item{\code{sub.angle}}{Angle at which annotation label is to be drawn (Default:
@@ -356,6 +356,10 @@ ggstatsplot::grouped_ggwithinstats(
   x = modality,
   y = score,
   grouping.var = order,
+  ggplot.component = ggplot2::scale_y_continuous(
+    breaks = seq(0, 1, 0.1),
+    limits = c(0, 1)
+  ),
   messages = TRUE
 )
 }

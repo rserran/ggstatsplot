@@ -19,8 +19,8 @@ designs repeated across all levels of a grouping variable. — grouped_ggwithins
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -80,7 +80,7 @@ grouping variable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.2.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.3.9000</span>
       </span>
     </div>
 
@@ -104,6 +104,9 @@ grouping variable." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/additional.html">additional vignettes</a>
+    </li>
+    <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
     </li>
     <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
@@ -620,7 +623,7 @@ Can be a plotmath expression.</p></dd>
     <dt><code>sub.vpadding</code></dt><dd><p>Vertical padding. The total vertical space added to the
 label, given in grid units. By default, this is added equally above and
 below the label. However, by changing the y and vjust parameters, this can
-be changed (Default: <code><a href='https://rdrr.io/r/grid/unit.html'>grid::unit(1, "lines")</a></code>).</p></dd>
+be changed (Default: <code><a href='https://ggplot2.tidyverse.org/reference/reexports.html'>ggplot2::unit(1, "lines")</a></code>).</p></dd>
     <dt><code>sub.fontface</code></dt><dd><p>The font face (<code>"plain"</code> (default), <code>"bold"</code>, <code>"italic"</code>,
 <code>"bold.italic"</code>) for the annotation label.</p></dd>
     <dt><code>sub.angle</code></dt><dd><p>Angle at which annotation label is to be drawn (Default:
@@ -659,13 +662,17 @@ their confidence intervals are computed, see <code><a href='https://rdrr.io/pkg/
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>modality</span>,
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>score</span>,
   <span class='kw'>grouping.var</span> <span class='kw'>=</span> <span class='no'>order</span>,
+  <span class='kw'>ggplot.component</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span>(
+    <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.1</span>),
+    <span class='kw'>limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>)
+  ),
   <span class='kw'>messages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</div><div class='output co'>#&gt; <span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>Shapiro-Wilk Normality Test for </span><span style='color: #BBBB00;'>score</span><span style='color: #0000BB;'>: p-value = </span><span style='color: #BBBB00;'>&lt; 0.001</span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>Bartlett's test for homogeneity of variances for factor </span><span style='color: #BBBB00;'>modality</span><span style='color: #0000BB;'>: p-value = </span><span style='color: #BBBB00;'>0.001</span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>Shapiro-Wilk Normality Test for </span><span style='color: #BBBB00;'>score</span><span style='color: #0000BB;'>: p-value = </span><span style='color: #BBBB00;'>&lt; 0.001</span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>Bartlett's test for homogeneity of variances for factor </span><span style='color: #BBBB00;'>modality</span><span style='color: #0000BB;'>: p-value = </span><span style='color: #BBBB00;'>0.008</span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #BB0000;'>Warning: </span><span style='color: #0000BB;'>Individual plots in the combined `grouped_` plot
 #&gt; can't be further modified with `ggplot2` functions.
 #&gt; </span><span></div><div class='output co'>#&gt; </div><div class='img'><img src='grouped_ggwithinstats-1.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
@@ -684,7 +691,7 @@ their confidence intervals are computed, see <code><a href='https://rdrr.io/pkg/
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.2.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.1.3.9000</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/additional.html">additional vignettes</a>
+    </li>
+    <li>
+      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
     </li>
     <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
@@ -232,27 +235,12 @@
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>stats.labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>only.significant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>caption.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>stats.label.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>stats.label.fontface</span> <span class='kw'>=</span> <span class='st'>"bold"</span>,
   <span class='kw'>stats.label.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>label.r</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
-  <span class='kw'>label.size</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>label.box.padding</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>label.label.padding</span> <span class='kw'>=</span> <span class='fl'>0.25</span>,
-  <span class='kw'>label.point.padding</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>label.segment.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
-  <span class='kw'>label.segment.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>label.segment.alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>label.min.segment.length</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>label.force</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>label.max.iter</span> <span class='kw'>=</span> <span class='fl'>2000</span>,
-  <span class='kw'>label.nudge.x</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>label.nudge.y</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>label.xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>),
-  <span class='kw'>label.ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>),
-  <span class='kw'>label.direction</span> <span class='kw'>=</span> <span class='st'>"y"</span>,
+  <span class='kw'>stats.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>fontface</span> <span class='kw'>=</span> <span class='st'>"bold"</span>, <span class='kw'>segment.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
+    <span class='kw'>direction</span> <span class='kw'>=</span> <span class='st'>"y"</span>),
   <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"RColorBrewer"</span>,
   <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Dark2"</span>,
   <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>,
@@ -514,9 +502,16 @@ will be ignored if <code>meta.analytic.effect</code> is set to <code>TRUE</code>
     </tr>
     <tr>
       <th>stats.labels</th>
-      <td><p>Logical. Decides whether the statistic and p-values for
+      <td><p>Logical. Decides whether the statistic and <em>p</em>-values for
 each coefficient are to be attached to each dot as a text label using
 <code>ggrepel</code> (Default: <code>TRUE</code>).</p></td>
+    </tr>
+    <tr>
+      <th>only.significant</th>
+      <td><p>If <code>TRUE</code>, only stats labels for significant effects
+is shown (Default: <code>FALSE</code>). This can be helpful when a large number of
+regression coefficients are to be displayed in a single plot. Relevant only
+when the <code>output</code> is a plot.</p></td>
     </tr>
     <tr>
       <th>caption</th>
@@ -529,80 +524,15 @@ displayed as a cation to the plot (Default: <code>TRUE</code>). Color of the lin
 segment. Defaults to the same color as the text.</p></td>
     </tr>
     <tr>
-      <th>stats.label.size, stats.label.fontface, stats.label.color</th>
-      <td><p>Aesthetics for
-the labels. Defaults: <code>3</code>, <code>"bold"</code>,<code>NULL</code>, resp. If <code>stats.label.color</code> is
+      <th>stats.label.color</th>
+      <td><p>Color for the labels. If <code>stats.label.color</code> is
 <code>NULL</code>, colors will be chosen from the specified <code>package</code> (Default:
 <code>"RColorBrewer"</code>) and <code>palette</code> (Default: <code>"Dark2"</code>).</p></td>
     </tr>
     <tr>
-      <th>label.r, </th>
-      <td><p>Radius of rounded corners, as unit or number. Defaults to
-<code>0.15</code>. (Default unit is lines).</p></td>
-    </tr>
-    <tr>
-      <th>label.size</th>
-      <td><p>Size of label border, in mm. Defaults to <code>0.25</code>.</p></td>
-    </tr>
-    <tr>
-      <th>label.box.padding</th>
-      <td><p>Amount of padding around bounding box, as number.
-Defaults to <code>1</code>. (Default unit is lines).</p></td>
-    </tr>
-    <tr>
-      <th>label.label.padding</th>
-      <td><p>Amount of padding around label, as number.
-Defaults to <code>0.25</code>. (Default unit is lines).</p></td>
-    </tr>
-    <tr>
-      <th>label.point.padding</th>
-      <td><p>Amount of padding around labeled point, as
-number. Defaults to <code>0</code>. (Default unit is lines).</p></td>
-    </tr>
-    <tr>
-      <th>label.segment.color</th>
-      <td><p>Color of the line segment (Default: <code>"grey50"</code>).</p></td>
-    </tr>
-    <tr>
-      <th>label.segment.size</th>
-      <td><p>Width of line segment connecting the data point to
-the text label, in mm. Defaults to <code>0.5</code>.</p></td>
-    </tr>
-    <tr>
-      <th>label.segment.alpha</th>
-      <td><p>Transparency of the line segment. Defaults to the
-same transparency as the text.</p></td>
-    </tr>
-    <tr>
-      <th>label.min.segment.length</th>
-      <td><p>Skip drawing segments shorter than this.
-Defaults to <code>0.5</code>. (Default unit is lines).</p></td>
-    </tr>
-    <tr>
-      <th>label.force</th>
-      <td><p>Force of repulsion between overlapping text labels.
-Defaults to <code>1</code>.</p></td>
-    </tr>
-    <tr>
-      <th>label.max.iter</th>
-      <td><p>Maximum number of iterations to try to resolve
-overlaps. Defaults to <code>2000</code>.</p></td>
-    </tr>
-    <tr>
-      <th>label.nudge.x, label.nudge.y</th>
-      <td><p>Horizontal and vertical adjustments to
-nudge the starting position of each text label. Defaults to <code>0</code>.</p></td>
-    </tr>
-    <tr>
-      <th>label.xlim, label.ylim</th>
-      <td><p>Limits for the <code>x</code> and <code>y</code> axes. Text labels
-will be constrained to these limits. By default, text labels are
-constrained to the entire plot area. Defaults to <code><a href='https://rdrr.io/r/base/c.html'>c(NA, NA)</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>label.direction</th>
-      <td><p>Character (<code>"both"</code>, <code>"x"</code>, or <code>"y"</code>) -- direction in
-which to adjust position of labels (Default: <code>"y"</code>).</p></td>
+      <th>stats.label.args</th>
+      <td><p>Additional arguments that will be passed to <code>ggrepel geom_label_repel</code> geom. Please see documentation for that function to know
+more about these arguments.</p></td>
     </tr>
     <tr>
       <th>package</th>
@@ -664,57 +594,57 @@ labels.</p>
 <span class='co'># to get a plot</span>
 <span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>)</div><div class='img'><img src='ggcoefstats-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to get a tidy dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"tidy"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 11</span><span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"tidy"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 11</span><span>
 #&gt;   term   estimate conf.low conf.high std.error statistic  p.value significance
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> cyl       -</span><span style='color: #BB0000;'>1.98</span><span>    -</span><span style='color: #BB0000;'>2.89</span><span>    -</span><span style='color: #BB0000;'>1.06</span><span>      0.449 -4.40     0.000</span><span style='text-decoration: underline;'>141</span><span> ***         
-#&gt; </span><span style='color: #555555;'>2</span><span> am        10.2      1.36    19.0       4.30  2.36      0.025</span><span style='text-decoration: underline;'>3</span><span>   *           
-#&gt; </span><span style='color: #555555;'>3</span><span> cyl:am    -</span><span style='color: #BB0000;'>1.31</span><span>    -</span><span style='color: #BB0000;'>2.75</span><span>     0.143     0.707 -1.85     0.075</span><span style='text-decoration: underline;'>5</span><span>   ns          
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> cyl       -</span><span style='color: #BB0000;'>1.98</span><span>    -</span><span style='color: #BB0000;'>2.89</span><span>    -</span><span style='color: #BB0000;'>1.06</span><span>      0.449 -4.40     0.000</span><span style='text-decoration: underline;'>141</span><span> ***         
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> am        10.2      1.36    19.0       4.30  2.36      0.025</span><span style='text-decoration: underline;'>3</span><span>   *           
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> cyl:am    -</span><span style='color: #BB0000;'>1.31</span><span>    -</span><span style='color: #BB0000;'>2.75</span><span>     0.143     0.707 -1.85     0.075</span><span style='text-decoration: underline;'>5</span><span>   ns          
 #&gt;   p.value.formatted df.residual
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> &lt;= 0.001                   28
-#&gt; </span><span style='color: #555555;'>2</span><span> == 0.025                   28
-#&gt; </span><span style='color: #555555;'>3</span><span> == 0.076                   28
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> &lt;= 0.001                   28
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> == 0.025                   28
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> == 0.076                   28
 #&gt;   label                                                                
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                                                
-#&gt; </span><span style='color: #555555;'>1</span><span> list(~italic(beta)==-1.98, ~italic(t)(28)==-4.40, ~italic(p)&lt;= 0.001)
-#&gt; </span><span style='color: #555555;'>2</span><span> list(~italic(beta)==10.18, ~italic(t)(28)==2.36, ~italic(p)== 0.025) 
-#&gt; </span><span style='color: #555555;'>3</span><span> list(~italic(beta)==-1.31, ~italic(t)(28)==-1.85, ~italic(p)== 0.076)</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                                                                
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> list(~italic(beta)==-1.98, ~italic(t)(28)==-4.40, ~italic(p)&lt;= 0.001)
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> list(~italic(beta)==10.18, ~italic(t)(28)==2.36, ~italic(p)== 0.025) 
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> list(~italic(beta)==-1.31, ~italic(t)(28)==-1.85, ~italic(p)== 0.076)</div><div class='input'>
 <span class='co'># to get a glance summary</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 12</span><span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 12</span><span>
 #&gt;   r.squared adj.r.squared sigma statistic       p.value    df logLik   AIC   BIC
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     0.785         0.762  2.94      34.1 0.000</span><span style='text-decoration: underline;'>000</span><span>001</span><span style='text-decoration: underline;'>73</span><span>     3  -</span><span style='color: #BB0000;'>77.8</span><span>  166.  173.
+#&gt;       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     0.785         0.762  2.94      34.1 0.000</span><span style='text-decoration: underline;'>000</span><span>001</span><span style='text-decoration: underline;'>73</span><span>     3  -</span><span style='color: #BB0000;'>77.8</span><span>  166.  173.
 #&gt;   deviance df.residual  nobs
-#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     242.          28    32</div><div class='input'>
+#&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     242.          28    32</div><div class='input'>
 <span class='co'># to get augmented dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"augment"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"augment"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 32 x 10</span><span>
 #&gt;    .rownames           mpg   cyl    am .fitted .resid .std.resid   .hat .sigma
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Mazda RX4          21       6     1    21.4  0.364    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99
-#&gt; </span><span style='color: #555555;'> 2</span><span> Mazda RX4 Wag      21       6     1    21.4  0.364    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99
-#&gt; </span><span style='color: #555555;'> 3</span><span> Datsun 710         22.8     4     1    27.9  5.13     -</span><span style='color: #BB0000;'>1.86</span><span>   0.117    2.80
-#&gt; </span><span style='color: #555555;'> 4</span><span> Hornet 4 Drive     21.4     6     0    19.0 -</span><span style='color: #BB0000;'>2.38</span><span>      0.842  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.96
-#&gt; </span><span style='color: #555555;'> 5</span><span> Hornet Sportabout  18.7     8     0    15.1 -</span><span style='color: #BB0000;'>3.63</span><span>      1.29   0.078</span><span style='text-decoration: underline;'>4</span><span>   2.90
-#&gt; </span><span style='color: #555555;'> 6</span><span> Valiant            18.1     6     0    19.0  0.919    -</span><span style='color: #BB0000;'>0.325</span><span>  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99
-#&gt; </span><span style='color: #555555;'> 7</span><span> Duster 360         14.3     8     0    15.1  0.768    -</span><span style='color: #BB0000;'>0.272</span><span>  0.078</span><span style='text-decoration: underline;'>4</span><span>   2.99
-#&gt; </span><span style='color: #555555;'> 8</span><span> Merc 240D          24.4     4     0    23.0 -</span><span style='color: #BB0000;'>1.43</span><span>      0.563  0.255    2.98
-#&gt; </span><span style='color: #555555;'> 9</span><span> Merc 230           22.8     4     0    23.0  0.171    -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span> 0.255    2.99
-#&gt; </span><span style='color: #555555;'>10</span><span> Merc 280           19.2     6     0    19.0 -</span><span style='color: #BB0000;'>0.181</span><span>     0.063</span><span style='text-decoration: underline;'>9</span><span> 0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Mazda RX4          21       6     1    21.4  0.364    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Mazda RX4 Wag      21       6     1    21.4  0.364    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Datsun 710         22.8     4     1    27.9  5.13     -</span><span style='color: #BB0000;'>1.86</span><span>   0.117    2.80
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Hornet 4 Drive     21.4     6     0    19.0 -</span><span style='color: #BB0000;'>2.38</span><span>      0.842  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.96
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Hornet Sportabout  18.7     8     0    15.1 -</span><span style='color: #BB0000;'>3.63</span><span>      1.29   0.078</span><span style='text-decoration: underline;'>4</span><span>   2.90
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Valiant            18.1     6     0    19.0  0.919    -</span><span style='color: #BB0000;'>0.325</span><span>  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Duster 360         14.3     8     0    15.1  0.768    -</span><span style='color: #BB0000;'>0.272</span><span>  0.078</span><span style='text-decoration: underline;'>4</span><span>   2.99
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Merc 240D          24.4     4     0    23.0 -</span><span style='color: #BB0000;'>1.43</span><span>      0.563  0.255    2.98
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Merc 230           22.8     4     0    23.0  0.171    -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span> 0.255    2.99
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Merc 280           19.2     6     0    19.0 -</span><span style='color: #BB0000;'>0.181</span><span>     0.063</span><span style='text-decoration: underline;'>9</span><span> 0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99
 #&gt;      .cooksd
-#&gt;        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 0.000</span><span style='text-decoration: underline;'>510</span><span> 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 0.000</span><span style='text-decoration: underline;'>510</span><span> 
-#&gt; </span><span style='color: #555555;'> 3</span><span> 0.114    
-#&gt; </span><span style='color: #555555;'> 4</span><span> 0.014</span><span style='text-decoration: underline;'>1</span><span>   
-#&gt; </span><span style='color: #555555;'> 5</span><span> 0.035</span><span style='text-decoration: underline;'>3</span><span>   
-#&gt; </span><span style='color: #555555;'> 6</span><span> 0.002</span><span style='text-decoration: underline;'>09</span><span>  
-#&gt; </span><span style='color: #555555;'> 7</span><span> 0.001</span><span style='text-decoration: underline;'>57</span><span>  
-#&gt; </span><span style='color: #555555;'> 8</span><span> 0.027</span><span style='text-decoration: underline;'>1</span><span>   
-#&gt; </span><span style='color: #555555;'> 9</span><span> 0.000</span><span style='text-decoration: underline;'>387</span><span> 
-#&gt; </span><span style='color: #555555;'>10</span><span> 0.000</span><span style='text-decoration: underline;'>081</span><span>1
-#&gt; </span><span style='color: #555555;'># ... with 22 more rows</span><span></div><div class='input'>
+#&gt;        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 0.000</span><span style='text-decoration: underline;'>510</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 0.000</span><span style='text-decoration: underline;'>510</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 0.114    
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 0.014</span><span style='text-decoration: underline;'>1</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 0.035</span><span style='text-decoration: underline;'>3</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 0.002</span><span style='text-decoration: underline;'>09</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 0.001</span><span style='text-decoration: underline;'>57</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 0.027</span><span style='text-decoration: underline;'>1</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 0.000</span><span style='text-decoration: underline;'>387</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 0.000</span><span style='text-decoration: underline;'>081</span><span>1
+#&gt; </span><span style='color: #949494;'># ... with 22 more rows</span><span></div><div class='input'>
 <span class='co'># -------------- with custom dataframe -----------------------------------</span>
 
 <span class='co'># creating a dataframe</span>
@@ -790,21 +720,20 @@ labels.</p>
   <span class='kw'>meta.analytic.effect</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>3</span>
 )</div><div class='output co'>#&gt; <span class='warning'>Warning: There were 9 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See</span>
-#&gt; <span class='warning'>http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Examine the pairs() plot to diagnose sampling problems</span></div><div class='img'><img src='ggcoefstats-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+#&gt; <span class='warning'>http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Examine the pairs() plot to diagnose sampling problems</span></div><div class='img'><img src='ggcoefstats-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># -------------- getting model summary ------------------------------</span>
 
 <span class='co'># model</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lme4</span>)
-<span class='no'>lmm1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>lme4</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lmer</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lme4</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='input'><span class='no'>lmm1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>lme4</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lmer</a></span>(
   <span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>Reaction</span> ~ <span class='no'>Days</span> + (<span class='no'>Days</span> <span class='kw'>|</span> <span class='no'>Subject</span>),
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>sleepstudy</span>
 )
 
 <span class='co'># dataframe with model summary</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>lmm1</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>lmm1</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 6</span><span>
 #&gt;   sigma logLik   AIC   BIC REMLcrit df.residual
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  25.6  -</span><span style='color: #BB0000;'>872.</span><span> </span><span style='text-decoration: underline;'>1</span><span>756. </span><span style='text-decoration: underline;'>1</span><span>775.    </span><span style='text-decoration: underline;'>1</span><span>744.         174</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  25.6  -</span><span style='color: #BB0000;'>872.</span><span> </span><span style='text-decoration: underline;'>1</span><span>756. </span><span style='text-decoration: underline;'>1</span><span>775.    </span><span style='text-decoration: underline;'>1</span><span>744.         174</div><div class='input'>
 <span class='co'># -------------- getting augmented dataframe ------------------------------</span>
 
 <span class='co'># setup</span>
@@ -821,34 +750,35 @@ labels.</p>
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>lung</span>,
   <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"augment"</span>,
   <span class='kw'>type.predict</span> <span class='kw'>=</span> <span class='st'>"risk"</span>
-)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 228 x 13</span><span>
+)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 228 x 13</span><span>
 #&gt;     inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     3   306      2    74     1       1       90       100     </span><span style='text-decoration: underline;'>1</span><span>175      </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span>     3   455      2    68     1       0       90        90     </span><span style='text-decoration: underline;'>1</span><span>225      15
-#&gt; </span><span style='color: #555555;'> 3</span><span>     3  </span><span style='text-decoration: underline;'>1</span><span>010      1    56     1       0       90        90       </span><span style='color: #BB0000;'>NA</span><span>      15
-#&gt; </span><span style='color: #555555;'> 4</span><span>     5   210      2    57     1       1       90        60     </span><span style='text-decoration: underline;'>1</span><span>150      11
-#&gt; </span><span style='color: #555555;'> 5</span><span>     1   883      2    60     1       0      100        90       </span><span style='color: #BB0000;'>NA</span><span>       0
-#&gt; </span><span style='color: #555555;'> 6</span><span>    12  </span><span style='text-decoration: underline;'>1</span><span>022      1    74     1       1       50        80      513       0
-#&gt; </span><span style='color: #555555;'> 7</span><span>     7   310      2    68     2       2       70        60      384      10
-#&gt; </span><span style='color: #555555;'> 8</span><span>    11   361      2    71     2       2       60        80      538       1
-#&gt; </span><span style='color: #555555;'> 9</span><span>     1   218      2    53     1       1       70        80      825      16
-#&gt; </span><span style='color: #555555;'>10</span><span>     7   166      2    61     1       2       70        70      271      34
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     3   306      2    74     1       1       90       100     </span><span style='text-decoration: underline;'>1</span><span>175      </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     3   455      2    68     1       0       90        90     </span><span style='text-decoration: underline;'>1</span><span>225      15
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     3  </span><span style='text-decoration: underline;'>1</span><span>010      1    56     1       0       90        90       </span><span style='color: #BB0000;'>NA</span><span>      15
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     5   210      2    57     1       1       90        60     </span><span style='text-decoration: underline;'>1</span><span>150      11
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1   883      2    60     1       0      100        90       </span><span style='color: #BB0000;'>NA</span><span>       0
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>    12  </span><span style='text-decoration: underline;'>1</span><span>022      1    74     1       1       50        80      513       0
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     7   310      2    68     2       2       70        60      384      10
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>    11   361      2    71     2       2       60        80      538       1
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     1   218      2    53     1       1       70        80      825      16
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     7   166      2    61     1       2       70        70      271      34
 #&gt;    .fitted .se.fit   .resid
-#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>   1.49   0.149   0.004</span><span style='text-decoration: underline;'>39</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span>   1.35   0.094</span><span style='text-decoration: underline;'>4</span><span> -</span><span style='color: #BB0000;'>0.506</span><span>  
-#&gt; </span><span style='color: #555555;'> 3</span><span>   1.10   0.095</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>3.13</span><span>   
-#&gt; </span><span style='color: #555555;'> 4</span><span>   1.12   0.090</span><span style='text-decoration: underline;'>0</span><span>  0.533  
-#&gt; </span><span style='color: #555555;'> 5</span><span>   1.17   0.077</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>2.35</span><span>   
-#&gt; </span><span style='color: #555555;'> 6</span><span>   1.49   0.149  -</span><span style='color: #BB0000;'>4.25</span><span>   
-#&gt; </span><span style='color: #555555;'> 7</span><span>   0.806  0.104   0.448  
-#&gt; </span><span style='color: #555555;'> 8</span><span>   0.848  0.121   0.290  
-#&gt; </span><span style='color: #555555;'> 9</span><span>   1.04   0.115   0.548  
-#&gt; </span><span style='color: #555555;'>10</span><span>   1.19   0.074</span><span style='text-decoration: underline;'>5</span><span>  0.681  
-#&gt; </span><span style='color: #555555;'># ... with 218 more rows</span><span></div></span></pre>
+#&gt;      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>   1.49   0.149   0.004</span><span style='text-decoration: underline;'>39</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>   1.35   0.094</span><span style='text-decoration: underline;'>4</span><span> -</span><span style='color: #BB0000;'>0.506</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>   1.10   0.095</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>3.13</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>   1.12   0.090</span><span style='text-decoration: underline;'>0</span><span>  0.533  
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>   1.17   0.077</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>2.35</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>   1.49   0.149  -</span><span style='color: #BB0000;'>4.25</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>   0.806  0.104   0.448  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>   0.848  0.121   0.290  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>   1.04   0.115   0.548  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>   1.19   0.074</span><span style='text-decoration: underline;'>5</span><span>  0.681  
+#&gt; </span><span style='color: #949494;'># ... with 218 more rows</span><span></div><div class='input'># }
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
@@ -867,7 +797,7 @@ labels.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

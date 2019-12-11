@@ -56,7 +56,7 @@ matrix:
         - lme4
         - psych
         - git2r
-        - data.table
+        #- data.table
         - rjags
         - StanHeaders
         - rstan
@@ -65,9 +65,11 @@ matrix:
         - metaBMA
         - MCMCpack
         - MCMCglmm
-      r_packages:
         - rlang
         - bindrcpp
+        - car
+        - rio
+      r_packages:
         - purrr
         - tidyr
         - dplyr
@@ -123,7 +125,7 @@ matrix:
         - lme4
         - psych
         - git2r
-        - data.table
+        #- data.table
         - rjags
         - StanHeaders
         - rstan
@@ -132,9 +134,11 @@ matrix:
         - metaBMA
         - MCMCpack
         - MCMCglmm
-      r_packages:
         - rlang
         - bindrcpp
+        - car
+        - rio
+      r_packages:
         - purrr
         - tidyr
         - dplyr
@@ -143,7 +147,6 @@ matrix:
         - oompaBase
         - palr
         - coin
-        - jmv
         - sjstats
         - WRS2
         - scico

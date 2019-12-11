@@ -112,6 +112,5 @@ ggstatsplot:::histo_labeller(
   test.value.line = TRUE
 )
 }
-
 }
 \keyword{internal}
