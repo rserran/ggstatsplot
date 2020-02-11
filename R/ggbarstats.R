@@ -46,21 +46,11 @@
 #' # association test (or contingency table analysis)
 #' ggstatsplot::ggbarstats(
 #'   data = mtcars,
-#'   main = vs,
-#'   condition = cyl,
+#'   x = vs,
+#'   y = cyl,
 #'   nboot = 10,
 #'   labels.legend = c("0 = V-shaped", "1 = straight"),
 #'   legend.title = "Engine"
-#' )
-#'
-#' # using `counts` argument
-#' library(jmv)
-#'
-#' ggstatsplot::ggbarstats(
-#'   data = as.data.frame(HairEyeColor),
-#'   x = Eye,
-#'   y = Hair,
-#'   counts = Freq
 #' )
 #' @export
 
@@ -91,9 +81,7 @@ ggbarstats <- function(data,
                        x.axis.orientation = NULL,
                        conf.level = 0.95,
                        nboot = 100,
-                       simulate.p.value = FALSE,
-                       B = 2000,
-                       bias.correct = FALSE,
+                       bias.correct = TRUE,
                        legend.title = NULL,
                        xlab = NULL,
                        ylab = "Percent",
@@ -108,10 +96,11 @@ ggbarstats <- function(data,
                        palette = "Dark2",
                        direction = 1,
                        ggplot.component = NULL,
-                       return = "plot",
+                       output = "plot",
                        messages = TRUE,
                        x = NULL,
-                       y = NULL) {
+                       y = NULL,
+                       ...) {
 
   # ensure the variables work quoted or unquoted
   main <- rlang::ensym(main)
@@ -197,7 +186,7 @@ ggbarstats <- function(data,
 
   # =================================== plot =================================
 
-  if (return == "plot") {
+  if (output == "plot") {
     # if no. of factor levels is greater than the default palette color count
     palette_message(
       package = package,
@@ -206,9 +195,11 @@ ggbarstats <- function(data,
     )
 
     # plot
-    p <- ggplot2::ggplot(
-      data = df, mapping = ggplot2::aes(x = {{ y }}, y = perc, fill = {{ x }})
-    ) +
+    p <-
+      ggplot2::ggplot(
+        data = df,
+        mapping = ggplot2::aes(x = {{ y }}, y = perc, fill = {{ x }})
+      ) +
       ggplot2::geom_bar(
         stat = "identity",
         position = "fill",
@@ -230,7 +221,7 @@ ggbarstats <- function(data,
         alpha = label.fill.alpha,
         na.rm = TRUE
       ) +
-      ggstatsplot::theme_mprl(
+      ggstatsplot::theme_ggstatsplot(
         ggtheme = ggtheme,
         ggstatsplot.layer = ggstatsplot.layer
       ) +
@@ -240,8 +231,7 @@ ggbarstats <- function(data,
       ) +
       ggplot2::guides(fill = ggplot2::guide_legend(title = legend.title)) +
       paletteer::scale_fill_paletteer_d(
-        package = !!package,
-        palette = !!palette,
+        palette = paste0(package, "::", palette),
         direction = direction,
         name = "",
         labels = unique(legend.labels)
@@ -267,8 +257,6 @@ ggbarstats <- function(data,
           conf.level = conf.level,
           conf.type = "norm",
           bias.correct = bias.correct,
-          simulate.p.value = simulate.p.value,
-          B = B,
           k = k,
           messages = messages
         ),
@@ -294,7 +282,7 @@ ggbarstats <- function(data,
 
   # ================ sample size and proportion test labels ===================
 
-  if (return == "plot") {
+  if (output == "plot") {
     # adding significance labels to bars for proportion tests
     if (isTRUE(bar.proptest)) {
       # display grouped proportion test results
@@ -336,11 +324,9 @@ ggbarstats <- function(data,
     # if we need to modify `x`-axis orientation
     if (!is.null(x.axis.orientation)) {
       if (x.axis.orientation == "slant") {
-        angle <- 45
-        vjust <- 1
+        c(angle, vjust) %<-% c(45, 1)
       } else {
-        angle <- 90
-        vjust <- 0.5
+        c(angle, vjust) %<-% c(90, 0.5)
       }
 
       # adjusting plot label
@@ -369,7 +355,7 @@ ggbarstats <- function(data,
 
   # return the final plot
   return(switch(
-    EXPR = return,
+    EXPR = output,
     "plot" = p,
     "subtitle" = subtitle,
     "caption" = caption,

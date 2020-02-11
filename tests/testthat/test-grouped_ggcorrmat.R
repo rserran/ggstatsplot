@@ -15,7 +15,8 @@ testthat::test_that(
 
     # creating a smaller dataframe
     set.seed(123)
-    movies_filtered <- ggstatsplot::movies_long %>%
+    movies_filtered <-
+      ggstatsplot::movies_long %>%
       dplyr::filter(.data = ., mpaa != "NC-17") %>%
       dplyr::sample_frac(tbl = ., size = 0.25)
 
@@ -26,7 +27,7 @@ testthat::test_that(
         data = movies_filtered,
         grouping.var = mpaa,
         cor.vars = length:votes,
-        corr.method = "p",
+        type = "p",
         messages = FALSE
       )),
       what = "gg"
@@ -39,7 +40,7 @@ testthat::test_that(
         data = movies_filtered,
         grouping.var = "mpaa",
         cor.vars = c("length":"votes"),
-        corr.method = "np",
+        type = "np",
         messages = FALSE
       )),
       what = "gg"
@@ -53,7 +54,7 @@ testthat::test_that(
       suppressWarnings(ggstatsplot::grouped_ggcorrmat(
         data = movies_filtered,
         grouping.var = mpaa,
-        corr.method = "p",
+        type = "p",
         messages = FALSE
       )),
       what = "gg"
@@ -65,7 +66,7 @@ testthat::test_that(
       suppressWarnings(ggstatsplot::grouped_ggcorrmat(
         data = movies_filtered,
         grouping.var = "mpaa",
-        corr.method = "r",
+        type = "r",
         messages = TRUE
       )),
       what = "gg"
@@ -87,7 +88,7 @@ testthat::test_that(
     df1 <- ggstatsplot::grouped_ggcorrmat(
       data = ggplot2::msleep,
       grouping.var = vore,
-      return = "r",
+      output = "r",
       k = 3,
       messages = FALSE
     )
@@ -98,16 +99,17 @@ testthat::test_that(
 
     # tidy dataframe
     set.seed(123)
-    df11 <- ggstatsplot::grouped_ggcorrmat(
-      data = dplyr::select(ggplot2::msleep, vore, awake:brainwt),
-      grouping.var = vore,
-      output = "ci",
-      k = 3,
-      messages = FALSE
-    )
+    df11 <-
+      ggstatsplot::grouped_ggcorrmat(
+        data = dplyr::select(ggplot2::msleep, vore, awake:brainwt),
+        grouping.var = vore,
+        output = "ci",
+        k = 3,
+        messages = FALSE
+      )
 
     # testing dataframe
-    testthat::expect_equal(dim(df11), c(4L, 8L))
+    testthat::expect_equal(dim(df11), c(4L, 6L))
     testthat::expect_identical(df11$vore, c("carni", "herbi", "insecti", "omni"))
     testthat::expect_identical(
       df11$pair,
@@ -134,43 +136,38 @@ testthat::test_that(
       c(0.8815091, 0.7074071, 0.8548003, 0.7034165),
       tolerance = 0.01
     )
-    testthat::expect_equal(df11$lower.adj,
-      c(-0.21442721, -0.06863955, -0.90480369, -0.17188998),
-      tolerance = 0.01
-    )
-    testthat::expect_equal(df11$upper.adj,
-      c(0.8815091, 0.7074071, 0.8548003, 0.7034165),
-      tolerance = 0.01
-    )
 
     # with cor.vars specified -----------------------------------------------
 
     set.seed(123)
-    df2 <- ggstatsplot::grouped_ggcorrmat(
-      data = ggplot2::msleep,
-      cor.vars = awake:bodywt,
-      grouping.var = vore,
-      output = "r",
-      messages = FALSE
-    )
+    df2 <-
+      ggstatsplot::grouped_ggcorrmat(
+        data = ggplot2::msleep,
+        cor.vars = awake:bodywt,
+        grouping.var = vore,
+        output = "r",
+        messages = FALSE
+      )
 
     # edge case
-    df3 <- ggstatsplot::grouped_ggcorrmat(
-      data = ggplot2::msleep,
-      grouping.var = vore,
-      cor.vars = brainwt,
-      output = "p"
-    )
+    df3 <-
+      ggstatsplot::grouped_ggcorrmat(
+        data = ggplot2::msleep,
+        grouping.var = vore,
+        cor.vars = brainwt,
+        output = "p"
+      )
 
     # ci
     set.seed(123)
-    df4 <- ggstatsplot::grouped_ggcorrmat(
-      data = ggplot2::msleep,
-      cor.vars = awake:bodywt,
-      grouping.var = vore,
-      output = "ci",
-      messages = FALSE
-    )
+    df4 <-
+      ggstatsplot::grouped_ggcorrmat(
+        data = ggplot2::msleep,
+        cor.vars = awake:bodywt,
+        grouping.var = vore,
+        output = "ci",
+        messages = FALSE
+      )
 
     # testing dataframe
     testthat::expect_equal(dim(df2), c(12L, 5L))
@@ -203,7 +200,7 @@ testthat::test_that(
     )
 
     # testing CIs
-    testthat::expect_equal(dim(df4), c(12L, 8L))
+    testthat::expect_equal(dim(df4), c(12L, 6L))
     testthat::expect_identical(unique(df4$vore), c("carni", "herbi", "insecti", "omni"))
     testthat::expect_equal(
       df4$r,

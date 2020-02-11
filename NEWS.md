@@ -1,4 +1,68 @@
-# ggstatsplot 0.1.3.9000
+# ggstatsplot 0.3.0.9000
+
+BREAKING CHANGES
+
+  - All `grouped_` functions have been refactored to reduce the number of
+    arguments. These functions now internally use the new `combine_plots2`
+    instead of `combine_plots`. The additional arguments to primary functions
+    can be provided through `...`. These changes will not necessarily break the
+    existing code but will lead to some minor graphical changes (e.g., if you
+    were providing `labels` argument explicitly, it will be ignored).
+  - All functions lose the `return` argument, which was supposed to be
+    alternative to enter `output`. But this was just leading to more confusion
+    on the user's part. The biggest user-visible impact this is going to have is
+    that `ggcorrmat` will no longer be backward-compatible. The older scripts
+    will still work but if the `return` argument was anything except `"plot"`,
+    it will just be ignored.
+  - `ggcorrmat` no longer has `corr.method` argument. To be consistent with rest
+    of the functions in this package, the type of statistics should be specified
+    using `type` argument. Additional, it gains a new argument
+    `ggcorrplot.args`, which can be used to pass additional arguments to the
+    underlying plotting function (`ggcorrplot::ggcorrplot`).
+  
+MAJOR CHANGES
+
+  - `ggcorrmat` was never supposed to work with Kendall's correlation coefficient
+    but it accidentally did. This is no longer the case.
+  - `ggstatsplot` now has a logo, thanks to Sarah! :)
+
+MINOR CHANGES
+
+  - More models supported in `ggcoefstats`: `BBreg`, `cglm`, `DirichReg`,
+    `zeroinfl`.
+
+# ggstatsplot 0.2.0
+
+BREAKING CHANGES
+
+  - To have a more manageable length of function arguments, additional aesthetic
+    specifications for any given geom can be provided via a dedicated `*.args`
+    argument. For example, all aesthetic arguments for `geom_vline` can be
+    provided via `vline.args`, for `geom_errorbarh` via `errorbar.args`, etc.
+  - `ggstatsplot` continues with its conscious uncoupling that started in
+    `0.1.0` release: The following functions have now been moved to
+    `statsExpressions` package: `subtitle_meta_parametric` and
+    `bf_meta_message` and follow a more logical nomenclature.
+    For the same reason, `lm_effsize_ci` function is also no longer exported and
+    lives in the `groupedstats` package.
+
+MAJOR CHANGES
+
+  - The summary caption no longer displays log-likelihood value because it tends
+    to be not available for a number of regression model objects and so the
+    caption was unnecessarily being skipped.
+  - Supports robust and Bayes Factors for random-effects meta-analysis.
+
+MINOR CHANGES
+
+  - New dataset included: `bugs_wide`
+  - More models supported in `ggcoefstats`: `cgam`, `cgamm`, `coxme`, `cpglm`,
+    `cpglmm`, `complmrob`, `feis`, `flexsurvreg`, `glmx`, `hurdle`, `iv_robust`,
+    `mixor`, `rqss`, `truncreg`, `vgam`.
+  - Removed vestigial arguments from `ggcorrmat` (e.g., `exact`, `continuity`,
+    etc.) and `ggpiestats` (`bf.prior`, `simulate.p.value`, `B`, etc.).
+ 
+# ggstatsplot 0.1.4
 
 BUG FIXES
 
@@ -14,8 +78,11 @@ MAJOR CHANGES
 MINOR CHANGES
 
   - `ggbetweenstats` and `ggwithinstats` use `[` instead of `(` to display
-    confidence intervals.
-  - More models supported in `ggcoefstats`: `bmlm`
+    confidence intervals. Additionally, $$\mu$$ denoted sample mean, but was
+    confused with population mean by some users. So these functions instead
+    display $$\hat{\mu}$$.
+  - More models supported in `ggcoefstats`: `bmlm`, `coeftest`
+  - Adapts to the new syntax provided in `paletteer` package.
 
 # ggstatsplot 0.1.3
 
@@ -251,7 +318,7 @@ MINOR CHANGES
     confidence intervals for *V*. `ggstatsplot`, therefore, gains a new
     dependency.
   - `subtitle_mann_nonparametric` and `subtitle_t_onesample` now computes effect
-    size *r* and its confidence intervals as $Z/\sqrt{N}$ (with the help of
+    size *r* and its confidence intervals as $$Z/\sqrt{N}$$ (with the help of
     `rcompanion` package), instead of using Spearman correlation.
 
 # ggstatsplot 0.0.9

@@ -31,9 +31,7 @@ ggbarstats(
   x.axis.orientation = NULL,
   conf.level = 0.95,
   nboot = 100,
-  simulate.p.value = FALSE,
-  B = 2000,
-  bias.correct = FALSE,
+  bias.correct = TRUE,
   legend.title = NULL,
   xlab = NULL,
   ylab = "Percent",
@@ -48,10 +46,11 @@ ggbarstats(
   palette = "Dark2",
   direction = 1,
   ggplot.component = NULL,
-  return = "plot",
+  output = "plot",
   messages = TRUE,
   x = NULL,
-  y = NULL
+  y = NULL,
+  ...
 )
 }
 \arguments{
@@ -150,14 +149,8 @@ orientation (Default: \code{NULL} which is horizontal).}
 \item{nboot}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
 
-\item{simulate.p.value}{a logical indicating whether to compute
-    p-values by Monte Carlo simulation.}
-
-\item{B}{an integer specifying the number of replicates used in the
-    Monte Carlo test.}
-
-\item{bias.correct}{If \code{TRUE}, a bias correction will be applied to Cramer's
-\emph{V}.}
+\item{bias.correct}{If \code{TRUE} (default), a bias correction will be applied to
+Cramer's \emph{V}.}
 
 \item{legend.title}{Title text for the legend.}
 
@@ -205,13 +198,11 @@ as a function. If the given function has an argument \code{axes.range.restrict}
 and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
 work as expected.}
 
-\item{return}{Character that describes what is to be returned: can be
-\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results. If
-you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
-Setting this to \code{"caption"} will return the expression containing details
-about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
+\item{output}{Can either be \code{"null"} (or \code{"caption"} or \code{"H0"} or \code{"h0"}),
+which will return expression with evidence in favor of the null hypothesis,
+or \code{"alternative"} (or \code{"title"} or \code{"H1"} or \code{"h1"}), which will return
+expression with evidence in favor of the alternative hypothesis, or
+\code{"results"}, which will return a dataframe with results all the details).}
 
 \item{messages}{Decides whether messages references, notes, and warnings are
 to be displayed (Default: \code{TRUE}).}
@@ -223,6 +214,8 @@ table. Default is \code{NULL}. If \code{NULL}, one-sample proportion test (a goo
 of fit test) will be run for the \code{x} variable. Otherwise an appropriate
 association test will be run. This argument can not be \code{NULL} for
 \code{ggbarstats} function.}
+
+\item{...}{further arguments to be passed to or from methods.}
 }
 \value{
 Unlike a number of statistical softwares, \code{ggstatsplot} doesn't
@@ -248,21 +241,11 @@ set.seed(123)
 # association test (or contingency table analysis)
 ggstatsplot::ggbarstats(
   data = mtcars,
-  main = vs,
-  condition = cyl,
+  x = vs,
+  y = cyl,
   nboot = 10,
   labels.legend = c("0 = V-shaped", "1 = straight"),
   legend.title = "Engine"
-)
-
-# using `counts` argument
-library(jmv)
-
-ggstatsplot::ggbarstats(
-  data = as.data.frame(HairEyeColor),
-  x = Eye,
-  y = Hair,
-  counts = Freq
 )
 }
 \seealso{

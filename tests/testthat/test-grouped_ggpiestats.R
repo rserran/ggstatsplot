@@ -3,7 +3,7 @@ context("grouped_ggpiestats")
 testthat::test_that(
   desc = "grouped_ggpiestats works",
   code = {
-
+    testthat::skip_on_cran()
 
     #--------------------- only main variable -------------------------------
 
@@ -12,8 +12,6 @@ testthat::test_that(
       ggstatsplot::grouped_ggpiestats(
         data = mtcars,
         main = cyl,
-        simulate.p.value = TRUE,
-        B = 3000,
         messages = FALSE
       )
     )
@@ -27,26 +25,6 @@ testthat::test_that(
         data = mtcars,
         grouping.var = am,
         main = "cyl",
-        simulate.p.value = TRUE,
-        B = 3000,
-        messages = FALSE
-      )
-    ),
-    what = "gg"
-    ))
-
-    ## with counts
-
-    library(jmv)
-
-    # when arguments are entered as bare expressions
-    set.seed(123)
-    testthat::expect_true(inherits(suppressWarnings(
-      ggstatsplot::grouped_ggpiestats(
-        data = as.data.frame(HairEyeColor),
-        main = "Hair",
-        counts = Freq,
-        grouping.var = "Sex",
         messages = FALSE
       )
     ),
@@ -111,25 +89,26 @@ testthat::test_that(
   }
 )
 
-# subtitle return --------------------------------------------------
+# subtitle output --------------------------------------------------
 
 testthat::test_that(
-  desc = "subtitle return",
+  desc = "subtitle output",
   code = {
     testthat::skip_on_cran()
 
-    # should return a list of length 3
+    # should output a list of length 3
     set.seed(123)
-    ls_results <- suppressWarnings(ggstatsplot::grouped_ggpiestats(
-      data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-      main = relig,
-      condition = marital,
-      grouping.var = race,
-      return = "caption",
-      results.subtitle = FALSE,
-      facet.proptest = FALSE,
-      messages = FALSE
-    ))
+    ls_results <-
+      suppressWarnings(ggstatsplot::grouped_ggpiestats(
+        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
+        main = relig,
+        condition = marital,
+        grouping.var = race,
+        output = "caption",
+        results.subtitle = FALSE,
+        facet.proptest = FALSE,
+        messages = FALSE
+      ))
 
     # tests
     testthat::expect_equal(length(ls_results), 3L)
@@ -158,7 +137,7 @@ testthat::test_that(
         main = "am",
         condition = cyl,
         messages = FALSE,
-        return = "subtitle"
+        output = "subtitle"
       ))
 
     set.seed(123)
@@ -168,7 +147,7 @@ testthat::test_that(
         x = am,
         y = cyl,
         messages = FALSE,
-        return = "subtitle"
+        output = "subtitle"
       ))
 
     set.seed(123)
@@ -179,7 +158,7 @@ testthat::test_that(
         y = "cyl",
         grouping.var = grp,
         messages = FALSE,
-        return = "subtitle"
+        output = "subtitle"
       ))
 
     set.seed(123)
@@ -190,7 +169,7 @@ testthat::test_that(
         condition = cyl,
         grouping.var = "grp",
         messages = FALSE,
-        return = "subtitle"
+        output = "subtitle"
       ))
 
     set.seed(123)
@@ -199,7 +178,7 @@ testthat::test_that(
         data = ggplot2::msleep,
         x = vore,
         messages = FALSE,
-        return = "subtitle"
+        output = "subtitle"
       ))
 
     set.seed(123)
@@ -208,7 +187,7 @@ testthat::test_that(
         vore,
         grouping.var = grp,
         messages = FALSE,
-        return = "subtitle"
+        output = "subtitle"
       ))
 
     # testing if grouped and base versions results are same

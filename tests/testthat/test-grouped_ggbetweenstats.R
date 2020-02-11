@@ -54,6 +54,7 @@ testthat::test_that(
         y = "rating",
         grouping.var = mpaa,
         type = "p",
+        output = "plot",
         effsize.type = "biased",
         plot.type = "box",
         bf.message = TRUE,
@@ -109,23 +110,24 @@ testthat::test_that(
 )
 
 
-# subtitle return --------------------------------------------------
+# subtitle output --------------------------------------------------
 
 testthat::test_that(
-  desc = "subtitle return",
+  desc = "subtitle output",
   code = {
     testthat::skip_on_cran()
 
-    # should return a list of length 5
+    # should output a list of length 5
     set.seed(123)
-    ls_results <- ggstatsplot::grouped_ggbetweenstats(
-      data = dplyr::sample_frac(forcats::gss_cat, 0.25),
-      x = race,
-      y = "tvhours",
-      grouping.var = "marital",
-      return = "subtitle",
-      messages = FALSE
-    )
+    ls_results <-
+      ggstatsplot::grouped_ggbetweenstats(
+        data = dplyr::sample_frac(forcats::gss_cat, 0.25),
+        x = race,
+        y = "tvhours",
+        grouping.var = "marital",
+        output = "subtitle",
+        messages = FALSE
+      )
 
     # tests
     testthat::expect_equal(length(ls_results), 5L)
@@ -146,7 +148,7 @@ testthat::test_that(
           " = ",
           "< 0.001",
           ", ",
-          omega["p"]^2,
+          widehat(omega["p"]^2),
           " = ",
           "0.03",
           ", CI"["95%"],
@@ -179,7 +181,7 @@ testthat::test_that(
           " = ",
           "0.050",
           ", ",
-          omega["p"]^2,
+          widehat(omega["p"]^2),
           " = ",
           "0.06",
           ", CI"["95%"],
@@ -212,7 +214,7 @@ testthat::test_that(
           " = ",
           "0.016",
           ", ",
-          omega["p"]^2,
+          widehat(omega["p"]^2),
           " = ",
           "0.02",
           ", CI"["95%"],
@@ -245,7 +247,7 @@ testthat::test_that(
           " = ",
           "0.036",
           ", ",
-          omega["p"]^2,
+          widehat(omega["p"]^2),
           " = ",
           "0.05",
           ", CI"["95%"],
@@ -278,7 +280,7 @@ testthat::test_that(
           " = ",
           "0.001",
           ", ",
-          omega["p"]^2,
+          widehat(omega["p"]^2),
           " = ",
           "0.02",
           ", CI"["95%"],

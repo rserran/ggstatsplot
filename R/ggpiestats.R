@@ -38,10 +38,10 @@
 #'   `FALSE`).
 #' @inheritParams statsExpressions::bf_contingency_tab
 #' @inheritParams statsExpressions::expr_contingency_tab
-#' @inheritParams paletteer::scale_fill_paletteer_d
 #' @inheritParams theme_ggstatsplot
 #' @inheritParams gghistostats
 #' @inheritParams cat_label_df
+#' @inheritParams ggbetweenstats
 #'
 #' @seealso \code{\link{grouped_ggpiestats}}, \code{\link{ggbarstats}},
 #'  \code{\link{grouped_ggbarstats}}
@@ -94,15 +94,6 @@
 #'   factor.levels = c("0 = V-shaped", "1 = straight"),
 #'   legend.title = "Engine"
 #' )
-#'
-#' # using `counts` argument
-#' library(jmv, warn.conflicts = FALSE)
-#'
-#' ggstatsplot::ggpiestats(
-#'   data = as.data.frame(HairEyeColor),
-#'   x = Eye,
-#'   counts = Freq
-#' )
 #' @export
 
 # defining the function
@@ -128,11 +119,8 @@ ggpiestats <- function(data,
                        subtitle = NULL,
                        caption = NULL,
                        conf.level = 0.95,
-                       bf.prior = 0.707,
                        nboot = 100,
-                       simulate.p.value = FALSE,
-                       B = 2000,
-                       bias.correct = FALSE,
+                       bias.correct = TRUE,
                        legend.title = NULL,
                        facet.wrap.name = NULL,
                        k = 2,
@@ -145,10 +133,11 @@ ggpiestats <- function(data,
                        palette = "Dark2",
                        direction = 1,
                        ggplot.component = NULL,
-                       return = "plot",
+                       output = "plot",
                        messages = TRUE,
                        x = NULL,
-                       y = NULL) {
+                       y = NULL,
+                       ...) {
 
   # ensure the variables work quoted or unquoted
   main <- rlang::ensym(main)
@@ -296,8 +285,7 @@ ggpiestats <- function(data,
   p <- p +
     ggplot2::scale_y_continuous(breaks = NULL) +
     paletteer::scale_fill_paletteer_d(
-      package = !!package,
-      palette = !!palette,
+      palette = paste0(package, "::", palette),
       direction = direction,
       name = "",
       labels = unique(legend.labels)
@@ -326,8 +314,6 @@ ggpiestats <- function(data,
           conf.level = conf.level,
           conf.type = "norm",
           bias.correct = bias.correct,
-          simulate.p.value = simulate.p.value,
-          B = B,
           k = k,
           messages = messages
         ),
@@ -402,7 +388,7 @@ ggpiestats <- function(data,
 
   # return the final plot
   return(switch(
-    EXPR = return,
+    EXPR = output,
     "plot" = p,
     "subtitle" = subtitle,
     "caption" = caption,

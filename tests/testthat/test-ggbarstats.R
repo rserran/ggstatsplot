@@ -173,7 +173,7 @@ testthat::test_that(
     # checking layered data
     testthat::expect_identical(
       pb$data[[1]]$fill,
-      c("#F5CDB4", "#9A8822", "#F5CDB4", "#9A8822", "#F5CDB4")
+      c("#F5CDB4FF", "#9A8822FF", "#F5CDB4FF", "#9A8822FF", "#F5CDB4FF")
     )
     testthat::expect_identical(pb$plot$guides$fill$title, "Engine")
     testthat::expect_equal(pb$plot$theme$axis.text.x$angle, 45L)
@@ -183,34 +183,38 @@ testthat::test_that(
   }
 )
 
-# subtitle return --------------------------------------------------
+# subtitle output --------------------------------------------------
 
 testthat::test_that(
-  desc = "subtitle return",
+  desc = "subtitle output",
   code = {
     testthat::skip_on_cran()
 
-    # subtitle return
+    # subtitle output
     set.seed(123)
-    p_sub <- ggstatsplot::ggbarstats(
-      data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-      main = race,
-      condition = marital,
-      return = "subtitle",
-      k = 4,
-      messages = FALSE
-    )
+    p_sub <-
+      ggstatsplot::ggbarstats(
+        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
+        main = race,
+        bias.correct = FALSE,
+        condition = marital,
+        output = "subtitle",
+        k = 4,
+        messages = FALSE
+      )
 
-    # caption return
+    # caption output
     set.seed(123)
-    p_cap <- ggstatsplot::ggbarstats(
-      data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-      main = race,
-      condition = marital,
-      return = "caption",
-      k = 4,
-      messages = FALSE
-    )
+    p_cap <-
+      ggstatsplot::ggbarstats(
+        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
+        main = race,
+        condition = marital,
+        output = "caption",
+        k = 4,
+        bias.correct = FALSE,
+        messages = FALSE
+      )
 
     # tests
     testthat::expect_identical(
@@ -228,7 +232,7 @@ testthat::test_that(
           " = ",
           "< 0.001",
           ", ",
-          italic("V")["Cramer"],
+          widehat(italic("V"))["Cramer"],
           " = ",
           "0.1594",
           ", CI"["95%"],
@@ -282,7 +286,7 @@ testthat::test_that(
     )
 
     # should not work
-    testthat::expect_error(
+    testthat::expect_output(
       suppressWarnings(ggstatsplot::ggbarstats(
         data = df,
         main = x,

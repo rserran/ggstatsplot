@@ -40,10 +40,8 @@ testthat::test_that(
     )
 
     # check dimensions
-    testthat::expect_equal(dim(df1), c(15L, 7L))
-    testthat::expect_equal(dim(df2), c(15L, 7L))
-    testthat::expect_equal(dim(df3), c(15L, 7L))
-    testthat::expect_equal(dim(df4), c(15L, 7L))
+    testthat::expect_equal(dim(df1), dim(df2))
+    testthat::expect_equal(dim(df3), dim(df4))
   }
 )
 
@@ -64,10 +62,12 @@ testthat::test_that(
       sig.level = 0.001,
       p.adjust.method = "fdr",
       colors = NULL,
-      digits = 4,
-      lab.col = "white",
-      pch.col = "white",
-      pch.cex = 14,
+      k = 4,
+      ggcorrplot.args = list(
+        lab_col = "white",
+        pch.col = "white",
+        pch.cex = 14
+      ),
       messages = TRUE
     )
 
@@ -119,8 +119,8 @@ testthat::test_that(
     testthat::expect_equal(dat$signif[4], 1L)
     testthat::expect_equal(dat$signif[5], 0L)
     testthat::expect_identical(
-      p$plot_env$colors,
-      c("#1B9E77", "#D95F02", "#7570B3")
+      unclass(p$plot_env$colors),
+      c("#1B9E77FF", "#D95F02FF", "#7570B3FF")
     )
 
     # checking layers
@@ -341,8 +341,8 @@ testthat::test_that(
     testthat::expect_equal(dat$signif[10], 0L)
     testthat::expect_equal(dat$signif[11], 1L)
     testthat::expect_identical(
-      p$plot_env$colors,
-      c("#E1BD6D", "#EABE94", "#0B775E")
+      unclass(p$plot_env$colors),
+      c("#E1BD6DFF", "#EABE94FF", "#0B775EFF")
     )
     testthat::expect_identical(p_legend_title, ggplot2::expr(atop(atop(
       atop(scriptstyle(bold("sample size:")), italic(n)[min] ~
@@ -360,95 +360,6 @@ testthat::test_that(
   }
 )
 
-# Kendall tau with NAs + ggplot modification ----------------------------------
-
-testthat::test_that(
-  desc = "checking ggcorrmat - with NAs - Kendall tau",
-  code = {
-    testthat::skip_on_cran()
-
-    # creating the plot
-    set.seed(123)
-    p <- ggstatsplot::ggcorrmat(
-      data = ggplot2::msleep,
-      corr.method = "kendall",
-      matrix.type = "lower",
-      ggtheme = ggplot2::theme_classic()
-    ) +
-      ggplot2::scale_y_discrete(position = "right")
-
-    # checking legend title
-    pb <- ggplot2::ggplot_build(p)
-    p_legend_title <- pb$plot$plot_env$legend.title
-
-    # checking data used to create a plot
-    dat <- tibble::as_tibble(p$data) %>%
-      dplyr::mutate_if(
-        .tbl = .,
-        .predicate = is.factor,
-        .funs = ~ as.character(.)
-      )
-
-    # checking dimensions of data
-    data_dims <- dim(dat)
-
-    # testing everything is okay with data
-    testthat::expect_equal(data_dims, c(15L, 7L))
-    testthat::expect_equal(dat$coef[2], -0.35, tolerance = 1e-3)
-    testthat::expect_equal(dat$coef[7], -0.59, tolerance = 1e-3)
-    testthat::expect_equal(dat$Var1[15], "bodywt")
-    testthat::expect_equal(dat$Var2[10], "sleep_cycle")
-    testthat::expect_equal(dat$signif[1], 1L)
-    testthat::expect_equal(dat$signif[2], 0L)
-    testthat::expect_equal(dat$signif[7], 1L)
-    testthat::expect_identical(p_legend_title, ggplot2::expr(atop(
-      atop(
-        atop(scriptstyle(bold("sample size:")), italic(n)[min] ~
-        "=" ~ 30),
-        atop(
-          italic(n)[median] ~ "=" ~ 56,
-          italic(n)[max] ~ "=" ~ 83
-        )
-      ), atop(
-        scriptstyle(bold("correlation:")),
-        "Kendall"
-      )
-    )))
-
-    # checking layers
-    testthat::expect_equal(pb$plot$layers[[3]]$aes_params$shape, 4L)
-    testthat::expect_equal(pb$plot$layers[[3]]$aes_params$size, 11L)
-    testthat::expect_identical(pb$plot$layers[[3]]$aes_params$colour, "black")
-
-    # checking panel parameters
-    testthat::expect_equal(pb$layout$panel_params[[1]]$x.range,
-      c(0.4, 5.6),
-      tolerance = 0.01
-    )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$y.range,
-      c(0.4, 5.6),
-      tolerance = 0.01
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.arrange,
-      c("secondary", "primary")
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.arrange,
-      c("secondary", "primary")
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.labels,
-      c("sleep_rem", "sleep_cycle", "awake", "brainwt", "bodywt")
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.labels,
-      c("sleep_total", "sleep_rem", "sleep_cycle", "awake", "brainwt")
-    )
-  }
-)
-
-
 # checking sample sizes ---------------------------------------------------
 
 testthat::test_that(
@@ -462,7 +373,7 @@ testthat::test_that(
       data = ggplot2::msleep,
       cor.vars = sleep_total:awake,
       type = "r",
-      return = "n",
+      output = "n",
       p.adjust.method = "fdr",
       messages = FALSE
     )
@@ -581,7 +492,7 @@ testthat::test_that(
 
     # capturing the message
     set.seed(123)
-    p_message1 <- capture.output(ggstatsplot::ggcorrmat(
+    testthat::expect_error(ggstatsplot::ggcorrmat(
       data = ggplot2::msleep,
       cor.vars = sleep_total:awake,
       type = "r",
@@ -593,24 +504,17 @@ testthat::test_that(
       messages = TRUE
     ))
 
-    p_message2 <- capture.output(ggstatsplot::ggcorrmat(
-      data = ggplot2::msleep,
-      cor.vars = sleep_total:awake,
-      output = "p",
-      p.adjust.method = "hommel",
-      caption.default = FALSE,
-      messages = TRUE
-    ))
+    p_message2 <-
+      capture.output(ggstatsplot::ggcorrmat(
+        data = ggplot2::msleep,
+        cor.vars = sleep_total:awake,
+        output = "p",
+        p.adjust.method = "hommel",
+        caption.default = FALSE,
+        messages = TRUE
+      ))
 
     # checking messages
-    testthat::expect_match(
-      p_message1[1],
-      "No. of variable names doesn't equal"
-    )
-    testthat::expect_match(
-      p_message1[2],
-      "Confidence intervals not supported"
-    )
     testthat::expect_match(
       p_message2[2],
       "the upper triangle: p-values adjusted for multiple comparisons"

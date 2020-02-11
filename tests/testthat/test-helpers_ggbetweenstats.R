@@ -44,7 +44,6 @@ testthat::test_that(
     # check data
     testthat::expect_equal(dim(pb_mean$data[[1]]), c(5L, 25L))
     testthat::expect_equal(dim(pb_mean$data[[2]]), c(5L, 12L))
-    # testthat::expect_equal(dim(pb_mean$data[[3]]), c(4L, 15L))
     testthat::expect_equal(
       pb_mean$data[[2]]$y,
       c(0.07925556, 0.62159750, 0.02155000, 0.14573118, 0.00762600),
@@ -96,10 +95,10 @@ testthat::test_that(
     testthat::expect_identical(
       mean_dat$label,
       c(
-        "list(~italic(mu)==3819.5769,CI[95*'%']*'['*3140.8008,4498.3531*']')",
-        "list(~italic(mu)==4053.4397,CI[95*'%']*'['*3613.1020,4493.7773*']')",
-        "list(~italic(mu)==3928.2492,CI[95*'%']*'['*3607.0316,4249.4667*']')",
-        "list(~italic(mu)==4602.0879,CI[95*'%']*'['*4274.7306,4929.4452*']')"
+        "list(~italic(widehat(mu))==3819.5769,CI[95*'%']*'['*3140.8008,4498.3531*']')",
+        "list(~italic(widehat(mu))==4053.4397,CI[95*'%']*'['*3613.1020,4493.7773*']')",
+        "list(~italic(widehat(mu))==3928.2492,CI[95*'%']*'['*3607.0316,4249.4667*']')",
+        "list(~italic(widehat(mu))==4602.0879,CI[95*'%']*'['*4274.7306,4929.4452*']')"
       )
     )
 
@@ -269,9 +268,9 @@ testthat::test_that(
 
     # without NAs
     set.seed(123)
-    df1 <- ggstatsplot:::sort_xy(iris_long, condition, value, sort = "none")
+    df1 <- ggstatsplot:::sort_xy(iris_long, "condition", value, sort = "none")
     df2 <- ggstatsplot:::sort_xy(iris_long, condition, value, sort = "descending")
-    df3 <- ggstatsplot:::sort_xy(iris_long, condition, value, sort = "ascending")
+    df3 <- ggstatsplot:::sort_xy(iris_long, condition, "value", sort = "ascending")
 
     testthat::expect_equal(
       levels(df1$condition),
@@ -284,8 +283,8 @@ testthat::test_that(
     # with NAs
     set.seed(123)
     df4 <- ggstatsplot:::sort_xy(msleep, vore, brainwt, sort = "none")
-    df5 <- ggstatsplot:::sort_xy(msleep, vore, brainwt, sort = "descending")
-    df6 <- ggstatsplot:::sort_xy(msleep, vore, brainwt, sort = "ascending")
+    df5 <- ggstatsplot:::sort_xy(msleep, "vore", brainwt, sort = "descending")
+    df6 <- ggstatsplot:::sort_xy(msleep, vore, "brainwt", sort = "ascending")
 
     testthat::expect_equal(
       levels(df4$vore),

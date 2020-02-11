@@ -61,8 +61,9 @@ ggbetweenstats(
   palette = "Dark2",
   direction = 1,
   ggplot.component = NULL,
-  return = "plot",
-  messages = TRUE
+  output = "plot",
+  messages = TRUE,
+  ...
 )
 }
 \arguments{
@@ -253,9 +254,7 @@ override some aspects of the selected \code{ggtheme}.}
 \item{package}{Name of package from which the palette is desired as string
 or symbol.}
 
-\item{palette}{If a character string (e.g., \code{"Set1"}), will use that named
-palette. If a number, will index into the list of palettes of appropriate
-type. Default palette is \code{"Dark2"}.}
+\item{palette}{Name of palette as string or symbol.}
 
 \item{direction}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
 
@@ -266,7 +265,7 @@ as a function. If the given function has an argument \code{axes.range.restrict}
 and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
 work as expected.}
 
-\item{return}{Character that describes what is to be returned: can be
+\item{output}{Character that describes what is to be returned: can be
 \code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
 \code{"subtitle"} will return the expression containing statistical results. If
 you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
@@ -276,6 +275,8 @@ about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 
 \item{messages}{Decides whether messages references, notes, and warnings are
 to be displayed (Default: \code{TRUE}).}
+
+\item{...}{Currently ignored.}
 }
 \description{
 A combination of box and violin plots along with jittered data

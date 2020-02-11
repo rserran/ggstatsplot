@@ -19,7 +19,7 @@
 #'
 #' @importFrom rlang exec !! enquo :=
 #' @importFrom statsExpressions bf_ttest bf_oneway_anova
-#' @importFrom pairwiseComparisons pairwise_comparisons pairwise_comparisons_caption
+#' @importFrom pairwiseComparisons pairwise_comparisons
 #'
 #' @details
 #'
@@ -112,14 +112,15 @@ ggwithinstats <- function(data,
                           palette = "Dark2",
                           direction = 1,
                           ggplot.component = NULL,
-                          return = "plot",
-                          messages = TRUE) {
+                          output = "plot",
+                          messages = TRUE,
+                          ...) {
 
-  # no pairwise comparisons are available for bayesian t-tests
-  if (type %in% c("bf", "bayes") && isTRUE(pairwise.comparisons)) {
-    # turn off pairwise comparisons
-    pairwise.comparisons <- FALSE
-  }
+  # convert entered stats type to a standard notation
+  type <- stats_type_switch(type)
+
+  # no pairwise comparisons are available for Bayesian t-tests
+  if (type == "bayes" && isTRUE(pairwise.comparisons)) pairwise.comparisons <- FALSE
 
   # ------------------------------ variable names ----------------------------
 
@@ -175,11 +176,7 @@ ggwithinstats <- function(data,
 
   # figure out which test to run based on the number of levels of the
   # independent variables
-  if (nlevels(data %>% dplyr::pull({{ x }}))[[1]] < 3) {
-    test <- "t-test"
-  } else {
-    test <- "anova"
-  }
+  test <- ifelse(nlevels(data %>% dplyr::pull({{ x }}))[[1]] < 3, "t", "anova")
 
   # --------------------------------- sorting --------------------------------
 
@@ -241,18 +238,10 @@ ggwithinstats <- function(data,
 
   if (isTRUE(results.subtitle)) {
     # preparing the bayes factor message
-    if (type %in% c("parametric", "p") && isTRUE(bf.message)) {
-      # choosing the appropriate test
-      if (test == "t-test") {
-        .f <- statsExpressions::bf_ttest
-      } else {
-        .f <- statsExpressions::bf_oneway_anova
-      }
-
-      # preparing the BF message for null
+    if (type == "parametric" && isTRUE(bf.message)) {
       caption <-
-        rlang::exec(
-          .fn = .f,
+        caption_function_switch(
+          test = test,
           data = data,
           x = rlang::as_string(x),
           y = rlang::as_string(y),
@@ -266,7 +255,7 @@ ggwithinstats <- function(data,
 
     # extracting the subtitle using the switch function
     subtitle <-
-      ggwithinstats_switch(
+      subtitle_function_switch(
         # switch based on
         type = type,
         test = test,
@@ -401,20 +390,13 @@ ggwithinstats <- function(data,
       )
 
     # preparing the caption for pairwise comparisons test
-    caption <-
-      pairwiseComparisons::pairwise_comparisons_caption(
-        type = type,
-        var.equal = TRUE,
-        paired = TRUE,
-        p.adjust.method = p.adjust.method,
-        caption = caption
-      )
+    caption <- pairwise_caption(caption, unique(df_pairwise$test.details), p.adjust.method)
   }
 
   # ------------------------ annotations and themes -------------------------
 
   # specifying annotations and other aesthetic aspects for the plot
-  if (return == "plot") {
+  if (output == "plot") {
     plot <-
       aesthetic_addon(
         plot = plot,
@@ -467,7 +449,7 @@ ggwithinstats <- function(data,
 
   # return the final plot
   return(switch(
-    EXPR = return,
+    EXPR = output,
     "plot" = plot,
     "subtitle" = subtitle,
     "caption" = caption,

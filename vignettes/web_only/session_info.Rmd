@@ -35,12 +35,12 @@ source of those divergences.
 
 This session information was generated on `r Sys.Date()`:
 
-```{r include = FALSE}
-library(ggstatsplot)
-```
-
 ```{r session_info}
+# setup for the session
 options(width = 200)
+library(ggstatsplot)
+
+# session information
 sessioninfo::session_info(include_base = TRUE)
 ```
 

@@ -97,7 +97,7 @@ testthat::test_that(
     testthat::expect_equal(dim(pb$data[[2]]), c(4L, 19L))
     testthat::expect_identical(
       pb$data[[1]]$fill,
-      c("#E7298A", "#7570B3", "#D95F02", "#1B9E77")
+      c("#E7298AFF", "#7570B3FF", "#D95F02FF", "#1B9E77FF")
     )
   }
 )
@@ -111,26 +111,25 @@ testthat::test_that(
 
     # creating the plot
     set.seed(123)
-    p <- suppressWarnings(
-      ggstatsplot::ggpiestats(
-        data = mtcars,
-        main = "am",
-        condition = "cyl",
-        bf.message = TRUE,
-        perc.k = 2,
-        nboot = 25,
-        package = "wesanderson",
-        palette = "Royal2",
-        ggtheme = ggplot2::theme_bw(),
-        slice.label = "counts",
-        legend.title = "transmission",
-        factor.levels = c("0 = automatic", "1 = manual"),
-        facet.wrap.name = "cylinders",
-        simulate.p.value = TRUE,
-        B = 3000,
-        messages = FALSE
+    p <-
+      suppressWarnings(
+        ggstatsplot::ggpiestats(
+          data = mtcars,
+          main = "am",
+          condition = "cyl",
+          bias.correct = FALSE,
+          perc.k = 2,
+          nboot = 25,
+          package = "wesanderson",
+          palette = "Royal2",
+          ggtheme = ggplot2::theme_bw(),
+          slice.label = "counts",
+          legend.title = "transmission",
+          factor.levels = c("0 = automatic", "1 = manual"),
+          facet.wrap.name = "cylinders",
+          messages = FALSE
+        )
       )
-    )
 
     # dropped level dataset
     mtcars_small <- dplyr::filter(.data = mtcars, am == "0")
@@ -153,15 +152,14 @@ testthat::test_that(
     # subtitle used
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_contingency_tab(
+      suppressWarnings(statsExpressions::expr_contingency_tab(
         data = mtcars,
+        bias.correct = FALSE,
         x = "am",
         y = "cyl",
-        simulate.p.value = TRUE,
         nboot = 25,
-        B = 3000,
         messages = FALSE
-      )
+      ))
 
     # checking data used to create a plot
     dat <- p$data
@@ -316,17 +314,17 @@ testthat::test_that(
     testthat::expect_identical(
       pb$data[[1]]$fill,
       c(
-        "#F5CDB4",
-        "#9A8822",
-        "#F5CDB4",
-        "#9A8822",
-        "#F5CDB4",
-        "#9A8822"
+        "#F5CDB4FF",
+        "#9A8822FF",
+        "#F5CDB4FF",
+        "#9A8822FF",
+        "#F5CDB4FF",
+        "#9A8822FF"
       )
     )
     testthat::expect_identical(
       pb1$data[[1]]$fill,
-      c("#7570B3", "#D95F02", "#1B9E77")
+      c("#7570B3FF", "#D95F02FF", "#1B9E77FF")
     )
 
     # test layout
@@ -490,7 +488,6 @@ testthat::test_that(
         data = mtcars,
         main = am,
         ratio = c(0.5, 0.5),
-        bf.prior = 0.8,
         messages = FALSE
       )
 
@@ -614,39 +611,42 @@ testthat::test_that(
     testthat::expect_null(ggstatsplot::ggpiestats(
       data = df,
       main = x,
-      return = "subtitle"
+      output = "subtitle"
     ))
   }
 )
 
-# subtitle return --------------------------------------------------
+# subtitle output --------------------------------------------------
 
 testthat::test_that(
-  desc = "subtitle return",
+  desc = "subtitle output",
   code = {
     testthat::skip_on_cran()
 
-    # subtitle return
+    # subtitle output
     set.seed(123)
-    p_sub <- ggstatsplot::ggpiestats(
-      data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-      main = race,
-      condition = marital,
-      return = "subtitle",
-      k = 4,
-      messages = FALSE
-    )
+    p_sub <-
+      ggstatsplot::ggpiestats(
+        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
+        main = race,
+        bias.correct = FALSE,
+        condition = marital,
+        output = "subtitle",
+        k = 4,
+        messages = FALSE
+      )
 
-    # caption return
+    # caption output
     set.seed(123)
-    p_cap <- ggstatsplot::ggpiestats(
-      data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-      main = race,
-      condition = marital,
-      return = "caption",
-      k = 4,
-      messages = FALSE
-    )
+    p_cap <-
+      ggstatsplot::ggpiestats(
+        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
+        main = race,
+        condition = marital,
+        output = "caption",
+        k = 4,
+        messages = FALSE
+      )
 
     # tests
     testthat::expect_identical(
@@ -664,7 +664,7 @@ testthat::test_that(
           " = ",
           "< 0.001",
           ", ",
-          italic("V")["Cramer"],
+          widehat(italic("V"))["Cramer"],
           " = ",
           "0.1594",
           ", CI"["95%"],

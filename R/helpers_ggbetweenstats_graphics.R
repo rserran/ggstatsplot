@@ -67,7 +67,7 @@ mean_labeller <- function(data,
           purrr::map(
             .x = .,
             .f = ~ paste(
-              "list(~italic(mu)==",
+              "list(~italic(widehat(mu))==",
               .$`mean...summary`,
               ",",
               "CI[95*'%']",
@@ -82,7 +82,7 @@ mean_labeller <- function(data,
         } else {
           purrr::map(
             .x = .,
-            .f = ~ paste("list(~italic(mu)==", .$`mean...summary`, ")", sep = " ")
+            .f = ~ paste("list(~italic(widehat(mu))==", .$`mean...summary`, ")", sep = " ")
           )
         }
       }
@@ -188,15 +188,14 @@ mean_ggrepel <- function(plot,
       fontface = mean.label.fontface,
       color = mean.label.color,
       direction = "both",
-      max.iter = 3e2,
+      min.segment.length = 0,
       box.padding = 0.35,
       point.padding = 0.5,
       segment.color = "black",
       force = 2,
       inherit.aes = FALSE,
       parse = TRUE,
-      na.rm = TRUE,
-      seed = 123
+      na.rm = TRUE
     )
 
   # return the plot with labels
@@ -307,7 +306,8 @@ outlier_df <- function(data,
 #' library(ggplot2)
 #'
 #' # plot
-#' p <- ggplot(iris, aes(Species, Sepal.Length)) + geom_boxplot()
+#' p <- ggplot(iris, aes(Species, Sepal.Length)) +
+#'   geom_boxplot()
 #'
 #' # dataframe with pairwise comparison test results
 #' df_pair <- pairwiseComparisons::pairwise_comparisons(
@@ -393,6 +393,29 @@ ggsignif_adder <- function(plot,
   return(plot)
 }
 
+#' @name pairwise_caption
+#' @noRd
+
+pairwise_caption <- function(caption, test.description, p.adjust.method) {
+  substitute(
+    atop(
+      displaystyle(top.text),
+      expr = paste(
+        "Pairwise comparisons: ",
+        bold(test.description),
+        "; Adjustment (p-value): ",
+        bold(p.adjust.method.text)
+      )
+    ),
+    env = list(
+      top.text = caption,
+      test.description = test.description,
+      p.adjust.method.text = p_adjust_text(p.adjust.method)
+    )
+  )
+}
+
+
 #' @name ggsignif_xy
 #' @importFrom utils combn
 #'
@@ -446,13 +469,6 @@ sort_xy <- function(data,
   x <- rlang::ensym(x)
   y <- rlang::ensym(y)
 
-  # decide the needed order
-  if (sort == "ascending") {
-    .desc <- FALSE
-  } else {
-    .desc <- TRUE
-  }
-
   # reordering `x` based on its mean values
   return(
     data %<>%
@@ -463,7 +479,7 @@ sort_xy <- function(data,
           .x = {{ y }},
           .fun = sort.fun,
           na.rm = TRUE,
-          .desc = .desc
+          .desc = ifelse(sort == "ascending", FALSE, TRUE)
         )
       )
   )
@@ -518,13 +534,11 @@ aesthetic_addon <- function(plot,
     ) +
     ggplot2::theme(legend.position = "none") +
     paletteer::scale_color_paletteer_d(
-      package = !!package,
-      palette = !!palette,
+      palette = paste0(package, "::", palette),
       direction = direction
     ) +
     paletteer::scale_fill_paletteer_d(
-      package = !!package,
-      palette = !!palette,
+      palette = paste0(package, "::", palette),
       direction = direction
     )
 
