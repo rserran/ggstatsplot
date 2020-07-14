@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,7 +46,7 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
@@ -54,7 +58,6 @@
 <meta property="og:description" content="Histogram with statistical details from one-sample test included
 in the plot as a subtitle." />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -72,7 +75,7 @@ in the plot as a subtitle." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +89,7 @@ in the plot as a subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.5.0.9000</span>
       </span>
     </div>
 
@@ -110,9 +113,6 @@ in the plot as a subtitle." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
     </li>
     <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
@@ -170,7 +170,7 @@ in the plot as a subtitle." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/IndrajeetPatil/ggstatsplot">
+  <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -210,7 +210,6 @@ in the plot as a subtitle.</p>
   <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>bar.measure</span> <span class='kw'>=</span> <span class='st'>"count"</span>,
   <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stat.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -218,38 +217,26 @@ in the plot as a subtitle.</p>
   <span class='kw'>test.value</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>bf.prior</span> <span class='kw'>=</span> <span class='fl'>0.707</span>,
   <span class='kw'>bf.message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>robust.estimator</span> <span class='kw'>=</span> <span class='st'>"onestep"</span>,
   <span class='kw'>effsize.type</span> <span class='kw'>=</span> <span class='st'>"g"</span>,
-  <span class='kw'>effsize.noncentral</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
   <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
   <span class='kw'>ggtheme</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>(),
   <span class='kw'>ggstatsplot.layer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>fill.gradient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>low.color</span> <span class='kw'>=</span> <span class='st'>"#0072B2"</span>,
-  <span class='kw'>high.color</span> <span class='kw'>=</span> <span class='st'>"#D55E00"</span>,
   <span class='kw'>bar.fill</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
   <span class='kw'>results.subtitle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>centrality.para</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>centrality.color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>,
-  <span class='kw'>centrality.size</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>centrality.linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>,
-  <span class='kw'>centrality.line.labeller</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>centrality.k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>test.value.line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>test.value.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>test.value.size</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>test.value.linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>,
-  <span class='kw'>test.line.labeller</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>test.k</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>test.value.line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>test.value.line.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>),
+  <span class='kw'>test.value.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>),
+  <span class='kw'>centrality.parameter</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
+  <span class='kw'>centrality.k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>centrality.line.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
+  <span class='kw'>centrality.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>),
   <span class='kw'>normal.curve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>normal.curve.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>normal.curve.linetype</span> <span class='kw'>=</span> <span class='st'>"solid"</span>,
-  <span class='kw'>normal.curve.size</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>normal.curve.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>),
   <span class='kw'>ggplot.component</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>,
-  <span class='kw'>messages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -263,7 +250,7 @@ be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>A numeric variable.</p></td>
+      <td><p>A numeric variable from the dataframe <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>binwidth</th>
@@ -286,12 +273,6 @@ proportion in the same plot.</p></td>
       <th>xlab</th>
       <td><p>Labels for <code>x</code> and <code>y</code> axis variables. If <code>NULL</code> (default),
 variable names for <code>x</code> and <code>y</code> will be used.</p></td>
-    </tr>
-    <tr>
-      <th>stat.title</th>
-      <td><p>A character describing the test being run, which will be
-added as a prefix in the subtitle. The default is <code>NULL</code>. An example of a
-<code>stat.title</code> argument will be something like <code>"Student's t-test: "</code>.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -320,8 +301,8 @@ or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations ar
     </tr>
     <tr>
       <th>bf.prior</th>
-      <td><p>A numeric value between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the
-prior width to use in calculating Bayes Factors.</p></td>
+      <td><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
+width to use in calculating Bayes factors.</p></td>
     </tr>
     <tr>
       <th>bf.message</th>
@@ -330,22 +311,9 @@ favor of the <em>null</em> hypothesis. This argument is relevant only <strong>fo
 parametric test</strong> (Default: <code>TRUE</code>).</p></td>
     </tr>
     <tr>
-      <th>robust.estimator</th>
-      <td><p>If <code>type = "robust"</code>, a robust estimator to be used
-(<code>"onestep"</code> (Default), <code>"mom"</code>, or <code>"median"</code>). For more, see
-<code><a href='https://rdrr.io/pkg/WRS2/man/onesampb.html'>?WRS2::onesampb</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>effsize.type</th>
       <td><p>Type of effect size needed for <em>parametric</em> tests. The
-argument can be <code>"biased"</code> (<code>"d"</code> for Cohen's <em>d</em>) or <code>"unbiased"</code>
-(<code>"g"</code> Hedge's <em>g</em> for <strong>t-test</strong>). The default is <code>"g"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>effsize.noncentral</th>
-      <td><p>Logical indicating whether to use non-central
-<em>t</em>-distributions for computing the confidence interval for Cohen's <em>d</em>
-or Hedge's <em>g</em> (Default: <code>TRUE</code>).</p></td>
+argument can be <code>"d"</code> (for Cohen's <em>d</em>) or <code>"g"</code> (for Hedge's <em>g</em>).</p></td>
     </tr>
     <tr>
       <th>conf.level</th>
@@ -377,22 +345,9 @@ theme elements are to be displayed along with the selected <code>ggtheme</code>
 override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
-      <th>fill.gradient</th>
-      <td><p>Logical decides whether color fill gradient is to be
-displayed (Default: <code>FALSE</code>). If <code>FALSE</code>, the legend and the color gradient
-will also be removed. The default is set to <code>FALSE</code> because the gradient
-provides redundant information in light of y-axis labels.</p></td>
-    </tr>
-    <tr>
-      <th>low.color, high.color</th>
-      <td><p>Colors for low and high ends of the gradient.
-Defaults are colorblind-friendly.</p></td>
-    </tr>
-    <tr>
       <th>bar.fill</th>
-      <td><p>If <code>fill.gradient = FALSE</code>, then <code>bar.fill</code> decides which
-color will uniformly fill all the bars in the histogram (Default:
-<code>"grey50"</code>).</p></td>
+      <td><p>Character input that decides which color will uniformly fill
+all the bars in the histogram (Default: <code>"grey50"</code>).</p></td>
     </tr>
     <tr>
       <th>results.subtitle</th>
@@ -401,29 +356,32 @@ to be displayed as a subtitle (Default: <code>TRUE</code>). If set to <code>FALS
 the plot will be returned.</p></td>
     </tr>
     <tr>
-      <th>centrality.para</th>
-      <td><p>Decides <em>which</em> measure of central tendency (<code>"mean"</code>
-or <code>"median"</code>) is to be displayed as a vertical line.</p></td>
+      <th>test.k</th>
+      <td><p>Integer denoting the number of decimal places expected for
+<code>test.value</code> label. (Default: <code>0</code> ).</p></td>
     </tr>
     <tr>
-      <th>centrality.color</th>
-      <td><p>Decides color for the vertical line for centrality
-parameter (Default: <code>"blue"</code>).</p></td>
+      <th>test.value.line</th>
+      <td><p>Logical that decides whether a line corresponding to
+the <code>test.value</code> should be superimposed on the plot.</p></td>
     </tr>
     <tr>
-      <th>centrality.size</th>
-      <td><p>Decides size for the vertical line for centrality
-parameter (Default: <code>1.2</code>).</p></td>
+      <th>test.value.line.args</th>
+      <td><p>A list of additional
+aesthetic arguments to be passed to the <code>geom_line</code> used to display the
+lines corresponding to the centrality parameter and test value.</p></td>
     </tr>
     <tr>
-      <th>centrality.linetype</th>
-      <td><p>Decides linetype for the vertical line for
-centrality parameter (Default: <code>"dashed"</code>).</p></td>
+      <th>test.value.label.args</th>
+      <td><p>A list of additional
+aesthetic arguments to be passed to the <code>geom_label</code> used to display the
+label corresponding to the centrality parameter and test value.</p></td>
     </tr>
     <tr>
-      <th>centrality.line.labeller</th>
-      <td><p>A logical that decides whether line labels
-should be displayed for the <strong>centrality.para</strong> line (Default: <code>TRUE</code>).</p></td>
+      <th>centrality.parameter</th>
+      <td><p>Decides <em>which</em> measure of central tendency
+(<code>"mean"</code> or <code>"median"</code>) is to be displayed as a vertical line. To not show
+any parameter, set this to <code>"none"</code>.</p></td>
     </tr>
     <tr>
       <th>centrality.k</th>
@@ -431,54 +389,33 @@ should be displayed for the <strong>centrality.para</strong> line (Default: <cod
 for centrality parameter label. (Default: <code>2</code>).</p></td>
     </tr>
     <tr>
-      <th>test.value.line</th>
-      <td><p>Decides whether test value is to be displayed as a
-vertical line (Default: <code>FALSE</code>).</p></td>
+      <th>centrality.line.args</th>
+      <td><p>A list of additional
+aesthetic arguments to be passed to the <code>geom_line</code> used to display the
+lines corresponding to the centrality parameter and test value.</p></td>
     </tr>
     <tr>
-      <th>test.value.color</th>
-      <td><p>Decides color for the vertical line denoting test
-value (Default: <code>"black"</code>).</p></td>
-    </tr>
-    <tr>
-      <th>test.value.size</th>
-      <td><p>Decides size for the vertical line for test value
-(Default: <code>1.2</code>).</p></td>
-    </tr>
-    <tr>
-      <th>test.value.linetype</th>
-      <td><p>Decides linetype for the vertical line for test
-value (Default: <code>"dashed"</code>).</p></td>
-    </tr>
-    <tr>
-      <th>test.line.labeller</th>
-      <td><p>A logical that decides whether line labels should
-be displayed for <strong>test.value</strong> line (Default: <code>TRUE</code>).</p></td>
-    </tr>
-    <tr>
-      <th>test.k</th>
-      <td><p>Integer denoting the number of decimal places expected for
-<code>test.value</code> label. (Default: <code>0</code> ).</p></td>
+      <th>centrality.label.args</th>
+      <td><p>A list of additional
+aesthetic arguments to be passed to the <code>geom_label</code> used to display the
+label corresponding to the centrality parameter and test value.</p></td>
     </tr>
     <tr>
       <th>normal.curve</th>
-      <td><p>Logical decides whether to super-impose a normal curve
-using <code><a href='https://rdrr.io/r/stats/Normal.html'>stats::dnorm(mean(x), sd(x))</a></code>. Default is <code>FALSE</code>.</p></td>
+      <td><p>A logical value that decides whether to super-impose a
+normal curve using <code><a href='https://rdrr.io/r/stats/Normal.html'>stats::dnorm(mean(x), sd(x))</a></code>. Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
-      <th>normal.curve.color, normal.curve.linetype, normal.curve.size</th>
-      <td><p>If
-<code>normal.curve = TRUE</code>, then these arguments can be used to modify color
-(Default: <code>"black"</code>), size (default: <code>1.0</code>), linetype (default: <code>"solid"</code>).</p></td>
+      <th>normal.curve.args</th>
+      <td><p>A list of additional aesthetic arguments to be
+passed to the normal curve.</p></td>
     </tr>
     <tr>
       <th>ggplot.component</th>
       <td><p>A <code>ggplot</code> component to be added to the plot prepared
 by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
 of the current function. Default is <code>NULL</code>. The argument should be entered
-as a function. If the given function has an argument <code>axes.range.restrict</code>
-and if it has been set to <code>TRUE</code>, the added <code>ggplot</code> component <em>might</em> not
-work as expected.</p></td>
+as a function.</p></td>
     </tr>
     <tr>
       <th>output</th>
@@ -488,12 +425,9 @@ work as expected.</p></td>
 you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
 Setting this to <code>"caption"</code> will return the expression containing details
 about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
-<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>messages</th>
-      <td><p>Decides whether messages references, notes, and warnings are
-to be displayed (Default: <code>TRUE</code>).</p></td>
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>. For functions
+<code>ggpiestats</code> and <code>ggbarstats</code>, setting <code>output = "proptest"</code> will return a
+dataframe containing results from proportion tests.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -513,14 +447,14 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># most basic function call with the defaults</span>
 <span class='co'># this is the **only** function where data argument can be `NULL`</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/gghistostats.html'>gghistostats</a></span>(
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>gghistostats</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ToothGrowth</span>,
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>len</span>,
   <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Tooth length"</span>,
-  <span class='kw'>centrality.para</span> <span class='kw'>=</span> <span class='st'>"median"</span>
-)</div><div class='output co'>#&gt; <span class='message'>t is large; approximation invoked.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: full precision may not have been achieved in 'pnt{final}'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: full precision may not have been achieved in 'pnt{final}'</span></div><div class='output co'>#&gt; <span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>Shapiro-Wilk Normality Test for </span><span style='color: #BBBB00;'>Tooth length</span><span style='color: #0000BB;'>: p-value = </span><span style='color: #BBBB00;'>0.109</span><span></div><div class='output co'>#&gt; </div><div class='img'><img src='gghistostats-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='kw'>centrality.parameter</span> <span class='kw'>=</span> <span class='st'>"median"</span>
+)</div><div class='output co'>#&gt; <span class='message'>t is large; approximation invoked.</span></div><div class='img'><img src='gghistostats-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a detailed function call</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/gghistostats.html'>gghistostats</a></span>(
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>gghistostats</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>,
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>Sepal.Length</span>,
   <span class='kw'>bar.measure</span> <span class='kw'>=</span> <span class='st'>"mix"</span>,
@@ -531,18 +465,13 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
   <span class='kw'>test.value.line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>0.10</span>,
   <span class='kw'>bar.fill</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>
-)</div><div class='output co'>#&gt; <span class='message'>t is large; approximation invoked.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: full precision may not have been achieved in 'pnt{final}'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: full precision may not have been achieved in 'pnt{final}'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: full precision may not have been achieved in 'pnt{final}'</span></div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>Shapiro-Wilk Normality Test for </span><span style='color: #BBBB00;'>Sepal.Length</span><span style='color: #0000BB;'>: p-value = </span><span style='color: #BBBB00;'>0.010</span><span></div><div class='output co'>#&gt; </div><div class='img'><img src='gghistostats-2.png' alt='' width='700' height='433' /></div><div class='input'># }
-</div></span></pre>
+)</div><div class='output co'>#&gt; <span class='message'>t is large; approximation invoked.</span></div><div class='img'><img src='gghistostats-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -553,7 +482,7 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

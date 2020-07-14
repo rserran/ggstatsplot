@@ -11,15 +11,11 @@ ggbarstats(
   counts = NULL,
   ratio = NULL,
   paired = FALSE,
-  labels.legend = NULL,
   results.subtitle = TRUE,
-  stat.title = NULL,
   sample.size.label = TRUE,
-  label.separator = " ",
-  label.text.size = 4,
-  label.fill.color = "white",
-  label.fill.alpha = 1,
-  bar.outline.color = "black",
+  label = "percentage",
+  perc.k = 0,
+  label.args = list(alpha = 1, fill = "white"),
   bf.message = TRUE,
   sampling.plan = "indepMulti",
   fixed.margin = "rows",
@@ -27,27 +23,19 @@ ggbarstats(
   title = NULL,
   subtitle = NULL,
   caption = NULL,
-  legend.position = "right",
-  x.axis.orientation = NULL,
   conf.level = 0.95,
   nboot = 100,
-  bias.correct = TRUE,
   legend.title = NULL,
   xlab = NULL,
-  ylab = "Percent",
+  ylab = NULL,
   k = 2,
-  perc.k = 0,
-  bar.label = "percentage",
-  data.label = NULL,
-  bar.proptest = TRUE,
+  proportion.test = TRUE,
   ggtheme = ggplot2::theme_bw(),
   ggstatsplot.layer = TRUE,
   package = "RColorBrewer",
   palette = "Dark2",
-  direction = 1,
   ggplot.component = NULL,
   output = "plot",
-  messages = TRUE,
   x = NULL,
   y = NULL,
   ...
@@ -79,42 +67,27 @@ repeated measures design study (Default: \code{FALSE}). If \code{TRUE}, McNemar'
 test subtitle will be returned. If \code{FALSE}, Pearson's chi-square test will
 be returned.}
 
-\item{labels.legend}{A character vector with custom labels for levels of
-the \code{x} variable displayed in the legend.}
-
 \item{results.subtitle}{Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
 the plot will be returned.}
-
-\item{stat.title}{Title for the effect being investigated with the chi-square
-test. The default is \code{NULL}, i.e. no title will be added to describe the
-effect being shown. An example of a \code{stat.title} argument will be something
-like \code{"main x condition"} or \code{"interaction"}.}
 
 \item{sample.size.label}{Logical that decides whether sample size information
 should be displayed for each level of the grouping variable \code{y}
 (Default: \code{TRUE}).}
 
-\item{label.separator}{If \code{"both"} counts and proportion information is to be
-displayed in a label, this argument decides whether these two pieces of
-information are going to be on the same line (\code{" "}) or on separate lines
-(\code{"\\n"}).}
+\item{label}{Character decides what information needs to be
+displayed on the label in each pie slice. Possible options are
+\code{"percentage"} (default), \code{"counts"}, \code{"both"}.}
 
-\item{label.text.size}{Numeric that decides text size for slice/bar labels
-(Default: \code{4}).}
+\item{perc.k}{Numeric that decides number of decimal places for percentage
+labels (Default: \code{0}).}
 
-\item{label.fill.color}{Character that specifies fill color for slice/bar
-labels (Default: \code{white}).}
+\item{label.args}{Additional aesthetic arguments that will be passed to
+\code{geom_label}.}
 
-\item{label.fill.alpha}{Numeric that specifies fill color transparency or
-\code{"alpha"} for slice/bar labels (Default: \code{1} range \code{0} to \code{1}).}
-
-\item{bar.outline.color}{Character specifying color for bars (default:
-\code{"black"}).}
-
-\item{bf.message}{Logical that decides whether to display a caption with
-results from Bayes Factor test in favor of the null hypothesis (default:
-\code{FALSE}).}
+\item{bf.message}{Logical that decides whether to display Bayes Factor in
+favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
+parametric test} (Default: \code{TRUE}).}
 
 \item{sampling.plan}{Character describing the sampling plan. Possible options
 are \code{"indepMulti"} (independent multinomial; default), \code{"poisson"},
@@ -136,40 +109,23 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
 
 \item{caption}{The text for the plot caption.}
 
-\item{legend.position}{The position of the legend
-\code{"none"}, \code{"left"}, \code{"right"}, \code{"bottom"}, \code{"top"} (Default: \code{"right"}).}
-
-\item{x.axis.orientation}{The orientation of the \code{x} axis labels one of
-"slant" or "vertical" to change from the default horizontal
-orientation (Default: \code{NULL} which is horizontal).}
-
 \item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
 \verb{95\%} lower and upper confidence intervals (\code{0.95}).}
 
 \item{nboot}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
 
-\item{bias.correct}{If \code{TRUE} (default), a bias correction will be applied to
-Cramer's \emph{V}.}
-
 \item{legend.title}{Title text for the legend.}
 
 \item{xlab}{Custom text for the \code{x} axis label (Default: \code{NULL}, which
 will cause the \code{x} axis label to be the \code{x} variable).}
 
-\item{ylab}{Custom text for the \code{y} axis label (Default: \code{"percent"}).}
+\item{ylab}{Custom text for the \code{y} axis label (Default: \code{NULL}).}
 
 \item{k}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2}).}
 
-\item{perc.k}{Numeric that decides number of decimal places for percentage
-labels (Default: \code{0}).}
-
-\item{bar.label, data.label}{Character decides what information needs to be
-displayed on the label in each pie slice. Possible options are
-\code{"percentage"} (default), \code{"counts"}, \code{"both"}.}
-
-\item{bar.proptest}{Decides whether proportion test for \code{main} variable is
+\item{proportion.test}{Decides whether proportion test for \code{main} variable is
 to be carried out for each level of \code{y} (Default: \code{TRUE}).}
 
 \item{ggtheme}{A function, \code{ggplot2} theme name. Default value is
@@ -185,27 +141,22 @@ override some aspects of the selected \code{ggtheme}.}
 \item{package}{Name of package from which the palette is desired as string
 or symbol.}
 
-\item{palette}{If a character string (e.g., \code{"Set1"}), will use that named
-palette. If a number, will index into the list of palettes of appropriate
-type. Default palette is \code{"Dark2"}.}
-
-\item{direction}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
+\item{palette}{Name of palette as string or symbol.}
 
 \item{ggplot.component}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
-as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
-work as expected.}
+as a function.}
 
-\item{output}{Can either be \code{"null"} (or \code{"caption"} or \code{"H0"} or \code{"h0"}),
-which will return expression with evidence in favor of the null hypothesis,
-or \code{"alternative"} (or \code{"title"} or \code{"H1"} or \code{"h1"}), which will return
-expression with evidence in favor of the alternative hypothesis, or
-\code{"results"}, which will return a dataframe with results all the details).}
-
-\item{messages}{Decides whether messages references, notes, and warnings are
-to be displayed (Default: \code{TRUE}).}
+\item{output}{Character that describes what is to be returned: can be
+\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
+\code{"subtitle"} will return the expression containing statistical results. If
+you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
+Setting this to \code{"caption"} will return the expression containing details
+about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
+\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
+dataframe containing results from proportion tests.}
 
 \item{x}{The variable to use as the \strong{rows} in the contingency table.}
 
@@ -215,7 +166,7 @@ of fit test) will be run for the \code{x} variable. Otherwise an appropriate
 association test will be run. This argument can not be \code{NULL} for
 \code{ggbarstats} function.}
 
-\item{...}{further arguments to be passed to or from methods.}
+\item{...}{Currently ignored.}
 }
 \value{
 Unlike a number of statistical softwares, \code{ggstatsplot} doesn't
@@ -244,7 +195,6 @@ ggstatsplot::ggbarstats(
   x = vs,
   y = cyl,
   nboot = 10,
-  labels.legend = c("0 = V-shaped", "1 = straight"),
   legend.title = "Engine"
 )
 }

@@ -5,16 +5,10 @@
 #'
 #' @param data A dataframe containing summaries for categorical variables.
 #'   Should contain columns named either `"perc"` or `"counts"` or both.
-#' @param label.col.name Character that decides the column name containing
-#'   summary label. This can either be `"slice.label"` (default) or
-#'   `"data.label"`.
 #' @param label.content Character decides what information needs to be displayed
 #'   on the label in each pie or bar slice. Possible options are `"percentage"`
 #'   (default), `"counts"`, `"both"`.
-#' @param label.separator If `"both"` counts and proportion information is to be
-#'   displayed in a label, this argument decides whether these two pieces of
-#'   information are going to be on the same line (`" "`) or on separate lines
-#'   (`"\n"`).
+#' @param ... Ignored.
 #' @inheritParams ggpiestats
 #'
 #' @importFrom dplyr mutate
@@ -25,7 +19,6 @@
 #' # dataframe with label column
 #' ggstatsplot:::cat_label_df(
 #'   data = ggstatsplot:::cat_counter(mtcars, am, cyl),
-#'   label.col.name = "slice.label",
 #'   label.content = "both",
 #'   perc.k = 1
 #' )
@@ -34,42 +27,26 @@
 
 # function body
 cat_label_df <- function(data,
-                         label.col.name = "slice.label",
                          label.content = "percentage",
-                         label.separator = c("\n", " "),
-                         perc.k = 1) {
+                         perc.k = 1,
+                         ...) {
 
   # checking what needs to be displayed in a label
   # only percentage
   if (label.content %in% c("percentage", "perc", "proportion", "prop", "%")) {
-    data %<>%
-      dplyr::mutate(
-        .data = ., !!label.col.name := paste0(round(x = perc, digits = perc.k), "%")
-      )
+    data %<>% dplyr::mutate(label = paste0(round(perc, perc.k), "%"))
   }
 
   # only raw counts
   if (label.content %in% c("counts", "n", "count", "N")) {
-    data %<>% dplyr::mutate(.data = ., !!label.col.name := paste0("n = ", counts))
+    data %<>% dplyr::mutate(label = paste0("n = ", counts))
   }
 
   # both raw counts and percentages
   if (label.content %in% c("both", "mix", "all", "everything")) {
-    data %<>%
-      dplyr::mutate(
-        .data = .,
-        !!label.col.name := paste0(
-          "n = ",
-          counts,
-          label.separator,
-          "(",
-          round(x = perc, digits = perc.k),
-          "%)"
-        )
-      )
+    data %<>% dplyr::mutate(label = paste0("n = ", counts, "\n", "(", round(perc, perc.k), "%)"))
   }
 
-  # return dataframe with label column
   return(data)
 }
 
@@ -110,6 +87,9 @@ cat_counter <- function(data, x, y = NULL, ...) {
 }
 
 #' @noRd
+#'
+#' @importFrom ipmisc p_value_formatter
+#'
 #' @keywords internal
 
 # combine info about sample size plus
@@ -126,58 +106,25 @@ df_facet_label <- function(data, x, y, k = 3L) {
         dplyr::filter(.data = ., !is.na(significance)),
       by = rlang::as_name(rlang::ensym(y))
     ) %>%
-      p_value_formatter(df = ., k = k) %>%
-      dplyr::mutate(.data = ., rowid = dplyr::row_number()) %>%
-      dplyr::group_nest(.tbl = ., rowid) %>%
+      ipmisc::p_value_formatter(data = ., k = k) %>%
+      dplyr::rowwise() %>%
       dplyr::mutate(
-        .data = .,
-        label = data %>%
-          purrr::map(
-            .x = .,
-            .f = ~ paste(
-              "list(~chi['gof']^2~",
-              "(",
-              .$parameter,
-              ")==",
-              specify_decimal_p(x = .$statistic, k = k),
-              ", ~italic(p)",
-              .$p.value.formatted,
-              ")",
-              sep = " "
-            ),
-            .collate = "rows",
-            .to = "label",
-            .labels = TRUE
-          )
-      ) %>%
-      tidyr::unnest(data = ., c(label, data)) %>%
-      dplyr::select(.data = ., -rowid, -dplyr::matches("p.value.formatted"))
-  }
-}
-
-
-#' @noRd
-#' @keywords internal
-
-p_value_formatter <- function(df, k = 3L) {
-  df %>%
-    dplyr::mutate(.data = ., rowid = dplyr::row_number()) %>%
-    dplyr::group_nest(.tbl = ., rowid) %>%
-    dplyr::mutate(
-      .data = .,
-      p.value.formatted = data %>%
-        purrr::map(
-          .x = .,
-          .f = ~ specify_decimal_p(x = .$p.value, k = k, p.value = TRUE)
+        label = paste(
+          "list(~chi['gof']^2~",
+          "(",
+          parameter,
+          ")==",
+          specify_decimal_p(x = statistic, k = k),
+          ", ~italic(p)",
+          p.value.formatted,
+          ", ~italic(n)",
+          "==",
+          counts,
+          ")",
+          sep = " "
         )
-    ) %>%
-    tidyr::unnest(data = ., cols = c(p.value.formatted, data)) %>%
-    dplyr::mutate(
-      .data = .,
-      p.value.formatted = dplyr::case_when(
-        p.value.formatted == "< 0.001" ~ "<= 0.001",
-        TRUE ~ paste("==", p.value.formatted, sep = " ")
-      )
-    ) %>%
-    dplyr::select(.data = ., -rowid)
+      ) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(.data = ., -dplyr::matches("p.value.formatted"))
+  }
 }

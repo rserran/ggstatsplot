@@ -48,7 +48,9 @@ variable name entered for \code{grouping.var} will be used.}
 you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
 Setting this to \code{"caption"} will return the expression containing details
 about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
+\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
+dataframe containing results from proportion tests.}
 
 \item{...}{
   Arguments passed on to \code{\link[=ggbetweenstats]{ggbetweenstats}}
@@ -61,14 +63,15 @@ variable names for \code{x} and \code{y} will be used.}
     \item{\code{ylab}}{Labels for \code{x} and \code{y} axis variables. If \code{NULL} (default),
 variable names for \code{x} and \code{y} will be used.}
     \item{\code{pairwise.comparisons}}{Logical that decides whether pairwise comparisons
-are to be displayed (default: \code{FALSE}). Please note that \strong{only significant
-comparisons} will be shown by default. To change this behavior, select
-appropriate option with \code{pairwise.display} argument.}
+are to be displayed (default: \code{FALSE}). Please note that only
+\strong{significant} comparisons will be shown by default. To change this
+behavior, select appropriate option with \code{pairwise.display} argument. The
+pairwise comparison dataframes are prepared using the
+\code{pairwiseComparisons::pairwise_comparisons} function. For more details
+about pairwise comparisons, see the documentation for that function.}
     \item{\code{p.adjust.method}}{Adjustment method for \emph{p}-values for multiple
 comparisons. Possible methods are: \code{"holm"} (default), \code{"hochberg"},
 \code{"hommel"}, \code{"bonferroni"}, \code{"BH"}, \code{"BY"}, \code{"fdr"}, \code{"none"}.}
-    \item{\code{pairwise.annotation}}{Character that decides the annotations to use for
-pairwise comparisons. Either \code{"p.value"} (default) or \code{"asterisk"}.}
     \item{\code{pairwise.display}}{Decides which pairwise comparisons to display.
 Available options are \code{"significant"} (abbreviation accepted: \code{"s"}) or
 \code{"non-significant"} (abbreviation accepted: \code{"ns"}) or
@@ -90,12 +93,6 @@ the plot will be returned.}
     \item{\code{sample.size.label}}{Logical that decides whether sample size information
 should be displayed for each level of the grouping variable \code{x} (Default:
 \code{TRUE}).}
-    \item{\code{mean.label.size}}{Aesthetics for
-the label displaying mean. Defaults: \code{3}, \code{"bold"},\code{"black"}, respectively.}
-    \item{\code{mean.label.fontface}}{Aesthetics for
-the label displaying mean. Defaults: \code{3}, \code{"bold"},\code{"black"}, respectively.}
-    \item{\code{mean.label.color}}{Aesthetics for
-the label displaying mean. Defaults: \code{3}, \code{"bold"},\code{"black"}, respectively.}
     \item{\code{notch}}{A logical. If \code{FALSE} (default), a standard box plot will be
 displayed. If \code{TRUE}, a notched box plot will be used. Notches are used to
 compare groups; if the notches of two boxes do not overlap, this suggests
@@ -104,10 +101,6 @@ notches extend \code{1.58 * IQR / sqrt(n)}. This gives a roughly \verb{95\%}
 confidence interval for comparing medians. IQR: Inter-Quartile Range.}
     \item{\code{notchwidth}}{For a notched box plot, width of the notch relative to the
 body (default \code{0.5}).}
-    \item{\code{linetype}}{Character strings (\code{"blank"}, \code{"solid"}, \code{"dashed"},
-\code{"dotted"}, \code{"dotdash"}, \code{"longdash"}, and \code{"twodash"}) specifying the type
-of line to draw box plots (Default: \code{"solid"}). Alternatively, the numbers
-\code{0} to \code{6} can be used (\code{0} for "blank", \code{1} for "solid", etc.).}
     \item{\code{outlier.color}}{Default aesthetics for outliers (Default: \code{"black"}).}
     \item{\code{outlier.tagging}}{Decides whether outliers should be tagged (Default:
 \code{FALSE}).}
@@ -115,8 +108,12 @@ of line to draw box plots (Default: \code{"solid"}). Alternatively, the numbers
 \code{outlier.shape = NA}. Importantly, this does not remove the outliers,
 it only hides them, so the range calculated for the \code{y}-axis will be
 the same with outliers shown and outliers hidden.}
-    \item{\code{outlier.label.color}}{Color for the label to to put on the outliers that
-have been tagged (Default: \code{"black"}).}
+    \item{\code{outlier.point.args}}{A list of additional aesthetic arguments to be
+passed to \code{ggplot2::geom_point} and \code{ggrepel::geom_label_repel} geoms
+involved outlier value plotting.}
+    \item{\code{outlier.label.args}}{A list of additional aesthetic arguments to be
+passed to \code{ggplot2::geom_point} and \code{ggrepel::geom_label_repel} geoms
+involved outlier value plotting.}
     \item{\code{outlier.coef}}{Coefficient for outlier detection using Tukey's method.
 With Tukey's method, outliers are below (1st Quartile) or above (3rd
 Quartile) \code{outlier.coef} times the Inter-Quartile Range (IQR) (Default:
@@ -125,34 +122,23 @@ Quartile) \code{outlier.coef} times the Inter-Quartile Range (IQR) (Default:
 and its value to be displayed (Default: \code{TRUE}).}
     \item{\code{mean.ci}}{Logical that decides whether \verb{95\%} confidence interval for
 mean is to be displayed (Default: \code{FALSE}).}
-    \item{\code{mean.color}}{Color for the data point corresponding to mean (Default:
-\code{"darkred"}).}
-    \item{\code{mean.size}}{Point size for the data point corresponding to mean
-(Default: \code{5}).}
-    \item{\code{point.jitter.width}}{Numeric specifying the degree of jitter in \code{x}
-direction. Defaults to \verb{40\%} of the resolution of the data.}
-    \item{\code{point.jitter.height}}{Numeric specifying the degree of jitter in \code{y}
-direction. Defaults to \code{0.1}.}
-    \item{\code{point.dodge.width}}{Numeric specifying the amount to dodge in the \code{x}
-direction. Defaults to \code{0.60}.}
+    \item{\code{point.args}}{A list of additional aesthetic arguments to be passed to
+the \code{geom_point} displaying the raw data.}
+    \item{\code{violin.args}}{A list of additional aesthetic arguments to be passed to
+the \code{geom_violin}.}
     \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
-as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
-work as expected.}
-    \item{\code{axes.range.restrict}}{Logical that decides whether to restrict the axes
-values ranges to \code{min} and \code{max} values of the axes variables (Default:
-\code{FALSE}), only relevant for functions where axes variables are of numeric
-type.}
-    \item{\code{sort}}{If \code{"ascending"} (default), \code{x}-axis variable factor levels will
-be sorted based on increasing values of \code{y}-axis variable. If
-\code{"descending"}, the opposite. If \code{"none"}, no sorting will happen.}
-    \item{\code{sort.fun}}{The function used to sort (default: \code{mean}).}
+as a function.}
     \item{\code{package}}{Name of package from which the palette is desired as string
 or symbol.}
     \item{\code{palette}}{Name of palette as string or symbol.}
-    \item{\code{direction}}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
+    \item{\code{mean.point.args}}{A list of additional aesthetic
+arguments to be passed to \code{ggplot2::geom_point} and
+\code{ggrepel::geom_label_repel} geoms involved mean value plotting.}
+    \item{\code{mean.label.args}}{A list of additional aesthetic
+arguments to be passed to \code{ggplot2::geom_point} and
+\code{ggrepel::geom_label_repel} geoms involved mean value plotting.}
     \item{\code{ggtheme}}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
 extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
@@ -166,13 +152,7 @@ argument can be \code{"biased"} (equivalent to \code{"d"} for Cohen's \emph{d} f
 \strong{t-test}; \code{"partial_eta"} for partial eta-squared for \strong{anova}) or
 \code{"unbiased"} (equivalent to \code{"g"} Hedge's \emph{g} for \strong{t-test};
 \code{"partial_omega"} for partial omega-squared for \strong{anova})).}
-    \item{\code{partial}}{Logical that decides if partial eta-squared or omega-squared
-are returned (Default: \code{TRUE}). If \code{FALSE}, eta-squared or omega-squared
-will be returned. Valid only for objects of class \code{lm}, \code{aov}, \code{anova}, or
-\code{aovlist}.}
-    \item{\code{stat.title}}{A character describing the test being run, which will be
-added as a prefix in the subtitle. The default is \code{NULL}. An example of a
-\code{stat.title} argument will be something like \code{"Student's t-test: "}.}
+    \item{\code{partial}}{If \code{TRUE}, return partial indices.}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2}).}
     \item{\code{var.equal}}{a logical variable indicating whether to treat the
@@ -183,17 +163,12 @@ added as a prefix in the subtitle. The default is \code{NULL}. An example of a
     the case of arbitrarily many samples.}
     \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
 \verb{95\%} lower and upper confidence intervals (\code{0.95}).}
-    \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
-for the effect size (Default: \code{100}).}
-    \item{\code{messages}}{Decides whether messages references, notes, and warnings are
-to be displayed (Default: \code{TRUE}).}
-    \item{\code{effsize.noncentral}}{Logical indicating whether to use non-central
-\emph{t}-distributions for computing the confidence interval for Cohen's \emph{d}
-or Hedge's \emph{g} (Default: \code{TRUE}).}
     \item{\code{type}}{Type of statistic expected (\code{"parametric"} or \code{"nonparametric"}
 or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
 \code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
 \code{"bf"}resp.}
+    \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
+for the effect size (Default: \code{100}).}
     \item{\code{tr}}{Trim level for the mean when carrying out \code{robust} tests. If you
 get error stating "Standard error cannot be computed because of Winsorized
 variance of 0 (e.g., due to ties). Try to decrease the trimming level.",

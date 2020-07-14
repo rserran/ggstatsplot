@@ -1,5 +1,3 @@
-context(desc = "pairwise comparisons with ggsignif")
-
 # significant display works -------------------------------------------------
 
 testthat::test_that(
@@ -9,17 +7,19 @@ testthat::test_that(
 
     # creating the plot
     set.seed(123)
-    p <- ggstatsplot::ggbetweenstats(
-      data = ggplot2::msleep,
-      x = vore,
-      y = brainwt,
-      bf.message = FALSE,
-      messages = FALSE,
-      pairwise.comparisons = TRUE,
-      pairwise.display = "s",
-      caption = "mammalian sleep",
-      k = 3
-    )
+    p <-
+      ggstatsplot::ggbetweenstats(
+        data = ggplot2::msleep,
+        x = vore,
+        y = brainwt,
+        results.subtitle = FALSE,
+        bf.message = FALSE,
+        messages = FALSE,
+        pairwise.comparisons = TRUE,
+        pairwise.display = "s",
+        caption = "mammalian sleep",
+        k = 3
+      )
 
     # build the plot
     pb <- ggplot2::ggplot_build(p)
@@ -53,58 +53,42 @@ testthat::test_that(
 
     # creating the plot
     set.seed(123)
-    p <- ggstatsplot::ggbetweenstats(
-      data = ggstatsplot::movies_wide,
-      x = mpaa,
-      y = votes,
-      bf.message = FALSE,
-      messages = FALSE,
-      pairwise.comparisons = TRUE,
-      p.adjust.method = "none",
-      pairwise.display = "ns",
-      pairwise.annotation = "p.value",
-      k = 3
-    )
+    p <-
+      ggstatsplot::ggbetweenstats(
+        data = ggstatsplot::movies_wide,
+        x = mpaa,
+        y = votes,
+        results.subtitle = FALSE,
+        bf.message = FALSE,
+        messages = FALSE,
+        pairwise.comparisons = TRUE,
+        p.adjust.method = "none",
+        pairwise.display = "ns",
+        pairwise.annotation = "p.value",
+        k = 3
+      )
 
     # build the plot
     pb <- ggplot2::ggplot_build(p)
 
-    # data used for pairwise comparisons
-    dat <- pb$plot$plot_env$df_pairwise
-
-    # ggsignif layer parameters
-    ggsignif_stat <- pb$plot$layers[[7]]$stat_params
-
-    # checking dimensions of data
-    data_dims <- dim(dat)
-
-    # data for geom_signif layer
-    data_signif <- tibble::as_tibble(pb$data[[7]])
-
-    # tests
-    testthat::expect_equal(length(pb$data), 7L)
-    testthat::expect_identical(
-      as.character(unique(data_signif$annotation)),
-      c(
-        "list(~italic(p)[ unadjusted ]== 0.079 )",
-        "list(~italic(p)[ unadjusted ]== 0.139 )",
-        "list(~italic(p)[ unadjusted ]== 0.825 )"
-      )
-    )
-
     # checking comparison groups and labels
-    testthat::expect_identical(dat$group1, c("PG-13", "PG-13", "R"))
-    testthat::expect_identical(dat$group2, c("R", "PG", "PG"))
-    testthat::expect_identical(
-      dat$label,
+    testthat::expect_equal(
+      unique(as.character(pb$data[[7]]$annotation)),
       c(
-        "list(~italic(p)[ unadjusted ]== 0.079 )",
         "list(~italic(p)[ unadjusted ]== 0.139 )",
+        "list(~italic(p)[ unadjusted ]== 0.079 )",
         "list(~italic(p)[ unadjusted ]== 0.825 )"
       )
     )
+
+    testthat::expect_equal(
+      unique(as.character(pb$data[[7]]$group)),
+      c("PG-13-PG-1", "PG-13-R-2", "R-PG-3")
+    )
+
+    # checking caption
     testthat::expect_identical(
-      p$labels$caption,
+      pb$plot$labels$caption,
       ggplot2::expr(atop(
         displaystyle(NULL),
         expr = paste(
@@ -115,28 +99,6 @@ testthat::test_that(
         )
       ))
     )
-    testthat::expect_identical(
-      ggstatsplot::specify_decimal_p(
-        x = dat$p.value[1],
-        p.value = TRUE,
-        k = 4
-      ),
-      "0.0790"
-    )
-
-    # checking values
-    testthat::expect_equal(dat$mean.difference,
-      c(-1904.886, -2707.920, -803.034),
-      tolerance = 1e-3
-    )
-
-    # checking ggsignif layers
-    testthat::expect_equal(ggsignif_stat$y_position,
-      c(161548.2, 173368.2, 185188.2),
-      tolerance = 0.01
-    )
-    testthat::expect_equal(ggsignif_stat$comparisons[[2]], c("PG-13", "PG"))
-    testthat::expect_equal(ggsignif_stat$annotations, dat$label)
   }
 )
 
@@ -156,11 +118,11 @@ testthat::test_that(
       ),
       x = genre,
       y = rating,
+      results.subtitle = FALSE,
       type = "np",
       messages = FALSE,
       bf.message = FALSE,
       pairwise.comparisons = TRUE,
-      pairwise.annotation = "xyz",
       p.adjust.method = "fdr",
       pairwise.display = "all",
       k = 3,
@@ -185,13 +147,13 @@ testthat::test_that(
     # checking comparison groups and labels
     testthat::expect_identical(dat$group1, c("Action", "Action", "Comedy"))
     testthat::expect_identical(dat$group2, c("Comedy", "RomCom", "RomCom"))
-    testthat::expect_identical(dat$significance, c("ns", "**", "**"))
+    testthat::expect_identical(dat$significance, c("ns", "***", "***"))
     testthat::expect_identical(
       dat$label,
       c(
-        "list(~italic(p)[ adjusted ]== 0.915 )",
-        "list(~italic(p)[ adjusted ]== 0.003 )",
-        "list(~italic(p)[ adjusted ]== 0.001 )"
+        "list(~italic(p)[ adjusted ]== 0.812 )",
+        "list(~italic(p)[ adjusted ]<= 0.001 )",
+        "list(~italic(p)[ adjusted ]<= 0.001 )"
       )
     )
     testthat::expect_identical(
@@ -200,7 +162,7 @@ testthat::test_that(
         displaystyle(NULL),
         expr = paste(
           "Pairwise comparisons: ",
-          bold("Dwass-Steel-Crichtlow-Fligner test"),
+          bold("Dunn test"),
           "; Adjustment (p-value): ",
           bold("Benjamini & Hochberg")
         )
@@ -212,12 +174,12 @@ testthat::test_that(
         p.value = TRUE,
         k = 4
       ),
-      "0.9145"
+      "0.8116"
     )
 
     # checking values
-    testthat::expect_equal(dat$W,
-      c(0.5702297, 4.8458729, 5.4434648),
+    testthat::expect_equal(dat$z.value,
+      c(0.238306686320387, 3.63442246865882, 3.69050171235682),
       tolerance = 0.001
     )
 
@@ -230,7 +192,7 @@ testthat::test_that(
       ggsignif_stat$comparisons[[1]],
       c("Action", "Comedy")
     )
-    testthat::expect_equal(ggsignif_stat$annotations, dat$significance)
+    testthat::expect_equal(ggsignif_stat$annotations, dat$label)
   }
 )
 
@@ -247,6 +209,7 @@ testthat::test_that(
       data = ggplot2::mpg,
       x = drv,
       y = cty,
+      results.subtitle = FALSE,
       bf.message = FALSE,
       messages = FALSE,
       k = 3,

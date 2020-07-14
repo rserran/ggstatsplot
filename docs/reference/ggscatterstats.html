@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,7 +46,7 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
@@ -55,7 +59,6 @@
 histograms/boxplots/density plots with statistical details added as a
 subtitle." />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -73,7 +76,7 @@ subtitle." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -87,7 +90,7 @@ subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.5.0.9000</span>
       </span>
     </div>
 
@@ -111,9 +114,6 @@ subtitle." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
     </li>
     <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
@@ -171,7 +171,7 @@ subtitle." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/IndrajeetPatil/ggstatsplot">
+  <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -210,52 +210,44 @@ subtitle.</p>
   <span class='no'>data</span>,
   <span class='no'>x</span>,
   <span class='no'>y</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"parametric"</span>,
   <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
   <span class='kw'>bf.prior</span> <span class='kw'>=</span> <span class='fl'>0.707</span>,
   <span class='kw'>bf.message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>label.var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>label.expression</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>point.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>),
+  <span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>y</span> ~ <span class='no'>x</span>,
+  <span class='kw'>smooth.line.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1.5</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"lm"</span>,
   <span class='kw'>method.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>y</span> ~ <span class='no'>x</span>,
-  <span class='kw'>point.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>point.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>point.alpha</span> <span class='kw'>=</span> <span class='fl'>0.4</span>,
+  <span class='kw'>point.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.4</span>),
   <span class='kw'>point.width.jitter</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>point.height.jitter</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-  <span class='kw'>line.color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>,
   <span class='kw'>marginal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>marginal.type</span> <span class='kw'>=</span> <span class='st'>"histogram"</span>,
+  <span class='kw'>margins</span> <span class='kw'>=</span> <span class='st'>"both"</span>,
   <span class='kw'>marginal.size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>margins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"x"</span>, <span class='st'>"y"</span>),
-  <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"wesanderson"</span>,
-  <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Royal1"</span>,
-  <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>xfill</span> <span class='kw'>=</span> <span class='st'>"#009E73"</span>,
   <span class='kw'>yfill</span> <span class='kw'>=</span> <span class='st'>"#D55E00"</span>,
-  <span class='kw'>xalpha</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>yalpha</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>xsize</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>ysize</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>centrality.para</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>xparams</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>xfill</span>),
+  <span class='kw'>yparams</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>fill</span> <span class='kw'>=</span> <span class='no'>yfill</span>),
+  <span class='kw'>centrality.parameter</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>centrality.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>),
+  <span class='kw'>vline.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>xfill</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>),
+  <span class='kw'>hline.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>yfill</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>),
   <span class='kw'>results.subtitle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>stat.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>axes.range.restrict</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
   <span class='kw'>ggtheme</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>(),
   <span class='kw'>ggstatsplot.layer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>ggplot.component</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>,
-  <span class='kw'>messages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -264,8 +256,8 @@ subtitle.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
+      <td><p>for use with <code>formula</code>, a data frame containing all the
+data</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -286,7 +278,7 @@ be plotted on the <code>y</code>-axis. Can be entered either as a character stri
 "<code>"nonparametric"</code>: Spearman's rho" or "<code>"robust"</code>: percentage bend
 correlation coefficient" or "<code>"bayes"</code>: Bayes Factor for Pearson's <em>r</em>").
 Corresponding abbreviations are also accepted: <code>"p"</code> (for
-parametric/pearson's), <code>"np"</code> (nonparametric/spearman), <code>"r"</code> (robust),
+parametric/pearson), <code>"np"</code> (nonparametric/spearman), <code>"r"</code> (robust),
 <code>"bf"</code> (for bayes factor), resp.</p></td>
     </tr>
     <tr>
@@ -296,8 +288,8 @@ parametric/pearson's), <code>"np"</code> (nonparametric/spearman), <code>"r"</co
     </tr>
     <tr>
       <th>bf.prior</th>
-      <td><p>A numeric value between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the
-prior width to use in calculating Bayes Factors.</p></td>
+      <td><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
+width to use in calculating Bayes factors.</p></td>
     </tr>
     <tr>
       <th>bf.message</th>
@@ -318,28 +310,37 @@ either as a character string (e.g., <code>"y &lt; 4 &amp; z &lt; 20"</code>) or 
 expression (e.g., <code>y &lt; 4 &amp; z &lt; 20</code>).</p></td>
     </tr>
     <tr>
-      <th>xlab</th>
-      <td><p>Labels for <code>x</code> and <code>y</code> axis variables. If <code>NULL</code> (default),
-variable names for <code>x</code> and <code>y</code> will be used.</p></td>
+      <th>point.label.args</th>
+      <td><p>A list of additional aesthetic arguments to be passed
+to <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geom used to display the labels.</p></td>
     </tr>
     <tr>
-      <th>ylab</th>
-      <td><p>Labels for <code>x</code> and <code>y</code> axis variables. If <code>NULL</code> (default),
-variable names for <code>x</code> and <code>y</code> will be used.</p></td>
+      <th>formula</th>
+      <td><p>Formula to use in smoothing function, eg. <code>y ~ x</code>,
+<code>y ~ poly(x, 2)</code>, <code>y ~ log(x)</code>. <code>NULL</code> by default, in which case
+<code>method = NULL</code> implies <code>formula = y ~ x</code> when there are fewer than 1,000
+observations and <code>formula = y ~ s(x, bs = "cs")</code> otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>smooth.line.args</th>
+      <td><p>A list of additional aesthetic arguments to be passed
+to <code><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>ggplot2::geom_smooth</a></code> geom used to display the regression line.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>Smoothing method (function) to use, accepts either a character vector,
-e.g. <code>"auto"</code>, <code>"lm"</code>, <code>"glm"</code>, <code>"gam"</code>, <code>"loess"</code> or a function, e.g.
-<code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code> or <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam</a></code>, <code><a href='https://rdrr.io/r/stats/lm.html'>stats::lm</a></code>, or <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess</a></code>.</p>
-<p>For <code>method = "auto"</code> the smoothing method is chosen based on the
+      <td><p>Smoothing method (function) to use, accepts either
+<code>NULL</code> or a character vector, e.g. <code>"lm"</code>, <code>"glm"</code>, <code>"gam"</code>, <code>"loess"</code>
+or a function, e.g. <code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code> or <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam</a></code>, <code><a href='https://rdrr.io/r/stats/lm.html'>stats::lm</a></code>, or <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess</a></code>.
+<code>"auto"</code> is also accepted for backwards compatibility.  It is equivalent to
+<code>NULL</code>.</p>
+<p>For <code>method = NULL</code> the smoothing method is chosen based on the
 size of the largest group (across all panels). <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess()</a></code> is
 used for less than 1,000 observations; otherwise <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam()</a></code> is
-used with <code>formula = y ~ s(x, bs = "cs")</code>. Somewhat anecdotally,
+used with <code>formula = y ~ s(x, bs = "cs")</code> with <code>method = "REML"</code>. Somewhat anecdotally,
 <code>loess</code> gives a better appearance, but is \(O(N^{2})\) in memory,
 so does not work for larger datasets.</p>
 <p>If you have fewer than 1,000 observations but want to use the same <code>gam()</code>
-model that <code>method = "auto"</code> would use, then set
+model that <code>method = NULL</code> would use, then set
 <code>method = "gam", formula = y ~ s(x, bs = "cs")</code>.</p></td>
     </tr>
     <tr>
@@ -348,28 +349,17 @@ model that <code>method = "auto"</code> would use, then set
 function defined by <code>method</code>.</p></td>
     </tr>
     <tr>
-      <th>formula</th>
-      <td><p>Formula to use in smoothing function, eg. <code>y ~ x</code>,
-<code>y ~ poly(x, 2)</code>, <code>y ~ log(x)</code></p></td>
-    </tr>
-    <tr>
-      <th>point.color, point.size, point.alpha</th>
-      <td><p>Aesthetics specifying geom point
-(defaults: <code>point.color = "black"</code>, <code>point.size = 3</code>,<code>point.alpha = 0.4</code>).</p></td>
+      <th>point.args</th>
+      <td><p>A list of additional aesthetic arguments to be passed
+to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> geom used to display the raw data points.</p></td>
     </tr>
     <tr>
       <th>point.width.jitter, point.height.jitter</th>
       <td><p>Degree of jitter in <code>x</code> and <code>y</code>
 direction, respectively. Defaults to <code>0</code> (0%) of the resolution of the
-data.</p></td>
-    </tr>
-    <tr>
-      <th>line.size</th>
-      <td><p>Size for the regression line.</p></td>
-    </tr>
-    <tr>
-      <th>line.color</th>
-      <td><p>color for the regression line.</p></td>
+data. Note that the jitter should not be specified in the <code>point.args</code>
+because this information will be passed to two different <code>geom</code>s: one
+displaying the points and the other displaying the labels for these points.</p></td>
     </tr>
     <tr>
       <th>marginal</th>
@@ -382,53 +372,51 @@ displayed; the default is <code>TRUE</code>.</p></td>
 (<code>"histogram"</code>, <code>"boxplot"</code>, <code>"density"</code>, <code>"violin"</code>, <code>"densigram"</code>).</p></td>
     </tr>
     <tr>
+      <th>margins</th>
+      <td><p>Along which margins to show the plots. One of: [both, x, y].</p></td>
+    </tr>
+    <tr>
       <th>marginal.size</th>
       <td><p>Integer describing the relative size of the marginal
 plots compared to the main plot. A size of <code>5</code> means that the main plot is
 5x wider and 5x taller than the marginal plots.</p></td>
     </tr>
     <tr>
-      <th>margins</th>
-      <td><p>Character describing along which margins to show the plots.
-Any of the following arguments are accepted: <code>"both"</code>, <code>"x"</code>, <code>"y"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>package</th>
-      <td><p>Name of package from which the palette is desired as string
-or symbol.</p></td>
-    </tr>
-    <tr>
-      <th>palette</th>
-      <td><p>Name of palette as string or symbol.</p></td>
-    </tr>
-    <tr>
-      <th>direction</th>
-      <td><p>Either <code>1</code> or <code>-1</code>. If <code>-1</code> the palette will be reversed.</p></td>
-    </tr>
-    <tr>
       <th>xfill, yfill</th>
       <td><p>Character describing color fill for <code>x</code> and <code>y</code> axes
 marginal distributions (default: <code>"#009E73"</code> (for <code>x</code>) and <code>"#D55E00"</code> (for
-<code>y</code>)). If set to <code>NULL</code>, manual specification of colors will be turned off
-and 2 colors from the specified <code>palette</code> from <code>package</code> will be selected.</p></td>
+<code>y</code>)). The same colors will also be used for the lines denoting centrality
+parameters if <code>centrality.parameter</code> argument is set to <code>TRUE</code>. Note that
+the defaults are colorblind-friendly.</p></td>
     </tr>
     <tr>
-      <th>xalpha, yalpha</th>
-      <td><p>Numeric deciding transparency levels for the marginal
-distributions. Any numbers from <code>0</code> (transparent) to <code>1</code> (opaque). The
-default is <code>1</code> for both axes.</p></td>
+      <th>xparams</th>
+      <td><p>List of extra parameters to use only for the marginal plot along
+the x axis.</p></td>
     </tr>
     <tr>
-      <th>xsize, ysize</th>
-      <td><p>Size for the marginal distribution boundaries (Default:
-<code>0.7</code>).</p></td>
+      <th>yparams</th>
+      <td><p>List of extra parameters to use only for the marginal plot along
+the y axis.</p></td>
     </tr>
     <tr>
-      <th>centrality.para</th>
+      <th>centrality.parameter</th>
       <td><p>Decides <em>which</em> measure of central tendency (<code>"mean"</code>
 or <code>"median"</code>) is to be displayed as vertical (for <code>x</code>) and horizontal (for
 <code>y</code>) lines. Note that mean values corresponds to arithmetic mean and not
 geometric mean.</p></td>
+    </tr>
+    <tr>
+      <th>centrality.label.args</th>
+      <td><p>A list of additional
+aesthetic arguments to be passed to the <code>geom_label</code> used to display the
+label corresponding to the centrality parameter and test value.</p></td>
+    </tr>
+    <tr>
+      <th>vline.args, hline.args</th>
+      <td><p>A list of additional aesthetic arguments to be
+passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>ggplot2::geom_vline</a></code> and <code><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>ggplot2::geom_hline</a></code> geoms used to
+display the centrality parameter labels on vertical and horizontal lines.</p></td>
     </tr>
     <tr>
       <th>results.subtitle</th>
@@ -437,10 +425,14 @@ to be displayed as a subtitle (Default: <code>TRUE</code>). If set to <code>FALS
 the plot will be returned.</p></td>
     </tr>
     <tr>
-      <th>stat.title</th>
-      <td><p>A character describing the test being run, which will be
-added as a prefix in the subtitle. The default is <code>NULL</code>. An example of a
-<code>stat.title</code> argument will be something like <code>"Student's t-test: "</code>.</p></td>
+      <th>xlab</th>
+      <td><p>Labels for <code>x</code> and <code>y</code> axis variables. If <code>NULL</code> (default),
+variable names for <code>x</code> and <code>y</code> will be used.</p></td>
+    </tr>
+    <tr>
+      <th>ylab</th>
+      <td><p>Labels for <code>x</code> and <code>y</code> axis variables. If <code>NULL</code> (default),
+variable names for <code>x</code> and <code>y</code> will be used.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -456,11 +448,6 @@ added as a prefix in the subtitle. The default is <code>NULL</code>. An example 
       <td><p>The text for the plot caption.</p></td>
     </tr>
     <tr>
-      <th>nboot</th>
-      <td><p>Number of bootstrap samples for computing confidence interval
-for the effect size (Default: <code>100</code>).</p></td>
-    </tr>
-    <tr>
       <th>beta</th>
       <td><p>bending constant (Default: <code>0.1</code>). For more, see <code><a href='https://rdrr.io/pkg/WRS2/man/pbcor.html'>?WRS2::pbcor</a></code>.</p></td>
     </tr>
@@ -468,13 +455,6 @@ for the effect size (Default: <code>100</code>).</p></td>
       <th>k</th>
       <td><p>Number of digits after decimal point (should be an integer)
 (Default: <code>k = 2</code>).</p></td>
-    </tr>
-    <tr>
-      <th>axes.range.restrict</th>
-      <td><p>Logical that decides whether to restrict the axes
-values ranges to <code>min</code> and <code>max</code> values of the axes variables (Default:
-<code>FALSE</code>), only relevant for functions where axes variables are of numeric
-type.</p></td>
     </tr>
     <tr>
       <th>ggtheme</th>
@@ -495,9 +475,7 @@ override some aspects of the selected <code>ggtheme</code>.</p></td>
       <td><p>A <code>ggplot</code> component to be added to the plot prepared
 by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
 of the current function. Default is <code>NULL</code>. The argument should be entered
-as a function. If the given function has an argument <code>axes.range.restrict</code>
-and if it has been set to <code>TRUE</code>, the added <code>ggplot</code> component <em>might</em> not
-work as expected.</p></td>
+as a function.</p></td>
     </tr>
     <tr>
       <th>output</th>
@@ -507,12 +485,9 @@ work as expected.</p></td>
 you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
 Setting this to <code>"caption"</code> will return the expression containing details
 about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
-<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>messages</th>
-      <td><p>Decides whether messages references, notes, and warnings are
-to be displayed (Default: <code>TRUE</code>).</p></td>
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>. For functions
+<code>ggpiestats</code> and <code>ggbarstats</code>, setting <code>output = "proptest"</code> will return a
+dataframe containing results from proportion tests.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -522,10 +497,18 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The plot uses <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> to attempt to keep labels
+    
+<ul>
+<li><p>If you set <code>marginal = TRUE</code>, the resulting plot can't be further modified
+with <code>ggplot2</code> functions since it is no longer a <code>ggplot</code> object. In case you
+want a <code>ggplot</code> object, set <code>marginal = FALSE</code>. Also have a look at the
+<code>ggplot.component</code> argument.</p></li>
+<li><p>The plot uses <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> to attempt to keep labels
 from over-lapping to the largest degree possible.  As a consequence plot
 times will slow down massively (and the plot file will grow in size) if you
-have a lot of labels that overlap.</p>
+have a lot of labels that overlap.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html</a></p>
@@ -538,35 +521,27 @@ have a lot of labels that overlap.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># to get reproducible results from bootstrapping</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggstatsplot</span>)
 
 <span class='co'># creating dataframe with rownames converted to a new column</span>
-<span class='no'>mtcars_new</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>mtcars</span>, <span class='kw'>rownames</span> <span class='kw'>=</span> <span class='st'>"car"</span>)
+<span class='no'>mtcars_new</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>mtcars</span>, <span class='kw'>rownames</span> <span class='kw'>=</span> <span class='st'>"car"</span>)
 
 <span class='co'># simple function call with the defaults</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggscatterstats.html'>ggscatterstats</a></span>(
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggscatterstats</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars_new</span>,
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>wt</span>,
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>mpg</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"np"</span>,
   <span class='kw'>label.var</span> <span class='kw'>=</span> <span class='no'>car</span>,
   <span class='kw'>label.expression</span> <span class='kw'>=</span> <span class='no'>wt</span> <span class='kw'>&lt;</span> <span class='fl'>4</span> <span class='kw'>&amp;</span> <span class='no'>mpg</span> <span class='kw'>&lt;</span> <span class='fl'>20</span>,
-  <span class='kw'>axes.range.restrict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>centrality.para</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
-  <span class='kw'>xfill</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</div><div class='output co'>#&gt; <span class='message'>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></div><div class='output co'>#&gt; <span style='color: #BB0000;'>Warning: </span><span style='color: #0000BB;'>This plot can't be further modified with `ggplot2` functions.
-#&gt; In case you want a `ggplot` object, set `marginal = FALSE`.</span><span></div><div class='output co'>#&gt; </div><div class='img'><img src='ggscatterstats-1.png' alt='' width='700' height='433' /></div><div class='input'># }
-</div></span></pre>
+  <span class='kw'>centrality.parameter</span> <span class='kw'>=</span> <span class='st'>"median"</span>
+)</div><div class='img'><img src='ggscatterstats-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#note">Note</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -577,7 +552,7 @@ have a lot of labels that overlap.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

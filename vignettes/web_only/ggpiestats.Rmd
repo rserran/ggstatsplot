@@ -18,6 +18,9 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+# show me all columns
+options(tibble.width = Inf)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -99,8 +102,7 @@ ggstatsplot::ggpiestats(
   x = Survived,
   title = "Passenger survival on the Titanic", # title for the entire plot
   caption = "Source: Titanic survival dataset", # caption for the entire plot
-  legend.title = "Survived?", # legend title
-  messages = FALSE # turn off messages
+  legend.title = "Survived?"
 )
 ```
 
@@ -108,9 +110,6 @@ ggstatsplot::ggpiestats(
 can specify any hypothesized ratio you like with `ratio` so if our hypothesis
 was that 80% died and 20% survived we would add `ratio = c(.80,.20)` when we
 entered the code.
-
-Let's move on to a more complex example statistically and in terms of the
-features we will use in `ggpiestats`
 
 ## Independence (or association) with `ggpiestats`
 
@@ -121,15 +120,15 @@ survived was different between the sexes using `ggpiestats`.
 We'll modify a number of arguments to change the appearance of this plot and
 showcase the flexibility of `ggpiestats`. We will:
 
-1. Change the plot theme to `ggplot2::theme_grey()` 
+1.  Change the plot theme to `ggplot2::theme_grey()`
 
-2. Change our color palette to `category10_d3` from `ggsci` package
+2.  Change our color palette to `category10_d3` from `ggsci` package
 
-3. We'll customize the subtitle by being more precise about which chi 
-  squared test this is `stat.title = "chi squared test of independence: "` 
+3.  We'll customize the subtitle by being more precise about which chi squared
+    test this is `stat.title = "chi squared test of independence: "`
 
-4. Finally, we'll make a call to `ggplot2` to modify the size
-   of our plot title and to make it right justified
+4.  Finally, we'll make a call to `ggplot2` to modify the size of our plot title
+    and to make it right justified
 
 ```{r ggpiestats1, warning = FALSE, message = FALSE, fig.height = 5, fig.width = 8}
 # since effect size confidence intervals are computed using bootstrapping, let's
@@ -151,11 +150,8 @@ ggstatsplot::ggpiestats(
   ggtheme = ggplot2::theme_grey(), # changing plot theme
   palette = "category10_d3", # choosing a different color palette
   package = "ggsci", # package to which color palette belongs
-  stat.title = "Association test: ", # title for statistical test
   k = 3, # decimal places in result
-  perc.k = 1, # decimal places in percentage labels
-  nboot = 10, # no. of bootstrap sample for effect size CI
-  messages = FALSE
+  perc.k = 1 # decimal places in percentage labels
 ) + # further modification with `ggplot2` commands
   ggplot2::theme(
     plot.title = ggplot2::element_text(
@@ -169,8 +165,17 @@ ggstatsplot::ggpiestats(
 The plot clearly shows that survival rates were very different between males and
 females. The Pearson's $\chi^2$-test of independence is significant given our
 large sample size. Additionally, for both females and males, the survival rates
-were significantly different than 50% as indicated by the `***` which is
-equivalent to a goodness of fit test for each gender.
+were significantly different than 50% as indicated by a goodness of fit test for
+each gender.
+
+In case you need to extract the results from proportion tests in a separate
+dataframe, `ggpiestats`'s `output` argument can be used:
+
+```{r proptest_df}
+set.seed(123)
+
+ggpiestats(mtcars, am, cyl, output = "proptest", results.subtitle = FALSE)
+```
 
 ## Grouped analysis with `grouped_ggpiestats`
 
@@ -202,7 +207,6 @@ ggstatsplot::grouped_ggpiestats(
   perc.k = 1,
   package = "ggsci",
   palette = "category10_d3",
-  messages = FALSE,
   # arguments relevant for ggstatsplot::combine_plots
   title.text = "Passenger survival on the Titanic by gender and age",
   caption.text = "Asterisks denote results from proportion tests; \n***: p < 0.001, ns: non-significant",
@@ -280,13 +284,12 @@ ggstatsplot::ggpiestats(
   x = Fish,
   y = Month,
   counts = SumOfCaught,
-  slice.label = "both",
+  label = "both",
   package = "ggsci",
   palette = "default_jama",
   title = "Type fish caught by month",
   caption = "Source: completely made up",
-  legend.title = "Type fish caught: ",
-  messages = FALSE
+  legend.title = "Type fish caught: "
 )
 ```
 
@@ -331,12 +334,10 @@ ggstatsplot::ggpiestats(
   y = SickBefore,
   counts = Counts,
   paired = TRUE,
-  slice.label = "both",
+  label = "both",
   title = "Results from imaginary clinical trial",
   package = "ggsci",
-  palette = "default_ucscgb",
-  direction = -1,
-  messages = FALSE
+  palette = "default_ucscgb"
 )
 ```
 

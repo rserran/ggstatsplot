@@ -25,7 +25,7 @@ grouped_ggdotplotstats(
 \item{data}{A dataframe (or a tibble) from which variables specified are to
 be taken. A matrix or tables will \strong{not} be accepted.}
 
-\item{x}{A numeric variable.}
+\item{x}{A numeric variable from the dataframe \code{data}.}
 
 \item{y}{Label or grouping variable.}
 
@@ -42,44 +42,40 @@ variable name entered for \code{grouping.var} will be used.}
 you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
 Setting this to \code{"caption"} will return the expression containing details
 about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
+\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
+dataframe containing results from proportion tests.}
 
 \item{...}{
   Arguments passed on to \code{\link[=ggdotplotstats]{ggdotplotstats}}
   \describe{
-    \item{\code{point.color}}{Character describing color for the point (Default:
-\code{"black"}).}
+    \item{\code{point.args}}{A list of additional aesthetic arguments passed to
+\code{geom_point}.}
     \item{\code{test.value}}{A number specifying the value of the null hypothesis
 (Default: \code{0}).}
-    \item{\code{centrality.para}}{Decides \emph{which} measure of central tendency (\code{"mean"}
-or \code{"median"}) is to be displayed as a vertical line.}
-    \item{\code{centrality.color}}{Decides color for the vertical line for centrality
-parameter (Default: \code{"blue"}).}
-    \item{\code{centrality.size}}{Decides size for the vertical line for centrality
-parameter (Default: \code{1.2}).}
-    \item{\code{centrality.linetype}}{Decides linetype for the vertical line for
-centrality parameter (Default: \code{"dashed"}).}
-    \item{\code{centrality.line.labeller}}{A logical that decides whether line labels
-should be displayed for the \strong{centrality.para} line (Default: \code{TRUE}).}
-    \item{\code{centrality.k}}{Integer denoting the number of decimal places expected
-for centrality parameter label. (Default: \code{2}).}
-    \item{\code{test.value.line}}{Decides whether test value is to be displayed as a
-vertical line (Default: \code{FALSE}).}
-    \item{\code{test.value.color}}{Decides color for the vertical line denoting test
-value (Default: \code{"black"}).}
-    \item{\code{test.value.size}}{Decides size for the vertical line for test value
-(Default: \code{1.2}).}
-    \item{\code{test.value.linetype}}{Decides linetype for the vertical line for test
-value (Default: \code{"dashed"}).}
-    \item{\code{test.line.labeller}}{A logical that decides whether line labels should
-be displayed for \strong{test.value} line (Default: \code{TRUE}).}
     \item{\code{test.k}}{Integer denoting the number of decimal places expected for
 \code{test.value} label. (Default: \code{0} ).}
+    \item{\code{test.value.line}}{Logical that decides whether a line corresponding to
+the \code{test.value} should be superimposed on the plot.}
+    \item{\code{test.value.line.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_line} used to display the
+lines corresponding to the centrality parameter and test value.}
+    \item{\code{test.value.label.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_label} used to display the
+label corresponding to the centrality parameter and test value.}
+    \item{\code{centrality.parameter}}{Decides \emph{which} measure of central tendency
+(\code{"mean"} or \code{"median"}) is to be displayed as a vertical line. To not show
+any parameter, set this to \code{"none"}.}
+    \item{\code{centrality.k}}{Integer denoting the number of decimal places expected
+for centrality parameter label. (Default: \code{2}).}
+    \item{\code{centrality.line.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_line} used to display the
+lines corresponding to the centrality parameter and test value.}
+    \item{\code{centrality.label.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_label} used to display the
+label corresponding to the centrality parameter and test value.}
     \item{\code{xlab}}{Labels for \code{x} and \code{y} axis variables. If \code{NULL} (default),
 variable names for \code{x} and \code{y} will be used.}
-    \item{\code{stat.title}}{A character describing the test being run, which will be
-added as a prefix in the subtitle. The default is \code{NULL}. An example of a
-\code{stat.title} argument will be something like \code{"Student's t-test: "}.}
     \item{\code{subtitle}}{The text for the plot subtitle. Will work only if
 \code{results.subtitle = FALSE}.}
     \item{\code{caption}}{The text for the plot caption.}
@@ -87,20 +83,13 @@ added as a prefix in the subtitle. The default is \code{NULL}. An example of a
 or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
 \code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
 \code{"bf"}resp.}
-    \item{\code{bf.prior}}{A numeric value between \code{0.5} and \code{2} (default \code{0.707}), the
-prior width to use in calculating Bayes Factors.}
+    \item{\code{bf.prior}}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
+width to use in calculating Bayes factors.}
     \item{\code{bf.message}}{Logical that decides whether to display Bayes Factor in
 favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
 parametric test} (Default: \code{TRUE}).}
-    \item{\code{robust.estimator}}{If \code{type = "robust"}, a robust estimator to be used
-(\code{"onestep"} (Default), \code{"mom"}, or \code{"median"}). For more, see
-\code{?WRS2::onesampb}.}
     \item{\code{effsize.type}}{Type of effect size needed for \emph{parametric} tests. The
-argument can be \code{"biased"} (\code{"d"} for Cohen's \emph{d}) or \code{"unbiased"}
-(\code{"g"} Hedge's \emph{g} for \strong{t-test}). The default is \code{"g"}.}
-    \item{\code{effsize.noncentral}}{Logical indicating whether to use non-central
-\emph{t}-distributions for computing the confidence interval for Cohen's \emph{d}
-or Hedge's \emph{g} (Default: \code{TRUE}).}
+argument can be \code{"d"} (for Cohen's \emph{d}) or \code{"g"} (for Hedge's \emph{g}).}
     \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
 \verb{95\%} lower and upper confidence intervals (\code{0.95}).}
     \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
@@ -110,6 +99,10 @@ for the effect size (Default: \code{100}).}
     \item{\code{results.subtitle}}{Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
 the plot will be returned.}
+    \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
+by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
+of the current function. Default is \code{NULL}. The argument should be entered
+as a function.}
     \item{\code{ggtheme}}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
 extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
@@ -118,18 +111,8 @@ extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
 theme elements are to be displayed along with the selected \code{ggtheme}
 (Default: \code{TRUE}). \code{theme_ggstatsplot} is an opinionated theme layer that
 override some aspects of the selected \code{ggtheme}.}
-    \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
-by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
-of the current function. Default is \code{NULL}. The argument should be entered
-as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
-work as expected.}
-    \item{\code{messages}}{Decides whether messages references, notes, and warnings are
-to be displayed (Default: \code{TRUE}).}
-    \item{\code{ylab}}{Label for \code{y} axis variable (Default: \code{"term"}).}
-    \item{\code{point.size}}{Numeric specifying size for the point (Default: \code{3}).}
-    \item{\code{point.shape}}{Numeric specifying shape to draw the points (Default: \code{16}
-(\strong{a dot})).}
+    \item{\code{ylab}}{Labels for \code{x}- and \code{y}- axis variables, respectively
+(Defaults: \code{"regression coefficient"} and \code{"term"}).}
   }}
 
 \item{plotgrid.args}{A list of additional arguments to \code{cowplot::plot_grid}.}

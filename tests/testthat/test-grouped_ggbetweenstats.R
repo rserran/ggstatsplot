@@ -1,6 +1,3 @@
-# context -----------------------------------------------------------------
-context(desc = "grouped_ggbetweenstats")
-
 # outlier labeling works --------------------------------------------------
 
 testthat::test_that(
@@ -25,24 +22,15 @@ testthat::test_that(
       )
     )
 
-    # expect error when x and grouping.var are same
-    testthat::expect_output(
-      ggstatsplot::grouped_ggbetweenstats(
-        data = dat,
-        x = genre,
-        y = rating,
-        grouping.var = genre
-      )
-    )
-
     # outlier tagging is not required
     ggstatsplot::grouped_ggbetweenstats(
       data = dat,
       x = genre,
       y = rating,
+      results.subtitle = FALSE,
       grouping.var = mpaa,
       outlier.tagging = FALSE,
-      messages = TRUE
+      messages = FALSE
     )
 
     # `outlier.label` is not specified
@@ -55,13 +43,14 @@ testthat::test_that(
         grouping.var = mpaa,
         type = "p",
         output = "plot",
+        results.subtitle = FALSE,
         effsize.type = "biased",
         plot.type = "box",
         bf.message = TRUE,
         outlier.tagging = TRUE,
         pairwise.comparisons = TRUE,
         pairwise.annotation = "p.value",
-        messages = TRUE
+        messages = FALSE
       ),
       what = "gg"
     ))
@@ -79,6 +68,7 @@ testthat::test_that(
         pairwise.comparisons = TRUE,
         messages = FALSE,
         outlier.tagging = TRUE,
+        results.subtitle = FALSE,
         outlier.label = title
       ),
       what = "gg"
@@ -98,6 +88,7 @@ testthat::test_that(
         grouping.var = mpaa,
         messages = FALSE,
         type = "r",
+        results.subtitle = FALSE,
         pairwise.comparisons = TRUE,
         outlier.tagging = TRUE,
         outlier.label = "title",
@@ -117,184 +108,40 @@ testthat::test_that(
   code = {
     testthat::skip_on_cran()
 
-    # should output a list of length 5
+    set.seed(123)
+    df <- dplyr::sample_frac(forcats::gss_cat, 0.25) %>%
+      dplyr::filter(
+        .data = ., marital %in% c("Never married"),
+        race %in% c("White", "Black")
+      )
+
+
     set.seed(123)
     ls_results <-
       ggstatsplot::grouped_ggbetweenstats(
-        data = dplyr::sample_frac(forcats::gss_cat, 0.25),
+        data = df,
         x = race,
         y = "tvhours",
         grouping.var = "marital",
         output = "subtitle",
+        bf.message = FALSE,
+        k = 4,
         messages = FALSE
       )
 
+
+    set.seed(123)
+    basic_results <-
+      ggstatsplot::ggbetweenstats(
+        data = df,
+        x = race,
+        y = "tvhours",
+        output = "subtitle",
+        bf.message = FALSE,
+        k = 4,
+        messages = FALSE
+      )
     # tests
-    testthat::expect_equal(length(ls_results), 5L)
-    testthat::expect_identical(
-      ls_results[[1]],
-      ggplot2::expr(
-        paste(
-          NULL,
-          italic("F"),
-          "(",
-          "2",
-          ",",
-          "287.06",
-          ") = ",
-          "14.02",
-          ", ",
-          italic("p"),
-          " = ",
-          "< 0.001",
-          ", ",
-          widehat(omega["p"]^2),
-          " = ",
-          "0.03",
-          ", CI"["95%"],
-          " [",
-          "0.01",
-          ", ",
-          "0.07",
-          "]",
-          ", ",
-          italic("n")["obs"],
-          " = ",
-          779L
-        )
-      )
-    )
-    testthat::expect_identical(
-      ls_results[[2]],
-      ggplot2::expr(
-        paste(
-          NULL,
-          italic("F"),
-          "(",
-          "2",
-          ",",
-          "39.53",
-          ") = ",
-          "3.24",
-          ", ",
-          italic("p"),
-          " = ",
-          "0.050",
-          ", ",
-          widehat(omega["p"]^2),
-          " = ",
-          "0.06",
-          ", CI"["95%"],
-          " [",
-          "-0.04",
-          ", ",
-          "0.18",
-          "]",
-          ", ",
-          italic("n")["obs"],
-          " = ",
-          107L
-        )
-      )
-    )
-    testthat::expect_identical(
-      ls_results[[3]],
-      ggplot2::expr(
-        paste(
-          NULL,
-          italic("F"),
-          "(",
-          "2",
-          ",",
-          "60.53",
-          ") = ",
-          "4.46",
-          ", ",
-          italic("p"),
-          " = ",
-          "0.016",
-          ", ",
-          widehat(omega["p"]^2),
-          " = ",
-          "0.02",
-          ", CI"["95%"],
-          " [",
-          "-0.01",
-          ", ",
-          "0.05",
-          "]",
-          ", ",
-          italic("n")["obs"],
-          " = ",
-          451L
-        )
-      )
-    )
-    testthat::expect_identical(
-      ls_results[[4]],
-      ggplot2::expr(
-        paste(
-          NULL,
-          italic("F"),
-          "(",
-          "2",
-          ",",
-          "15.50",
-          ") = ",
-          "4.14",
-          ", ",
-          italic("p"),
-          " = ",
-          "0.036",
-          ", ",
-          widehat(omega["p"]^2),
-          " = ",
-          "0.05",
-          ", CI"["95%"],
-          " [",
-          "-0.01",
-          ", ",
-          "0.12",
-          "]",
-          ", ",
-          italic("n")["obs"],
-          " = ",
-          249L
-        )
-      )
-    )
-    testthat::expect_identical(
-      ls_results[[5]],
-      ggplot2::expr(
-        paste(
-          NULL,
-          italic("F"),
-          "(",
-          "2",
-          ",",
-          "163.64",
-          ") = ",
-          "6.96",
-          ", ",
-          italic("p"),
-          " = ",
-          "0.001",
-          ", ",
-          widehat(omega["p"]^2),
-          " = ",
-          "0.02",
-          ", CI"["95%"],
-          " [",
-          "0.00",
-          ", ",
-          "0.04",
-          "]",
-          ", ",
-          italic("n")["obs"],
-          " = ",
-          1264L
-        )
-      )
-    )
+    testthat::expect_equal(ls_results$`Never married`, basic_results)
   }
 )

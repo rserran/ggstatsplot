@@ -58,12 +58,12 @@ set.seed(123)
 library(ggstatsplot)
 library(plotly)
 
-# creating ggplot object with ggstatsplot
-p <- ggstatsplot::ggbetweenstats(
+# creating ggplot object with `ggstatsplot`
+p <- 
+  ggstatsplot::ggbetweenstats(
   data = mtcars,
   x = cyl,
-  y = mpg,
-  messages = FALSE
+  y = mpg
 )
 
 # converting to plotly object
@@ -96,17 +96,17 @@ length(df_list)
 
 # running correlation analyses between
 # this will return a *list* of plots
-plot_list <- purrr::pmap(
-  .l = list(
-    data = df_list,
-    x = "displ",
-    y = "hwy",
-    results.subtitle = FALSE,
-    marginal.type = "densigram",
-    messages = FALSE
-  ),
-  .f = ggstatsplot::ggscatterstats
-)
+plot_list <-
+  purrr::pmap(
+    .l = list(
+      data = df_list,
+      x = "displ",
+      y = "hwy",
+      results.subtitle = FALSE,
+      marginal.type = "densigram"
+    ),
+    .f = ggstatsplot::ggscatterstats
+  )
 
 # arragen the list in a single plot
 ggstatsplot::combine_plots(
@@ -114,6 +114,45 @@ ggstatsplot::combine_plots(
   nrow = 2,
   labels = c("(i)", "(ii)", "(iii)", "(iv)")
 )
+```
+
+## Can you customize which pairs are shown in pairwise comparisons?
+
+Currently, for `ggbetweenstats` and `ggwithinstats`, you can either display all
+**significant** comparisons, all **non-significant** comparisons, or **all**
+comparisons. But what if I am only interested in just one particular comparison?
+
+Here is a workaround using `ggsignif`:
+
+```{r custom_pairwise}
+set.seed(123)
+library(ggstatsplot)
+library(ggsignif)
+
+# displaying only one comparison
+ggbetweenstats(mtcars, cyl, wt) +
+  geom_signif(comparisons = list(c("4", "6")))
+```
+
+## How to access dataframe with results from pairwise comparisons?
+
+```{r}
+library(ggstatsplot)
+library(ggplot2)
+
+# way-1
+
+p <- ggbetweenstats(mtcars, cyl, wt, pairwise.comparisons = TRUE)
+
+pb <- ggplot_build(p)
+
+pb$plot$plot_env$df_pairwise
+
+# way-2
+
+library(pairwiseComparisons)
+
+pairwise_comparisons(mtcars, cyl, wt)
 ```
 
 ## How can I remove a a particular `geom` layer from the plot?
@@ -130,13 +169,13 @@ library(ggstatsplot)
 library(gginnards)
 
 # plot with all geoms
-p <- ggbetweenstats(
-  data = iris,
-  x = Species,
-  y = Sepal.Length,
-  mean.plotting = FALSE,
-  messages = FALSE
-)
+p <-
+  ggbetweenstats(
+    data = iris,
+    x = Species,
+    y = Sepal.Length,
+    mean.plotting = FALSE
+  )
 
 # delete geom corresponding to points
 gginnards::delete_layers(x = p, match_type = "GeomPoint")
@@ -159,14 +198,13 @@ p <-
     data = bugs_long,
     x = condition,
     y = desire,
-    mean.plotting = FALSE,
-    messages = FALSE
+    mean.plotting = FALSE
   )
 
 # delete the geom_point layer
 p <- gginnards::delete_layers(x = p, match_type = "GeomPoint")
 
-# add a new layers for points with a different `pch`
+# add a new layers for points with a different shape
 p + geom_point(shape = 23, aes(color = condition))
 ```
 
@@ -179,4 +217,3 @@ If you find any bugs or have any suggestions/remarks, please file an issue on
 
 For details, see-
 <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/session_info.html>
-

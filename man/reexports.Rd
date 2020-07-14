@@ -23,16 +23,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{broomExtra}{\code{\link[broomExtra]{\%$\%}}, \code{\link[broomExtra]{\%<>\%}}, \code{\link[broomExtra]{\%>\%}}}
+  \item{ipmisc}{\code{\link[ipmisc:reexports]{\%$\%}}, \code{\link[ipmisc:reexports]{\%<-\%}}, \code{\link[ipmisc:reexports]{\%<>\%}}, \code{\link[ipmisc:reexports]{\%>\%}}, \code{\link[ipmisc:reexports]{\%|\%}}, \code{\link[ipmisc:reexports]{\%||\%}}, \code{\link[ipmisc:reexports]{as_tibble}}, \code{\link[ipmisc]{set_cwd}}, \code{\link[ipmisc]{signif_column}}, \code{\link[ipmisc]{specify_decimal_p}}, \code{\link[ipmisc:reexports]{tibble}}}
 
-  \item{groupedstats}{\code{\link[groupedstats]{set_cwd}}, \code{\link[groupedstats]{signif_column}}, \code{\link[groupedstats]{specify_decimal_p}}}
-
-  \item{pairwiseComparisons}{\code{\link[pairwiseComparisons]{pairwise_comparisons}}, \code{\link[pairwiseComparisons]{pairwise_p}}}
-
-  \item{rlang}{\code{\link[rlang]{\%|\%}}, \code{\link[rlang]{\%||\%}}}
-
-  \item{statsExpressions}{\code{\link[statsExpressions]{\%<-\%}}}
-
-  \item{tibble}{\code{\link[tibble]{as_tibble}}, \code{\link[tibble]{tibble}}}
+  \item{pairwiseComparisons}{\code{\link[pairwiseComparisons]{pairwise_comparisons}}, \code{\link[pairwiseComparisons:pairwise_comparisons]{pairwise_p}}}
 }}
 

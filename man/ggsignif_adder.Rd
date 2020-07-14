@@ -10,8 +10,8 @@ ggsignif_adder(
   data,
   x,
   y,
-  pairwise.annotation = "p.value",
-  pairwise.display = "significant"
+  pairwise.display = "significant",
+  ...
 )
 }
 \arguments{
@@ -28,9 +28,6 @@ be taken. A matrix or tables will \strong{not} be accepted.}
 \item{y}{The response (a.k.a. outcome or dependent) variable from the
 dataframe \code{data}.}
 
-\item{pairwise.annotation}{Character that decides the annotations to use for
-pairwise comparisons. Either \code{"p.value"} (default) or \code{"asterisk"}.}
-
 \item{pairwise.display}{Decides which pairwise comparisons to display.
 Available options are \code{"significant"} (abbreviation accepted: \code{"s"}) or
 \code{"non-significant"} (abbreviation accepted: \code{"ns"}) or
@@ -38,6 +35,8 @@ Available options are \code{"significant"} (abbreviation accepted: \code{"s"}) o
 argument to make sure that your plot is not uber-cluttered when you have
 multiple groups being compared and scores of pairwise comparisons being
 displayed.}
+
+\item{...}{Currently ignored.}
 }
 \description{
 Adding \code{geom_signif} to \code{ggplot}
@@ -51,11 +50,12 @@ p <- ggplot(iris, aes(Species, Sepal.Length)) +
   geom_boxplot()
 
 # dataframe with pairwise comparison test results
-df_pair <- pairwiseComparisons::pairwise_comparisons(
-  data = iris,
-  x = Species,
-  y = Sepal.Length
-)
+df_pair <-
+  pairwiseComparisons::pairwise_comparisons(
+    data = iris,
+    x = Species,
+    y = Sepal.Length
+  )
 
 # adding a geom for pairwise comparisons
 ggstatsplot:::ggsignif_adder(

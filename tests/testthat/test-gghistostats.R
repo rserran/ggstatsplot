@@ -1,5 +1,3 @@
-context(desc = "gghistostats")
-
 # checking plot and parametric stats --------------------------------------
 
 testthat::test_that(
@@ -16,8 +14,8 @@ testthat::test_that(
         xlab = "character height",
         title = "starwars: character heights",
         binwidth = 20,
+        bar.fill = "orange",
         test.value = 150,
-        bf.message = TRUE,
         bf.prior = 0.9,
         test.k = 0,
         centrality.k = 0,
@@ -28,36 +26,183 @@ testthat::test_that(
     # build the plot
     pb <- ggplot2::ggplot_build(p)
 
-    # checking data used to create a plot
-    dat <- tibble::as_tibble(p$data) %>%
-      dplyr::mutate_if(
-        .tbl = .,
-        .predicate = is.factor,
-        .funs = ~ as.character(.)
+    # checking geom data
+    testthat::expect_equal(
+      pb$data[[1]],
+      structure(
+        list(
+          fill = c(
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange",
+            "orange"
+          ),
+          y = c(1, 2, 4, 2, 3, 15, 32, 15, 5, 1, 1),
+          count = c(
+            1, 2,
+            4, 2, 3, 15, 32, 15, 5, 1, 1
+          ),
+          x = c(
+            60, 80, 100, 120, 140, 160,
+            180, 200, 220, 240, 260
+          ),
+          xmin = c(
+            50, 70, 90, 110, 130, 150,
+            170, 190, 210, 230, 250
+          ),
+          xmax = c(
+            70, 90, 110, 130, 150, 170,
+            190, 210, 230, 250, 270
+          ),
+          density = c(
+            0.000617283950617284,
+            0.00123456790123457,
+            0.00246913580246914,
+            0.00123456790123457,
+            0.00185185185185185,
+            0.00925925925925926,
+            0.0197530864197531,
+            0.00925925925925926,
+            0.00308641975308642,
+            0.000617283950617284,
+            0.000617283950617284
+          ),
+          ncount = c(
+            0.03125,
+            0.0625,
+            0.125,
+            0.0625,
+            0.09375,
+            0.46875,
+            1,
+            0.46875,
+            0.15625,
+            0.03125,
+            0.03125
+          ),
+          ndensity = c(
+            0.03125,
+            0.0625,
+            0.125,
+            0.0625,
+            0.09375,
+            0.46875,
+            1,
+            0.46875,
+            0.15625,
+            0.03125,
+            0.03125
+          ),
+          flipped_aes = c(
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE,
+            FALSE
+          ),
+          PANEL = structure(
+            c(
+              1L,
+              1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L
+            ),
+            .Label = "1",
+            class = "factor"
+          ),
+          group = c(
+            -1L, -1L, -1L, -1L, -1L, -1L, -1L, -1L, -1L, -1L,
+            -1L
+          ),
+          ymin = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+          ymax = c(
+            1,
+            2, 4, 2, 3, 15, 32, 15, 5, 1, 1
+          ),
+          colour = c(
+            "black",
+            "black",
+            "black",
+            "black",
+            "black",
+            "black",
+            "black",
+            "black",
+            "black",
+            "black",
+            "black"
+          ),
+          size = c(
+            0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5, 0.5, 0.5
+          ),
+          linetype = c(
+            1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1
+          ),
+          alpha = c(
+            0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7,
+            0.7, 0.7, 0.7, 0.7
+          )
+        ),
+        row.names = c(NA, -11L),
+        class = "data.frame"
       )
+    )
 
-    # checking dimensions of data
-    data_dims <- dim(dat)
+    testthat::expect_equal(
+      pb$data[[2]],
+      structure(
+        list(
+          xintercept = 150,
+          PANEL = structure(1L, .Label = "1", class = "factor"),
+          group = structure(-1L, n = 1L),
+          colour = "black",
+          size = 1,
+          linetype = "dashed",
+          alpha = NA
+        ),
+        row.names = c(NA, -1L),
+        class = "data.frame"
+      )
+    )
 
-    # testing everything is okay with data
-    testthat::expect_equal(data_dims, c(81L, 1L))
+    testthat::expect_equal(
+      pb$data[[4]],
+      structure(
+        list(
+          xintercept = 174.358024691358,
+          PANEL = structure(1L, .Label = "1", class = "factor"),
+          group = structure(-1L, n = 1L),
+          colour = "blue",
+          size = 1,
+          linetype = "dashed",
+          alpha = NA
+        ),
+        row.names = c(NA, -1L),
+        class = "data.frame"
+      )
+    )
 
     # checking different data layers
     testthat::expect_equal(length(pb$data), 5L)
-    testthat::expect_equal(dim(pb$data[[1]]), c(11L, 17L))
+    testthat::expect_equal(dim(pb$data[[1]]), c(11L, 18L))
     testthat::expect_equal(dim(pb$data[[2]]), c(1L, 7L))
     testthat::expect_equal(dim(pb$data[[3]]), c(81L, 15L))
     testthat::expect_equal(dim(pb$data[[4]]), c(1L, 7L))
     testthat::expect_equal(dim(pb$data[[5]]), c(81L, 15L))
 
-    testthat::expect_equal(pb$data[[4]]$xintercept,
-      mean(dplyr::starwars$height, na.rm = TRUE),
-      tolerance = 0.001
-    )
-    testthat::expect_equal(pb$data[[2]]$xintercept,
-      150.000,
-      tolerance = 0.001
-    )
     testthat::expect_equal(
       class(pb$data[[3]]$label[[1]]),
       "call"
@@ -74,18 +219,6 @@ testthat::test_that(
       pb$data[[5]]$label[[1]],
       ggplot2::expr("mean" == "174")
     )
-    testthat::expect_equal(
-      pb$data[[1]]$y,
-      c(1L, 2L, 4L, 2L, 3L, 15L, 32L, 15L, 5L, 1L, 1L)
-    )
-    testthat::expect_equal(
-      pb$data[[1]]$x,
-      c(60L, 80L, 100L, 120L, 140L, 160L, 180L, 200L, 220L, 240L, 260L)
-    )
-    testthat::expect_equal(pb$data[[1]]$xmin[1], 50L)
-    testthat::expect_equal(pb$data[[1]]$xmax[1], 70L)
-    testthat::expect_equal(pb$data[[1]]$xmin[7], 170L)
-    testthat::expect_equal(pb$data[[1]]$xmax[7], 190L)
     testthat::expect_null(pb$layout$panel_params[[1]]$y.sec.labels, NULL)
 
     # checking subtitle
@@ -99,24 +232,24 @@ testthat::test_that(
         messages = FALSE
       )
 
-    # testing overall call
-    testthat::expect_identical(p$labels$subtitle, p_subtitle)
-    testthat::expect_identical(p$labels$title, "starwars: character heights")
-    testthat::expect_identical(p$labels$x, "character height")
-    testthat::expect_identical(p$labels$caption, ggplot2::expr(atop(
-      displaystyle(NULL),
-      expr = paste(
-        "In favor of null: ",
-        "log"["e"],
-        "(BF"["01"],
-        ") = ",
-        "-13.55",
-        ", ",
-        italic("r")["Cauchy"]^"JZS",
-        " = ",
-        "0.90"
+    # checking caption
+    set.seed(123)
+    p_cap <-
+      statsExpressions::bf_ttest(
+        data = dplyr::starwars,
+        x = height,
+        type = "p",
+        test.value = 150,
+        messages = FALSE,
+        bf.prior = 0.9,
+        output = "caption"
       )
-    )))
+
+    # testing overall call
+    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
+    testthat::expect_identical(pb$plot$labels$title, "starwars: character heights")
+    testthat::expect_identical(pb$plot$labels$x, "character height")
+    testthat::expect_identical(pb$plot$labels$caption, p_cap)
   }
 )
 
@@ -136,7 +269,7 @@ testthat::test_that(
         xlab = "city miles per gallon",
         title = "fuel economy",
         caption = substitute(paste(italic("source"), ": government website")),
-        centrality.para = "median",
+        centrality.parameter = "median",
         bar.measure = "mix",
         binwidth = 5,
         test.value = 20,
@@ -145,42 +278,18 @@ testthat::test_that(
         test.k = 2,
         centrality.k = 2,
         test.value.line = TRUE,
-        messages = FALSE
-      )
-
-    # checking subtitle
-    set.seed(123)
-    p_subtitle <-
-      statsExpressions::expr_t_onesample(
-        data = ggplot2::mpg,
-        x = cty,
-        type = "np",
-        test.value = 20,
-        k = 3,
+        results.subtitle = FALSE,
         messages = FALSE
       )
 
     # build the plot
     pb <- ggplot2::ggplot_build(p)
 
-    # checking data used to create a plot
-    dat <- tibble::as_tibble(p$data) %>%
-      dplyr::mutate_if(
-        .tbl = .,
-        .predicate = is.factor,
-        .funs = ~ as.character(.)
-      )
-
-    # checking dimensions of data
-    data_dims <- dim(dat)
-
-    # testing everything is okay with data
-    testthat::expect_equal(data_dims, c(234L, 1L))
-
     # checking different data layers
     testthat::expect_equal(length(pb$data), 5L)
     testthat::expect_equal(nrow(pb$data[[1]]), 6L)
-    testthat::expect_equal(pb$data[[4]]$xintercept,
+    testthat::expect_equal(
+      pb$data[[4]]$xintercept,
       median(ggplot2::mpg$cty, na.rm = TRUE),
       tolerance = 0.001
     )
@@ -206,34 +315,59 @@ testthat::test_that(
     testthat::expect_equal(pb$data[[1]]$xmax[6], 37.5, tolerance = 0.001)
 
     # checking panel parameters
-    testthat::expect_equal(pb$layout$panel_params[[1]]$x.range, c(6L, 39L))
+    testthat::expect_equal(pb$layout$panel_params[[1]]$x$limits, c(7.5, 37.5))
     testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.labels,
-      c("10", "20", "30")
-    )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$y.range,
-      c(-4.95, 103.95),
-      tolerance = 0.001
+      pb$layout$panel_params[[1]]$x$breaks,
+      c(NA, 10, 20, 30, NA)
     )
     testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.labels,
-      c("0", "25", "50", "75", "100")
+      pb$layout$panel_params[[1]]$y$breaks,
+      c(0, 25, 50, 75, 100)
     )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$y.sec.range,
-      c(-0.02115385, 0.44423077),
-      tolerance = 0.001
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.sec.labels,
-      c("0%", "10%", "20%", "30%", "40%")
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.arrange,
-      c("primary", "secondary")
+    testthat::expect_equal(
+      pb$layout$panel_params[[1]]$y.sec$break_info,
+      list(
+        range = c(-0.0211538461538462, 0.444230769230769),
+        labels = c(
+          "0%",
+          "10%", "20%", "30%", "40%"
+        ),
+        major = c(
+          0.045, 0.26, 0.475, 0.69,
+          0.905
+        ),
+        minor = c(
+          0.045, 0.153, 0.26, 0.367, 0.475, 0.583, 0.69,
+          0.798, 0.905
+        ),
+        major_source = c(
+          -0.044594594594594,
+          23.3923423423423,
+          46.8292792792793,
+          70.1572072072072,
+          93.5941441441442
+        ),
+        minor_source = c(
+          -0.044594594594594,
+          11.7283783783784,
+          23.3923423423423,
+          35.0563063063063,
+          46.8292792792793,
+          58.4932432432432,
+          70.1572072072072,
+          81.9301801801802,
+          93.5941441441442
+        ),
+        major_source_user = c(0, 0.1, 0.2, 0.3, 0.4),
+        minor_source_user = c(
+          0,
+          0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4
+        )
+      )
     )
 
     # testing labels
-    testthat::expect_identical(p$labels$subtitle, p_subtitle)
+    testthat::expect_identical(p$labels$subtitle, NULL)
     testthat::expect_identical(p$labels$title, "fuel economy")
     testthat::expect_identical(p$labels$x, "city miles per gallon")
     testthat::expect_identical(p$labels$y, "count")
@@ -265,7 +399,7 @@ testthat::test_that(
         test.value = 2.5,
         type = "r",
         test.value.line = FALSE,
-        centrality.para = FALSE,
+        centrality.parameter = FALSE,
         messages = FALSE
       ) +
       scale_x_continuous(limits = c(1, 6))
@@ -313,24 +447,6 @@ testthat::test_that(
       c(1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0),
       tolerance = 0.01
     )
-
-    # checking panel parameters
-    testthat::expect_equal(pb$layout$panel_params[[1]]$x.range,
-      c(0.75, 6.25),
-      tolerance = 0.001
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.labels,
-      c("2", "4", "6")
-    )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$y.range,
-      c(-0.0140625, 0.2953125),
-      tolerance = 0.001
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.labels,
-      c("0%", "10%", "20%")
-    )
   }
 )
 
@@ -352,7 +468,7 @@ testthat::test_that(
         test.value = 2.5,
         type = "bf",
         test.value.line = FALSE,
-        centrality.para = FALSE,
+        centrality.parameter = FALSE,
         messages = FALSE
       ))
 
@@ -387,18 +503,6 @@ testthat::test_that(
       c(550, 1100),
       tolerance = 0.001
     )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.labels,
-      c("600", "700", "800", "900", "1000", "1100")
-    )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$y.range,
-      c(-0.00025, 0.00525),
-      tolerance = 0.001
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.labels,
-      c("0.000", "0.001", "0.002", "0.003", "0.004", "0.005")
-    )
   }
 )
 
@@ -415,58 +519,71 @@ testthat::test_that(
     dat2 <- ggplot2::msleep
 
     # plot-1
-    p1 <- ggstatsplot::gghistostats(
-      data = dat1,
-      x = sales,
-      results.subtitle = FALSE,
-      normal.curve = TRUE,
-      bar.measure = "count",
-      messages = FALSE
-    )
+    p1 <-
+      ggstatsplot::gghistostats(
+        data = dat1,
+        x = sales,
+        results.subtitle = FALSE,
+        normal.curve = TRUE,
+        bar.measure = "count",
+        messages = FALSE
+      )
 
     # plot-2
-    p2 <- ggstatsplot::gghistostats(
-      data = dat1,
-      x = sales,
-      results.subtitle = FALSE,
-      normal.curve = TRUE,
-      binwidth = 100,
-      bar.measure = "proportion",
-      messages = FALSE
-    )
+    p2 <-
+      ggstatsplot::gghistostats(
+        data = dat1,
+        x = sales,
+        results.subtitle = FALSE,
+        normal.curve = TRUE,
+        binwidth = 100,
+        bar.measure = "proportion",
+        messages = FALSE
+      )
 
     # plot-3
-    p3 <- ggstatsplot::gghistostats(
-      data = dat2,
-      x = brainwt,
-      results.subtitle = FALSE,
-      normal.curve = TRUE,
-      normal.curve.color = "red",
-      normal.curve.size = 0.8,
-      bar.measure = "mix",
-      messages = FALSE
-    )
+    p3 <-
+      ggstatsplot::gghistostats(
+        data = dat2,
+        x = brainwt,
+        results.subtitle = FALSE,
+        normal.curve = TRUE,
+        normal.curve.args =
+          list(
+            color = "red",
+            size = 0.8
+          ),
+        bar.measure = "mix",
+        messages = FALSE
+      )
 
     # plot-4
-    p4 <- ggstatsplot::gghistostats(
-      data = dat2,
-      x = brainwt,
-      results.subtitle = FALSE,
-      normal.curve = TRUE,
-      bar.measure = "density",
-      binwidth = 0.05,
-      normal.curve.linetype = "dashed",
-      messages = FALSE
-    )
+    p4 <-
+      ggstatsplot::gghistostats(
+        data = dat2,
+        x = brainwt,
+        results.subtitle = FALSE,
+        normal.curve = TRUE,
+        bar.measure = "density",
+        binwidth = 0.05,
+        normal.curve.args =
+          list(
+            color = "black",
+            linetype = "dashed",
+            size = 1
+          ),
+        messages = FALSE
+      )
 
     # plot-5
-    p5 <- ggstatsplot::gghistostats(
-      data = dat2,
-      x = brainwt,
-      results.subtitle = FALSE,
-      normal.curve = FALSE,
-      messages = FALSE
-    )
+    p5 <-
+      ggstatsplot::gghistostats(
+        data = dat2,
+        x = brainwt,
+        results.subtitle = FALSE,
+        normal.curve = FALSE,
+        messages = FALSE
+      )
 
     # build plots
     pb1 <- ggplot2::ggplot_build(p1)
@@ -485,8 +602,8 @@ testthat::test_that(
     # check aesthetic of the respective layer
     testthat::expect_equal(dim(pb1$data[[2]]), c(101L, 8L))
     testthat::expect_identical(unique(pb1$data[[2]]$colour), "black")
-    testthat::expect_identical(unique(pb1$data[[2]]$linetype), "solid")
-    testthat::expect_equal(unique(pb1$data[[2]]$size), 1L)
+    testthat::expect_equal(unique(pb1$data[[2]]$linetype), 1)
+    testthat::expect_equal(unique(pb1$data[[2]]$size), 3)
     testthat::expect_identical(unique(pb3$data[[2]]$colour), "red")
     testthat::expect_equal(unique(pb3$data[[2]]$size), 0.8)
     testthat::expect_identical(unique(pb4$data[[2]]$linetype), "dashed")
@@ -507,60 +624,6 @@ testthat::test_that(
   }
 )
 
-# checking with default binwidth -------------------------------------
-
-testthat::test_that(
-  desc = "checking with default binwidth",
-  code = {
-    testthat::skip_on_cran()
-
-    # creating the plot
-    set.seed(123)
-    p <-
-      suppressWarnings(ggstatsplot::gghistostats(
-        data = morley,
-        x = Speed,
-        effsize.type = "d",
-        effsize.noncentral = FALSE,
-        bf.message = FALSE,
-        ggplot.component = ggplot2::scale_x_continuous(
-          sec.axis = ggplot2::dup_axis(name = ggplot2::element_blank())
-        ),
-        messages = FALSE
-      ))
-
-    # build the plot
-    pb <- ggplot2::ggplot_build(p)
-
-    # tests
-    testthat::expect_null(pb$plot$labels$caption, NULL)
-    testthat::expect_equal(pb$layout$panel_params[[1]]$x.range,
-      c(582.75, 1127.25),
-      tolerance = 0.001
-    )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$x.range,
-      pb$layout$panel_params[[1]]$x.sec.range,
-      tolerance = 0.001
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.labels,
-      c("600", "700", "800", "900", "1000", "1100")
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$x.labels,
-      pb$layout$panel_params[[1]]$x.sec.labels
-    )
-    testthat::expect_equal(pb$layout$panel_params[[1]]$y.range,
-      c(-1.15, 24.15),
-      tolerance = 0.001
-    )
-    testthat::expect_identical(
-      pb$layout$panel_params[[1]]$y.labels,
-      c("0", "5", "10", "15", "20")
-    )
-  }
-)
-
 # subtitle output --------------------------------------------------
 
 testthat::test_that(
@@ -570,44 +633,28 @@ testthat::test_that(
 
     # should output a list of length 3
     set.seed(123)
-    p_sub <- ggstatsplot::gghistostats(
-      data = ggplot2::msleep,
-      x = brainwt,
-      output = "subtitle",
-      type = "np",
-      test.value = 0.25,
-      messages = FALSE
-    )
+    p_sub <-
+      ggstatsplot::gghistostats(
+        data = ggplot2::msleep,
+        x = brainwt,
+        output = "subtitle",
+        type = "np",
+        test.value = 0.25,
+        messages = FALSE
+      )
+
+    set.seed(123)
+    sub <-
+      statsExpressions::expr_t_onesample(
+        data = ggplot2::msleep,
+        x = brainwt,
+        output = "subtitle",
+        type = "np",
+        test.value = 0.25,
+        messages = FALSE
+      )
 
     # tests
-    testthat::expect_identical(
-      p_sub,
-      ggplot2::expr(
-        paste(
-          NULL,
-          "log"["e"](italic("V")),
-          " = ",
-          "5.57",
-          ", ",
-          italic("p"),
-          " = ",
-          "< 0.001",
-          ", ",
-          widehat(italic("r")),
-          " = ",
-          "-0.58",
-          ", CI"["95%"],
-          " [",
-          "-0.81",
-          ", ",
-          "-0.38",
-          "]",
-          ", ",
-          italic("n")["obs"],
-          " = ",
-          56L
-        )
-      )
-    )
+    testthat::expect_identical(p_sub, sub)
   }
 )

@@ -1,5 +1,3 @@
-context("grouped_gghistostats")
-
 # grouped_gghistostats works ---------------------------------------------
 
 testthat::test_that(
@@ -15,10 +13,11 @@ testthat::test_that(
         x = brainwt,
         grouping.var = vore,
         type = "p",
+        results.subtitle = FALSE,
         normal.curve = TRUE,
         bar.measure = "mix",
         bf.message = TRUE,
-        messages = TRUE
+        messages = FALSE
       ),
       what = "gg"
     ))
@@ -31,6 +30,7 @@ testthat::test_that(
         x = "brainwt",
         grouping.var = "vore",
         type = "r",
+        results.subtitle = FALSE,
         normal.curve = TRUE,
         effsize.type = "d",
         effsize.noncentral = FALSE,
@@ -42,21 +42,6 @@ testthat::test_that(
       ),
       what = "gg"
     ))
-
-    # when the data argument is missing, expect error
-    # this is supposed to be the case only for `gghistostats` and not its
-    # `grouped_` variant
-    set.seed(123)
-    testthat::expect_error(
-      ggstatsplot::grouped_gghistostats(
-        x = ggplot2::msleep$brainwt,
-        grouping.var = "vore",
-        type = "np",
-        normal.curve = TRUE,
-        bar.measure = "density",
-        messages = TRUE
-      )
-    )
   }
 )
 
@@ -67,21 +52,30 @@ testthat::test_that(
   code = {
     testthat::skip_on_cran()
 
-    # should output a list of length 3
-    ls_results <- ggstatsplot::grouped_gghistostats(
-      data = ggplot2::msleep,
-      x = brainwt,
-      grouping.var = vore,
-      output = "subtitle",
-      results.subtitle = NULL,
-      messages = FALSE
-    )
+    df <- dplyr::filter(ggplot2::msleep, vore == "omni")
+
+    set.seed(123)
+    ls_results <-
+      ggstatsplot::grouped_gghistostats(
+        data = df,
+        x = brainwt,
+        grouping.var = vore,
+        test.value = 0.25,
+        output = "subtitle",
+        messages = FALSE
+      )
+
+    set.seed(123)
+    basic_results <-
+      statsExpressions::expr_t_onesample(
+        data = df,
+        x = brainwt,
+        test.value = 0.25,
+        output = "subtitle",
+        messages = FALSE
+      )
 
     # tests
-    testthat::expect_equal(length(ls_results), 4L)
-    testthat::expect_null(ls_results[[1]], NULL)
-    testthat::expect_null(ls_results[[2]], NULL)
-    testthat::expect_null(ls_results[[3]], NULL)
-    testthat::expect_null(ls_results[[4]], NULL)
+    testthat::expect_equal(ls_results$`omni`, basic_results)
   }
 )

@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,7 +46,7 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
@@ -53,7 +57,6 @@
 <meta property="og:title" content="Dot-and-whisker plots for regression analyses — ggcoefstats" />
 <meta property="og:description" content="Dot-and-whisker plots for regression analyses" />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -71,7 +74,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.5.0.9000</span>
       </span>
     </div>
 
@@ -109,9 +112,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
     </li>
     <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
@@ -169,7 +169,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/IndrajeetPatil/ggstatsplot">
+  <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -206,48 +206,34 @@
   <span class='no'>x</span>,
   <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>,
   <span class='kw'>statistic</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>scales</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>"survival"</span>,
-  <span class='kw'>bf.message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>coefficient.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"beta"</span>, <span class='st'>"location"</span>, <span class='st'>"coefficient"</span>),
-  <span class='kw'>by.class</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>effsize</span> <span class='kw'>=</span> <span class='st'>"eta"</span>,
-  <span class='kw'>partial</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>500</span>,
-  <span class='kw'>meta.analytic.effect</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>meta.type</span> <span class='kw'>=</span> <span class='st'>"parametric"</span>,
   <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>se.type</span> <span class='kw'>=</span> <span class='st'>"nid"</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>k.caption.summary</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
   <span class='kw'>exclude.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>exponentiate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>effsize</span> <span class='kw'>=</span> <span class='st'>"eta"</span>,
+  <span class='kw'>partial</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>meta.analytic.effect</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>meta.type</span> <span class='kw'>=</span> <span class='st'>"parametric"</span>,
+  <span class='kw'>bf.message</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>sort</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
   <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"regression coefficient"</span>,
   <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"term"</span>,
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>only.significant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>caption.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>point.color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>,
-  <span class='kw'>point.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>point.shape</span> <span class='kw'>=</span> <span class='fl'>16</span>,
+  <span class='kw'>only.significant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>point.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
   <span class='kw'>errorbar.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>0</span>),
   <span class='kw'>vline</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>vline.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>linetype</span> <span class='kw'>=</span> <span class='st'>"dashed"</span>),
   <span class='kw'>stats.labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>stats.label.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stats.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>min.segment.length</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>segment.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
-    <span class='kw'>direction</span> <span class='kw'>=</span> <span class='st'>"y"</span>),
+  <span class='kw'>stats.label.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>direction</span> <span class='kw'>=</span> <span class='st'>"y"</span>),
   <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"RColorBrewer"</span>,
   <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Dark2"</span>,
-  <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ggtheme</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>(),
   <span class='kw'>ggstatsplot.layer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>messages</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -256,111 +242,24 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A model object to be tidied with <code><a href='http://broom.tidyverse.org/reference/reexports.html'>broom::tidy</a></code>, or a tidy data frame
-containing results. If a data frame is to be plotted, it <em>must</em> contain
-columns named <code>term</code> (names of predictors), or <code>estimate</code> (corresponding
-estimates of coefficients or other quantities of interest). Other optional
-columns are <code>conf.low</code> and <code>conf.high</code> (for confidence intervals);
-<code>p.value</code>. It is important that all <code>term</code> names should be unique.</p></td>
+      <td><p>A model object to be tidied, or a tidy data frame containing results
+from a regression model. Function internally uses
+<code><a href='https://rdrr.io/pkg/parameters/man/model_parameters.html'>parameters::model_parameters</a></code> or <code><a href='https://broom.tidymodels.org/reference/reexports.html'>broom::tidy</a></code> to get a tidy dataframe. If
+a data frame is used, it <em>must</em> contain columns named <code>term</code> (names of
+predictors) and <code>estimate</code> (corresponding estimates of coefficients or
+other quantities of interest).</p></td>
     </tr>
     <tr>
       <th>output</th>
       <td><p>Character describing the expected output from this function:
 <code>"plot"</code> (visualization of regression coefficients) or <code>"tidy"</code> (tidy
-dataframe of results from <code><a href='http://broom.tidyverse.org/reference/reexports.html'>broom::tidy</a></code>) or <code>"glance"</code> (object from
-<code><a href='http://broom.tidyverse.org/reference/reexports.html'>broom::glance</a></code>) or <code>"augment"</code> (object from <code><a href='http://broom.tidyverse.org/reference/reexports.html'>broom::augment</a></code>).</p></td>
+dataframe of results from <code><a href='https://broom.tidymodels.org/reference/reexports.html'>broom::tidy</a></code>) or <code>"glance"</code> (object from
+<code><a href='https://broom.tidymodels.org/reference/reexports.html'>broom::glance</a></code>) or <code>"augment"</code> (object from <code><a href='https://broom.tidymodels.org/reference/reexports.html'>broom::augment</a></code>).</p></td>
     </tr>
     <tr>
       <th>statistic</th>
       <td><p>Which statistic is to be displayed (either <code>"t"</code> or <code>"f"</code>or
-<code>"z"</code>) in the label. This is especially important if the <code>x</code> argument in
-<code>ggcoefstats</code> is a dataframe in which case the function wouldn't know what
-kind of model it is dealing with.</p></td>
-    </tr>
-    <tr>
-      <th>scales</th>
-      <td><p>scales on which to report the variables: for random effects, the choices are &#8216;"sdcor"&#8217; (standard deviations and correlations: the default if <code>scales</code> is <code>NULL</code>) or &#8216;"vcov"&#8217; (variances and covariances). <code>NA</code> means no transformation, appropriate e.g. for fixed effects.</p></td>
-    </tr>
-    <tr>
-      <th>component</th>
-      <td><p>Character specifying whether to tidy the survival or
-the longitudinal component of the model. Must be either <code>"survival"</code> or
-<code>"longitudinal"</code>. Defaults to <code>"survival"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>bf.message</th>
-      <td><p>Logical that decides whether results from running a
-Bayesian meta-analysis assuming that the effect size <em>d</em> varies across
-studies with standard deviation <em>t</em> (i.e., a random-effects analysis)
-should be displayed in caption. Defaults to <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>p.adjust.method</th>
-      <td><p>Adjustment method for <em>p</em>-values for multiple
-comparisons. Possible methods are: <code>"holm"</code>, <code>"hochberg"</code>, <code>"hommel"</code>,
-<code>"bonferroni"</code>, <code>"BH"</code>, <code>"BY"</code>, <code>"fdr"</code>, <code>"none"</code>. Default is no correction
-(<code>"none"</code>). This argument is relevant for multiplicity correction for
-multiway ANOVA designs (see,
-<a href='https://link.springer.com/article/10.3758/s13423-015-0913-5'>Cramer
-et al., 2015</a>).</p></td>
-    </tr>
-    <tr>
-      <th>coefficient.type</th>
-      <td><p>Relevant only for ordinal regression models (<code>clm</code> ,
-<code>clmm</code>, <code>"svyolr"</code>, and <code>polr</code>), this argument decides which parameters are
-display in the plot. Available parameters are: parameter that measures the
-<strong>intercept</strong>, i.e. the log-odds distance between response values
-(<code>"alpha"</code>); effects on the <strong>location</strong> (<code>"beta"</code>); or effects on the
-<strong>scale</strong> (<code>"zeta"</code>). For <code>clm</code> and <code>clmm</code> models, by default, only
-<code>"beta"</code> (a vector of regression parameters) parameters will be show. Other
-options are <code>"alpha"</code> (a vector of threshold parameters) or <code>"both"</code>. For
-<code>polr</code> models, by default, only <code>"coefficient"</code> will be shown. Other option
-is to show <code>"zeta"</code> parameters. Note that, from <code>broom 0.7.0</code> onward,
-coefficients will be renamed and <code>"intercept"</code> type coefficients will
-correspond to <code>"alpha"</code> parameters, <code>"location"</code> type coefficients will
-correspond to <code>"beta"</code> parameters, and <code>"scale"</code> type coefficients will
-correspond to <code>"zeta"</code> parameters.</p></td>
-    </tr>
-    <tr>
-      <th>by.class</th>
-      <td><p>A logical indicating whether or not to show performance
-measures broken down by class. Defaults to <code>FALSE</code>. When <code>by.class = FALSE</code>
-only returns a tibble with accuracy and kappa statistics. Mostly relevant
-for an object of class <code>"confusionMatrix"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>effsize</th>
-      <td><p>Character describing the effect size to be displayed: <code>"eta"</code>
-(default) or <code>"omega"</code>. This argument is relevant
-only for models objects of class <code>aov</code>, <code>anova</code>, and <code>aovlist</code>.</p></td>
-    </tr>
-    <tr>
-      <th>partial</th>
-      <td><p>Logical that decides if partial eta-squared or omega-squared
-are returned (Default: <code>TRUE</code>). If <code>FALSE</code>, eta-squared or omega-squared
-will be returned. Valid only for objects of class <code>aov</code>, <code>anova</code>, or
-<code>aovlist</code>.</p></td>
-    </tr>
-    <tr>
-      <th>nboot</th>
-      <td><p>Number of bootstrap samples for confidence intervals for partial
-eta-squared and omega-squared (Default: <code>500</code>). This argument is relevant
-only for models objects of class <code>aov</code>, <code>anova</code>, and <code>aovlist</code>.</p></td>
-    </tr>
-    <tr>
-      <th>meta.analytic.effect</th>
-      <td><p>Logical that decides whether subtitle for
-meta-analysis via linear (mixed-effects) models (default: <code>FALSE</code>). If
-<code>TRUE</code>, input to argument <code>subtitle</code> will be ignored. This will be mostly
-relevant if a data frame with estimates and their standard errors is
-entered as input to <code>x</code> argument.</p></td>
-    </tr>
-    <tr>
-      <th>meta.type</th>
-      <td><p>Type of statistics used to carry out random-effects
-meta-analysis. If <code>"parametric"</code> (default), <code><a href='https://rdrr.io/pkg/metafor/man/rma.uni.html'>metafor::rma</a></code> function will be
-used. If <code>"robust"</code>, <code><a href='https://rdrr.io/pkg/metaplus/man/metaplus.html'>metaplus::metaplus</a></code> function will be used. If
-<code>"bayes"</code>, <code><a href='https://rdrr.io/pkg/metaBMA/man/meta_random.html'>metaBMA::meta_random</a></code> function will be used.</p></td>
+<code>"z"</code>) in the label. This is relevant if the <code>x</code> argument is a dataframe.</p></td>
     </tr>
     <tr>
       <th>conf.int</th>
@@ -374,20 +273,9 @@ error bars (Default: <code>TRUE</code>).</p></td>
 probability level for CI.</p></td>
     </tr>
     <tr>
-      <th>se.type</th>
-      <td><p>Character specifying the method used to compute standard
-standard errors for quantile regression (Default: <code>"nid"</code>). To see all
-available methods, see <code><a href='https://rdrr.io/pkg/quantreg/man/summary.rq.html'>quantreg::summary.rq()</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>k</th>
-      <td><p>Number of decimal places expected for results displayed in labels
-(Default : <code>k = 2</code>).</p></td>
-    </tr>
-    <tr>
-      <th>k.caption.summary</th>
-      <td><p>Number of decimal places expected for results
-displayed in captions (Default : <code>k.caption.summary = 0</code>).</p></td>
+      <td><p>Number of digits after decimal point (should be an integer)
+(Default: <code>k = 2</code>).</p></td>
     </tr>
     <tr>
       <th>exclude.intercept</th>
@@ -397,7 +285,45 @@ excluded from the plot (Default: <code>TRUE</code>).</p></td>
     <tr>
       <th>exponentiate</th>
       <td><p>If <code>TRUE</code>, the <code>x</code>-axis will be logarithmic (Default:
-<code>FALSE</code>).</p></td>
+<code>FALSE</code>). Note that exponents for the coefficient estimates and associated
+standard errors plus confidence intervals are computed by the underlying
+tidying packages (<code>broom</code>/<code>parameters</code>) and not done by <code>ggcoefstats</code>. So
+this might not work if the underlying packages don't support
+exponentiation.</p></td>
+    </tr>
+    <tr>
+      <th>effsize</th>
+      <td><p>Character describing the effect size to be displayed: <code>"eta"</code>
+(default) or <code>"omega"</code>. This argument is relevant only for models objects
+of class <code>aov</code>, <code>anova</code>, <code>aovlist</code>, <code>"Gam"</code>, and <code>"manova"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>partial</th>
+      <td><p>Logical that decides if partial eta-squared or partial
+omega-squared are returned (Default: <code>TRUE</code>). If <code>FALSE</code>, eta-squared or
+omega-squared will be returned.</p></td>
+    </tr>
+    <tr>
+      <th>meta.analytic.effect</th>
+      <td><p>Logical that decides whether subtitle for
+meta-analysis via linear (mixed-effects) models (default: <code>FALSE</code>). If
+<code>TRUE</code>, input to argument <code>subtitle</code> will be ignored. This will be mostly
+relevant if a data frame with estimates and their standard errors is
+entered.</p></td>
+    </tr>
+    <tr>
+      <th>meta.type</th>
+      <td><p>Type of statistics used to carry out random-effects
+meta-analysis. If <code>"parametric"</code> (default), <code><a href='https://rdrr.io/pkg/metafor/man/rma.uni.html'>metafor::rma</a></code> function will be
+used. If <code>"robust"</code>, <code><a href='https://rdrr.io/pkg/metaplus/man/metaplus.html'>metaplus::metaplus</a></code> function will be used. If
+<code>"bayes"</code>, <code><a href='https://rdrr.io/pkg/metaBMA/man/meta_random.html'>metaBMA::meta_random</a></code> function will be used.</p></td>
+    </tr>
+    <tr>
+      <th>bf.message</th>
+      <td><p>Logical that decides whether results from running a
+Bayesian meta-analysis assuming that the effect size <em>d</em> varies across
+studies with standard deviation <em>t</em> (i.e., a random-effects analysis)
+should be displayed in caption. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>sort</th>
@@ -406,12 +332,9 @@ increasing coefficient value, or <code>"descending"</code> sort by decreasing
 coefficient value.</p></td>
     </tr>
     <tr>
-      <th>xlab</th>
-      <td><p>Label for <code>x</code> axis variable (Default: <code>"regression coefficient"</code>).</p></td>
-    </tr>
-    <tr>
-      <th>ylab</th>
-      <td><p>Label for <code>y</code> axis variable (Default: <code>"term"</code>).</p></td>
+      <th>xlab, ylab</th>
+      <td><p>Labels for <code>x</code>- and <code>y</code>- axis variables, respectively
+(Defaults: <code>"regression coefficient"</code> and <code>"term"</code>).</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -423,6 +346,11 @@ coefficient value.</p></td>
 will be ignored if <code>meta.analytic.effect</code> is set to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
+      <th>caption</th>
+      <td><p>Text to display as caption. This argument is relevant only
+when <code>output = "caption"</code>.</p></td>
+    </tr>
+    <tr>
       <th>only.significant</th>
       <td><p>If <code>TRUE</code>, only stats labels for significant effects
 is shown (Default: <code>FALSE</code>). This can be helpful when a large number of
@@ -430,29 +358,10 @@ regression coefficients are to be displayed in a single plot. Relevant only
 when the <code>output</code> is a plot.</p></td>
     </tr>
     <tr>
-      <th>caption</th>
-      <td><p>Text to display as caption. This argument is relevant only
-when <code>output = "caption"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>caption.summary</th>
-      <td><p>Logical. Decides whether the model summary should be
-displayed as a cation to the plot (Default: <code>TRUE</code>). Color of the line
-segment. Defaults to the same color as the text.</p></td>
-    </tr>
-    <tr>
-      <th>point.color</th>
-      <td><p>Character describing color for the point (Default:
-<code>"blue"</code>).</p></td>
-    </tr>
-    <tr>
-      <th>point.size</th>
-      <td><p>Numeric specifying size for the point (Default: <code>3</code>).</p></td>
-    </tr>
-    <tr>
-      <th>point.shape</th>
-      <td><p>Numeric specifying shape to draw the points (Default: <code>16</code>
-(<strong>a dot</strong>)).</p></td>
+      <th>point.args</th>
+      <td><p>Additional arguments that will be passed to
+<code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> geom. Please see documentation for that function to
+know more about these arguments.</p></td>
     </tr>
     <tr>
       <th>errorbar.args</th>
@@ -478,9 +387,9 @@ each coefficient are to be attached to each dot as a text label using
     </tr>
     <tr>
       <th>stats.label.color</th>
-      <td><p>Color for the labels. If <code>stats.label.color</code> is
-<code>NULL</code>, colors will be chosen from the specified <code>package</code> (Default:
-<code>"RColorBrewer"</code>) and <code>palette</code> (Default: <code>"Dark2"</code>).</p></td>
+      <td><p>Color for the labels. If set to <code>NULL</code>, colors will
+be chosen from the specified <code>package</code> (Default: <code>"RColorBrewer"</code>) and
+<code>palette</code> (Default: <code>"Dark2"</code>).</p></td>
     </tr>
     <tr>
       <th>stats.label.args</th>
@@ -498,10 +407,6 @@ or symbol.</p></td>
       <td><p>Name of palette as string or symbol.</p></td>
     </tr>
     <tr>
-      <th>direction</th>
-      <td><p>Either <code>1</code> or <code>-1</code>. If <code>-1</code> the palette will be reversed.</p></td>
-    </tr>
-    <tr>
       <th>ggtheme</th>
       <td><p>A function, <code>ggplot2</code> theme name. Default value is
 <code><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>ggplot2::theme_bw()</a></code>. Any of the <code>ggplot2</code> themes, or themes from
@@ -516,13 +421,9 @@ theme elements are to be displayed along with the selected <code>ggtheme</code>
 override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
-      <th>messages</th>
-      <td><p>Decides whether messages references, notes, and warnings are
-to be displayed (Default: <code>TRUE</code>).</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>Additional arguments to tidying method.</p></td>
+      <td><p>Additional arguments to tidying method. For more, see
+<code><a href='https://rdrr.io/pkg/parameters/man/model_parameters.html'>?parameters::model_parameters</a></code> and <code><a href='https://broom.tidymodels.org/reference/reexports.html'>broom::tidy</a></code>.</p></td>
     </tr>
     </table>
 
@@ -531,6 +432,11 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
     <p>Plot with the regression coefficients' point estimates as dots with
 confidence interval whiskers and other statistical details included as
 labels.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>All rows of regression estimates where either of the following
+quantities is <code>NA</code> will be removed if labels are requested: <code>estimate</code>,
+<code>statistic</code>, <code>p.value</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html</a></p>
@@ -546,36 +452,58 @@ labels.</p>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>mpg</span> ~ <span class='no'>cyl</span> * <span class='no'>am</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 
 <span class='co'># to get a plot</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>)</div><div class='img'><img src='ggcoefstats-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcoefstats</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>)</div><div class='img'><img src='ggcoefstats-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to get a tidy dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"tidy"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 11</span><span>
-#&gt;   term  estimate conf.low conf.high std.error statistic p.value significance
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> cyl      -</span><span style='color: #BB0000;'>1.98</span><span>    -</span><span style='color: #BB0000;'>2.89</span><span>    -</span><span style='color: #BB0000;'>1.06</span><span>      0.449 -4.40     1.41</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span> ***         
-#&gt; </span><span style='color: #555555;'>2</span><span> am       10.2      1.36    19.0       4.30  2.36      2.53</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span> *           
-#&gt; </span><span style='color: #555555;'>3</span><span> cyl:~    -</span><span style='color: #BB0000;'>1.31</span><span>    -</span><span style='color: #BB0000;'>2.75</span><span>     0.143     0.707 -1.85     7.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span> ns          
-#&gt; </span><span style='color: #555555;'># ... with 3 more variables: p.value.formatted </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,
-#&gt; #   label </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcoefstats</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"tidy"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 11</span><span>
+#&gt;   term   estimate std.error conf.low conf.high statistic df.error  p.value
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> cyl       -</span><span style='color: #BB0000;'>1.98</span><span>     0.449    -</span><span style='color: #BB0000;'>2.89</span><span>    -</span><span style='color: #BB0000;'>1.06</span><span>      -</span><span style='color: #BB0000;'>4.40</span><span>       28 0.000</span><span style='text-decoration: underline;'>141</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> am        10.2      4.30      1.36    19.0        2.36       28 0.025</span><span style='text-decoration: underline;'>3</span><span>  
+#&gt; </span><span style='color: #555555;'>3</span><span> cyl:am    -</span><span style='color: #BB0000;'>1.31</span><span>     0.707    -</span><span style='color: #BB0000;'>2.75</span><span>     0.143     -</span><span style='color: #BB0000;'>1.85</span><span>       28 0.075</span><span style='text-decoration: underline;'>5</span><span>  
+#&gt;   significance p.value.formatted
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            
+#&gt; </span><span style='color: #555555;'>1</span><span> ***          &lt;= 0.001         
+#&gt; </span><span style='color: #555555;'>2</span><span> *            == 0.025         
+#&gt; </span><span style='color: #555555;'>3</span><span> ns           == 0.076         
+#&gt;   label                                                                         
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                                                                         
+#&gt; </span><span style='color: #555555;'>1</span><span> list(~widehat(italic(beta))==-1.98, ~italic(t)(28)==-4.40, ~italic(p)&lt;= 0.001)
+#&gt; </span><span style='color: #555555;'>2</span><span> list(~widehat(italic(beta))==10.18, ~italic(t)(28)==2.36, ~italic(p)== 0.025) 
+#&gt; </span><span style='color: #555555;'>3</span><span> list(~widehat(italic(beta))==-1.31, ~italic(t)(28)==-1.85, ~italic(p)== 0.076)</div><div class='input'>
 <span class='co'># to get a glance summary</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 12</span><span>
-#&gt;   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     0.785         0.762  2.94      34.1 1.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-9</span><span>     3  -</span><span style='color: #BB0000;'>77.8</span><span>  166.  173.
-#&gt; </span><span style='color: #555555;'># ... with 3 more variables: deviance </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df.residual </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, nobs </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcoefstats</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 13</span><span>
+#&gt;   r.squared adj.r.squared sigma statistic       p.value    df loglik   aic   bic
+#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     0.785         0.762  2.94      34.1 0.000</span><span style='text-decoration: underline;'>000</span><span>001</span><span style='text-decoration: underline;'>73</span><span>     3  -</span><span style='color: #BB0000;'>77.8</span><span>  166.  173.
+#&gt;   deviance df.residual  nobs  rmse
+#&gt;      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     242.          28    32  2.75</div><div class='input'>
 <span class='co'># to get augmented dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"augment"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
-#&gt;    .rownames     mpg   cyl    am .fitted .resid .std.resid   .hat .sigma .cooksd
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Mazda RX4    21       6     1    21.4  0.364    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99 5.10</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> Mazda RX4 ~  21       6     1    21.4  0.364    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99 5.10</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> Datsun 710   22.8     4     1    27.9  5.13     -</span><span style='color: #BB0000;'>1.86</span><span>   0.117    2.80 1.14</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-1</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> Hornet 4 D~  21.4     6     0    19.0 -</span><span style='color: #BB0000;'>2.38</span><span>      0.842  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.96 1.41</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> Hornet Spo~  18.7     8     0    15.1 -</span><span style='color: #BB0000;'>3.63</span><span>      1.29   0.078</span><span style='text-decoration: underline;'>4</span><span>   2.90 3.53</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> Valiant      18.1     6     0    19.0  0.919    -</span><span style='color: #BB0000;'>0.325</span><span>  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99 2.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-3</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> Duster 360   14.3     8     0    15.1  0.768    -</span><span style='color: #BB0000;'>0.272</span><span>  0.078</span><span style='text-decoration: underline;'>4</span><span>   2.99 1.57</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-3</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> Merc 240D    24.4     4     0    23.0 -</span><span style='color: #BB0000;'>1.43</span><span>      0.563  0.255    2.98 2.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> Merc 230     22.8     4     0    23.0  0.171    -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span> 0.255    2.99 3.87</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-4</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> Merc 280     19.2     6     0    19.0 -</span><span style='color: #BB0000;'>0.181</span><span>     0.063</span><span style='text-decoration: underline;'>9</span><span> 0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99 8.11</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcoefstats</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mod</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"augment"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 10</span><span>
+#&gt;    .rownames           mpg   cyl    am .fitted .resid .std.resid   .hat .sigma
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Mazda RX4          21       6     1    21.4 -</span><span style='color: #BB0000;'>0.364</span><span>    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99
+#&gt; </span><span style='color: #555555;'> 2</span><span> Mazda RX4 Wag      21       6     1    21.4 -</span><span style='color: #BB0000;'>0.364</span><span>    -</span><span style='color: #BB0000;'>0.131</span><span>  0.106    2.99
+#&gt; </span><span style='color: #555555;'> 3</span><span> Datsun 710         22.8     4     1    27.9 -</span><span style='color: #BB0000;'>5.13</span><span>     -</span><span style='color: #BB0000;'>1.86</span><span>   0.117    2.80
+#&gt; </span><span style='color: #555555;'> 4</span><span> Hornet 4 Drive     21.4     6     0    19.0  2.38      0.842  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.96
+#&gt; </span><span style='color: #555555;'> 5</span><span> Hornet Sportabout  18.7     8     0    15.1  3.63      1.29   0.078</span><span style='text-decoration: underline;'>4</span><span>   2.90
+#&gt; </span><span style='color: #555555;'> 6</span><span> Valiant            18.1     6     0    19.0 -</span><span style='color: #BB0000;'>0.919</span><span>    -</span><span style='color: #BB0000;'>0.325</span><span>  0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99
+#&gt; </span><span style='color: #555555;'> 7</span><span> Duster 360         14.3     8     0    15.1 -</span><span style='color: #BB0000;'>0.768</span><span>    -</span><span style='color: #BB0000;'>0.272</span><span>  0.078</span><span style='text-decoration: underline;'>4</span><span>   2.99
+#&gt; </span><span style='color: #555555;'> 8</span><span> Merc 240D          24.4     4     0    23.0  1.43      0.563  0.255    2.98
+#&gt; </span><span style='color: #555555;'> 9</span><span> Merc 230           22.8     4     0    23.0 -</span><span style='color: #BB0000;'>0.171</span><span>    -</span><span style='color: #BB0000;'>0.067</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span> 0.255    2.99
+#&gt; </span><span style='color: #555555;'>10</span><span> Merc 280           19.2     6     0    19.0  0.181     0.063</span><span style='text-decoration: underline;'>9</span><span> 0.073</span><span style='text-decoration: underline;'>5</span><span>   2.99
+#&gt;      .cooksd
+#&gt;        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 0.000</span><span style='text-decoration: underline;'>510</span><span> 
+#&gt; </span><span style='color: #555555;'> 2</span><span> 0.000</span><span style='text-decoration: underline;'>510</span><span> 
+#&gt; </span><span style='color: #555555;'> 3</span><span> 0.114    
+#&gt; </span><span style='color: #555555;'> 4</span><span> 0.014</span><span style='text-decoration: underline;'>1</span><span>   
+#&gt; </span><span style='color: #555555;'> 5</span><span> 0.035</span><span style='text-decoration: underline;'>3</span><span>   
+#&gt; </span><span style='color: #555555;'> 6</span><span> 0.002</span><span style='text-decoration: underline;'>09</span><span>  
+#&gt; </span><span style='color: #555555;'> 7</span><span> 0.001</span><span style='text-decoration: underline;'>57</span><span>  
+#&gt; </span><span style='color: #555555;'> 8</span><span> 0.027</span><span style='text-decoration: underline;'>1</span><span>   
+#&gt; </span><span style='color: #555555;'> 9</span><span> 0.000</span><span style='text-decoration: underline;'>387</span><span> 
+#&gt; </span><span style='color: #555555;'>10</span><span> 0.000</span><span style='text-decoration: underline;'>081</span><span>1
 #&gt; </span><span style='color: #555555;'># ... with 22 more rows</span><span></div><div class='input'>
 <span class='co'># -------------- with custom dataframe -----------------------------------</span>
 
@@ -633,7 +561,7 @@ labels.</p>
         <span class='fl'>5.45155840151592e-26</span>,
         <span class='fl'>2.99171217913312e-13</span>
       ),
-      <span class='kw'>df.residual</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+      <span class='kw'>df.error</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
         <span class='fl'>394L</span>, <span class='fl'>358L</span>, <span class='fl'>622L</span>,
         <span class='fl'>298L</span>, <span class='fl'>22L</span>
       )
@@ -646,7 +574,7 @@ labels.</p>
   )
 
 <span class='co'># plotting the dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcoefstats</span>(
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>df</span>,
   <span class='kw'>statistic</span> <span class='kw'>=</span> <span class='st'>"t"</span>,
   <span class='kw'>meta.analytic.effect</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -656,58 +584,28 @@ labels.</p>
 <span class='co'># -------------- getting model summary ------------------------------</span>
 
 <span class='co'># model</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lme4</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='input'><span class='no'>lmm1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>lme4</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lmer</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>lme4</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘Matrix’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:tidyr’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='input'><span class='no'>lmm1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>lme4</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lme4/man/lmer.html'>lmer</a></span>(
   <span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>Reaction</span> ~ <span class='no'>Days</span> + (<span class='no'>Days</span> <span class='kw'>|</span> <span class='no'>Subject</span>),
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>sleepstudy</span>
 )
 
 <span class='co'># dataframe with model summary</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>lmm1</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
-#&gt;   sigma logLik   AIC   BIC REMLcrit df.residual
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  25.6  -</span><span style='color: #BB0000;'>872.</span><span> </span><span style='text-decoration: underline;'>1</span><span>756. </span><span style='text-decoration: underline;'>1</span><span>775.    </span><span style='text-decoration: underline;'>1</span><span>744.         174</div><div class='input'>
-<span class='co'># -------------- getting augmented dataframe ------------------------------</span>
-
-<span class='co'># setup</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>survival</span>)
-
-<span class='co'># fit</span>
-<span class='no'>cfit</span> <span class='kw'>&lt;-</span>
-  <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/coxph.html'>coxph</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>status</span>) ~ <span class='no'>age</span> + <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>lung</span>)
-
-<span class='co'># augmented dataframe</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcoefstats.html'>ggcoefstats</a></span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>cfit</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>lung</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"augment"</span>,
-  <span class='kw'>type.predict</span> <span class='kw'>=</span> <span class='st'>"risk"</span>
-)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 228 x 13</span><span>
-#&gt;     inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     3   306      2    74     1       1       90       100     </span><span style='text-decoration: underline;'>1</span><span>175      </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span>     3   455      2    68     1       0       90        90     </span><span style='text-decoration: underline;'>1</span><span>225      15
-#&gt; </span><span style='color: #555555;'> 3</span><span>     3  </span><span style='text-decoration: underline;'>1</span><span>010      1    56     1       0       90        90       </span><span style='color: #BB0000;'>NA</span><span>      15
-#&gt; </span><span style='color: #555555;'> 4</span><span>     5   210      2    57     1       1       90        60     </span><span style='text-decoration: underline;'>1</span><span>150      11
-#&gt; </span><span style='color: #555555;'> 5</span><span>     1   883      2    60     1       0      100        90       </span><span style='color: #BB0000;'>NA</span><span>       0
-#&gt; </span><span style='color: #555555;'> 6</span><span>    12  </span><span style='text-decoration: underline;'>1</span><span>022      1    74     1       1       50        80      513       0
-#&gt; </span><span style='color: #555555;'> 7</span><span>     7   310      2    68     2       2       70        60      384      10
-#&gt; </span><span style='color: #555555;'> 8</span><span>    11   361      2    71     2       2       60        80      538       1
-#&gt; </span><span style='color: #555555;'> 9</span><span>     1   218      2    53     1       1       70        80      825      16
-#&gt; </span><span style='color: #555555;'>10</span><span>     7   166      2    61     1       2       70        70      271      34
-#&gt; </span><span style='color: #555555;'># ... with 218 more rows, and 3 more variables: .fitted </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, .se.fit </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,
-#&gt; #   .resid </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'># }
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcoefstats</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>lmm1</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"glance"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
+#&gt;   sigma loglik   aic   bic remlcrit df.residual r2.conditional r2.marginal   icc
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  25.6  -</span><span style='color: #BB0000;'>872.</span><span> </span><span style='text-decoration: underline;'>1</span><span>756. </span><span style='text-decoration: underline;'>1</span><span>775.    </span><span style='text-decoration: underline;'>1</span><span>744.         174          0.799       0.279 0.722
+#&gt;    rmse
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>  23.4</div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -718,7 +616,7 @@ labels.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

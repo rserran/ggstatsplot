@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,7 +46,7 @@
 
 <!-- docsearch -->
 <script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
 <link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
@@ -53,7 +57,6 @@
 <meta property="og:title" content="Visualization of a correlation matrix — ggcorrmat" />
 <meta property="og:description" content="Visualization of a correlation matrix" />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -71,7 +74,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.5.0.9000</span>
       </span>
     </div>
 
@@ -109,9 +112,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../articles/tests_and_coverage.html">Tests and Coverage</a>
     </li>
     <li>
       <a href="../articles/web_only/combine_plots.html">combine_plots</a>
@@ -169,7 +169,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/IndrajeetPatil/ggstatsplot">
+  <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -208,25 +208,25 @@
   <span class='kw'>cor.vars.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>,
   <span class='kw'>matrix.type</span> <span class='kw'>=</span> <span class='st'>"full"</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"square"</span>,
+  <span class='kw'>matrix.method</span> <span class='kw'>=</span> <span class='st'>"square"</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"parametric"</span>,
   <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
   <span class='kw'>sig.level</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>bf.prior</span> <span class='kw'>=</span> <span class='fl'>0.707</span>,
   <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
-  <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>pch</span> <span class='kw'>=</span> <span class='st'>"cross"</span>,
   <span class='kw'>ggcorrplot.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>outline.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>),
   <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"RColorBrewer"</span>,
   <span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"Dark2"</span>,
-  <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#E69F00"</span>, <span class='st'>"white"</span>, <span class='st'>"#009E73"</span>),
   <span class='kw'>ggtheme</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>(),
   <span class='kw'>ggstatsplot.layer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ggplot.component</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>caption</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>caption.default</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>messages</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -252,13 +252,11 @@ names should be entered in the same order.</p></td>
     </tr>
     <tr>
       <th>output</th>
-      <td><p>Character that decides expected output from this
-function: <code>"plot"</code> (for visualization matrix) or <code>"correlations"</code> (or
-<code>"corr"</code> or <code>"r"</code>; for correlation matrix) or <code>"p-values"</code> (or <code>"p.values"</code>
-or <code>"p"</code>; for a matrix of <em>p</em>-values) or <code>"ci"</code> (for a tibble with
-confidence intervals for unique correlation pairs; not available for robust
-correlation) or <code>"n"</code> (or <code>"sample.size"</code> for a tibble with sample sizes
-for each correlation pair).</p></td>
+      <td><p>Character that decides expected output from this function. If
+<code>"plot"</code>, the visualization matrix will be returned. If <code>"dataframe"</code> (or
+literally anything other than <code>"plot"</code>), a dataframe containing all details
+from statistical analyses (e.g., correlation coefficients, statistic
+values, <em>p</em>-values, no. of observations, etc.) will be returned.</p></td>
     </tr>
     <tr>
       <th>matrix.type</th>
@@ -266,34 +264,23 @@ for each correlation pair).</p></td>
 display full matrix, lower triangular or upper triangular matrix.</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>Smoothing method (function) to use, accepts either a character vector,
-e.g. <code>"auto"</code>, <code>"lm"</code>, <code>"glm"</code>, <code>"gam"</code>, <code>"loess"</code> or a function, e.g.
-<code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code> or <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam</a></code>, <code><a href='https://rdrr.io/r/stats/lm.html'>stats::lm</a></code>, or <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess</a></code>.</p>
-<p>For <code>method = "auto"</code> the smoothing method is chosen based on the
-size of the largest group (across all panels). <code><a href='https://rdrr.io/r/stats/loess.html'>stats::loess()</a></code> is
-used for less than 1,000 observations; otherwise <code><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>mgcv::gam()</a></code> is
-used with <code>formula = y ~ s(x, bs = "cs")</code>. Somewhat anecdotally,
-<code>loess</code> gives a better appearance, but is \(O(N^{2})\) in memory,
-so does not work for larger datasets.</p>
-<p>If you have fewer than 1,000 observations but want to use the same <code>gam()</code>
-model that <code>method = "auto"</code> would use, then set
-<code>method = "gam", formula = y ~ s(x, bs = "cs")</code>.</p></td>
+      <th>matrix.method</th>
+      <td><p>The visualization method of correlation matrix to be
+used. Allowed values are <code>"square"</code> (default) or <code>"circle"</code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>A character string indicating which correlation
-coefficient is to be computed (<code>"pearson"</code> (default) or <code>"kendall"</code> or
-<code>"spearman"</code>). <code>"robust"</code> can also be entered but only if <code>output</code> argument
-is set to either <code>"correlations"</code> or <code>"p-values"</code>. The robust correlation
-used is percentage bend correlation (see <code><a href='https://rdrr.io/pkg/WRS2/man/pbcor.html'>?WRS2::pball</a></code>). Abbreviations
-will also work: <code>"p"</code> (for parametric/Pearson's <em>r</em>), <code>"np"</code>
-(nonparametric/Spearman's <em>rho</em>), <code>"r"</code> (robust).</p></td>
+      <td><p>Type of association between paired samples required
+("<code>"parametric"</code>: Pearson's product moment correlation coefficient" or
+"<code>"nonparametric"</code>: Spearman's rho" or "<code>"robust"</code>: percentage bend
+correlation coefficient" or "<code>"bayes"</code>: Bayes Factor for Pearson's <em>r</em>").
+Corresponding abbreviations are also accepted: <code>"p"</code> (for
+parametric/pearson), <code>"np"</code> (nonparametric/spearman), <code>"r"</code> (robust),
+<code>"bf"</code> (for bayes factor), resp.</p></td>
     </tr>
     <tr>
       <th>beta</th>
-      <td><p>A numeric bending constant for percentage bend robust correlation
-coefficient (Default: <code>0.1</code>).</p></td>
+      <td><p>bending constant (Default: <code>0.1</code>). For more, see <code><a href='https://rdrr.io/pkg/WRS2/man/pbcor.html'>?WRS2::pbcor</a></code>.</p></td>
     </tr>
     <tr>
       <th>k</th>
@@ -305,12 +292,17 @@ coefficient (Default: <code>0.1</code>).</p></td>
       <td><p>Significance level (Default: <code>0.05</code>). If the <em>p</em>-value in
 <em>p</em>-value matrix is bigger than <code>sig.level</code>, then the corresponding
 correlation coefficient is regarded as insignificant and flagged as such in
-the plot. This argument is relevant only when <code>output = "plot"</code>.</p></td>
+the plot. Relevant only when <code>output = "plot"</code>.</p></td>
     </tr>
     <tr>
       <th>conf.level</th>
       <td><p>Scalar between 0 and 1. If unspecified, the defaults return
 <code>95%</code> lower and upper confidence intervals (<code>0.95</code>).</p></td>
+    </tr>
+    <tr>
+      <th>bf.prior</th>
+      <td><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
+width to use in calculating Bayes factors.</p></td>
     </tr>
     <tr>
       <th>p.adjust.method</th>
@@ -325,17 +317,16 @@ matrix.</p></td>
     </tr>
     <tr>
       <th>pch</th>
-      <td><p>Decides the glyphs (read point shapes) to be used for
-insignificant correlation coefficients (only valid when <code>insig = "pch"</code>).
-Default value is <code>pch = 4</code>.</p></td>
+      <td><p>Decides the point shape to be used for insignificant correlation
+coefficients (only valid when <code>insig = "pch"</code>). Default: <code>pch = "cross"</code>.</p></td>
     </tr>
     <tr>
       <th>ggcorrplot.args</th>
       <td><p>A list of additional (mostly aesthetic) arguments that
 will be passed to <code><a href='https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html'>ggcorrplot::ggcorrplot</a></code> function. The list should avoid
-any of the following arguments since they are already being used: <code>corr</code>,
-<code>method</code>, <code>p.mat</code>, <code>sig.level</code>, <code>ggtheme</code>, <code>colors</code>, <code>matrix.type</code>, <code>lab</code>,
-<code>pch</code>, <code>legend.title</code>, <code>digits</code>.</p></td>
+any of the following arguments since they are already internally being used
+by <code>ggstatsplot</code>: <code>corr</code>, <code>method</code>, <code>p.mat</code>, <code>sig.level</code>, <code>ggtheme</code>,
+<code>colors</code>, <code>matrix.type</code>, <code>lab</code>, <code>pch</code>, <code>legend.title</code>, <code>digits</code>.</p></td>
     </tr>
     <tr>
       <th>package</th>
@@ -345,10 +336,6 @@ or symbol.</p></td>
     <tr>
       <th>palette</th>
       <td><p>Name of palette as string or symbol.</p></td>
-    </tr>
-    <tr>
-      <th>direction</th>
-      <td><p>Either <code>1</code> or <code>-1</code>. If <code>-1</code> the palette will be reversed.</p></td>
     </tr>
     <tr>
       <th>colors</th>
@@ -371,22 +358,24 @@ theme elements are to be displayed along with the selected <code>ggtheme</code>
 override some aspects of the selected <code>ggtheme</code>.</p></td>
     </tr>
     <tr>
+      <th>ggplot.component</th>
+      <td><p>A <code>ggplot</code> component to be added to the plot prepared
+by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
+of the current function. Default is <code>NULL</code>. The argument should be entered
+as a function.</p></td>
+    </tr>
+    <tr>
       <th>title</th>
       <td><p>The text for the plot title.</p></td>
     </tr>
     <tr>
       <th>subtitle</th>
-      <td><p>The text for the plot subtitle.</p></td>
+      <td><p>The text for the plot subtitle. Will work only if
+<code>results.subtitle = FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>caption</th>
-      <td><p>The text for the plot caption. If <code>NULL</code>, a default caption
-will be shown.</p></td>
-    </tr>
-    <tr>
-      <th>caption.default</th>
-      <td><p>Logical that decides whether the default caption
-should be shown (default: <code>TRUE</code>).</p></td>
+      <td><p>The text for the plot caption.</p></td>
     </tr>
     <tr>
       <th>messages</th>
@@ -401,8 +390,11 @@ to be displayed (Default: <code>TRUE</code>).</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Correlation matrix plot or correlation coefficient matrix or matrix
-of <em>p</em>-values.</p>
+    <p>Correlation matrix plot or a dataframe containing results from
+pairwise correlation tests. The package internally uses
+<code><a href='https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html'>ggcorrplot::ggcorrplot</a></code> for creating the visualization matrix, while the
+correlation analysis is carried out using the <code><a href='https://rdrr.io/pkg/correlation/man/correlation.html'>correlation::correlation</a></code>
+function.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html</a></p>
@@ -417,98 +409,63 @@ of <em>p</em>-values.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
 
 <span class='co'># if `cor.vars` not specified, all numeric variables used</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcorrmat.html'>ggcorrmat</a></span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='img'><img src='ggcorrmat-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcorrmat</span>(<span class='no'>iris</span>)</div><div class='img'><img src='ggcorrmat-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># to get the correlalogram</span>
 <span class='co'># note that the function will run even if the vector with variable names is</span>
 <span class='co'># not of same length as the number of variables</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcorrmat.html'>ggcorrmat</a></span>(
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcorrmat</span>(
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='no'><a href='https://ggplot2.tidyverse.org/reference/msleep.html'>msleep</a></span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"robust"</span>,
+  <span class='kw'>cor.vars</span> <span class='kw'>=</span> <span class='no'>sleep_total</span>:<span class='no'>bodywt</span>,
+  <span class='kw'>cor.vars.names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"total sleep"</span>, <span class='st'>"REM sleep"</span>),
+  <span class='kw'>matrix.type</span> <span class='kw'>=</span> <span class='st'>"lower"</span>
+)</div><div class='output co'>#&gt; <span style='color: #BB0000;'>Warning: </span><span style='color: #0000BB;'>No. of variable names doesn't equal no. of variables.</span><span></div><div class='output co'>#&gt; </div><div class='img'><img src='ggcorrmat-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># to get the correlation analyses results in a dataframe</span>
+<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>ggcorrmat</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='no'><a href='https://ggplot2.tidyverse.org/reference/msleep.html'>msleep</a></span>,
   <span class='kw'>cor.vars</span> <span class='kw'>=</span> <span class='no'>sleep_total</span>:<span class='no'>bodywt</span>,
-  <span class='kw'>cor.vars.names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"total sleep"</span>, <span class='st'>"REM sleep"</span>)
-) + <span class='co'># further modification using `ggplot2`</span>
-  <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_y_discrete</a></span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"right"</span>)</div><div class='output co'>#&gt; <span style='color: #BB0000;'>Warning: </span><span style='color: #0000BB;'>No. of variable names doesn't equal no. of variables.
-#&gt; </span><span></div><div class='output co'>#&gt; </div><div class='img'><img src='ggcorrmat-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># to get the correlation matrix</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcorrmat.html'>ggcorrmat</a></span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='no'><a href='https://ggplot2.tidyverse.org/reference/msleep.html'>msleep</a></span>,
-  <span class='kw'>cor.vars</span> <span class='kw'>=</span> <span class='no'>sleep_total</span>:<span class='no'>bodywt</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"r"</span>
-)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
-#&gt;   variable    sleep_total sleep_rem sleep_cycle awake brainwt bodywt
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> sleep_total        1         0.75       -</span><span style='color: #BB0000;'>0.47</span><span> -</span><span style='color: #BB0000;'>1</span><span>      -</span><span style='color: #BB0000;'>0.36</span><span>  -</span><span style='color: #BB0000;'>0.31</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> sleep_rem          0.75      1          -</span><span style='color: #BB0000;'>0.34</span><span> -</span><span style='color: #BB0000;'>0.75</span><span>   -</span><span style='color: #BB0000;'>0.22</span><span>  -</span><span style='color: #BB0000;'>0.33</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> sleep_cycle       -</span><span style='color: #BB0000;'>0.47</span><span>     -</span><span style='color: #BB0000;'>0.34</span><span>        1     0.47    0.85   0.42
-#&gt; </span><span style='color: #555555;'>4</span><span> awake             -</span><span style='color: #BB0000;'>1</span><span>        -</span><span style='color: #BB0000;'>0.75</span><span>        0.47  1       0.36   0.31
-#&gt; </span><span style='color: #555555;'>5</span><span> brainwt           -</span><span style='color: #BB0000;'>0.36</span><span>     -</span><span style='color: #BB0000;'>0.22</span><span>        0.85  0.36    1      0.93
-#&gt; </span><span style='color: #555555;'>6</span><span> bodywt            -</span><span style='color: #BB0000;'>0.31</span><span>     -</span><span style='color: #BB0000;'>0.33</span><span>        0.42  0.31    0.93   1   </div><div class='input'>
-<span class='co'># setting output = "p-values" (or "p") will return the p-value matrix</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcorrmat.html'>ggcorrmat</a></span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='no'><a href='https://ggplot2.tidyverse.org/reference/msleep.html'>msleep</a></span>,
-  <span class='kw'>cor.vars</span> <span class='kw'>=</span> <span class='no'>sleep_total</span>:<span class='no'>bodywt</span>,
-  <span class='kw'>corr.method</span> <span class='kw'>=</span> <span class='st'>"r"</span>,
-  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"p"</span>
-)</div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>Note: </span><span style='color: #0000BB;'>In the correlation matrix,
-#&gt; the upper triangle: p-values adjusted for multiple comparisons
-#&gt; the lower triangle: unadjusted p-values.
-#&gt; </span><span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
-#&gt;   variable    sleep_total sleep_rem   sleep_cycle     awake  brainwt   bodywt
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> sleep_total   0.  </span><span style='color: #555555;'> </span><span>      4.37</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> 0.092</span><span style='text-decoration: underline;'>5</span><span>        3.63</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-225</span><span> 9.52</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 6.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> sleep_rem     2.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 12</span><span>  0.  </span><span style='color: #555555;'> </span><span>    0.876         4.37</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 11</span><span> 1.00</span><span style='color: #555555;'>e</span><span>+ 0 1.49</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> sleep_cycle   6.17</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>  5.84</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 0             9.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  2</span><span> 3.63</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> 2.60</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> awake         2.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-226</span><span>  2.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span> 0.006</span><span style='text-decoration: underline;'>17</span><span>       0.  </span><span style='color: #555555;'> </span><span>     9.52</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 6.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> brainwt       6.35</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>  1.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>002</span><span style='text-decoration: underline;'>42</span><span> 6.35</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span> 0.  </span><span style='color: #555555;'> </span><span>    1.37</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-24</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span> bodywt        4.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>  9.95</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span> 0.017</span><span style='text-decoration: underline;'>3</span><span>        4.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span> 9.16</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-26</span><span> 0.  </span><span style='color: #555555;'> </span><span>   </div><div class='input'>
-<span class='co'># setting `output = "ci"` will return the confidence intervals for unique</span>
-<span class='co'># correlation pairs</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcorrmat.html'>ggcorrmat</a></span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='no'><a href='https://ggplot2.tidyverse.org/reference/msleep.html'>msleep</a></span>,
-  <span class='kw'>cor.vars</span> <span class='kw'>=</span> <span class='no'>sleep_total</span>:<span class='no'>bodywt</span>,
-  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"BH"</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"ci"</span>
-)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 5</span><span>
-#&gt;    pair                      lower      r   upper         p
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> sleep_total-sleep_rem    0.617   0.752  0.844  2.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 12</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> sleep_total-sleep_cycle -</span><span style='color: #BB0000;'>0.706</span><span>  -</span><span style='color: #BB0000;'>0.474</span><span> -</span><span style='color: #BB0000;'>0.150</span><span>  6.17</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> sleep_total-awake       -</span><span style='color: #BB0000;'>1.00</span><span>   -</span><span style='color: #BB0000;'>1.00</span><span>  -</span><span style='color: #BB0000;'>1.00</span><span>   2.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-226</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> sleep_total-brainwt     -</span><span style='color: #BB0000;'>0.569</span><span>  -</span><span style='color: #BB0000;'>0.360</span><span> -</span><span style='color: #BB0000;'>0.108</span><span>  6.35</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> sleep_total-bodywt      -</span><span style='color: #BB0000;'>0.494</span><span>  -</span><span style='color: #BB0000;'>0.312</span><span> -</span><span style='color: #BB0000;'>0.103</span><span>  4.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> sleep_rem-sleep_cycle   -</span><span style='color: #BB0000;'>0.614</span><span>  -</span><span style='color: #BB0000;'>0.338</span><span>  0.012</span><span style='text-decoration: underline;'>0</span><span> 5.84</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  2</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> sleep_rem-awake         -</span><span style='color: #BB0000;'>0.844</span><span>  -</span><span style='color: #BB0000;'>0.752</span><span> -</span><span style='color: #BB0000;'>0.617</span><span>  2.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 12</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> sleep_rem-brainwt       -</span><span style='color: #BB0000;'>0.476</span><span>  -</span><span style='color: #BB0000;'>0.221</span><span>  0.067</span><span style='text-decoration: underline;'>0</span><span> 1.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  1</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> sleep_rem-bodywt        -</span><span style='color: #BB0000;'>0.535</span><span>  -</span><span style='color: #BB0000;'>0.328</span><span> -</span><span style='color: #BB0000;'>0.082</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span> 9.95</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> sleep_cycle-awake        0.150   0.474  0.706  6.17</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'>11</span><span> sleep_cycle-brainwt      0.709   0.852  0.927  2.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  9</span><span>
-#&gt; </span><span style='color: #555555;'>12</span><span> sleep_cycle-bodywt       0.080</span><span style='text-decoration: underline;'>9</span><span>  0.418  0.669  1.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  2</span><span>
-#&gt; </span><span style='color: #555555;'>13</span><span> awake-brainwt            0.108   0.360  0.569  6.35</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'>14</span><span> awake-bodywt             0.103   0.312  0.494  4.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
-#&gt; </span><span style='color: #555555;'>15</span><span> brainwt-bodywt           0.889   0.934  0.961  9.16</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 26</span><span></div><div class='input'>
-<span class='co'># modifying elements of the correlation matrix by changing function defaults</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot//reference/ggcorrmat.html'>ggcorrmat</a></span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw pkg'>datasets</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/datasets/iris.html'>iris</a></span>,
-  <span class='kw'>cor.vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>Sepal.Length</span>, <span class='no'>Sepal.Width</span>, <span class='no'>Petal.Length</span>, <span class='no'>Petal.Width</span>),
-  <span class='kw'>sig.level</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>ggtheme</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>(),
-  <span class='kw'>hc.order</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>matrix.type</span> <span class='kw'>=</span> <span class='st'>"lower"</span>,
-  <span class='kw'>outline.col</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Dataset: Iris"</span>
-)</div><div class='img'><img src='ggcorrmat-3.png' alt='' width='700' height='433' /></div><div class='input'># }
+  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"dataframe"</span>
+)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 10</span><span>
+#&gt;    parameter1  parameter2       r  ci_low ci_high        t    df         p
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> sleep_total sleep_rem    0.752  0.617   0.844      8.76    59 2.92</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 12</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> sleep_total sleep_cycle -</span><span style='color: #BB0000;'>0.474</span><span> -</span><span style='color: #BB0000;'>0.706</span><span>  -</span><span style='color: #BB0000;'>0.150</span><span>     -</span><span style='color: #BB0000;'>2.95</span><span>    30 6.17</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> sleep_total awake       -</span><span style='color: #BB0000;'>1.00</span><span>  -</span><span style='color: #BB0000;'>1.00</span><span>   -</span><span style='color: #BB0000;'>1.00</span><span>   -</span><span style='color: #BB0000;text-decoration: underline;'>5</span><span style='color: #BB0000;'>329.</span><span>      81 2.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-226</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> sleep_total brainwt     -</span><span style='color: #BB0000;'>0.360</span><span> -</span><span style='color: #BB0000;'>0.569</span><span>  -</span><span style='color: #BB0000;'>0.108</span><span>     -</span><span style='color: #BB0000;'>2.84</span><span>    54 6.35</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> sleep_total bodywt      -</span><span style='color: #BB0000;'>0.312</span><span> -</span><span style='color: #BB0000;'>0.494</span><span>  -</span><span style='color: #BB0000;'>0.103</span><span>     -</span><span style='color: #BB0000;'>2.96</span><span>    81 4.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> sleep_rem   sleep_cycle -</span><span style='color: #BB0000;'>0.338</span><span> -</span><span style='color: #BB0000;'>0.614</span><span>   0.012</span><span style='text-decoration: underline;'>0</span><span>    -</span><span style='color: #BB0000;'>1.97</span><span>    30 5.84</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  2</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> sleep_rem   awake       -</span><span style='color: #BB0000;'>0.752</span><span> -</span><span style='color: #BB0000;'>0.844</span><span>  -</span><span style='color: #BB0000;'>0.617</span><span>     -</span><span style='color: #BB0000;'>8.76</span><span>    59 2.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 12</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> sleep_rem   brainwt     -</span><span style='color: #BB0000;'>0.221</span><span> -</span><span style='color: #BB0000;'>0.476</span><span>   0.067</span><span style='text-decoration: underline;'>0</span><span>    -</span><span style='color: #BB0000;'>1.54</span><span>    46 1.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  1</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> sleep_rem   bodywt      -</span><span style='color: #BB0000;'>0.328</span><span> -</span><span style='color: #BB0000;'>0.535</span><span>  -</span><span style='color: #BB0000;'>0.082</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>    -</span><span style='color: #BB0000;'>2.66</span><span>    59 9.95</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> sleep_cycle awake        0.474  0.150   0.706      2.95    30 6.17</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'>11</span><span> sleep_cycle brainwt      0.852  0.709   0.927      8.60    28 2.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  9</span><span>
+#&gt; </span><span style='color: #555555;'>12</span><span> sleep_cycle bodywt       0.418  0.080</span><span style='text-decoration: underline;'>9</span><span>  0.669      2.52    30 1.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  2</span><span>
+#&gt; </span><span style='color: #555555;'>13</span><span> awake       brainwt      0.360  0.108   0.569      2.84    54 6.35</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'>14</span><span> awake       bodywt       0.312  0.103   0.494      2.96    81 4.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  3</span><span>
+#&gt; </span><span style='color: #555555;'>15</span><span> brainwt     bodywt       0.934  0.889   0.961     19.2     54 9.16</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 26</span><span>
+#&gt;    method   nobs
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Pearson    61
+#&gt; </span><span style='color: #555555;'> 2</span><span> Pearson    32
+#&gt; </span><span style='color: #555555;'> 3</span><span> Pearson    83
+#&gt; </span><span style='color: #555555;'> 4</span><span> Pearson    56
+#&gt; </span><span style='color: #555555;'> 5</span><span> Pearson    83
+#&gt; </span><span style='color: #555555;'> 6</span><span> Pearson    32
+#&gt; </span><span style='color: #555555;'> 7</span><span> Pearson    61
+#&gt; </span><span style='color: #555555;'> 8</span><span> Pearson    48
+#&gt; </span><span style='color: #555555;'> 9</span><span> Pearson    61
+#&gt; </span><span style='color: #555555;'>10</span><span> Pearson    32
+#&gt; </span><span style='color: #555555;'>11</span><span> Pearson    30
+#&gt; </span><span style='color: #555555;'>12</span><span> Pearson    32
+#&gt; </span><span style='color: #555555;'>13</span><span> Pearson    56
+#&gt; </span><span style='color: #555555;'>14</span><span> Pearson    83
+#&gt; </span><span style='color: #555555;'>15</span><span> Pearson    56</div><div class='input'># }
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -519,7 +476,7 @@ of <em>p</em>-values.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

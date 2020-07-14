@@ -46,11 +46,15 @@ bare name \code{x} or as a string \code{"x"}).}
 plot title (name of each factor level) (Default: \code{NULL}). If \code{NULL}, the
 variable name entered for \code{grouping.var} will be used.}
 
-\item{output}{Can either be \code{"null"} (or \code{"caption"} or \code{"H0"} or \code{"h0"}),
-which will return expression with evidence in favor of the null hypothesis,
-or \code{"alternative"} (or \code{"title"} or \code{"H1"} or \code{"h1"}), which will return
-expression with evidence in favor of the alternative hypothesis, or
-\code{"results"}, which will return a dataframe with results all the details).}
+\item{output}{Character that describes what is to be returned: can be
+\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
+\code{"subtitle"} will return the expression containing statistical results. If
+you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
+Setting this to \code{"caption"} will return the expression containing details
+about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
+\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
+dataframe containing results from proportion tests.}
 
 \item{x}{The variable to use as the \strong{rows} in the contingency table.}
 
@@ -63,26 +67,17 @@ association test will be run. This argument can not be \code{NULL} for
 \item{...}{
   Arguments passed on to \code{\link[=ggbarstats]{ggbarstats}}
   \describe{
-    \item{\code{labels.legend}}{A character vector with custom labels for levels of
-the \code{x} variable displayed in the legend.}
     \item{\code{xlab}}{Custom text for the \code{x} axis label (Default: \code{NULL}, which
 will cause the \code{x} axis label to be the \code{x} variable).}
-    \item{\code{ylab}}{Custom text for the \code{y} axis label (Default: \code{"percent"}).}
-    \item{\code{bar.proptest}}{Decides whether proportion test for \code{main} variable is
+    \item{\code{ylab}}{Custom text for the \code{y} axis label (Default: \code{NULL}).}
+    \item{\code{proportion.test}}{Decides whether proportion test for \code{main} variable is
 to be carried out for each level of \code{y} (Default: \code{TRUE}).}
-    \item{\code{bar.label}}{Character decides what information needs to be
+    \item{\code{label}}{Character decides what information needs to be
 displayed on the label in each pie slice. Possible options are
 \code{"percentage"} (default), \code{"counts"}, \code{"both"}.}
-    \item{\code{data.label}}{Character decides what information needs to be
-displayed on the label in each pie slice. Possible options are
-\code{"percentage"} (default), \code{"counts"}, \code{"both"}.}
-    \item{\code{legend.position}}{The position of the legend
-\code{"none"}, \code{"left"}, \code{"right"}, \code{"bottom"}, \code{"top"} (Default: \code{"right"}).}
-    \item{\code{x.axis.orientation}}{The orientation of the \code{x} axis labels one of
-"slant" or "vertical" to change from the default horizontal
-orientation (Default: \code{NULL} which is horizontal).}
-    \item{\code{bar.outline.color}}{Character specifying color for bars (default:
-\code{"black"}).}
+    \item{\code{sample.size.label}}{Logical that decides whether sample size information
+should be displayed for each level of the grouping variable \code{y}
+(Default: \code{TRUE}).}
     \item{\code{ratio}}{A vector of proportions: the expected proportions for the
 proportion test (should sum to 1). Default is \code{NULL}, which means the null
 is equal theoretical proportions across the levels of the nominal variable.
@@ -95,26 +90,13 @@ be returned.}
     \item{\code{results.subtitle}}{Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
 the plot will be returned.}
-    \item{\code{stat.title}}{Title for the effect being investigated with the chi-square
-test. The default is \code{NULL}, i.e. no title will be added to describe the
-effect being shown. An example of a \code{stat.title} argument will be something
-like \code{"main x condition"} or \code{"interaction"}.}
-    \item{\code{sample.size.label}}{Logical that decides whether sample size information
-should be displayed for each level of the grouping variable \code{y}
-(Default: \code{TRUE}).}
-    \item{\code{label.separator}}{If \code{"both"} counts and proportion information is to be
-displayed in a label, this argument decides whether these two pieces of
-information are going to be on the same line (\code{" "}) or on separate lines
-(\code{"\\n"}).}
-    \item{\code{label.text.size}}{Numeric that decides text size for slice/bar labels
-(Default: \code{4}).}
-    \item{\code{label.fill.color}}{Character that specifies fill color for slice/bar
-labels (Default: \code{white}).}
-    \item{\code{label.fill.alpha}}{Numeric that specifies fill color transparency or
-\code{"alpha"} for slice/bar labels (Default: \code{1} range \code{0} to \code{1}).}
-    \item{\code{bf.message}}{Logical that decides whether to display a caption with
-results from Bayes Factor test in favor of the null hypothesis (default:
-\code{FALSE}).}
+    \item{\code{perc.k}}{Numeric that decides number of decimal places for percentage
+labels (Default: \code{0}).}
+    \item{\code{label.args}}{Additional aesthetic arguments that will be passed to
+\code{geom_label}.}
+    \item{\code{bf.message}}{Logical that decides whether to display Bayes Factor in
+favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
+parametric test} (Default: \code{TRUE}).}
     \item{\code{sampling.plan}}{Character describing the sampling plan. Possible options
 are \code{"indepMulti"} (independent multinomial; default), \code{"poisson"},
 \code{"jointMulti"} (joint multinomial), \code{"hypergeom"} (hypergeometric). For
@@ -132,13 +114,9 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
 \verb{95\%} lower and upper confidence intervals (\code{0.95}).}
     \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
-    \item{\code{bias.correct}}{If \code{TRUE} (default), a bias correction will be applied to
-Cramer's \emph{V}.}
     \item{\code{legend.title}}{Title text for the legend.}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2}).}
-    \item{\code{perc.k}}{Numeric that decides number of decimal places for percentage
-labels (Default: \code{0}).}
     \item{\code{ggtheme}}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
 extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
@@ -149,18 +127,11 @@ theme elements are to be displayed along with the selected \code{ggtheme}
 override some aspects of the selected \code{ggtheme}.}
     \item{\code{package}}{Name of package from which the palette is desired as string
 or symbol.}
-    \item{\code{palette}}{If a character string (e.g., \code{"Set1"}), will use that named
-palette. If a number, will index into the list of palettes of appropriate
-type. Default palette is \code{"Dark2"}.}
-    \item{\code{direction}}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
+    \item{\code{palette}}{Name of palette as string or symbol.}
     \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
-as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
-work as expected.}
-    \item{\code{messages}}{Decides whether messages references, notes, and warnings are
-to be displayed (Default: \code{TRUE}).}
+as a function.}
   }}
 
 \item{plotgrid.args}{A list of additional arguments to \code{cowplot::plot_grid}.}

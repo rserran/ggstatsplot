@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "ggstatsplot",
-  "description": "Extension of 'ggplot2', 'ggstatsplot' creates\n    graphics with details from statistical tests included in the plots\n    themselves. It is targeted primarily at behavioral sciences community\n    to provide a one-line code to generate information-rich plots for\n    statistical analysis of continuous (violin plots, scatterplots,\n    histograms, dot plots, dot-and-whisker plots) or categorical (pie and\n    bar charts) data. Currently, it supports only the most common types of\n    statistical tests: parametric, nonparametric, robust, and bayesian\n    versions of t-test/anova, correlation analyses, contingency table\n    analysis, meta-analysis, and regression analyses.",
+  "description": "Extension of 'ggplot2', 'ggstatsplot' creates\n    graphics with details from statistical tests included in the plots\n    themselves. It provides easier API to generate information-rich plots\n    for statistical analysis of continuous (violin plots, scatterplots,\n    histograms, dot plots, dot-and-whisker plots) or categorical (pie and\n    bar charts) data. Currently, it supports only the most common types of\n    statistical tests: parametric, nonparametric, robust, and Bayesian\n    versions of t-test/ANOVA, correlation analyses, contingency table\n    analysis, meta-analysis, and regression analyses.",
   "name": "ggstatsplot: 'ggplot2' Based Plots with Statistical Details",
   "codeRepository": "https://github.com/IndrajeetPatil/ggstatsplot",
   "relatedLink": [
@@ -14,14 +14,13 @@
   ],
   "issueTracker": "https://github.com/IndrajeetPatil/ggstatsplot/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.3.0.9000",
+  "version": "0.5.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.2",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.2 (2019-12-12)",
+  "runtimePlatform": "R Under development (unstable) (2020-06-27 r78747)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -37,22 +36,7 @@
       "@id": "https://orcid.org/0000-0003-1995-6531"
     }
   ],
-  "contributor": [
-    {
-      "@type": "Person",
-      "givenName": "Indrajeet",
-      "familyName": "Patil",
-      "email": "patilindrajeet.science@gmail.com",
-      "@id": "https://orcid.org/0000-0003-1995-6531"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Chuck",
-      "familyName": "Powell",
-      "email": "ibecav@gmail.com",
-      "@id": "https://orcid.org/0000-0002-3606-2188"
-    }
-  ],
+  "contributor": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -65,27 +49,15 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "broom",
-      "name": "broom",
+      "identifier": "forcats",
+      "name": "forcats",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=broom"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "broom.mixed",
-      "name": "broom.mixed",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=broom.mixed"
+      "sameAs": "https://CRAN.R-project.org/package=forcats"
     },
     {
       "@type": "SoftwareApplication",
@@ -125,42 +97,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "MCMCglmm",
-      "name": "MCMCglmm",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=MCMCglmm"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "mixor",
-      "name": "mixor",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=mixor"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "ordinal",
-      "name": "ordinal",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ordinal"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
       "name": "rmarkdown",
       "provider": {
@@ -185,18 +121,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "survival",
-      "name": "survival",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=survival"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -206,6 +130,30 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tibble",
+      "name": "tibble",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tibble"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "WRS2",
+      "name": "WRS2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=WRS2"
     }
   ],
   "softwareRequirements": [
@@ -213,13 +161,12 @@
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 3.5.0"
+      "version": ">= 3.6.0"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "broomExtra",
       "name": "broomExtra",
-      "version": ">= 1.0.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -230,9 +177,20 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "correlation",
+      "name": "correlation",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=correlation"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "cowplot",
       "name": "cowplot",
-      "version": ">= 1.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -243,22 +201,8 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "crayon",
-      "name": "crayon",
-      "version": ">= 1.3.4",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=crayon"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
-      "version": ">= 0.8.3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -269,22 +213,8 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "forcats",
-      "name": "forcats",
-      "version": ">= 0.4.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=forcats"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "ggcorrplot",
       "name": "ggcorrplot",
-      "version": ">= 0.1.3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -297,7 +227,6 @@
       "@type": "SoftwareApplication",
       "identifier": "ggExtra",
       "name": "ggExtra",
-      "version": ">= 0.9",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -310,7 +239,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
-      "version": ">= 3.2.1",
+      "version": ">= 3.3.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -323,7 +252,6 @@
       "@type": "SoftwareApplication",
       "identifier": "ggrepel",
       "name": "ggrepel",
-      "version": ">= 0.8.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -336,7 +264,6 @@
       "@type": "SoftwareApplication",
       "identifier": "ggsignif",
       "name": "ggsignif",
-      "version": ">= 0.6.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -347,14 +274,8 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "grid",
-      "name": "grid"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "groupedstats",
       "name": "groupedstats",
-      "version": ">= 0.1.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -367,7 +288,6 @@
       "@type": "SoftwareApplication",
       "identifier": "insight",
       "name": "insight",
-      "version": ">= 0.8.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -378,9 +298,22 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "ipmisc",
+      "name": "ipmisc",
+      "version": ">= 3.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ipmisc"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "pairwiseComparisons",
       "name": "pairwiseComparisons",
-      "version": ">= 0.2.0",
+      "version": ">= 1.1.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -405,7 +338,6 @@
       "@type": "SoftwareApplication",
       "identifier": "parameters",
       "name": "parameters",
-      "version": ">= 0.4.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -416,35 +348,8 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "performance",
-      "name": "performance",
-      "version": ">= 0.4.3",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=performance"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "psych",
-      "name": "psych",
-      "version": ">= 1.9.12.31",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=psych"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
-      "version": ">= 0.3.3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -457,7 +362,6 @@
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 0.4.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -468,19 +372,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "scales",
-      "name": "scales",
-      "version": ">= 1.1.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=scales"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
@@ -488,7 +379,7 @@
       "@type": "SoftwareApplication",
       "identifier": "statsExpressions",
       "name": "statsExpressions",
-      "version": ">= 0.3.0",
+      "version": ">= 0.4.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -499,22 +390,8 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "tibble",
-      "name": "tibble",
-      "version": ">= 2.1.3",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=tibble"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "tidyr",
       "name": "tidyr",
-      "version": ">= 1.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -522,29 +399,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "WRS2",
-      "name": "WRS2",
-      "version": ">= 1.0-0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=WRS2"
     }
   ],
   "releaseNotes": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/NEWS.md",
-  "contIntegration": [
-    "https://travis-ci.org/IndrajeetPatil/ggstatsplot",
-    "https://ci.appveyor.com/project/IndrajeetPatil/ggstatsplot",
-    "https://coveralls.io/github/IndrajeetPatil/ggstatsplot?branch=master",
-    "https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master"
-  ],
-  "developmentStatus": "https://www.tidyverse.org/lifecycle/",
+  "contIntegration": ["https://travis-ci.org/IndrajeetPatil/ggstatsplot", "https://ci.appveyor.com/project/IndrajeetPatil/ggstatsplot", "https://coveralls.io/github/IndrajeetPatil/ggstatsplot?branch=master", "https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master"],
+  "developmentStatus": ["https://www.tidyverse.org/lifecycle/", "http://www.repostatus.org/#active"],
   "keywords": [
     "ggplot-extension",
     "statistical-tests",
@@ -572,7 +431,7 @@
   ],
   "citation": [
     {
-      "@type": "SoftwareSourceCode",
+      "@type": "ScholarlyArticle",
       "datePublished": "2018",
       "author": [
         {
@@ -581,14 +440,31 @@
           "familyName": "Patil"
         }
       ],
-      "name": "ggstatsplot: \"ggplot2\" Based Plots with Statistical Details",
+      "name": "{ggstatsplot}: 'ggplot2' Based Plots with Statistical Details",
       "identifier": "10.5281/zenodo.2074621",
       "url": "https://CRAN.R-project.org/package=ggstatsplot",
       "@id": "https://doi.org/10.5281/zenodo.2074621",
-      "sameAs": "https://doi.org/10.5281/zenodo.2074621"
+      "sameAs": "https://doi.org/10.5281/zenodo.2074621",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2018",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "CRAN"
+        }
+      }
     }
   ],
-  "copyrightHolder": {},
+  "copyrightHolder": [
+    {
+      "@type": "Person",
+      "givenName": "Indrajeet",
+      "familyName": "Patil",
+      "email": "patilindrajeet.science@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1995-6531"
+    }
+  ],
   "funder": {},
-  "readme": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/README.md"
+  "readme": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/README.md",
+  "fileSize": "40493.208KB"
 }

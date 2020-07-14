@@ -16,7 +16,6 @@ aesthetic_addon(
   ggstatsplot.layer = TRUE,
   package = "RColorBrewer",
   palette = "Dark2",
-  direction = 1,
   ggplot.component = NULL,
   ...
 )
@@ -54,14 +53,10 @@ or symbol.}
 
 \item{palette}{Name of palette as string or symbol.}
 
-\item{direction}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
-
 \item{ggplot.component}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
-as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
-work as expected.}
+as a function.}
 
 \item{...}{Additional arguments.}
 }

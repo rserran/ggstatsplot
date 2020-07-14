@@ -20,7 +20,6 @@ reference:
     desc:  Main functions to use from `ggstatsplot`.
     contents:
       - starts_with("gg")
-      - starts_with("combine")
 
   - title: Grouped variants of primary functions
     desc:  Convenience functions to run the main functions repeatedly across all levels of a single grouping variable.
@@ -31,26 +30,12 @@ reference:
     desc:  Useful functions re-exported from other packages.
     contents:
       - specify_decimal_p
-      - signif_column
-      - pairwise_p
-      - pairwise_comparisons
-      - set_cwd
-      - "%>%"
-      - "%<>%"
-      - "%$%"
-      - "%||%"
-      - "%|%"
-      - "%<-%"
 
-  - title: Helper functions (messages)
-    desc:  Simple function to display messages from tests carried out to check statistical assumptions of tests.
-    contents:
-      - ends_with("_message")
-
-  - title: Themes used
-    desc: The `ggplot2` themes used as default in `ggstatsplot`.
+  - title: Graphics helper functions
+    desc: The `ggplot2` themes and other graphics-related helpers in `ggstatsplot`.
     contents:
       - starts_with("theme_")
+      - starts_with("combine")
 
   - title: Data
     desc:  Datasets included in the package.
@@ -58,7 +43,6 @@ reference:
       - movies_wide
       - movies_long
       - Titanic_full
-      - intent_morality
       - iris_long
       - VR_dilemma
       - bugs_wide

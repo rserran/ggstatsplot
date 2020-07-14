@@ -1,79 +1,65 @@
 Type: Package
 Package: ggstatsplot
 Title: 'ggplot2' Based Plots with Statistical Details
-Version: 0.3.0.9000
+Version: 0.5.0.9000
 Authors@R: 
-    c(person(given = "Indrajeet",
-             family = "Patil",
-             role = c("cre", "aut", "ctb"),
-             email = "patilindrajeet.science@gmail.com",
-             comment = c(ORCID = "0000-0003-1995-6531")),
-      person(given = "Chuck",
-             family = "Powell",
-             role = "ctb",
-             email = "ibecav@gmail.com",
-             comment = c(ORCID = "0000-0002-3606-2188")))
+    person(given = "Indrajeet",
+           family = "Patil",
+           role = c("cre", "aut", "cph"),
+           email = "patilindrajeet.science@gmail.com",
+           comment = c(ORCID = "0000-0003-1995-6531"))
 Maintainer: Indrajeet Patil <patilindrajeet.science@gmail.com>
 Description: Extension of 'ggplot2', 'ggstatsplot' creates
     graphics with details from statistical tests included in the plots
-    themselves. It is targeted primarily at behavioral sciences community
-    to provide a one-line code to generate information-rich plots for
-    statistical analysis of continuous (violin plots, scatterplots,
+    themselves. It provides easier API to generate information-rich plots
+    for statistical analysis of continuous (violin plots, scatterplots,
     histograms, dot plots, dot-and-whisker plots) or categorical (pie and
     bar charts) data. Currently, it supports only the most common types of
-    statistical tests: parametric, nonparametric, robust, and bayesian
-    versions of t-test/anova, correlation analyses, contingency table
+    statistical tests: parametric, nonparametric, robust, and Bayesian
+    versions of t-test/ANOVA, correlation analyses, contingency table
     analysis, meta-analysis, and regression analyses.
 License: GPL-3 | file LICENSE
 URL: https://indrajeetpatil.github.io/ggstatsplot/,
     https://github.com/IndrajeetPatil/ggstatsplot
 BugReports: https://github.com/IndrajeetPatil/ggstatsplot/issues
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.6.0)
 Imports:
-    broomExtra (>= 1.0.1),
-    cowplot (>= 1.0.0),
-    crayon (>= 1.3.4),
-    dplyr (>= 0.8.3),
-    forcats (>= 0.4.0),
-    ggcorrplot (>= 0.1.3),
-    ggExtra (>= 0.9),
-    ggplot2 (>= 3.2.1),
-    ggrepel (>= 0.8.1),
-    ggsignif (>= 0.6.0),
-    grid,
-    groupedstats (>= 0.1.1),
-    insight (>= 0.8.0),
-    pairwiseComparisons (>= 0.2.0),
+    broomExtra,
+    correlation,
+    cowplot,
+    dplyr,
+    ggcorrplot,
+    ggExtra,
+    ggplot2 (>= 3.3.2),
+    ggrepel,
+    ggsignif,
+    groupedstats,
+    insight,
+    ipmisc (>= 3.0.1),
+    pairwiseComparisons (>= 1.1.2),
     paletteer,
-    parameters (>= 0.4.1),
-    performance (>= 0.4.3),
-    psych (>= 1.9.12.31),
-    purrr (>= 0.3.3),
-    rlang (>= 0.4.2),
-    scales (>= 1.1.0),
+    parameters,
+    purrr,
+    rlang,
     stats,
-    statsExpressions (>= 0.3.0),
-    tibble (>= 2.1.3),
-    tidyr (>= 1.0.0),
-    WRS2 (>= 1.0-0)
+    statsExpressions (>= 0.4.2),
+    tidyr
 Suggests:
-    broom,
-    broom.mixed,
+    forcats,
     knitr,
     lme4,
     MASS,
-    MCMCglmm,
-    mixor,
-    ordinal,
     rmarkdown,
     spelling,
-    survival,
-    testthat
+    testthat,
+    tibble,
+    WRS2
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2.9000
+Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace",
+    "collate", "pkgapi::api_roclet"))
+RoxygenNote: 7.1.1

@@ -10,25 +10,25 @@ ggcorrmat(
   cor.vars.names = NULL,
   output = "plot",
   matrix.type = "full",
-  method = "square",
+  matrix.method = "square",
   type = "parametric",
   beta = 0.1,
-  k = 2,
+  k = 2L,
   sig.level = 0.05,
   conf.level = 0.95,
+  bf.prior = 0.707,
   p.adjust.method = "none",
-  pch = 4,
+  pch = "cross",
   ggcorrplot.args = list(outline.color = "black"),
   package = "RColorBrewer",
   palette = "Dark2",
-  direction = 1,
   colors = c("#E69F00", "white", "#009E73"),
   ggtheme = ggplot2::theme_bw(),
   ggstatsplot.layer = TRUE,
+  ggplot.component = NULL,
   title = NULL,
   subtitle = NULL,
   caption = NULL,
-  caption.default = TRUE,
   messages = TRUE,
   ...
 )
@@ -44,42 +44,27 @@ computed and visualized. If \code{NULL} (default), all numeric variables from
 \item{cor.vars.names}{Optional list of names to be used for \code{cor.vars}. The
 names should be entered in the same order.}
 
-\item{output}{Character that decides expected output from this
-function: \code{"plot"} (for visualization matrix) or \code{"correlations"} (or
-\code{"corr"} or \code{"r"}; for correlation matrix) or \code{"p-values"} (or \code{"p.values"}
-or \code{"p"}; for a matrix of \emph{p}-values) or \code{"ci"} (for a tibble with
-confidence intervals for unique correlation pairs; not available for robust
-correlation) or \code{"n"} (or \code{"sample.size"} for a tibble with sample sizes
-for each correlation pair).}
+\item{output}{Character that decides expected output from this function. If
+\code{"plot"}, the visualization matrix will be returned. If \code{"dataframe"} (or
+literally anything other than \code{"plot"}), a dataframe containing all details
+from statistical analyses (e.g., correlation coefficients, statistic
+values, \emph{p}-values, no. of observations, etc.) will be returned.}
 
 \item{matrix.type}{Character, \code{"full"} (default), \code{"upper"} or \code{"lower"},
 display full matrix, lower triangular or upper triangular matrix.}
 
-\item{method}{Smoothing method (function) to use, accepts either a character vector,
-e.g. \code{"auto"}, \code{"lm"}, \code{"glm"}, \code{"gam"}, \code{"loess"} or a function, e.g.
-\code{MASS::rlm} or \code{mgcv::gam}, \code{stats::lm}, or \code{stats::loess}.
+\item{matrix.method}{The visualization method of correlation matrix to be
+used. Allowed values are \code{"square"} (default) or \code{"circle"}.}
 
-For \code{method = "auto"} the smoothing method is chosen based on the
-size of the largest group (across all panels). \code{\link[stats:loess]{stats::loess()}} is
-used for less than 1,000 observations; otherwise \code{\link[mgcv:gam]{mgcv::gam()}} is
-used with \code{formula = y ~ s(x, bs = "cs")}. Somewhat anecdotally,
-\code{loess} gives a better appearance, but is \eqn{O(N^{2})}{O(N^2)} in memory,
-so does not work for larger datasets.
+\item{type}{Type of association between paired samples required
+("\code{"parametric"}: Pearson's product moment correlation coefficient" or
+"\code{"nonparametric"}: Spearman's rho" or "\code{"robust"}: percentage bend
+correlation coefficient" or "\code{"bayes"}: Bayes Factor for Pearson's \emph{r}").
+Corresponding abbreviations are also accepted: \code{"p"} (for
+parametric/pearson), \code{"np"} (nonparametric/spearman), \code{"r"} (robust),
+\code{"bf"} (for bayes factor), resp.}
 
-If you have fewer than 1,000 observations but want to use the same \code{gam()}
-model that \code{method = "auto"} would use, then set
-\code{method = "gam", formula = y ~ s(x, bs = "cs")}.}
-
-\item{type}{A character string indicating which correlation
-coefficient is to be computed (\code{"pearson"} (default) or \code{"kendall"} or
-\code{"spearman"}). \code{"robust"} can also be entered but only if \code{output} argument
-is set to either \code{"correlations"} or \code{"p-values"}. The robust correlation
-used is percentage bend correlation (see \code{?WRS2::pball}). Abbreviations
-will also work: \code{"p"} (for parametric/Pearson's \emph{r}), \code{"np"}
-(nonparametric/Spearman's \emph{rho}), \code{"r"} (robust).}
-
-\item{beta}{A numeric bending constant for percentage bend robust correlation
-coefficient (Default: \code{0.1}).}
+\item{beta}{bending constant (Default: \code{0.1}). For more, see \code{?WRS2::pbcor}.}
 
 \item{k}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2}).}
@@ -87,10 +72,13 @@ coefficient (Default: \code{0.1}).}
 \item{sig.level}{Significance level (Default: \code{0.05}). If the \emph{p}-value in
 \emph{p}-value matrix is bigger than \code{sig.level}, then the corresponding
 correlation coefficient is regarded as insignificant and flagged as such in
-the plot. This argument is relevant only when \code{output = "plot"}.}
+the plot. Relevant only when \code{output = "plot"}.}
 
 \item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
 \verb{95\%} lower and upper confidence intervals (\code{0.95}).}
+
+\item{bf.prior}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
+width to use in calculating Bayes factors.}
 
 \item{p.adjust.method}{What adjustment for multiple tests should be used?
 (\code{"holm"}, \code{"hochberg"}, \code{"hommel"}, \code{"bonferroni"}, \code{"BH"}, \code{"BY"},
@@ -101,22 +89,19 @@ the plot. This argument is relevant only when \code{output = "plot"}.}
 \strong{unadjusted} \emph{p}-values will be used for the \strong{lower} triangle of the
 matrix.}
 
-\item{pch}{Decides the glyphs (read point shapes) to be used for
-insignificant correlation coefficients (only valid when \code{insig = "pch"}).
-Default value is \code{pch = 4}.}
+\item{pch}{Decides the point shape to be used for insignificant correlation
+coefficients (only valid when \code{insig = "pch"}). Default: \code{pch = "cross"}.}
 
 \item{ggcorrplot.args}{A list of additional (mostly aesthetic) arguments that
 will be passed to \code{ggcorrplot::ggcorrplot} function. The list should avoid
-any of the following arguments since they are already being used: \code{corr},
-\code{method}, \code{p.mat}, \code{sig.level}, \code{ggtheme}, \code{colors}, \code{matrix.type}, \code{lab},
-\code{pch}, \code{legend.title}, \code{digits}.}
+any of the following arguments since they are already internally being used
+by \code{ggstatsplot}: \code{corr}, \code{method}, \code{p.mat}, \code{sig.level}, \code{ggtheme},
+\code{colors}, \code{matrix.type}, \code{lab}, \code{pch}, \code{legend.title}, \code{digits}.}
 
 \item{package}{Name of package from which the palette is desired as string
 or symbol.}
 
 \item{palette}{Name of palette as string or symbol.}
-
-\item{direction}{Either \code{1} or \code{-1}. If \code{-1} the palette will be reversed.}
 
 \item{colors}{A vector of 3 colors for low, mid, and high correlation values.
 If set to \code{NULL}, manual specification of colors will be turned off and 3
@@ -132,15 +117,17 @@ theme elements are to be displayed along with the selected \code{ggtheme}
 (Default: \code{TRUE}). \code{theme_ggstatsplot} is an opinionated theme layer that
 override some aspects of the selected \code{ggtheme}.}
 
+\item{ggplot.component}{A \code{ggplot} component to be added to the plot prepared
+by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
+of the current function. Default is \code{NULL}. The argument should be entered
+as a function.}
+
 \item{title}{The text for the plot title.}
 
-\item{subtitle}{The text for the plot subtitle.}
+\item{subtitle}{The text for the plot subtitle. Will work only if
+\code{results.subtitle = FALSE}.}
 
-\item{caption}{The text for the plot caption. If \code{NULL}, a default caption
-will be shown.}
-
-\item{caption.default}{Logical that decides whether the default caption
-should be shown (default: \code{TRUE}).}
+\item{caption}{The text for the plot caption.}
 
 \item{messages}{Decides whether messages references, notes, and warnings are
 to be displayed (Default: \code{TRUE}).}
@@ -148,8 +135,11 @@ to be displayed (Default: \code{TRUE}).}
 \item{...}{Currently ignored.}
 }
 \value{
-Correlation matrix plot or correlation coefficient matrix or matrix
-of \emph{p}-values.
+Correlation matrix plot or a dataframe containing results from
+pairwise correlation tests. The package internally uses
+\code{ggcorrplot::ggcorrplot} for creating the visualization matrix, while the
+correlation analysis is carried out using the \code{correlation::correlation}
+function.
 }
 \description{
 Visualization of a correlation matrix
@@ -160,53 +150,24 @@ Visualization of a correlation matrix
 set.seed(123)
 
 # if `cor.vars` not specified, all numeric variables used
-ggstatsplot::ggcorrmat(data = iris)
+ggstatsplot::ggcorrmat(iris)
 
 # to get the correlalogram
 # note that the function will run even if the vector with variable names is
 # not of same length as the number of variables
 ggstatsplot::ggcorrmat(
   data = ggplot2::msleep,
+  type = "robust",
   cor.vars = sleep_total:bodywt,
-  cor.vars.names = c("total sleep", "REM sleep")
-) + # further modification using `ggplot2`
-  ggplot2::scale_y_discrete(position = "right")
+  cor.vars.names = c("total sleep", "REM sleep"),
+  matrix.type = "lower"
+)
 
-# to get the correlation matrix
+# to get the correlation analyses results in a dataframe
 ggstatsplot::ggcorrmat(
   data = ggplot2::msleep,
   cor.vars = sleep_total:bodywt,
-  output = "r"
-)
-
-# setting output = "p-values" (or "p") will return the p-value matrix
-ggstatsplot::ggcorrmat(
-  data = ggplot2::msleep,
-  cor.vars = sleep_total:bodywt,
-  corr.method = "r",
-  p.adjust.method = "bonferroni",
-  output = "p"
-)
-
-# setting `output = "ci"` will return the confidence intervals for unique
-# correlation pairs
-ggstatsplot::ggcorrmat(
-  data = ggplot2::msleep,
-  cor.vars = sleep_total:bodywt,
-  p.adjust.method = "BH",
-  output = "ci"
-)
-
-# modifying elements of the correlation matrix by changing function defaults
-ggstatsplot::ggcorrmat(
-  data = datasets::iris,
-  cor.vars = c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width),
-  sig.level = 0.01,
-  ggtheme = ggplot2::theme_bw(),
-  hc.order = TRUE,
-  matrix.type = "lower",
-  outline.col = "white",
-  title = "Dataset: Iris"
+  output = "dataframe"
 )
 }
 }

@@ -25,7 +25,7 @@ grouped_gghistostats(
 \item{data}{A dataframe (or a tibble) from which variables specified are to
 be taken. A matrix or tables will \strong{not} be accepted.}
 
-\item{x}{A numeric variable.}
+\item{x}{A numeric variable from the dataframe \code{data}.}
 
 \item{grouping.var}{A single grouping variable (can be entered either as a
 bare name \code{x} or as a string \code{"x"}).}
@@ -46,7 +46,9 @@ variable name entered for \code{grouping.var} will be used.}
 you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
 Setting this to \code{"caption"} will return the expression containing details
 about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
+\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
+dataframe containing results from proportion tests.}
 
 \item{...}{
   Arguments passed on to \code{\link[=gghistostats]{gghistostats}}
@@ -57,80 +59,49 @@ of points in bin, or \code{"density"}, which density of points in bin, scaled to
 integrate to 1, or "\code{proportion}", which shows relative frequencies of
 observations in each bin, or "\code{mix}", which shows \emph{both} count and
 proportion in the same plot.}
-    \item{\code{fill.gradient}}{Logical decides whether color fill gradient is to be
-displayed (Default: \code{FALSE}). If \code{FALSE}, the legend and the color gradient
-will also be removed. The default is set to \code{FALSE} because the gradient
-provides redundant information in light of y-axis labels.}
-    \item{\code{low.color}}{Colors for low and high ends of the gradient.
-Defaults are colorblind-friendly.}
-    \item{\code{high.color}}{Colors for low and high ends of the gradient.
-Defaults are colorblind-friendly.}
-    \item{\code{normal.curve}}{Logical decides whether to super-impose a normal curve
-using \code{stats::dnorm(mean(x), sd(x))}. Default is \code{FALSE}.}
-    \item{\code{normal.curve.color}}{If
-\code{normal.curve = TRUE}, then these arguments can be used to modify color
-(Default: \code{"black"}), size (default: \code{1.0}), linetype (default: \code{"solid"}).}
-    \item{\code{normal.curve.linetype}}{If
-\code{normal.curve = TRUE}, then these arguments can be used to modify color
-(Default: \code{"black"}), size (default: \code{1.0}), linetype (default: \code{"solid"}).}
-    \item{\code{normal.curve.size}}{If
-\code{normal.curve = TRUE}, then these arguments can be used to modify color
-(Default: \code{"black"}), size (default: \code{1.0}), linetype (default: \code{"solid"}).}
-    \item{\code{bar.fill}}{If \code{fill.gradient = FALSE}, then \code{bar.fill} decides which
-color will uniformly fill all the bars in the histogram (Default:
-\code{"grey50"}).}
-    \item{\code{stat.title}}{A character describing the test being run, which will be
-added as a prefix in the subtitle. The default is \code{NULL}. An example of a
-\code{stat.title} argument will be something like \code{"Student's t-test: "}.}
+    \item{\code{normal.curve}}{A logical value that decides whether to super-impose a
+normal curve using \code{stats::dnorm(mean(x), sd(x))}. Default is \code{FALSE}.}
+    \item{\code{normal.curve.args}}{A list of additional aesthetic arguments to be
+passed to the normal curve.}
+    \item{\code{bar.fill}}{Character input that decides which color will uniformly fill
+all the bars in the histogram (Default: \code{"grey50"}).}
     \item{\code{type}}{Type of statistic expected (\code{"parametric"} or \code{"nonparametric"}
 or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
 \code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
 \code{"bf"}resp.}
     \item{\code{test.value}}{A number specifying the value of the null hypothesis
 (Default: \code{0}).}
-    \item{\code{bf.prior}}{A numeric value between \code{0.5} and \code{2} (default \code{0.707}), the
-prior width to use in calculating Bayes Factors.}
-    \item{\code{robust.estimator}}{If \code{type = "robust"}, a robust estimator to be used
-(\code{"onestep"} (Default), \code{"mom"}, or \code{"median"}). For more, see
-\code{?WRS2::onesampb}.}
+    \item{\code{bf.prior}}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
+width to use in calculating Bayes factors.}
     \item{\code{effsize.type}}{Type of effect size needed for \emph{parametric} tests. The
-argument can be \code{"biased"} (\code{"d"} for Cohen's \emph{d}) or \code{"unbiased"}
-(\code{"g"} Hedge's \emph{g} for \strong{t-test}). The default is \code{"g"}.}
-    \item{\code{effsize.noncentral}}{Logical indicating whether to use non-central
-\emph{t}-distributions for computing the confidence interval for Cohen's \emph{d}
-or Hedge's \emph{g} (Default: \code{TRUE}).}
+argument can be \code{"d"} (for Cohen's \emph{d}) or \code{"g"} (for Hedge's \emph{g}).}
     \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
 \verb{95\%} lower and upper confidence intervals (\code{0.95}).}
     \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2}).}
-    \item{\code{messages}}{Decides whether messages references, notes, and warnings are
-to be displayed (Default: \code{TRUE}).}
-    \item{\code{centrality.para}}{Decides \emph{which} measure of central tendency (\code{"mean"}
-or \code{"median"}) is to be displayed as a vertical line.}
-    \item{\code{centrality.color}}{Decides color for the vertical line for centrality
-parameter (Default: \code{"blue"}).}
-    \item{\code{centrality.size}}{Decides size for the vertical line for centrality
-parameter (Default: \code{1.2}).}
-    \item{\code{centrality.linetype}}{Decides linetype for the vertical line for
-centrality parameter (Default: \code{"dashed"}).}
-    \item{\code{centrality.line.labeller}}{A logical that decides whether line labels
-should be displayed for the \strong{centrality.para} line (Default: \code{TRUE}).}
-    \item{\code{centrality.k}}{Integer denoting the number of decimal places expected
-for centrality parameter label. (Default: \code{2}).}
-    \item{\code{test.value.line}}{Decides whether test value is to be displayed as a
-vertical line (Default: \code{FALSE}).}
-    \item{\code{test.value.color}}{Decides color for the vertical line denoting test
-value (Default: \code{"black"}).}
-    \item{\code{test.value.size}}{Decides size for the vertical line for test value
-(Default: \code{1.2}).}
-    \item{\code{test.value.linetype}}{Decides linetype for the vertical line for test
-value (Default: \code{"dashed"}).}
-    \item{\code{test.line.labeller}}{A logical that decides whether line labels should
-be displayed for \strong{test.value} line (Default: \code{TRUE}).}
     \item{\code{test.k}}{Integer denoting the number of decimal places expected for
 \code{test.value} label. (Default: \code{0} ).}
+    \item{\code{test.value.line}}{Logical that decides whether a line corresponding to
+the \code{test.value} should be superimposed on the plot.}
+    \item{\code{test.value.line.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_line} used to display the
+lines corresponding to the centrality parameter and test value.}
+    \item{\code{test.value.label.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_label} used to display the
+label corresponding to the centrality parameter and test value.}
+    \item{\code{centrality.parameter}}{Decides \emph{which} measure of central tendency
+(\code{"mean"} or \code{"median"}) is to be displayed as a vertical line. To not show
+any parameter, set this to \code{"none"}.}
+    \item{\code{centrality.k}}{Integer denoting the number of decimal places expected
+for centrality parameter label. (Default: \code{2}).}
+    \item{\code{centrality.line.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_line} used to display the
+lines corresponding to the centrality parameter and test value.}
+    \item{\code{centrality.label.args}}{A list of additional
+aesthetic arguments to be passed to the \code{geom_label} used to display the
+label corresponding to the centrality parameter and test value.}
     \item{\code{xlab}}{Labels for \code{x} and \code{y} axis variables. If \code{NULL} (default),
 variable names for \code{x} and \code{y} will be used.}
     \item{\code{subtitle}}{The text for the plot subtitle. Will work only if
@@ -153,9 +124,7 @@ the plot will be returned.}
     \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
-as a function. If the given function has an argument \code{axes.range.restrict}
-and if it has been set to \code{TRUE}, the added \code{ggplot} component \emph{might} not
-work as expected.}
+as a function.}
   }}
 
 \item{plotgrid.args}{A list of additional arguments to \code{cowplot::plot_grid}.}
