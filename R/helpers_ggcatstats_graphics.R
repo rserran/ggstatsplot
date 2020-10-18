@@ -39,12 +39,15 @@ cat_label_df <- function(data,
 
   # only raw counts
   if (label.content %in% c("counts", "n", "count", "N")) {
-    data %<>% dplyr::mutate(label = paste0("n = ", counts))
+    data %<>% dplyr::mutate(label = paste0(prettyNum(counts, big.mark = ",", scientific = FALSE)))
   }
 
   # both raw counts and percentages
   if (label.content %in% c("both", "mix", "all", "everything")) {
-    data %<>% dplyr::mutate(label = paste0("n = ", counts, "\n", "(", round(perc, perc.k), "%)"))
+    data %<>% dplyr::mutate(label = paste0(
+      prettyNum(counts, big.mark = ",", scientific = FALSE),
+      "\n", "(", round(perc, perc.k), "%)"
+    ))
   }
 
   return(data)
@@ -75,30 +78,25 @@ cat_counter <- function(data, x, y = NULL, ...) {
   purrr::discard(.x = dots, .p = rlang::quo_is_null)
 
   # creating a dataframe with counts
-  return(
-    data %>%
-      dplyr::group_by_at(.tbl = ., .vars = dots, .drop = TRUE) %>%
-      dplyr::summarize(.data = ., counts = dplyr::n()) %>%
-      dplyr::mutate(.data = ., perc = (counts / sum(counts)) * 100) %>%
-      dplyr::ungroup(x = .) %>%
-      dplyr::arrange(.data = ., dplyr::desc(!!rlang::ensym(x))) %>%
-      dplyr::filter(.data = ., counts != 0L)
-  )
+  data %>%
+    dplyr::group_by_at(.tbl = ., .vars = dots, .drop = TRUE) %>%
+    dplyr::summarize(.data = ., counts = dplyr::n()) %>%
+    dplyr::mutate(.data = ., perc = (counts / sum(counts)) * 100) %>%
+    dplyr::ungroup(x = .) %>%
+    dplyr::arrange(.data = ., dplyr::desc(!!rlang::ensym(x))) %>%
+    dplyr::filter(.data = ., counts != 0L)
 }
 
 #' @noRd
-#'
-#' @importFrom ipmisc p_value_formatter
-#'
 #' @keywords internal
 
 # combine info about sample size plus
-df_facet_label <- function(data, x, y, k = 3L) {
+df_facet_label <- function(data, x, y, k = 3L, ...) {
   data %>% {
     dplyr::full_join(
       x = cat_counter(data = ., x = {{ y }}) %>%
-        dplyr::mutate(.data = ., N = paste0("(n = ", counts, ")", sep = "")),
-      y = groupedstats::grouped_proptest(
+        dplyr::mutate(N = paste0("(n = ", prettyNum(counts, big.mark = ",", scientific = FALSE), ")")),
+      y = grouped_proptest(
         data = .,
         grouping.vars = {{ y }},
         measure = {{ x }}
@@ -106,25 +104,95 @@ df_facet_label <- function(data, x, y, k = 3L) {
         dplyr::filter(.data = ., !is.na(significance)),
       by = rlang::as_name(rlang::ensym(y))
     ) %>%
-      ipmisc::p_value_formatter(data = ., k = k) %>%
       dplyr::rowwise() %>%
       dplyr::mutate(
-        label = paste(
+        label = paste0(
           "list(~chi['gof']^2~",
           "(",
           parameter,
           ")==",
           specify_decimal_p(x = statistic, k = k),
-          ", ~italic(p)",
-          p.value.formatted,
-          ", ~italic(n)",
-          "==",
+          ", ~italic(p)==",
+          specify_decimal_p(x = p.value, k = k, p.value = TRUE),
+          ", ~italic(n)==",
           counts,
-          ")",
-          sep = " "
+          ")"
         )
       ) %>%
-      dplyr::ungroup() %>%
-      dplyr::select(.data = ., -dplyr::matches("p.value.formatted"))
+      dplyr::ungroup()
+  }
+}
+
+
+#' @title Function to run proportion test on grouped data.
+#' @name grouped_proptest
+#' @return Dataframe with percentages and statistical details from a proportion
+#'  test.
+#'
+#' @param ... Currently ignored.
+#' @inheritParams broomExtra::grouped_tidy
+#' @param measure A variable for which proportion test needs to be carried out
+#'  for each combination of levels of factors entered in `grouping.vars`.
+#'
+#' @importFrom tidyr nest unnest spread
+#' @importFrom broomExtra tidy
+#' @importFrom stats chisq.test
+#' @importFrom rlang enquos
+#' @importFrom dplyr group_by_at group_modify ungroup group_vars select
+#' @importFrom dplyr count left_join
+#'
+#' @examples
+#' # for reproducibility
+#' set.seed(123)
+#'
+#' ggstatsplot:::grouped_proptest(
+#'   data = mtcars,
+#'   grouping.vars = cyl,
+#'   measure = am
+#' )
+#' @keywords internal
+
+# function body
+grouped_proptest <- function(data, grouping.vars, measure, ...) {
+  # calculating percentages and running chi-squared test
+  dplyr::group_by_at(data, rlang::enquos(grouping.vars)) %>%
+    {
+      dplyr::left_join(
+        x = (.) %>%
+          dplyr::count({{ measure }}) %>%
+          dplyr::mutate(perc = paste0(specify_decimal_p((n / sum(n)) * 100, k = 2), "%")) %>%
+          dplyr::select(-n) %>%
+          tidyr::spread(data = ., key = {{ measure }}, value = perc),
+        y = (.) %>%
+          dplyr::group_modify(.f = ~ chisq_test_safe(., {{ measure }})),
+        by = dplyr::group_vars(.)
+      )
+    } %>%
+    dplyr::ungroup(.) %>%
+    signif_column(data = ., p = p.value)
+}
+
+# safer version of chi-squared test that returns NAs
+# needed to work with `group_modify` since it will not work when NULL is returned
+# by `broomExtra::tidy`
+#' @noRd
+
+chisq_test_safe <- function(data, x, ...) {
+  # create a table
+  xtab <- table(data %>% dplyr::pull({{ x }}))
+
+  # run chi-square test
+  chi_result <- broomExtra::tidy(stats::chisq.test(xtab))
+
+  # if not null, return tidy output, otherwise return NAs
+  if (!is.null(chi_result)) {
+    chi_result
+  } else {
+    tibble(
+      statistic = NA_real_,
+      p.value = NA_real_,
+      parameter = NA_real_,
+      method = "Chi-squared test for given probabilities"
+    )
   }
 }

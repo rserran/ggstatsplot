@@ -24,7 +24,6 @@
 #' @importFrom dplyr select group_by summarize n mutate mutate_at mutate_if
 #' @importFrom rlang !! enquo quo_name as_name ensym
 #' @importFrom paletteer scale_fill_paletteer_d
-#' @importFrom groupedstats grouped_proptest
 #' @importFrom tidyr uncount drop_na
 #' @importFrom statsExpressions expr_contingency_tab bf_contingency_tab
 #'
@@ -38,24 +37,25 @@
 #' ggstatsplot::ggbarstats(
 #'   data = mtcars,
 #'   x = vs,
-#'   y = cyl,
-#'   nboot = 10,
-#'   legend.title = "Engine"
+#'   y = cyl
 #' )
 #' @export
 
 # defining the function
 ggbarstats <- function(data,
-                       main,
-                       condition,
+                       x = NULL,
+                       y = NULL,
                        counts = NULL,
                        ratio = NULL,
                        paired = FALSE,
                        results.subtitle = TRUE,
                        sample.size.label = TRUE,
                        label = "percentage",
-                       perc.k = 0,
                        label.args = list(alpha = 1, fill = "white"),
+                       conf.level = 0.95,
+                       k = 2L,
+                       proportion.test = TRUE,
+                       perc.k = 0,
                        bf.message = TRUE,
                        sampling.plan = "indepMulti",
                        fixed.margin = "rows",
@@ -63,21 +63,17 @@ ggbarstats <- function(data,
                        title = NULL,
                        subtitle = NULL,
                        caption = NULL,
-                       conf.level = 0.95,
-                       nboot = 100,
                        legend.title = NULL,
                        xlab = NULL,
                        ylab = NULL,
-                       k = 2,
-                       proportion.test = TRUE,
                        ggtheme = ggplot2::theme_bw(),
                        ggstatsplot.layer = TRUE,
                        package = "RColorBrewer",
                        palette = "Dark2",
                        ggplot.component = NULL,
                        output = "plot",
-                       x = NULL,
-                       y = NULL,
+                       main,
+                       condition,
                        ...) {
 
   # ensure the variables work quoted or unquoted
@@ -122,10 +118,15 @@ ggbarstats <- function(data,
   # also drop the unused levels of the factors
   data %<>%
     dplyr::mutate(
-      .data = .,
       {{ x }} := droplevels(as.factor({{ x }})),
       {{ y }} := droplevels(as.factor({{ y }}))
     )
+
+  # TO DO: until one-way table is supported by `BayesFactor`
+  if (nlevels(data %>% dplyr::pull({{ y }})) == 1L) {
+    bf.message <- FALSE
+    proportion.test <- FALSE
+  }
 
   # ========================= statistical analysis ===========================
 
@@ -139,12 +140,8 @@ ggbarstats <- function(data,
           x = {{ x }},
           y = {{ y }},
           ratio = ratio,
-          nboot = nboot,
           paired = paired,
-          legend.title = legend.title,
           conf.level = conf.level,
-          conf.type = "norm",
-          bias.correct = TRUE,
           k = k
         ),
         error = function(e) NULL
@@ -153,16 +150,19 @@ ggbarstats <- function(data,
     # preparing the BF message for null hypothesis support
     if (isTRUE(bf.message) && !is.null(subtitle)) {
       caption <-
-        statsExpressions::bf_contingency_tab(
-          data = data,
-          x = {{ x }},
-          y = {{ y }},
-          sampling.plan = sampling.plan,
-          fixed.margin = fixed.margin,
-          prior.concentration = prior.concentration,
-          caption = caption,
-          output = "caption",
-          k = k
+        tryCatch(
+          expr = bf_contingency_tab(
+            data = data,
+            x = {{ x }},
+            y = {{ y }},
+            sampling.plan = sampling.plan,
+            fixed.margin = fixed.margin,
+            prior.concentration = prior.concentration,
+            caption = caption,
+            output = "caption",
+            k = k
+          ),
+          error = function(e) NULL
         )
     }
   }

@@ -69,14 +69,13 @@ ggwithinstats <- function(data,
                           x,
                           y,
                           type = "parametric",
-                          pairwise.comparisons = FALSE,
+                          pairwise.comparisons = TRUE,
                           pairwise.display = "significant",
                           p.adjust.method = "holm",
                           effsize.type = "unbiased",
                           partial = TRUE,
                           bf.prior = 0.707,
                           bf.message = TRUE,
-                          sphericity.correction = TRUE,
                           results.subtitle = TRUE,
                           xlab = NULL,
                           ylab = NULL,
@@ -104,6 +103,7 @@ ggwithinstats <- function(data,
                           outlier.label.args = list(),
                           outlier.point.args = list(),
                           violin.args = list(width = 0.5, alpha = 0.2),
+                          ggsignif.args = list(textsize = 3, tip_length = 0.01),
                           ggtheme = ggplot2::theme_bw(),
                           ggstatsplot.layer = TRUE,
                           package = "RColorBrewer",
@@ -195,8 +195,7 @@ ggwithinstats <- function(data,
         paired = TRUE,
         effsize.type = effsize.type,
         partial = partial,
-        var.equal = TRUE,
-        sphericity.correction = sphericity.correction,
+        var.equal = TRUE, ,
         bf.prior = bf.prior,
         tr = tr,
         nboot = nboot,
@@ -351,7 +350,8 @@ ggwithinstats <- function(data,
         data = data,
         x = {{ x }},
         y = {{ y }},
-        pairwise.display = pairwise.display
+        pairwise.display = pairwise.display,
+        ggsignif.args = ggsignif.args
       )
 
     # preparing the caption for pairwise comparisons test
@@ -360,7 +360,7 @@ ggwithinstats <- function(data,
         pairwiseComparisons::pairwise_caption(
           caption,
           unique(df_pairwise$test.details),
-          p.adjust.method
+          pairwise.display
         )
     }
   }

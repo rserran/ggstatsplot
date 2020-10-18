@@ -53,14 +53,14 @@ dataframe of results from \code{broom::tidy}) or \code{"glance"} (object from
 \code{broom::glance}) or \code{"augment"} (object from \code{broom::augment}).}
 
 \item{statistic}{Which statistic is to be displayed (either \code{"t"} or \code{"f"}or
-\code{"z"}) in the label. This is relevant if the \code{x} argument is a dataframe.}
+\code{"z"} or \code{"chi"}) in the label. This is relevant if the \code{x} argument is a
+\emph{dataframe}.}
 
 \item{conf.int}{Logical. Decides whether to display confidence intervals as
 error bars (Default: \code{TRUE}).}
 
-\item{conf.level}{Numeric deciding level of confidence intervals (Default:
-\code{0.95}). For \code{MCMC} model objects (\code{Stan}, \code{JAGS}, etc.), this will be
-probability level for CI.}
+\item{conf.level}{Numeric deciding level of confidence or credible intervals
+(Default: \code{0.95}).}
 
 \item{k}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2}).}
@@ -145,10 +145,13 @@ be chosen from the specified \code{package} (Default: \code{"RColorBrewer"}) and
 \code{ggrepel::geom_label_repel} geom. Please see documentation for that
 function to know more about these arguments.}
 
-\item{package}{Name of package from which the palette is desired as string
-or symbol.}
+\item{package}{Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+\code{View(paletteer::palettes_d_names)}.}
 
-\item{palette}{Name of palette as string or symbol.}
+\item{palette}{Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+\code{View(paletteer::palettes_d_names)}.}
 
 \item{ggtheme}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
@@ -161,7 +164,7 @@ theme elements are to be displayed along with the selected \code{ggtheme}
 override some aspects of the selected \code{ggtheme}.}
 
 \item{...}{Additional arguments to tidying method. For more, see
-\code{?parameters::model_parameters} and \code{broom::tidy}.}
+\code{parameters::model_parameters} and \code{broom::tidy}.}
 }
 \value{
 Plot with the regression coefficients' point estimates as dots with
@@ -273,18 +276,6 @@ ggstatsplot::ggcoefstats(
   meta.analytic.effect = TRUE,
   k = 3
 )
-
-# -------------- getting model summary ------------------------------
-
-# model
-library(lme4)
-lmm1 <- lme4::lmer(
-  formula = Reaction ~ Days + (Days | Subject),
-  data = sleepstudy
-)
-
-# dataframe with model summary
-ggstatsplot::ggcoefstats(x = lmm1, output = "glance")
 }
 }
 \references{

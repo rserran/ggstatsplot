@@ -70,9 +70,6 @@
 #'   and its value to be displayed (Default: `TRUE`).
 #' @param mean.ci Logical that decides whether `95%` confidence interval for
 #'   mean is to be displayed (Default: `FALSE`).
-#' @param palette If a character string (e.g., `"Set1"`), will use that named
-#'   palette. If a number, will index into the list of palettes of appropriate
-#'   type. Default palette is `"Dark2"`.
 #' @param point.args A list of additional aesthetic arguments to be passed to
 #'   the `geom_point` displaying the raw data.
 #' @param violin.args A list of additional aesthetic arguments to be passed to
@@ -81,9 +78,9 @@
 #'   by `ggstatsplot`. This argument is primarily helpful for `grouped_` variant
 #'   of the current function. Default is `NULL`. The argument should be entered
 #'   as a function.
-#' @param package Name of package from which the palette is desired as string
-#' or symbol.
-#' @param palette Name of palette as string or symbol.
+#' @param package,palette Name of the package from which the given palette is to
+#'   be extracted. The available palettes and packages can be checked by running
+#'   `View(paletteer::palettes_d_names)`.
 #' @param output Character that describes what is to be returned: can be
 #'   `"plot"` (default) or `"subtitle"` or `"caption"`. Setting this to
 #'   `"subtitle"` will return the expression containing statistical results. If
@@ -98,6 +95,8 @@
 #' @param mean.point.args,mean.label.args A list of additional aesthetic
 #'   arguments to be passed to `ggplot2::geom_point` and
 #'   `ggrepel::geom_label_repel` geoms involved mean value plotting.
+#' @param  ggsignif.args A list of additional aesthetic
+#'   arguments to be passed to `ggsignif::geom_signif`.
 #' @inheritParams statsExpressions::expr_anova_parametric
 #' @inheritParams statsExpressions::expr_t_parametric
 #' @inheritParams statsExpressions::expr_t_onesample
@@ -122,12 +121,6 @@
 #' @details
 #' For parametric tests, Welch's ANOVA/*t*-test are used as a default (i.e.,
 #' `var.equal = FALSE`).
-#' References:
-#' \itemize{
-#'  \item ANOVA: Delacre, Leys, Mora, & Lakens, *PsyArXiv*, 2018
-#'  \item *t*-test: Delacre, Lakens, & Leys,
-#'  *International Review of Social Psychology*, 2017
-#'  }
 #'
 #'  If robust tests are selected, following tests are used is .
 #' \itemize{
@@ -165,14 +158,12 @@
 #'   y = Speed,
 #'   type = "nonparametric",
 #'   plot.type = "box",
-#'   conf.level = 0.99,
 #'   xlab = "The experiment number",
 #'   ylab = "Speed-of-light measurement",
 #'   pairwise.comparisons = TRUE,
 #'   p.adjust.method = "fdr",
 #'   outlier.tagging = TRUE,
 #'   outlier.label = Run,
-#'   nboot = 10,
 #'   ggtheme = ggplot2::theme_grey(),
 #'   ggstatsplot.layer = FALSE
 #' )
@@ -185,7 +176,7 @@ ggbetweenstats <- function(data,
                            y,
                            plot.type = "boxviolin",
                            type = "parametric",
-                           pairwise.comparisons = FALSE,
+                           pairwise.comparisons = TRUE,
                            pairwise.display = "significant",
                            p.adjust.method = "holm",
                            effsize.type = "unbiased",
@@ -199,7 +190,7 @@ ggbetweenstats <- function(data,
                            title = NULL,
                            subtitle = NULL,
                            sample.size.label = TRUE,
-                           k = 2,
+                           k = 2L,
                            var.equal = FALSE,
                            conf.level = 0.95,
                            nboot = 100,
@@ -224,6 +215,7 @@ ggbetweenstats <- function(data,
                              stroke = 0
                            ),
                            violin.args = list(width = 0.5, alpha = 0.2),
+                           ggsignif.args = list(textsize = 3, tip_length = 0.01),
                            ggtheme = ggplot2::theme_bw(),
                            ggstatsplot.layer = TRUE,
                            package = "RColorBrewer",
@@ -493,7 +485,8 @@ ggbetweenstats <- function(data,
         data = data,
         x = {{ x }},
         y = {{ y }},
-        pairwise.display = pairwise.display
+        pairwise.display = pairwise.display,
+        ggsignif.args = ggsignif.args
       )
 
     # preparing the caption for pairwise comparisons test
@@ -502,7 +495,7 @@ ggbetweenstats <- function(data,
         pairwiseComparisons::pairwise_caption(
           caption,
           unique(df_pairwise$test.details),
-          p.adjust.method
+          pairwise.display
         )
     }
   }

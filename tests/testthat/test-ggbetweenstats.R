@@ -17,6 +17,7 @@ testthat::test_that(
         xlab = "vore",
         ylab = "brain weight",
         pairwise.comparisons = TRUE,
+        ggsignif.args = list(textsize = 6, tip_length = 0.01),
         ggstatsplot.layer = FALSE,
         outlier.tagging = TRUE,
         outlier.label = name,
@@ -130,22 +131,15 @@ testthat::test_that(
         displaystyle(atop(
           displaystyle("From ggplot2 package"),
           expr = paste(
-            "In favor of null: ",
-            "log"["e"],
-            "(BF"["01"],
-            ") = ",
-            "1.54274",
-            ", ",
-            italic("r")["Cauchy"]^"JZS",
-            " = ",
-            "0.70700"
+            "log"["e"], "(BF"["01"],
+            ") = ", "1.54274"
           )
         )),
         expr = paste(
-          "Pairwise comparisons: ",
+          "Pairwise test: ",
           bold("Games-Howell test"),
-          "; Adjustment (p-value): ",
-          bold("Holm")
+          "; Comparisons shown: ",
+          bold("only significant")
         )
       ))
     )
@@ -170,6 +164,7 @@ testthat::test_that(
         type = "np",
         mean.ci = TRUE,
         k = 2L,
+        pairwise.comparisons = FALSE,
         conf.level = 0.90,
         outlier.tagging = TRUE,
         outlier.label = "name",
@@ -260,7 +255,6 @@ testthat::test_that(
         x = supp,
         y = len,
         type = "bf",
-        pairwise.comparisons = TRUE,
         plot.type = "box",
         results.subtitle = FALSE,
         outlier.tagging = TRUE,

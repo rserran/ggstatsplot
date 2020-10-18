@@ -130,15 +130,20 @@ the \code{geom_violin}.}
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
 of the current function. Default is \code{NULL}. The argument should be entered
 as a function.}
-    \item{\code{package}}{Name of package from which the palette is desired as string
-or symbol.}
-    \item{\code{palette}}{Name of palette as string or symbol.}
+    \item{\code{package}}{Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+\code{View(paletteer::palettes_d_names)}.}
+    \item{\code{palette}}{Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+\code{View(paletteer::palettes_d_names)}.}
     \item{\code{mean.point.args}}{A list of additional aesthetic
 arguments to be passed to \code{ggplot2::geom_point} and
 \code{ggrepel::geom_label_repel} geoms involved mean value plotting.}
     \item{\code{mean.label.args}}{A list of additional aesthetic
 arguments to be passed to \code{ggplot2::geom_point} and
 \code{ggrepel::geom_label_repel} geoms involved mean value plotting.}
+    \item{\code{ggsignif.args}}{A list of additional aesthetic
+arguments to be passed to \code{ggsignif::geom_signif}.}
     \item{\code{ggtheme}}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
 extension packages are allowed (e.g., \code{ggthemes::theme_fivethirtyeight()},
@@ -203,12 +208,6 @@ grouping variable.
 \details{
 For parametric tests, Welch's ANOVA/\emph{t}-test are used as a default (i.e.,
 \code{var.equal = FALSE}).
-References:
-\itemize{
-\item ANOVA: Delacre, Leys, Mora, & Lakens, \emph{PsyArXiv}, 2018
-\item \emph{t}-test: Delacre, Lakens, & Leys,
-\emph{International Review of Social Psychology}, 2017
-}
 
 If robust tests are selected, following tests are used is .
 \itemize{

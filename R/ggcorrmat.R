@@ -61,7 +61,7 @@
 #' @importFrom rlang !! enquo quo_name is_null
 #' @importFrom ipmisc green blue yellow red
 #' @importFrom pairwiseComparisons p_adjust_text
-#' @importFrom correlation correlation
+#' @importFrom statsExpressions correlation
 #'
 #' @seealso \code{\link{grouped_ggcorrmat}} \code{\link{ggscatterstats}}
 #'   \code{\link{grouped_ggscatterstats}}
@@ -182,7 +182,7 @@ ggcorrmat <- function(data,
 
   # creating a dataframe of results
   df_correlation <-
-    correlation::correlation(
+    statsExpressions::correlation(
       data = df,
       method = corr.method,
       p_adjust = p.adjust.method,

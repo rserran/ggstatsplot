@@ -1,13 +1,40 @@
-# ggstatsplot 0.5.0.9000
+# ggstatsplot 0.6.1.9000
+
+# ggstatsplot 0.6.1
+
+MAJOR CHANGES
+
+  - `ggbetweenstats` and `ggwithinstats` functions now default to
+    `pairwise.comparisons = TRUE`.
+
+MINOR CHANGES
+
+  - Plot borders are now removed from the default theme.
+  
+  - Small *p*-values (< 0.001) are now displayed in scientific notation.
+  
+BREAKING CHANGES
+
+  - `pairwiseComparisons` re-exports are deprecated.
+
+# ggstatsplot 0.6.0
 
 NEW FEATURES
 
-  - More models supported in `ggcoefstats`: `BFBayesFactor`, `betamfx`, `glht`,
-    `negbinmfx`, `logitmfx`, `logitsf`, `poissonmfx`, `betaor`, `negbinirr`,
-    `logitor`, `orm`, `poissonirr`.
+  - More models supported in `ggcoefstats`: `BFBayesFactor`, `betamfx`, `crq`,
+    `coxph.penal`, `geeglm`, `glht`, `glmm`, `lm_robust`, `lqm`, `lqmm`,
+    `manova`, `maov`, `margins`, `negbinmfx`, `logitmfx`, `logitsf`, `margins`,
+    `poissonmfx`, `betaor`, `negbinirr`, `logitor`, `metafor`, `metaplus`,
+    `orm`, `poissonirr`, `semLm`, `semLme`, `vgam`.
     
   - `ggpiestats` gains `label.repel` argument to cover contexts in which the
     labels might overlap. Setting it to `TRUE` will minimize such an overlap.
+    
+  - `ggbetweenstats` and `ggwithinstats` gain `ggsignif.args` argument to make
+    it easy to change aesthetics of the pairwise comparison geom.
+    
+  - The subtitle and caption for Bayes Factor tests now also provide information
+    about posterior estimates, when relevant.
 
 MAJOR CHANGES
 
@@ -21,6 +48,13 @@ MINOR CHANGES
 
   - The argument `method` for `ggcorrmat` has been renamed to `matrix.method`,
     since it was confusing whether this method referred to correlation method.
+    
+  - For both `ggpiestats` and `ggbarstats`, the count labels no longer include
+    ` n =  ` in them as this was confusing since all labels had ` n =  ` in them
+    with no further explanation about how this `n` differed from `n` in the
+    proportion test.
+    
+  - No longer relies on `groupedstats` package.
 
 # ggstatsplot 0.5.0
 

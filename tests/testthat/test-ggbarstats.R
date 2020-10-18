@@ -5,11 +5,11 @@ testthat::test_that(
   code = {
     testthat::skip_on_cran()
 
-    # condition variable is not optional for `ggbarstats`
+    # y variable is not optional for `ggbarstats`
     testthat::expect_error(
       ggstatsplot::ggbarstats(
         data = as.data.frame(Titanic),
-        main = Sex
+        x = Sex
       )
     )
 
@@ -18,8 +18,8 @@ testthat::test_that(
     p <-
       ggstatsplot::ggbarstats(
         data = as.data.frame(Titanic),
-        main = Sex,
-        condition = Survived,
+        x = Sex,
+        y = Survived,
         counts = "Freq",
         perc.k = 2,
         conf.level = 0.95,
@@ -102,8 +102,7 @@ testthat::test_that(
             "numeric"
           )),
           label = c(
-            "8.46%",
-            "48.38%", "91.54%", "51.62%"
+            "8.46%", "48.38%", "91.54%", "51.62%"
           ),
           group = c(1L, 1L, 2L, 2L),
           PANEL = structure(c(
@@ -190,7 +189,7 @@ testthat::test_that(
             "mapped_discrete",
             "numeric"
           )),
-          label = c("(n = 711)", "(n = 1490)"),
+          label = c("(n = 711)", "(n = 1,490)"),
           PANEL = structure(c(1L, 1L), class = "factor", .Label = "1"),
           group = structure(2:1, n = 2L),
           colour = c("black", "black"),
@@ -216,14 +215,6 @@ testthat::test_that(
 
     # checking data layers
     testthat::expect_equal(length(pb$data), 4L)
-    testthat::expect_equal(unique(pb$data[[3]]$y), 1.05, tolerance = 0.01)
-    testthat::expect_equal(unique(pb$data[[4]]$y), -0.05, tolerance = 0.01)
-    testthat::expect_identical(
-      pb$data[[2]]$label,
-      c("8.46%", "48.38%", "91.54%", "51.62%")
-    )
-    testthat::expect_identical(pb$data[[3]]$label, c("ns", "***"))
-    testthat::expect_identical(pb$data[[4]]$label, c("(n = 711)", "(n = 1490)"))
 
     # checking geoms data
     testthat::expect_equal(
@@ -246,8 +237,8 @@ testthat::test_that(
     p <-
       suppressWarnings(ggstatsplot::ggbarstats(
         data = mtcars,
-        main = vs,
-        condition = "cyl",
+        x = vs,
+        y = "cyl",
         bf.message = TRUE,
         nboot = 10,
         label = "both",
@@ -260,8 +251,8 @@ testthat::test_that(
     p1 <-
       suppressWarnings(ggstatsplot::ggbarstats(
         data = mtcars,
-        main = vs,
-        condition = cyl,
+        x = vs,
+        y = cyl,
         label = "counts",
         bf.message = FALSE,
         nboot = 10,
@@ -288,16 +279,16 @@ testthat::test_that(
     testthat::expect_identical(
       pb$data[[2]]$label,
       c(
-        "n = 10\n(91%)",
-        "n = 4\n(57%)",
-        "n = 1\n(9%)",
-        "n = 3\n(43%)",
-        "n = 14\n(100%)"
+        "10\n(91%)",
+        "4\n(57%)",
+        "1\n(9%)",
+        "3\n(43%)",
+        "14\n(100%)"
       )
     )
     testthat::expect_identical(
       pb1$data[[2]]$label,
-      c("n = 10", "n = 4", "n = 1", "n = 3", "n = 14")
+      c("10", "4", "1", "3", "14")
     )
 
     # checking layered data
@@ -305,6 +296,199 @@ testthat::test_that(
   }
 )
 
+# dropped factor levels --------------------------------------------------
+
+testthat::test_that(
+  desc = "dropped factor levels",
+  code = {
+    testthat::skip_on_cran()
+
+    # dropped level dataset
+    mtcars_small <- dplyr::filter(.data = mtcars, am == "0")
+
+    set.seed(123)
+    p <-
+      ggstatsplot::ggbarstats(
+        data = mtcars_small,
+        main = cyl,
+        condition = am
+      )
+
+    pb <- ggplot2::ggplot_build(p)
+
+    # data
+    testthat::expect_equal(length(pb$data), 3L)
+
+    testthat::expect_equal(
+      pb$data[[1]],
+      structure(
+        list(
+          fill = c("#1B9E77FF", "#D95F02FF", "#7570B3FF"),
+          y = c(1, 0.368421052631579, 0.157894736842105),
+          x = structure(c(
+            1L,
+            1L, 1L
+          ), class = c("mapped_discrete", "numeric")),
+          PANEL = structure(c(
+            1L,
+            1L, 1L
+          ), .Label = "1", class = "factor"),
+          group = 1:3,
+          flipped_aes = c(
+            FALSE,
+            FALSE, FALSE
+          ),
+          ymin = c(
+            0.368421052631579, 0.157894736842105,
+            0
+          ),
+          ymax = c(1, 0.368421052631579, 0.157894736842105),
+          xmin = structure(c(
+            0.55,
+            0.55, 0.55
+          ), class = c("mapped_discrete", "numeric")),
+          xmax = structure(c(
+            1.45,
+            1.45, 1.45
+          ), class = c("mapped_discrete", "numeric")),
+          colour = c(
+            "black",
+            "black", "black"
+          ),
+          size = c(0.5, 0.5, 0.5),
+          linetype = c(
+            1, 1,
+            1
+          ),
+          alpha = c(NA, NA, NA)
+        ),
+        row.names = c(NA, -3L),
+        class = "data.frame"
+      )
+    )
+
+    testthat::expect_equal(
+      pb$data[[2]],
+      structure(
+        list(
+          y = c(0.684210526315789, 0.263157894736842, 0.0789473684210526),
+          x = structure(c(1L, 1L, 1L), class = c(
+            "mapped_discrete",
+            "numeric"
+          )),
+          label = c("63%", "21%", "16%"),
+          group = 1:3,
+          PANEL = structure(c(
+            1L,
+            1L, 1L
+          ), .Label = "1", class = "factor"),
+          ymax = c(
+            1, 0.368421052631579,
+            0.157894736842105
+          ),
+          xmin = structure(c(1L, 1L, 1L), class = c(
+            "mapped_discrete",
+            "numeric"
+          )),
+          xmax = structure(c(1L, 1L, 1L), class = c(
+            "mapped_discrete",
+            "numeric"
+          )),
+          ymin = c(0.368421052631579, 0.157894736842105, 0),
+          colour = c("black", "black", "black"),
+          fill = c(
+            "white", "white",
+            "white"
+          ),
+          size = c(3.88, 3.88, 3.88),
+          angle = c(0, 0, 0),
+          hjust = c(
+            0.5,
+            0.5, 0.5
+          ),
+          vjust = c(0.5, 0.5, 0.5),
+          alpha = c(1, 1, 1),
+          family = c(
+            "",
+            "", ""
+          ),
+          fontface = c(1, 1, 1),
+          lineheight = c(1.2, 1.2, 1.2)
+        ),
+        row.names = c(
+          NA,
+          -3L
+        ),
+        class = "data.frame"
+      )
+    )
+
+    testthat::expect_equal(
+      pb$data[[3]],
+      structure(
+        list(
+          y = -0.05,
+          x = structure(1L, class = c(
+            "mapped_discrete",
+            "numeric"
+          )),
+          label = "(n = 19)",
+          PANEL = structure(1L, .Label = "1", class = "factor"),
+          group = structure(1L, n = 1L),
+          colour = "black",
+          size = 4,
+          angle = 0,
+          hjust = 0.5,
+          vjust = 0.5,
+          alpha = NA,
+          family = "",
+          fontface = 1,
+          lineheight = 1.2
+        ),
+        row.names = c(NA, -1L),
+        class = "data.frame"
+      )
+    )
+
+    testthat::expect_equal(
+      pb$plot$labels,
+      list(
+        x = "am",
+        y = NULL,
+        title = NULL,
+        subtitle = ggplot2::expr(paste(
+          chi["gof"]^2,
+          "(",
+          "2",
+          ") = ",
+          "7.68",
+          ", ",
+          italic("p"),
+          " = ",
+          "0.021",
+          ", ",
+          widehat(italic("V"))["Cramer"],
+          " = ",
+          "0.41",
+          ", CI"["95%"],
+          " [",
+          "0.00",
+          ", ",
+          "0.67",
+          "]",
+          ", ",
+          italic("n")["obs"],
+          " = ",
+          19L
+        )),
+        caption = NULL,
+        fill = "cyl",
+        label = "label",
+        group = "cyl"
+      )
+    )
+  }
+)
 # subtitle output --------------------------------------------------
 
 testthat::test_that(
@@ -317,8 +501,8 @@ testthat::test_that(
     p_sub <-
       ggstatsplot::ggbarstats(
         data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-        main = race,
-        condition = marital,
+        x = race,
+        y = marital,
         output = "subtitle",
         k = 4,
         messages = FALSE
@@ -376,12 +560,13 @@ testthat::test_that(
     )
 
     # should not work
-    testthat::expect_output(
+    testthat::expect_is(
       suppressWarnings(ggstatsplot::ggbarstats(
         data = df,
-        main = x,
-        condition = y
-      ))
+        x = x,
+        y = y
+      )),
+      "ggplot"
     )
   }
 )

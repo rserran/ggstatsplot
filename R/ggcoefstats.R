@@ -15,7 +15,8 @@
 #'   dataframe of results from `broom::tidy`) or `"glance"` (object from
 #'   `broom::glance`) or `"augment"` (object from `broom::augment`).
 #' @param statistic Which statistic is to be displayed (either `"t"` or `"f"`or
-#'   `"z"`) in the label. This is relevant if the `x` argument is a dataframe.
+#'   `"z"` or `"chi"`) in the label. This is relevant if the `x` argument is a
+#'   *dataframe*.
 #' @param bf.message Logical that decides whether results from running a
 #'   Bayesian meta-analysis assuming that the effect size *d* varies across
 #'   studies with standard deviation *t* (i.e., a random-effects analysis)
@@ -29,9 +30,8 @@
 #'   know more about these arguments.
 #' @param conf.int Logical. Decides whether to display confidence intervals as
 #'   error bars (Default: `TRUE`).
-#' @param conf.level Numeric deciding level of confidence intervals (Default:
-#'   `0.95`). For `MCMC` model objects (`Stan`, `JAGS`, etc.), this will be
-#'   probability level for CI.
+#' @param conf.level Numeric deciding level of confidence or credible intervals
+#'   (Default: `0.95`).
 #' @param effsize Character describing the effect size to be displayed: `"eta"`
 #'   (default) or `"omega"`. This argument is relevant only for models objects
 #'   of class `aov`, `anova`, `aovlist`, `"Gam"`, and `"manova"`.
@@ -79,11 +79,11 @@
 #'   regression coefficients are to be displayed in a single plot. Relevant only
 #'   when the `output` is a plot.
 #' @param ... Additional arguments to tidying method. For more, see
-#'   `?parameters::model_parameters` and `broom::tidy`.
+#'   `parameters::model_parameters` and `broom::tidy`.
 #' @inheritParams statsExpressions::bf_meta
 #' @inheritParams parameters::model_parameters
 #' @inheritParams theme_ggstatsplot
-#' @inheritParams statsExpressions::expr_meta_parametric
+#' @inheritParams statsExpressions::expr_meta_random
 #' @inheritParams ggbetweenstats
 #'
 #' @import ggplot2
@@ -93,9 +93,8 @@
 #' @importFrom stats qnorm lm
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom tidyr unite
-#' @importFrom groupedstats lm_effsize_standardizer
-#' @importFrom insight is_model
-#' @importFrom statsExpressions expr_meta_parametric bf_meta
+#' @importFrom insight is_model find_statistic
+#' @importFrom statsExpressions expr_meta_random bf_meta
 #'
 #' @references
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
@@ -201,18 +200,6 @@
 #'   meta.analytic.effect = TRUE,
 #'   k = 3
 #' )
-#'
-#' # -------------- getting model summary ------------------------------
-#'
-#' # model
-#' library(lme4)
-#' lmm1 <- lme4::lmer(
-#'   formula = Reaction ~ Days + (Days | Subject),
-#'   data = sleepstudy
-#' )
-#'
-#' # dataframe with model summary
-#' ggstatsplot::ggcoefstats(x = lmm1, output = "glance")
 #' }
 #' @export
 
@@ -249,7 +236,6 @@ ggcoefstats <- function(x,
                         ggtheme = ggplot2::theme_bw(),
                         ggstatsplot.layer = TRUE,
                         ...) {
-
   # ============================= dataframe ===============================
 
   if (isFALSE(insight::is_model(x))) {
@@ -273,19 +259,18 @@ ggcoefstats <- function(x,
     }
   }
 
-  # =========================== broom.mixed tidiers =======================
+  # =========================== tidy it ====================================
 
   if (isTRUE(insight::is_model(x))) {
     if (class(x)[[1]] %in% c("aov", "aovlist", "anova", "Gam", "manova")) {
       # creating dataframe
       tidy_df <-
-        groupedstats::lm_effsize_standardizer(
+        lm_effsize_standardizer(
           object = x,
           effsize = effsize,
           partial = partial,
           conf.level = conf.level
-        ) %>%
-        dplyr::rename(.data = ., statistic = F.value)
+        )
 
       # prefix for effect size
       if (isTRUE(partial)) {
@@ -296,8 +281,6 @@ ggcoefstats <- function(x,
 
       # renaming the `xlab` according to the estimate chosen
       xlab <- paste(effsize.prefix, " ", effsize, "-squared", sep = "")
-
-      # ==================== tidying everything else ===========================
     } else {
       tidy_df <-
         broomExtra::tidy_parameters(
@@ -307,6 +290,7 @@ ggcoefstats <- function(x,
           ci = conf.level,
           exponentiate = exponentiate,
           effects = "fixed",
+          verbose = FALSE,
           parametric = TRUE, # for `gam` objects
           ...
         )
@@ -352,7 +336,7 @@ ggcoefstats <- function(x,
       tidyr::unite(
         data = .,
         col = "term",
-        dplyr::matches("term|variable|parameter|method|curve|response|component"),
+        dplyr::matches("term|variable|parameter|method|curve|response|component|contrast"),
         remove = TRUE,
         sep = "_"
       )
@@ -418,7 +402,11 @@ ggcoefstats <- function(x,
   # adding a column with labels to be used with `ggrepel`
   if (isTRUE(stats.labels)) {
     # in case a dataframe was entered, `x` and `tidy_df` are going to be same
-    if (isTRUE(insight::is_model(x))) statistic <- extract_statistic(x)
+    if (isTRUE(insight::is_model(x))) {
+      statistic <- substring(tolower(insight::find_statistic(x)), 1, 1)
+    } else {
+      statistic <- substring(tolower(statistic), 1, 1)
+    }
 
     # adding a column with labels using custom function
     tidy_df %<>%
@@ -436,7 +424,7 @@ ggcoefstats <- function(x,
   # for non-dataframe objects
   if (isTRUE(insight::is_model(x))) {
     # creating glance dataframe
-    glance_df <- broomExtra::glance_performance(x)
+    glance_df <- broomExtra::glance_performance(x, verbose = FALSE)
     meta.analytic.effect <- FALSE
 
     # if glance is not available, inform the user
@@ -464,10 +452,9 @@ ggcoefstats <- function(x,
 
     # results from frequentist random-effects meta-analysis
     subtitle <-
-      subtitle_function_switch(
-        test = "meta",
-        type = meta.type,
+      expr_meta_random(
         data = tidy_df,
+        type = meta.type,
         k = k
       )
 
@@ -486,7 +473,7 @@ ggcoefstats <- function(x,
 
       # caption with heterogeneity test results
       caption <-
-        statsExpressions::expr_meta_parametric(
+        statsExpressions::expr_meta_random(
           data = tidy_df,
           k = k,
           caption = caption,

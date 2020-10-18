@@ -137,26 +137,22 @@ testthat::test_that(
         messages = FALSE
       )
 
+    # subtitle
+    set.seed(123)
+    p_cap <-
+      statsExpressions::bf_corr_test(
+        data = ggplot2::msleep,
+        x = "sleep_total",
+        y = bodywt,
+        caption = "ggplot2 dataset",
+        messages = FALSE,
+        output = "caption"
+      )
+
     # checking plot labels
-    testthat::expect_identical(
-      p$plot_env$caption,
-      ggplot2::expr(atop(
-        displaystyle("ggplot2 dataset"),
-        expr = paste(
-          "In favor of null: ",
-          "log"["e"],
-          "(BF"["01"],
-          ") = ",
-          "-2.23",
-          ", ",
-          italic("r")["Cauchy"]^"JZS",
-          " = ",
-          "0.71"
-        )
-      ))
-    )
-    testthat::expect_identical(p$plot_env$title, "Mammalian sleep")
-    testthat::expect_identical(p$plot_env$subtitle, p_subtitle)
+    testthat::expect_identical(pb$plot$labels$caption, p_cap)
+    testthat::expect_identical(pb$plot$labels$title, "Mammalian sleep")
+    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
     testthat::expect_identical(pb$plot$labels$x, "sleep (total)")
     testthat::expect_identical(pb$plot$labels$y, "body weight")
     testthat::expect_identical(
@@ -183,8 +179,7 @@ testthat::test_that(
         centrality.parameter = "none",
         type = "np",
         conf.level = 0.99,
-        marginal = FALSE,
-        messages = FALSE
+        marginal = FALSE
       )
 
     # build the plot
@@ -204,7 +199,7 @@ testthat::test_that(
 
     # testing data and annotations
     testthat::expect_equal(length(pb$data), 2L)
-    testthat::expect_identical(p$plot_env$subtitle, p_subtitle)
+    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
     testthat::expect_null(pb$plot$labels$caption, NULL)
   }
 )
@@ -228,8 +223,6 @@ testthat::test_that(
         centrality.parameter = "mean",
         conf.level = 0.90,
         point.args = list(color = "red", size = 5),
-        point.height.jitter = 0.40,
-        point.width.jitter = 0.20,
         marginal = FALSE,
         messages = FALSE
       )
@@ -249,7 +242,7 @@ testthat::test_that(
     # built plot
     pb <- ggplot2::ggplot_build(p)
 
-    testthat::expect_identical(p$plot_env$subtitle, p_subtitle)
+    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
 
     testthat::expect_equal(pb$data[[3]]$xintercept[[1]],
       mean(ggplot2::msleep$sleep_total, na.rm = TRUE),
@@ -264,9 +257,6 @@ testthat::test_that(
     testthat::expect_equal(unique(pb$data[[1]]$size), 5L)
     testthat::expect_equal(unique(pb$data[[1]]$shape), 19L)
     testthat::expect_identical(unique(pb$data[[1]]$colour), "red")
-
-    testthat::expect_equal(pb$plot$plot_env$pos$height, 0.4, tolerance = 0.01)
-    testthat::expect_equal(pb$plot$plot_env$pos$width, 0.2, tolerance = 0.01)
   }
 )
 
@@ -353,34 +343,34 @@ testthat::test_that(
       )
 
     # subtitle
+    set.seed(123)
     p_subtitle <-
       statsExpressions::expr_corr_test(
         data = ggplot2::msleep,
         x = sleep_total,
         y = bodywt,
-        type = "bf",
-        messages = FALSE
+        type = "bf"
       )
 
     testthat::expect_identical(class(p)[[1]], "ggExtraPlot")
     testthat::expect_identical(
-      tibble::enframe(p$grobs[[23]]$children)$value[[1]][[1]],
+      enframe(p$grobs[[23]]$children)$value[[1]][[1]],
       "mammalian sleep dataset"
     )
     testthat::expect_identical(
-      tibble::enframe(p$grobs[[17]]$children)$value[[1]][[1]],
+      enframe(p$grobs[[17]]$children)$value[[1]][[1]],
       "source: ggplot2 package"
     )
     testthat::expect_identical(
-      tibble::enframe(p$grobs[[12]]$children)$value[[1]][[1]],
+      enframe(p$grobs[[12]]$children)$value[[1]][[1]],
       "total sleep"
     )
     testthat::expect_identical(
-      tibble::enframe(p$grobs[[13]]$children)$value[[1]][[1]],
+      enframe(p$grobs[[13]]$children)$value[[1]][[1]],
       "body weight"
     )
     testthat::expect_identical(
-      tibble::enframe(p$grobs[[22]]$children)$value[[1]][[1]],
+      enframe(p$grobs[[22]]$children)$value[[1]][[1]],
       p_subtitle
     )
   }
@@ -404,8 +394,7 @@ testthat::test_that(
         label.var = "order",
         point.label.args = list(size = 4, color = "blue", alpha = 0.5),
         results.subtitle = FALSE,
-        marginal = FALSE,
-        messages = TRUE
+        marginal = FALSE
       ) +
       ggplot2::coord_cartesian(ylim = c(0, 7000)) +
       ggplot2::scale_y_continuous(breaks = seq(0, 7000, 1000))
@@ -459,8 +448,7 @@ testthat::test_that(
         label.expression = "sleep_total > 17",
         label.var = "order",
         results.subtitle = FALSE,
-        marginal = FALSE,
-        messages = TRUE
+        marginal = FALSE
       ),
       what = "gg"
     ))
@@ -474,8 +462,7 @@ testthat::test_that(
         label.expression = sleep_total > 17,
         label.var = order,
         results.subtitle = FALSE,
-        marginal = FALSE,
-        messages = TRUE
+        marginal = FALSE
       ),
       what = "gg"
     ))
@@ -489,8 +476,7 @@ testthat::test_that(
         label.expression = NULL,
         label.var = order,
         results.subtitle = FALSE,
-        marginal = FALSE,
-        messages = TRUE
+        marginal = FALSE
       ),
       what = "gg"
     ))
@@ -512,8 +498,7 @@ testthat::test_that(
         x = sleep_total,
         y = bodywt,
         margins = "y",
-        results.subtitle = FALSE,
-        messages = TRUE
+        results.subtitle = FALSE
       )
 
     testthat::expect_identical(
@@ -607,8 +592,7 @@ testthat::test_that(
         y = height,
         conf.level = 0.90,
         type = "r",
-        output = "subtitle",
-        messages = FALSE
+        output = "subtitle"
       )
 
     fun_sub <-
@@ -618,8 +602,7 @@ testthat::test_that(
         y = height,
         conf.level = 0.90,
         type = "r",
-        output = "subtitle",
-        messages = FALSE
+        output = "subtitle"
       )
 
     # checking captured messages

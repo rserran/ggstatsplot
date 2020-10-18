@@ -6,8 +6,8 @@
 \usage{
 ggpiestats(
   data,
-  main,
-  condition = NULL,
+  x = NULL,
+  y = NULL,
   counts = NULL,
   ratio = NULL,
   paired = FALSE,
@@ -15,6 +15,9 @@ ggpiestats(
   label = "percentage",
   label.args = list(direction = "both"),
   label.repel = FALSE,
+  conf.level = 0.95,
+  k = 2L,
+  proportion.test = TRUE,
   perc.k = 0,
   bf.message = TRUE,
   sampling.plan = "indepMulti",
@@ -23,25 +26,29 @@ ggpiestats(
   title = NULL,
   subtitle = NULL,
   caption = NULL,
-  conf.level = 0.95,
-  nboot = 100L,
   legend.title = NULL,
-  k = 2L,
-  proportion.test = TRUE,
   ggtheme = ggplot2::theme_bw(),
   ggstatsplot.layer = TRUE,
   package = "RColorBrewer",
   palette = "Dark2",
   ggplot.component = NULL,
   output = "plot",
-  x = NULL,
-  y = NULL,
+  main,
+  condition = NULL,
   ...
 )
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
 be taken. A matrix or tables will \strong{not} be accepted.}
+
+\item{x, main}{The variable to use as the \strong{rows} in the contingency table.}
+
+\item{y, condition}{The variable to use as the \strong{columns} in the contingency
+table. Default is \code{NULL}. If \code{NULL}, one-sample proportion test (a goodness
+of fit test) will be run for the \code{x} variable. Otherwise an appropriate
+association test will be run. This argument can not be \code{NULL} for
+\code{ggbarstats} function.}
 
 \item{counts}{A string naming a variable in data containing counts, or \code{NULL}
 if each row represents a single observation (Default).}
@@ -71,6 +78,15 @@ on the label in each pie slice. Possible options are \code{"percentage"}
 \item{label.repel}{Whether labels should be repelled using \code{ggrepel} package.
 This can be helpful in case the labels are overlapping.}
 
+\item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
+\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
+
+\item{k}{Number of digits after decimal point (should be an integer)
+(Default: \code{k = 2}).}
+
+\item{proportion.test}{Decides whether proportion test for \code{main} variable is
+to be carried out for each level of \code{condition} (Default: \code{TRUE}).}
+
 \item{perc.k}{Numeric that decides number of decimal places for percentage
 labels (Default: \code{0}).}
 
@@ -98,19 +114,7 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
 
 \item{caption}{The text for the plot caption.}
 
-\item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
-\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
-
-\item{nboot}{Number of bootstrap samples for computing confidence interval
-for the effect size (Default: \code{100}).}
-
 \item{legend.title}{Title text for the legend.}
-
-\item{k}{Number of digits after decimal point (should be an integer)
-(Default: \code{k = 2}).}
-
-\item{proportion.test}{Decides whether proportion test for \code{main} variable is
-to be carried out for each level of \code{condition} (Default: \code{TRUE}).}
 
 \item{ggtheme}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
@@ -122,10 +126,13 @@ theme elements are to be displayed along with the selected \code{ggtheme}
 (Default: \code{TRUE}). \code{theme_ggstatsplot} is an opinionated theme layer that
 override some aspects of the selected \code{ggtheme}.}
 
-\item{package}{Name of package from which the palette is desired as string
-or symbol.}
+\item{package}{Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+\code{View(paletteer::palettes_d_names)}.}
 
-\item{palette}{Name of palette as string or symbol.}
+\item{palette}{Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+\code{View(paletteer::palettes_d_names)}.}
 
 \item{ggplot.component}{A \code{ggplot} component to be added to the plot prepared
 by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
@@ -141,14 +148,6 @@ about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 \code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
 \code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
 dataframe containing results from proportion tests.}
-
-\item{x, main}{The variable to use as the \strong{rows} in the contingency table.}
-
-\item{y, condition}{The variable to use as the \strong{columns} in the contingency
-table. Default is \code{NULL}. If \code{NULL}, one-sample proportion test (a goodness
-of fit test) will be run for the \code{x} variable. Otherwise an appropriate
-association test will be run. This argument can not be \code{NULL} for
-\code{ggbarstats} function.}
 
 \item{...}{Currently ignored.}
 }

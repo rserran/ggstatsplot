@@ -90,7 +90,7 @@ resulting plots using ggstatsplot::combine_plots." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.5.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1.9000</span>
       </span>
     </div>
 
@@ -206,25 +206,25 @@ function across multiple levels of a given factor and combining the
 resulting plots using <code><a href='combine_plots.html'>ggstatsplot::combine_plots</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>grouped_ggbarstats</span>(
-  <span class='no'>data</span>,
-  <span class='no'>main</span>,
-  <span class='no'>condition</span>,
-  <span class='kw'>counts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>grouping.var</span>,
-  <span class='kw'>title.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"plot"</span>,
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>plotgrid.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>title.text</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>fontface</span> <span class='kw'>=</span> <span class='st'>"bold"</span>),
-  <span class='kw'>caption.text</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>caption.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>10</span>),
-  <span class='kw'>sub.text</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sub.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>12</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>grouped_ggbarstats</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  counts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>grouping.var</span>,
+  title.prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output <span class='op'>=</span> <span class='st'>"plot"</span>,
+  <span class='va'>main</span>,
+  <span class='va'>condition</span>,
+  <span class='va'>...</span>,
+  plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  title.text <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>16</span>, fontface <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
+  caption.text <span class='op'>=</span> <span class='cn'>NULL</span>,
+  caption.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>,
+  sub.text <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sub.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -235,11 +235,11 @@ resulting plots using <code><a href='combine_plots.html'>ggstatsplot::combine_pl
 be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
     </tr>
     <tr>
-      <th>main</th>
+      <th>x</th>
       <td><p>The variable to use as the <strong>rows</strong> in the contingency table.</p></td>
     </tr>
     <tr>
-      <th>condition</th>
+      <th>y</th>
       <td><p>The variable to use as the <strong>columns</strong> in the contingency
 table. Default is <code>NULL</code>. If <code>NULL</code>, one-sample proportion test (a goodness
 of fit test) will be run for the <code>x</code> variable. Otherwise an appropriate
@@ -275,11 +275,11 @@ about Bayes Factor analysis, but valid only when <code>type = "parametric"</code
 dataframe containing results from proportion tests.</p></td>
     </tr>
     <tr>
-      <th>x</th>
+      <th>main</th>
       <td><p>The variable to use as the <strong>rows</strong> in the contingency table.</p></td>
     </tr>
     <tr>
-      <th>y</th>
+      <th>condition</th>
       <td><p>The variable to use as the <strong>columns</strong> in the contingency
 table. Default is <code>NULL</code>. If <code>NULL</code>, one-sample proportion test (a goodness
 of fit test) will be run for the <code>x</code> variable. Otherwise an appropriate
@@ -288,7 +288,7 @@ association test will be run. This argument can not be <code>NULL</code> for
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments passed on to <code><a href='ggbarstats.html'>ggbarstats</a></code></p><dl'>
+      <td><p>Arguments passed on to <code><a href='ggbarstats.html'>ggbarstats</a></code></p><dl>
     <dt><code>xlab</code></dt><dd><p>Custom text for the <code>x</code> axis label (Default: <code>NULL</code>, which
 will cause the <code>x</code> axis label to be the <code>x</code> variable).</p></dd>
     <dt><code>ylab</code></dt><dd><p>Custom text for the <code>y</code> axis label (Default: <code>NULL</code>).</p></dd>
@@ -312,10 +312,14 @@ be returned.</p></dd>
     <dt><code>results.subtitle</code></dt><dd><p>Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: <code>TRUE</code>). If set to <code>FALSE</code>, only
 the plot will be returned.</p></dd>
-    <dt><code>perc.k</code></dt><dd><p>Numeric that decides number of decimal places for percentage
-labels (Default: <code>0</code>).</p></dd>
     <dt><code>label.args</code></dt><dd><p>Additional aesthetic arguments that will be passed to
 <code>geom_label</code>.</p></dd>
+    <dt><code>conf.level</code></dt><dd><p>Scalar between 0 and 1. If unspecified, the defaults return
+<code>95%</code> lower and upper confidence intervals (<code>0.95</code>).</p></dd>
+    <dt><code>k</code></dt><dd><p>Number of digits after decimal point (should be an integer)
+(Default: <code>k = 2</code>).</p></dd>
+    <dt><code>perc.k</code></dt><dd><p>Numeric that decides number of decimal places for percentage
+labels (Default: <code>0</code>).</p></dd>
     <dt><code>bf.message</code></dt><dd><p>Logical that decides whether to display Bayes Factor in
 favor of the <em>null</em> hypothesis. This argument is relevant only <strong>for
 parametric test</strong> (Default: <code>TRUE</code>).</p></dd>
@@ -332,13 +336,7 @@ hypothesis under the alternative, and corresponds to Gunel and Dickey's
     <dt><code>subtitle</code></dt><dd><p>The text for the plot subtitle. Will work only if
 <code>results.subtitle = FALSE</code>.</p></dd>
     <dt><code>caption</code></dt><dd><p>The text for the plot caption.</p></dd>
-    <dt><code>conf.level</code></dt><dd><p>Scalar between 0 and 1. If unspecified, the defaults return
-<code>95%</code> lower and upper confidence intervals (<code>0.95</code>).</p></dd>
-    <dt><code>nboot</code></dt><dd><p>Number of bootstrap samples for computing confidence interval
-for the effect size (Default: <code>100</code>).</p></dd>
     <dt><code>legend.title</code></dt><dd><p>Title text for the legend.</p></dd>
-    <dt><code>k</code></dt><dd><p>Number of digits after decimal point (should be an integer)
-(Default: <code>k = 2</code>).</p></dd>
     <dt><code>ggtheme</code></dt><dd><p>A function, <code>ggplot2</code> theme name. Default value is
 <code><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>ggplot2::theme_bw()</a></code>. Any of the <code>ggplot2</code> themes, or themes from
 extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggthemes/man/theme_fivethirtyeight.html'>ggthemes::theme_fivethirtyeight()</a></code>,
@@ -347,9 +345,12 @@ extension packages are allowed (e.g., <code><a href='https://rdrr.io/pkg/ggtheme
 theme elements are to be displayed along with the selected <code>ggtheme</code>
 (Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
 override some aspects of the selected <code>ggtheme</code>.</p></dd>
-    <dt><code>package</code></dt><dd><p>Name of package from which the palette is desired as string
-or symbol.</p></dd>
-    <dt><code>palette</code></dt><dd><p>Name of palette as string or symbol.</p></dd>
+    <dt><code>package</code></dt><dd><p>Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+<code><a href='https://rdrr.io/r/utils/View.html'>View(paletteer::palettes_d_names)</a></code>.</p></dd>
+    <dt><code>palette</code></dt><dd><p>Name of the package from which the given palette is to
+be extracted. The available palettes and packages can be checked by running
+<code><a href='https://rdrr.io/r/utils/View.html'>View(paletteer::palettes_d_names)</a></code>.</p></dd>
     <dt><code>ggplot.component</code></dt><dd><p>A <code>ggplot</code> component to be added to the plot prepared
 by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
 of the current function. Default is <code>NULL</code>. The argument should be entered
@@ -359,7 +360,7 @@ as a function.</p></dd>
     </tr>
     <tr>
       <th>plotgrid.args</th>
-      <td><p>A list of additional arguments to <code><a href='https://rdrr.io/pkg/cowplot/man/plot_grid.html'>cowplot::plot_grid</a></code>.</p></td>
+      <td><p>A list of additional arguments to <code><a href='https://wilkelab.org/cowplot/reference/plot_grid.html'>cowplot::plot_grid</a></code>.</p></td>
     </tr>
     <tr>
       <th>title.text</th>
@@ -413,24 +414,25 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># for reproducibility</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
 
 <span class='co'># let's create a smaller dataframe</span>
-<span class='no'>diamonds_short</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='no'><a href='https://ggplot2.tidyverse.org/reference/diamonds.html'>diamonds</a></span> <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='no'>cut</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Very Good"</span>, <span class='st'>"Ideal"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>.data</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='no'>clarity</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SI1"</span>, <span class='st'>"SI2"</span>, <span class='st'>"VS1"</span>, <span class='st'>"VS2"</span>)) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac</a></span>(<span class='kw'>tbl</span> <span class='kw'>=</span> <span class='no'>.</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)
+<span class='va'>diamonds_short</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='va'><a href='https://ggplot2.tidyverse.org/reference/diamonds.html'>diamonds</a></span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>.</span>, <span class='va'>cut</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Very Good"</span>, <span class='st'>"Ideal"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>.</span>, <span class='va'>clarity</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SI1"</span>, <span class='st'>"SI2"</span>, <span class='st'>"VS1"</span>, <span class='st'>"VS2"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_frac</a></span><span class='op'>(</span>tbl <span class='op'>=</span> <span class='va'>.</span>, size <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span>
 
 <span class='co'># plot</span>
-<span class='kw pkg'>ggstatsplot</span><span class='kw ns'>::</span><span class='fu'>grouped_ggbarstats</span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>diamonds_short</span>,
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>color</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>clarity</span>,
-  <span class='kw'>grouping.var</span> <span class='kw'>=</span> <span class='no'>cut</span>,
-  <span class='kw'>title.prefix</span> <span class='kw'>=</span> <span class='st'>"Quality"</span>,
-  <span class='kw'>bar.label</span> <span class='kw'>=</span> <span class='st'>"both"</span>,
-  <span class='kw'>plotgrid.args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='grouped_ggbarstats-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+<span class='fu'>ggstatsplot</span><span class='fu'>::</span><span class='fu'>grouped_ggbarstats</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>diamonds_short</span>,
+  x <span class='op'>=</span> <span class='va'>color</span>,
+  y <span class='op'>=</span> <span class='va'>clarity</span>,
+  grouping.var <span class='op'>=</span> <span class='va'>cut</span>,
+  title.prefix <span class='op'>=</span> <span class='st'>"Quality"</span>,
+  bar.label <span class='op'>=</span> <span class='st'>"both"</span>,
+  plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='grouped_ggbarstats-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -447,7 +449,7 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

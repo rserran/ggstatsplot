@@ -1,7 +1,7 @@
 Type: Package
 Package: ggstatsplot
 Title: 'ggplot2' Based Plots with Statistical Details
-Version: 0.5.0.9000
+Version: 0.6.1.9000
 Authors@R: 
     person(given = "Indrajeet",
            family = "Patil",
@@ -11,7 +11,7 @@ Authors@R:
 Maintainer: Indrajeet Patil <patilindrajeet.science@gmail.com>
 Description: Extension of 'ggplot2', 'ggstatsplot' creates
     graphics with details from statistical tests included in the plots
-    themselves. It provides easier API to generate information-rich plots
+    themselves. It provides an easier API to generate information-rich plots
     for statistical analysis of continuous (violin plots, scatterplots,
     histograms, dot plots, dot-and-whisker plots) or categorical (pie and
     bar charts) data. Currently, it supports only the most common types of
@@ -26,29 +26,28 @@ Depends:
     R (>= 3.6.0)
 Imports:
     broomExtra,
-    correlation,
     cowplot,
     dplyr,
+    effectsize (>= 0.3.9.001),
     ggcorrplot,
     ggExtra,
-    ggplot2 (>= 3.3.2),
+    ggplot2,
     ggrepel,
     ggsignif,
-    groupedstats,
-    insight,
-    ipmisc (>= 3.0.1),
-    pairwiseComparisons (>= 1.1.2),
+    insight (>= 0.9.6.1),
+    ipmisc (>= 4.0.0),
+    pairwiseComparisons (>= 3.0.0),
     paletteer,
     parameters,
     purrr,
     rlang,
     stats,
-    statsExpressions (>= 0.4.2),
+    statsExpressions (>= 0.6.0.9000),
+    tidyBF (>= 0.3.0.9000),
     tidyr
 Suggests:
     forcats,
     knitr,
-    lme4,
     MASS,
     rmarkdown,
     spelling,
@@ -57,6 +56,11 @@ Suggests:
     WRS2
 VignetteBuilder: 
     knitr
+Remotes:
+    easystats/effectsize,
+    easystats/insight,
+    IndrajeetPatil/statsExpressions,
+    IndrajeetPatil/tidyBF
 Encoding: UTF-8
 Language: en-US
 LazyData: true
