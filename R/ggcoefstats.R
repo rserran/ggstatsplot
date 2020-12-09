@@ -6,14 +6,14 @@
 #'
 #' @param x A model object to be tidied, or a tidy data frame containing results
 #'   from a regression model. Function internally uses
-#'   `parameters::model_parameters` or `broom::tidy` to get a tidy dataframe. If
+#'   `parameters::model_parameters` to get a tidy dataframe. If
 #'   a data frame is used, it *must* contain columns named `term` (names of
 #'   predictors) and `estimate` (corresponding estimates of coefficients or
 #'   other quantities of interest).
 #' @param output Character describing the expected output from this function:
 #'   `"plot"` (visualization of regression coefficients) or `"tidy"` (tidy
-#'   dataframe of results from `broom::tidy`) or `"glance"` (object from
-#'   `broom::glance`) or `"augment"` (object from `broom::augment`).
+#'   dataframe of results `parameters::model_parameters`) or `"glance"` (object
+#'   from `performance::model_performance`).
 #' @param statistic Which statistic is to be displayed (either `"t"` or `"f"`or
 #'   `"z"` or `"chi"`) in the label. This is relevant if the `x` argument is a
 #'   *dataframe*.
@@ -35,9 +35,6 @@
 #' @param effsize Character describing the effect size to be displayed: `"eta"`
 #'   (default) or `"omega"`. This argument is relevant only for models objects
 #'   of class `aov`, `anova`, `aovlist`, `"Gam"`, and `"manova"`.
-#' @param partial Logical that decides if partial eta-squared or partial
-#'   omega-squared are returned (Default: `TRUE`). If `FALSE`, eta-squared or
-#'   omega-squared will be returned.
 #' @param meta.analytic.effect Logical that decides whether subtitle for
 #'   meta-analysis via linear (mixed-effects) models (default: `FALSE`). If
 #'   `TRUE`, input to argument `subtitle` will be ignored. This will be mostly
@@ -48,13 +45,7 @@
 #'   used. If `"robust"`, `metaplus::metaplus` function will be used. If
 #'   `"bayes"`, `metaBMA::meta_random` function will be used.
 #' @param exclude.intercept Logical that decides whether the intercept should be
-#'   excluded from the plot (Default: `TRUE`).
-#' @param exponentiate If `TRUE`, the `x`-axis will be logarithmic (Default:
-#'   `FALSE`). Note that exponents for the coefficient estimates and associated
-#'   standard errors plus confidence intervals are computed by the underlying
-#'   tidying packages (`broom`/`parameters`) and not done by `ggcoefstats`. So
-#'   this might not work if the underlying packages don't support
-#'   exponentiation.
+#'   excluded from the plot (Default: `FALSE`).
 #' @param errorbar.args Additional arguments that will be passed to
 #'   `ggplot2::geom_errorbarh` geom. Please see documentation for that function
 #'   to know more about these arguments.
@@ -79,8 +70,8 @@
 #'   regression coefficients are to be displayed in a single plot. Relevant only
 #'   when the `output` is a plot.
 #' @param ... Additional arguments to tidying method. For more, see
-#'   `parameters::model_parameters` and `broom::tidy`.
-#' @inheritParams statsExpressions::bf_meta
+#'   `parameters::model_parameters`.
+#' @inheritParams statsExpressions::bf_meta_random
 #' @inheritParams parameters::model_parameters
 #' @inheritParams theme_ggstatsplot
 #' @inheritParams statsExpressions::expr_meta_random
@@ -88,20 +79,25 @@
 #'
 #' @import ggplot2
 #' @importFrom rlang exec !!!
-#' @importFrom broomExtra tidy glance augment
 #' @importFrom dplyr select mutate matches vars all_vars filter_at row_number
-#' @importFrom stats qnorm lm
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom tidyr unite
-#' @importFrom insight is_model find_statistic
-#' @importFrom statsExpressions expr_meta_random bf_meta
+#' @importFrom insight is_model find_statistic standardize_names
+#' @importFrom statsExpressions expr_meta_random bf_meta_random
+#' @importFrom parameters model_parameters
+#' @importFrom performance model_performance
 #'
 #' @references
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
 #'
-#' @note All rows of regression estimates where either of the following
+#' @note
+#' 1. All rows of regression estimates where either of the following
 #'   quantities is `NA` will be removed if labels are requested: `estimate`,
 #'   `statistic`, `p.value`.
+#'
+#' 2. Given the rapid pace at which new methods are added to these packages, it
+#'   is recommended that you install the GitHub versions of `parameters` and
+#'   `performance` in order to make most of this function.
 #'
 #' @examples
 #' \donttest{
@@ -121,9 +117,6 @@
 #'
 #' # to get a glance summary
 #' ggstatsplot::ggcoefstats(x = mod, output = "glance")
-#'
-#' # to get augmented dataframe
-#' ggstatsplot::ggcoefstats(x = mod, output = "augment")
 #'
 #' # -------------- with custom dataframe -----------------------------------
 #'
@@ -210,10 +203,8 @@ ggcoefstats <- function(x,
                         conf.int = TRUE,
                         conf.level = 0.95,
                         k = 2L,
-                        exclude.intercept = TRUE,
-                        exponentiate = FALSE,
+                        exclude.intercept = FALSE,
                         effsize = "eta",
-                        partial = TRUE,
                         meta.analytic.effect = FALSE,
                         meta.type = "parametric",
                         bf.message = TRUE,
@@ -244,56 +235,53 @@ ggcoefstats <- function(x,
 
     # check that `statistic` is specified
     if (rlang::is_null(statistic)) {
-      # skip labels
-      stats.labels <- FALSE
-
       # inform the user
-      if (output == "plot") {
+      if (output == "plot" && isTRUE(stats.labels)) {
         message(cat(
-          ipmisc::red("Note: "),
-          ipmisc::blue("The argument `statistic` must be specified.\n"),
-          ipmisc::blue("Skipping labels with statistical details.\n"),
-          sep = ""
+          "Note: The argument `statistic` must be specified.\n",
+          "Skipping labels with statistical details.\n"
         ))
       }
+
+      # skip labels
+      stats.labels <- FALSE
     }
   }
 
   # =========================== tidy it ====================================
 
   if (isTRUE(insight::is_model(x))) {
-    if (class(x)[[1]] %in% c("aov", "aovlist", "anova", "Gam", "manova")) {
-      # creating dataframe
-      tidy_df <-
-        lm_effsize_standardizer(
-          object = x,
-          effsize = effsize,
-          partial = partial,
-          conf.level = conf.level
-        )
+    # which effect size?
+    eta_squared <- omega_squared <- NULL
+    if (effsize == "eta") eta_squared <- "partial"
+    if (effsize == "omega") omega_squared <- "partial"
 
-      # prefix for effect size
-      if (isTRUE(partial)) {
-        effsize.prefix <- "partial"
-      } else {
-        effsize.prefix <- NULL
+    # converting model object to a tidy dataframe
+    tidy_df <-
+      parameters::model_parameters(
+        model = x,
+        eta_squared = eta_squared,
+        omega_squared = omega_squared,
+        ci = conf.level,
+        verbose = FALSE,
+        ...
+      ) %>%
+      insight::standardize_names(data = ., style = "broom") %>%
+      dplyr::rename_all(., ~ gsub("omega2.|eta2.", "", .x))
+
+    if (class(x)[[1]] %in% c("aov", "aovlist", "anova", "Gam", "manova", "maov")) {
+      # creating numerator and denominator degrees of freedom
+      if (dim(dplyr::filter(tidy_df, term == "Residuals"))[[1]] > 0L) {
+        tidy_df$df2 <- tidy_df$df[nrow(tidy_df)]
       }
 
+      # final cleanup
+      tidy_df %<>%
+        dplyr::filter(!is.na(statistic)) %>% # for `aovlist` objects
+        dplyr::rename("df1" = "df")
+
       # renaming the `xlab` according to the estimate chosen
-      xlab <- paste(effsize.prefix, " ", effsize, "-squared", sep = "")
-    } else {
-      tidy_df <-
-        broomExtra::tidy_parameters(
-          x = x,
-          conf.int = conf.int,
-          conf.level = conf.level,
-          ci = conf.level,
-          exponentiate = exponentiate,
-          effects = "fixed",
-          verbose = FALSE,
-          parametric = TRUE, # for `gam` objects
-          ...
-        )
+      xlab <- paste("partial", " ", effsize, "-squared", sep = "")
     }
   }
 
@@ -302,10 +290,8 @@ ggcoefstats <- function(x,
   # check for the one necessary column
   if (rlang::is_null(tidy_df) || !"estimate" %in% names(tidy_df)) {
     stop(message(cat(
-      ipmisc::red("Error: "),
-      ipmisc::blue("The tidy dataframe *must* contain column called 'estimate'.\n"),
-      ipmisc::blue("Check the tidy output using argument `output = 'tidy'`."),
-      sep = ""
+      "Error: The tidy dataframe *must* contain column called 'estimate'.\n",
+      "Check the tidy output using argument `output = 'tidy'`."
     )),
     call. = FALSE
     )
@@ -324,8 +310,8 @@ ggcoefstats <- function(x,
   # create a new term column if it's not present
   if (!"term" %in% names(tidy_df)) {
     tidy_df %<>%
-      dplyr::mutate(.data = ., term = dplyr::row_number()) %>%
-      dplyr::mutate(.data = ., term = paste("term", term, sep = "_"))
+      dplyr::mutate(term = dplyr::row_number()) %>%
+      dplyr::mutate(term = paste("term", term, sep = "_"))
   }
 
   # ================ check for duplicate terms and columns ===================
@@ -344,52 +330,25 @@ ggcoefstats <- function(x,
 
   # halt if there are still repeated terms
   if (any(duplicated(dplyr::select(tidy_df, term)))) {
-    message(cat(
-      ipmisc::red("Error: "),
-      ipmisc::blue("All elements in the column `term` should be unique."),
-      sep = ""
-    ))
+    message("Error: All elements in the column `term` should be unique.")
     return(invisible(tidy_df))
   }
 
-  # if broom output doesn't contain p-value or statistic column
+  # if `parameters` output doesn't contain p-value or statistic column
   if (sum(c("p.value", "statistic") %in% names(tidy_df)) != 2L) stats.labels <- FALSE
 
   # ==================== confidence intervals check ===========================
 
-  # if broom output doesn't contain CI
+  # if `parameters` output doesn't contain CI
   if (!"conf.low" %in% names(tidy_df)) {
+    # add NAs so that only dots will be shown
+    tidy_df %<>% dplyr::mutate(conf.low = NA_character_, conf.high = NA_character_)
 
-    # if standard error is present, create confidence intervals
-    if ("std.error" %in% names(tidy_df)) {
-      # probability for computing confidence intervals
-      prob <- 1 - ((1 - conf.level) / 2)
-
-      # computing confidence intervals
-      tidy_df %<>%
-        dplyr::mutate(
-          .data = .,
-          conf.low = estimate - stats::qnorm(prob) * std.error,
-          conf.high = estimate + stats::qnorm(prob) * std.error
-        )
-    } else {
-      # add NAs so that only dots will be shown
-      tidy_df %<>% dplyr::mutate(conf.low = NA_character_, conf.high = NA_character_)
-
-      # stop displaying whiskers
-      conf.int <- FALSE
-
-      # inform the user that skipping labels for the same reason
-      message(cat(
-        ipmisc::green("Note: "),
-        ipmisc::blue("No confidence intervals available for regression coefficients,"),
-        ipmisc::blue("so whiskers in the plot will be skipped.\n"),
-        sep = ""
-      ))
-    }
+    # stop displaying whiskers
+    conf.int <- FALSE
   }
 
-  # ============= intercept, exponentiation, and final tidy dataframe =========
+  # ================================ intercept ================================
 
   # whether to show model intercept
   # if not, remove the corresponding terms from the dataframe
@@ -414,8 +373,7 @@ ggcoefstats <- function(x,
         tidy_df = .,
         statistic = statistic,
         k = k,
-        effsize = effsize,
-        partial = partial
+        effsize = effsize
       )
   }
 
@@ -424,7 +382,12 @@ ggcoefstats <- function(x,
   # for non-dataframe objects
   if (isTRUE(insight::is_model(x))) {
     # creating glance dataframe
-    glance_df <- broomExtra::glance_performance(x, verbose = FALSE)
+    glance_df <-
+      suppressWarnings(performance::model_performance(x, verbose = FALSE)) %>%
+      parameters::standardize_names(data = ., style = "broom") %>%
+      as_tibble(.)
+
+    # no meta-analysis in this context
     meta.analytic.effect <- FALSE
 
     # if glance is not available, inform the user
@@ -432,7 +395,7 @@ ggcoefstats <- function(x,
       # preparing caption with model diagnostics
       caption <-
         substitute(
-          atop(
+          expr = atop(
             displaystyle(top.text),
             expr = paste("AIC = ", AIC, ", BIC = ", BIC)
           ),
@@ -451,21 +414,16 @@ ggcoefstats <- function(x,
     meta.type <- ipmisc::stats_type_switch(meta.type)
 
     # results from frequentist random-effects meta-analysis
-    subtitle <-
-      expr_meta_random(
-        data = tidy_df,
-        type = meta.type,
-        k = k
-      )
+    subtitle <- expr_meta_random(tidy_df, type = meta.type, k = k)
 
     # model summary (detailed only for parametric statistics)
     if (meta.type == "parametric") {
       # results from Bayesian random-effects meta-analysis
       if (isTRUE(bf.message)) {
         caption <-
-          statsExpressions::bf_meta(
-            caption = caption,
-            output = "caption",
+          statsExpressions::bf_meta_random(
+            top.text = caption,
+            output = "caption", # don't change to "expression"
             data = tidy_df,
             k = k
           )
@@ -477,7 +435,7 @@ ggcoefstats <- function(x,
           data = tidy_df,
           k = k,
           caption = caption,
-          output = "caption"
+          output = "caption" # don't change to "expression"
         )
     }
   }
@@ -486,8 +444,8 @@ ggcoefstats <- function(x,
 
   # whether the term need to be arranged in any specified order
   tidy_df %<>%
-    dplyr::mutate(.data = ., term = as.factor(term)) %>%
-    dplyr::mutate(.data = ., rowid = dplyr::row_number())
+    dplyr::mutate(term = as.factor(term)) %>%
+    dplyr::mutate(rowid = dplyr::row_number())
 
   # sorting factor levels
   new_order <-
@@ -501,9 +459,9 @@ ggcoefstats <- function(x,
 
   # sorting `term` factor levels according to new sorting order
   tidy_df %<>%
-    dplyr::mutate(.data = ., term = as.character(term)) %>%
-    dplyr::mutate(.data = ., term = factor(x = term, levels = term[new_order])) %>%
-    dplyr::select(.data = ., -rowid)
+    dplyr::mutate(term = as.character(term)) %>%
+    dplyr::mutate(term = factor(x = term, levels = term[new_order])) %>%
+    dplyr::select(-rowid)
 
   # ========================== basic plot ===================================
 
@@ -518,13 +476,10 @@ ggcoefstats <- function(x,
       plot <- plot +
         rlang::exec(
           .fn = ggplot2::geom_vline,
-          xintercept = ifelse(exponentiate, 1, 0),
+          xintercept = 0,
           na.rm = TRUE,
           !!!vline.args
         )
-
-      # logarithmic scale for exponent of coefficients
-      if (isTRUE(exponentiate)) plot <- plot + ggplot2::scale_x_log10()
     }
 
     # if the confidence intervals are to be displayed on the plot
@@ -552,12 +507,11 @@ ggcoefstats <- function(x,
     # adding the labels
     if (isTRUE(stats.labels)) {
       # only significant p-value labels are shown
-      if (isTRUE(only.significant) && "significance" %in% names(tidy_df)) {
+      if (isTRUE(only.significant) && "p.value" %in% names(tidy_df)) {
         tidy_df %<>%
           dplyr::mutate(
-            .data = .,
             label = dplyr::case_when(
-              significance == "ns" ~ NA_character_,
+              p.value >= 0.05 ~ NA_character_,
               TRUE ~ label
             )
           )
@@ -571,8 +525,8 @@ ggcoefstats <- function(x,
       # computing the number of colors in a given palette
       palette_df <-
         as_tibble(paletteer::palettes_d_names) %>%
-        dplyr::filter(.data = ., package == !!package, palette == !!palette) %>%
-        dplyr::select(.data = ., length)
+        dplyr::filter(package == !!package, palette == !!palette) %>%
+        dplyr::select(length)
 
       # if insufficient number of colors are available in a given palette
       if (palette_df$length[[1]] < length(tidy_df$term)) stats.label.color <- "black"
@@ -630,7 +584,6 @@ ggcoefstats <- function(x,
     "caption" = caption,
     "tidy" = tidy_df,
     "glance" = glance_df,
-    "augment" = as_tibble(broomExtra::augment(x, ...)),
     "plot"
   ))
 }

@@ -15,6 +15,7 @@ testthat::test_that(
         cor.vars = "sleep_total":"awake",
         cor.vars.names = c("1", "2", "3", "4"),
         p.adjust.method = "BH",
+        matrix.type = "full",
         output = "aaa"
       )
 
@@ -26,6 +27,7 @@ testthat::test_that(
         type = "np",
         cor.vars = c("sleep_total":"awake"),
         p.adjust.method = "none",
+        matrix.type = "full",
         output = "bbbb"
       ))
 
@@ -37,6 +39,7 @@ testthat::test_that(
         type = "r",
         cor.vars = sleep_total:awake,
         p.adjust.method = "holm",
+        matrix.type = "full",
         output = "ci"
       )
 
@@ -48,6 +51,7 @@ testthat::test_that(
         type = "bf",
         cor.vars = c(sleep_total:awake),
         p.adjust.method = "fdr",
+        matrix.type = "full",
         output = "hdhfhfh"
       ))
 
@@ -76,6 +80,7 @@ testthat::test_that(
         subtitle = "By Edgar Anderson",
         ggstatsplot.layer = FALSE,
         sig.level = 0.001,
+        matrix.type = "full",
         p.adjust.method = "fdr",
         colors = NULL,
         k = 4,
@@ -83,8 +88,7 @@ testthat::test_that(
           lab_col = "white",
           pch.col = "white",
           pch.cex = 14
-        ),
-        messages = TRUE
+        )
       )
 
     # checking legend title
@@ -151,7 +155,7 @@ testthat::test_that(
       p_legend_title,
       ggplot2::expr(atop(
         atop(scriptstyle(bold("sample size:")), italic(n) ~
-        "=" ~ 150L),
+        "=" ~ "150"),
         atop(
           scriptstyle(bold("correlation:")),
           "Pearson"
@@ -214,8 +218,7 @@ testthat::test_that(
         type = "r",
         sig.level = 0.01,
         p.adjust.method = "hommel",
-        matrix.type = "upper",
-        messages = FALSE
+        matrix.type = "upper"
       ) +
       labs(caption = NULL)
 
@@ -276,10 +279,10 @@ testthat::test_that(
       p_legend_title,
       ggplot2::expr(atop(atop(
         atop(scriptstyle(bold("sample size:")), italic(n)[min] ~
-        "=" ~ 30L),
+        "=" ~ "30"),
         atop(
-          italic(n)[mode] ~ "=" ~ 32L,
-          italic(n)[max] ~ "=" ~ 83L
+          italic(n)[mode] ~ "=" ~ "32",
+          italic(n)[max] ~ "=" ~ "83"
         )
       ), atop(
         scriptstyle(
@@ -312,9 +315,9 @@ testthat::test_that(
         cor.vars.names = "sleep_total",
         type = "np",
         sig.level = 0.01,
+        matrix.type = "full",
         p.adjust.method = "hommel",
         caption.default = FALSE,
-        messages = FALSE,
         colors = NULL,
         package = "wesanderson",
         palette = "Rushmore1"
@@ -358,10 +361,10 @@ testthat::test_that(
       p_legend_title,
       ggplot2::expr(atop(atop(
         atop(scriptstyle(bold("sample size:")), italic(n)[min] ~
-        "=" ~ 32L),
+        "=" ~ "32"),
         atop(
-          italic(n)[mode] ~ "=" ~ 32L,
-          italic(n)[max] ~ "=" ~ 83L
+          italic(n)[mode] ~ "=" ~ "32",
+          italic(n)[max] ~ "=" ~ "83"
         )
       ), atop(
         scriptstyle(

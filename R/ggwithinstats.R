@@ -5,6 +5,15 @@
 #'   (unjittered) data points for within-subjects designs with statistical
 #'   details included in the plot as a subtitle.
 #'
+#' @note
+#' 1. Please note that the function expects that the data is
+#'   already sorted by subject/repeated measures ID.
+#'
+#' 2. To get the Bayes Factor message, you are going to need to install
+#'   the development version of `BayesFactor` (`0.9.12-4.3`).
+#'   You can download it by running:
+#' `remotes::install_github("richarddmorey/BayesFactor/pkg/BayesFactor")`.
+#'
 #' @inheritParams ggbetweenstats
 #' @param point.path,mean.path Logical that decides whether individual data
 #'   points and means, respectively, should be connected using `geom_path`. Both
@@ -23,15 +32,10 @@
 #' @importFrom rlang exec !! enquo := !!! exec
 #' @importFrom statsExpressions bf_ttest bf_oneway_anova
 #' @importFrom pairwiseComparisons pairwise_comparisons pairwise_caption
-#' @importFrom ipmisc outlier_df
 #' @importFrom dplyr select mutate row_number group_by ungroup anti_join
 #'
-#' @details
-#'
-#'  For more about how the effect size measures (for nonparametric tests) and
-#'  their confidence intervals are computed, see `?rcompanion::wilcoxonPairedR`.
-#'
-#'  For independent measures designs, use `ggbetweenstats`.
+#' @references
+#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html}
 #'
 #' @examples
 #' \donttest{
@@ -52,11 +56,10 @@
 #' library(WRS2)
 #'
 #' ggstatsplot::ggwithinstats(
-#'   data = as_tibble(WineTasting),
+#'   data = WineTasting,
 #'   x = Wine,
 #'   y = Taste,
 #'   type = "np",
-#'   conf.level = 0.99,
 #'   pairwise.comparisons = TRUE,
 #'   outlier.tagging = TRUE,
 #'   outlier.label = Taster
@@ -73,7 +76,6 @@ ggwithinstats <- function(data,
                           pairwise.display = "significant",
                           p.adjust.method = "holm",
                           effsize.type = "unbiased",
-                          partial = TRUE,
                           bf.prior = 0.707,
                           bf.message = TRUE,
                           results.subtitle = TRUE,
@@ -83,9 +85,9 @@ ggwithinstats <- function(data,
                           title = NULL,
                           subtitle = NULL,
                           sample.size.label = TRUE,
-                          k = 2,
+                          k = 2L,
                           conf.level = 0.95,
-                          nboot = 100,
+                          nboot = 100L,
                           tr = 0.1,
                           mean.plotting = TRUE,
                           mean.ci = FALSE,
@@ -100,8 +102,7 @@ ggwithinstats <- function(data,
                           outlier.tagging = FALSE,
                           outlier.label = NULL,
                           outlier.coef = 1.5,
-                          outlier.label.args = list(),
-                          outlier.point.args = list(),
+                          outlier.label.args = list(size = 3),
                           violin.args = list(width = 0.5, alpha = 0.2),
                           ggsignif.args = list(textsize = 3, tip_length = 0.01),
                           ggtheme = ggplot2::theme_bw(),
@@ -138,11 +139,7 @@ ggwithinstats <- function(data,
     dplyr::group_by(.data = ., {{ x }}) %>%
     dplyr::mutate(.data = ., rowid = dplyr::row_number()) %>%
     dplyr::ungroup(.) %>%
-    dplyr::anti_join(
-      x = .,
-      y = dplyr::filter(., is.na({{ y }})),
-      by = "rowid"
-    )
+    dplyr::anti_join(x = ., y = dplyr::filter(., is.na({{ y }})), by = "rowid")
 
   # if `outlier.label` column is not present, just use the values from `y` column
   if (rlang::quo_is_null(rlang::enquo(outlier.label))) {
@@ -151,7 +148,7 @@ ggwithinstats <- function(data,
 
   # add a logical column indicating whether a point is or is not an outlier
   data %<>%
-    ipmisc::outlier_df(
+    outlier_df(
       data = .,
       x = {{ x }},
       y = {{ y }},
@@ -162,6 +159,12 @@ ggwithinstats <- function(data,
   # figure out which test to run based on the number of levels of the
   # independent variables
   test <- ifelse(nlevels(data %>% dplyr::pull({{ x }}))[[1]] < 3, "t", "anova")
+
+  if (type == "parametric" && test == "anova" &&
+    utils::packageVersion("BayesFactor") < package_version("0.9.12-4.3")) {
+    message('To get Bayes Factor, install GitHub version of `BayesFactor`:\n remotes::install_github("richarddmorey/BayesFactor/pkg/BayesFactor")')
+    bf.message <- FALSE
+  }
 
   # --------------------- subtitle/caption preparation ------------------------
 
@@ -175,7 +178,7 @@ ggwithinstats <- function(data,
           x = rlang::as_string(x),
           y = rlang::as_string(y),
           bf.prior = bf.prior,
-          caption = caption,
+          top.text = caption,
           paired = TRUE,
           output = "caption",
           k = k
@@ -188,13 +191,12 @@ ggwithinstats <- function(data,
         # switch based on
         type = type,
         test = test,
-        # arguments relevant for subtitle helper functions
+        # arguments relevant for expression helper functions
         data = data,
         x = {{ x }},
         y = {{ y }},
         paired = TRUE,
         effsize.type = effsize.type,
-        partial = partial,
         var.equal = TRUE, ,
         bf.prior = bf.prior,
         tr = tr,
@@ -204,13 +206,9 @@ ggwithinstats <- function(data,
       )
   }
 
-  # quit early if only subtitle is needed
-  if (output %in% c("subtitle", "caption")) {
-    return(switch(
-      EXPR = output,
-      "subtitle" = subtitle,
-      "caption" = caption
-    ))
+  # return early if anything other than plot
+  if (output != "plot") {
+    return(switch(EXPR = output, "caption" = caption, subtitle))
   }
 
   # --------------------------------- basic plot ------------------------------
@@ -255,14 +253,14 @@ ggwithinstats <- function(data,
       )
   }
 
-  # ---------------------------- outlier tagging -----------------------------
+  # ---------------------------- outlier labeling -----------------------------
 
   # If `outlier.label` is not provided, outlier labels will just be values of
   # the `y` vector. If the outlier tag has been provided, just use the dataframe
   # already created.
 
   if (isTRUE(outlier.tagging)) {
-    # applying the labels to tagged outliers with ggrepel
+    # applying the labels to tagged outliers with `ggrepel`
     plot <- plot +
       rlang::exec(
         .fn = ggrepel::geom_label_repel,
@@ -278,50 +276,23 @@ ggwithinstats <- function(data,
 
   # ---------------- mean value tagging -------------------------------------
 
-  # computing mean and confidence interval for mean using helper function
-  # creating label column based on whether just mean is to be displayed or
-  # mean plus its CI
-  mean_dat <-
-    mean_labeller(
-      data = data,
-      x = {{ x }},
-      y = {{ y }},
-      mean.ci = mean.ci,
-      k = k
-    )
-
   # add labels for mean values
   if (isTRUE(mean.plotting)) {
-    # if there should be lines connecting mean values across groups
-    if (isTRUE(mean.path)) {
-      plot <- plot +
-        rlang::exec(
-          .fn = ggplot2::geom_path,
-          data = mean_dat,
-          mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, group = 1),
-          inherit.aes = FALSE,
-          !!!mean.path.args
-        )
-    }
-
-    # add mean points
     plot <-
       mean_ggrepel(
-        mean.data = mean_dat,
+        plot = plot,
+        data = data,
         x = {{ x }},
         y = {{ y }},
-        plot = plot,
+        mean.ci = mean.ci,
+        k = k,
+        inherit.aes = FALSE,
+        sample.size.label = sample.size.label,
+        mean.path = mean.path,
+        mean.path.args = mean.path.args,
         mean.point.args = mean.point.args,
-        mean.label.args = mean.label.args,
-        inherit.aes = FALSE
+        mean.label.args = mean.label.args
       )
-  }
-
-  # ----------------- sample size labels --------------------------------------
-
-  # adding sample size labels to the x axes
-  if (isTRUE(sample.size.label)) {
-    plot <- plot + ggplot2::scale_x_discrete(labels = c(unique(mean_dat$n_label)))
   }
 
   # ggsignif labels -----------------------------------------------------------
@@ -336,10 +307,8 @@ ggwithinstats <- function(data,
         type = type,
         tr = tr,
         paired = TRUE,
-        var.equal = TRUE,
         p.adjust.method = p.adjust.method,
-        k = k,
-        messages = FALSE
+        k = k
       )
 
     # adding the layer for pairwise comparisons

@@ -89,19 +89,13 @@ included in the plot as a subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -206,7 +200,7 @@ included in the plot as a subtitle.</p>
 
     <pre class="usage"><span class='fu'>ggpiestats</span><span class='op'>(</span>
   <span class='va'>data</span>,
-  x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>x</span>,
   y <span class='op'>=</span> <span class='cn'>NULL</span>,
   counts <span class='op'>=</span> <span class='cn'>NULL</span>,
   ratio <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -233,8 +227,6 @@ included in the plot as a subtitle.</p>
   palette <span class='op'>=</span> <span class='st'>"Dark2"</span>,
   ggplot.component <span class='op'>=</span> <span class='cn'>NULL</span>,
   output <span class='op'>=</span> <span class='st'>"plot"</span>,
-  <span class='va'>main</span>,
-  condition <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -247,21 +239,24 @@ included in the plot as a subtitle.</p>
 be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
     </tr>
     <tr>
-      <th>x, main</th>
-      <td><p>The variable to use as the <strong>rows</strong> in the contingency table.</p></td>
+      <th>x</th>
+      <td><p>The variable to use as the <strong>rows</strong> in the contingency table. Please
+note that if there are empty factor levels in your variable, they will be
+dropped.</p></td>
     </tr>
     <tr>
-      <th>y, condition</th>
-      <td><p>The variable to use as the <strong>columns</strong> in the contingency
-table. Default is <code>NULL</code>. If <code>NULL</code>, one-sample proportion test (a goodness
-of fit test) will be run for the <code>x</code> variable. Otherwise an appropriate
-association test will be run. This argument can not be <code>NULL</code> for
-<code>ggbarstats</code> function.</p></td>
+      <th>y</th>
+      <td><p>The variable to use as the <strong>columns</strong> in the contingency table.
+Please note that if there are empty factor levels in your variable, they
+will be dropped. Default is <code>NULL</code>. If <code>NULL</code>, one-sample proportion test
+(a goodness of fit test) will be run for the <code>x</code> variable. Otherwise an
+appropriate association test will be run. This argument can not be <code>NULL</code>
+for <code>ggbarstats</code> function.</p></td>
     </tr>
     <tr>
       <th>counts</th>
       <td><p>A string naming a variable in data containing counts, or <code>NULL</code>
-if each row represents a single observation (Default).</p></td>
+if each row represents a single observation.</p></td>
     </tr>
     <tr>
       <th>ratio</th>
@@ -275,7 +270,7 @@ there are four levels this will be <code>ratio = c(0.25,0.25,0.25,0.25)</code>, 
       <th>paired</th>
       <td><p>Logical indicating whether data came from a within-subjects or
 repeated measures design study (Default: <code>FALSE</code>). If <code>TRUE</code>, McNemar's
-test subtitle will be returned. If <code>FALSE</code>, Pearson's chi-square test will
+test expression will be returned. If <code>FALSE</code>, Pearson's chi-square test will
 be returned.</p></td>
     </tr>
     <tr>
@@ -303,17 +298,18 @@ This can be helpful in case the labels are overlapping.</p></td>
     <tr>
       <th>conf.level</th>
       <td><p>Scalar between 0 and 1. If unspecified, the defaults return
-<code>95%</code> lower and upper confidence intervals (<code>0.95</code>).</p></td>
+<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
     </tr>
     <tr>
       <th>k</th>
       <td><p>Number of digits after decimal point (should be an integer)
-(Default: <code>k = 2</code>).</p></td>
+(Default: <code>k = 2L</code>).</p></td>
     </tr>
     <tr>
       <th>proportion.test</th>
-      <td><p>Decides whether proportion test for <code>main</code> variable is
-to be carried out for each level of <code>condition</code> (Default: <code>TRUE</code>).</p></td>
+      <td><p>Decides whether proportion test for <code>x</code> variable is to
+be carried out for each level of <code>y</code> (Default: <code>TRUE</code>). In <code>ggbarstats</code>,
+only <em>p</em>-values from this test will be displayed.</p></td>
     </tr>
     <tr>
       <th>perc.k</th>
@@ -403,9 +399,7 @@ as a function.</p></td>
 you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
 Setting this to <code>"caption"</code> will return the expression containing details
 about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
-<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>. For functions
-<code>ggpiestats</code> and <code>ggbarstats</code>, setting <code>output = "proptest"</code> will return a
-dataframe containing results from proportion tests.</p></td>
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -413,18 +407,6 @@ dataframe containing results from proportion tests.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Unlike a number of statistical softwares, <code>ggstatsplot</code> doesn't
-provide the option for Yates' correction for the Pearson's chi-squared
-statistic. This is due to compelling amount of Monte-Carlo simulation
-research which suggests that the Yates' correction is overly conservative,
-even in small sample sizes. As such it is recommended that it should not
-ever be applied in practice (Camilli &amp; Hopkins, 1978, 1979; Feinberg, 1980;
-Larntz, 1978; Thompson, 1988).</p>
-<p>For more about how the effect size measures and their confidence intervals
-are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'>?rcompanion::cohenG</a></code>, <code><a href='https://rdrr.io/pkg/rcompanion/man/cramerV.html'>?rcompanion::cramerV</a></code>, and
-<code><a href='https://rdrr.io/pkg/rcompanion/man/cramerVFit.html'>?rcompanion::cramerVFit</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html</a></p>
@@ -434,7 +416,8 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 <code><a href='grouped_ggbarstats.html'>grouped_ggbarstats</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># for reproducibility</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># for reproducibility</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
 
 <span class='co'># one sample goodness of fit proportion test</span>
@@ -444,10 +427,10 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 <span class='fu'>ggstatsplot</span><span class='fu'>::</span><span class='fu'>ggpiestats</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='va'>mtcars</span>,
   x <span class='op'>=</span> <span class='va'>vs</span>,
-  y <span class='op'>=</span> <span class='va'>cyl</span>,
-  legend.title <span class='op'>=</span> <span class='st'>"Engine"</span>
+  y <span class='op'>=</span> <span class='va'>cyl</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='ggpiestats-2.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='ggpiestats-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -463,7 +446,7 @@ are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/cohenG.html'
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

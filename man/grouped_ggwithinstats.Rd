@@ -48,9 +48,7 @@ variable name entered for \code{grouping.var} will be used.}
 you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
 Setting this to \code{"caption"} will return the expression containing details
 about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
-\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
-dataframe containing results from proportion tests.}
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=ggwithinstats]{ggwithinstats}}
@@ -78,7 +76,7 @@ or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accep
 \code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
 \code{"bf"}resp.}
     \item{\code{pairwise.comparisons}}{Logical that decides whether pairwise comparisons
-are to be displayed (default: \code{FALSE}). Please note that only
+are to be displayed (default: \code{TRUE}). Please note that only
 \strong{significant} comparisons will be shown by default. To change this
 behavior, select appropriate option with \code{pairwise.display} argument. The
 pairwise comparison dataframes are prepared using the
@@ -95,11 +93,8 @@ displayed.}
 comparisons. Possible methods are: \code{"holm"} (default), \code{"hochberg"},
 \code{"hommel"}, \code{"bonferroni"}, \code{"BH"}, \code{"BY"}, \code{"fdr"}, \code{"none"}.}
     \item{\code{effsize.type}}{Type of effect size needed for \emph{parametric} tests. The
-argument can be \code{"biased"} (equivalent to \code{"d"} for Cohen's \emph{d} for
-\strong{t-test}; \code{"partial_eta"} for partial eta-squared for \strong{anova}) or
-\code{"unbiased"} (equivalent to \code{"g"} Hedge's \emph{g} for \strong{t-test};
-\code{"partial_omega"} for partial omega-squared for \strong{anova})).}
-    \item{\code{partial}}{If \code{TRUE}, return partial indices.}
+argument can be \code{"eta"} (partial eta-squared) or \code{"omega"} (partial
+omega-squared).}
     \item{\code{bf.prior}}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
 width to use in calculating Bayes factors.}
     \item{\code{bf.message}}{Logical that decides whether to display Bayes Factor in
@@ -119,9 +114,9 @@ variable names for \code{x} and \code{y} will be used.}
 should be displayed for each level of the grouping variable \code{x} (Default:
 \code{TRUE}).}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
-(Default: \code{k = 2}).}
+(Default: \code{k = 2L}).}
     \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
-\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
+\verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
     \item{\code{tr}}{Trim level for the mean when carrying out \code{robust} tests. If you
@@ -143,8 +138,8 @@ arguments to be passed to \code{ggplot2::geom_point} and
 displayed. If \code{TRUE}, a notched box plot will be used. Notches are used to
 compare groups; if the notches of two boxes do not overlap, this suggests
 that the medians are significantly different. In a notched box plot, the
-notches extend \code{1.58 * IQR / sqrt(n)}. This gives a roughly \verb{95\%}
-confidence interval for comparing medians. IQR: Inter-Quartile Range.}
+notches extend \code{1.58 * IQR / sqrt(n)}, where IQR: Inter-Quartile Range.
+This gives a roughly \verb{95\%} confidence interval for comparing medians.}
     \item{\code{notchwidth}}{For a notched box plot, width of the notch relative to the
 body (default \code{0.5}).}
     \item{\code{outlier.tagging}}{Decides whether outliers should be tagged (Default:
@@ -154,11 +149,7 @@ With Tukey's method, outliers are below (1st Quartile) or above (3rd
 Quartile) \code{outlier.coef} times the Inter-Quartile Range (IQR) (Default:
 \code{1.5}).}
     \item{\code{outlier.label.args}}{A list of additional aesthetic arguments to be
-passed to \code{ggplot2::geom_point} and \code{ggrepel::geom_label_repel} geoms
-involved outlier value plotting.}
-    \item{\code{outlier.point.args}}{A list of additional aesthetic arguments to be
-passed to \code{ggplot2::geom_point} and \code{ggrepel::geom_label_repel} geoms
-involved outlier value plotting.}
+passed to \code{ggrepel::geom_label_repel} for outlier label plotting.}
     \item{\code{violin.args}}{A list of additional aesthetic arguments to be passed to
 the \code{geom_violin}.}
     \item{\code{ggsignif.args}}{A list of additional aesthetic
@@ -207,12 +198,6 @@ provided to \code{title}, \code{caption} and \code{sub}, resp.}
 A combined plot of comparison plot created for levels of a
 grouping variable.
 }
-\details{
-For more about how the effect size measures (for nonparametric tests) and
-their confidence intervals are computed, see \code{?rcompanion::wilcoxonPairedR}.
-
-For independent measures designs, use \code{ggbetweenstats}.
-}
 \examples{
 \donttest{
 # to get reproducible results from bootstrapping
@@ -228,10 +213,12 @@ ggstatsplot::grouped_ggwithinstats(
   ggplot.component = ggplot2::scale_y_continuous(
     breaks = seq(0, 1, 0.1),
     limits = c(0, 1)
-  ),
-  messages = TRUE
+  )
 )
 }
+}
+\references{
+\url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html}
 }
 \seealso{
 \code{\link{ggwithinstats}}, \code{\link{ggbetweenstats}},

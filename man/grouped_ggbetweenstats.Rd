@@ -48,9 +48,7 @@ variable name entered for \code{grouping.var} will be used.}
 you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
 Setting this to \code{"caption"} will return the expression containing details
 about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}. For functions
-\code{ggpiestats} and \code{ggbarstats}, setting \code{output = "proptest"} will return a
-dataframe containing results from proportion tests.}
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=ggbetweenstats]{ggbetweenstats}}
@@ -63,7 +61,7 @@ variable names for \code{x} and \code{y} will be used.}
     \item{\code{ylab}}{Labels for \code{x} and \code{y} axis variables. If \code{NULL} (default),
 variable names for \code{x} and \code{y} will be used.}
     \item{\code{pairwise.comparisons}}{Logical that decides whether pairwise comparisons
-are to be displayed (default: \code{FALSE}). Please note that only
+are to be displayed (default: \code{TRUE}). Please note that only
 \strong{significant} comparisons will be shown by default. To change this
 behavior, select appropriate option with \code{pairwise.display} argument. The
 pairwise comparison dataframes are prepared using the
@@ -97,8 +95,8 @@ should be displayed for each level of the grouping variable \code{x} (Default:
 displayed. If \code{TRUE}, a notched box plot will be used. Notches are used to
 compare groups; if the notches of two boxes do not overlap, this suggests
 that the medians are significantly different. In a notched box plot, the
-notches extend \code{1.58 * IQR / sqrt(n)}. This gives a roughly \verb{95\%}
-confidence interval for comparing medians. IQR: Inter-Quartile Range.}
+notches extend \code{1.58 * IQR / sqrt(n)}, where IQR: Inter-Quartile Range.
+This gives a roughly \verb{95\%} confidence interval for comparing medians.}
     \item{\code{notchwidth}}{For a notched box plot, width of the notch relative to the
 body (default \code{0.5}).}
     \item{\code{outlier.color}}{Default aesthetics for outliers (Default: \code{"black"}).}
@@ -108,12 +106,8 @@ body (default \code{0.5}).}
 \code{outlier.shape = NA}. Importantly, this does not remove the outliers,
 it only hides them, so the range calculated for the \code{y}-axis will be
 the same with outliers shown and outliers hidden.}
-    \item{\code{outlier.point.args}}{A list of additional aesthetic arguments to be
-passed to \code{ggplot2::geom_point} and \code{ggrepel::geom_label_repel} geoms
-involved outlier value plotting.}
     \item{\code{outlier.label.args}}{A list of additional aesthetic arguments to be
-passed to \code{ggplot2::geom_point} and \code{ggrepel::geom_label_repel} geoms
-involved outlier value plotting.}
+passed to \code{ggrepel::geom_label_repel} for outlier label plotting.}
     \item{\code{outlier.coef}}{Coefficient for outlier detection using Tukey's method.
 With Tukey's method, outliers are below (1st Quartile) or above (3rd
 Quartile) \code{outlier.coef} times the Inter-Quartile Range (IQR) (Default:
@@ -153,13 +147,10 @@ theme elements are to be displayed along with the selected \code{ggtheme}
 (Default: \code{TRUE}). \code{theme_ggstatsplot} is an opinionated theme layer that
 override some aspects of the selected \code{ggtheme}.}
     \item{\code{effsize.type}}{Type of effect size needed for \emph{parametric} tests. The
-argument can be \code{"biased"} (equivalent to \code{"d"} for Cohen's \emph{d} for
-\strong{t-test}; \code{"partial_eta"} for partial eta-squared for \strong{anova}) or
-\code{"unbiased"} (equivalent to \code{"g"} Hedge's \emph{g} for \strong{t-test};
-\code{"partial_omega"} for partial omega-squared for \strong{anova})).}
-    \item{\code{partial}}{If \code{TRUE}, return partial indices.}
+argument can be \code{"eta"} (partial eta-squared) or \code{"omega"} (partial
+omega-squared).}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
-(Default: \code{k = 2}).}
+(Default: \code{k = 2L}).}
     \item{\code{var.equal}}{a logical variable indicating whether to treat the
     variances in the samples as equal.  If \code{TRUE}, then a simple F
     test for the equality of means in a one-way analysis of variance is
@@ -167,7 +158,7 @@ argument can be \code{"biased"} (equivalent to \code{"d"} for Cohen's \emph{d} f
     is used, which generalizes the commonly known 2-sample Welch test to
     the case of arbitrarily many samples.}
     \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
-\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
+\verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{type}}{Type of statistic expected (\code{"parametric"} or \code{"nonparametric"}
 or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
 \code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
@@ -205,21 +196,6 @@ provided to \code{title}, \code{caption} and \code{sub}, resp.}
 A combined plot of comparison plot created for levels of a
 grouping variable.
 }
-\details{
-For parametric tests, Welch's ANOVA/\emph{t}-test are used as a default (i.e.,
-\code{var.equal = FALSE}).
-
-If robust tests are selected, following tests are used is .
-\itemize{
-\item ANOVA: one-way ANOVA on trimmed means (see \code{?WRS2::t1way})
-\item \emph{t}-test: Yuen's test for trimmed means (see \code{?WRS2::yuen})
-}
-
-For more about how the effect size measures (for nonparametric tests) and
-their confidence intervals are computed, see \code{?rcompanion::wilcoxonR}.
-
-For repeated measures designs, use \code{ggwithinstats}.
-}
 \examples{
 \donttest{
 # to get reproducible results from bootstrapping
@@ -248,8 +224,7 @@ ggstatsplot::grouped_ggbetweenstats(
   ggplot.component = ggplot2::scale_y_continuous(
     breaks = seq(1, 9, 1),
     limits = (c(1, 9))
-  ),
-  messages = FALSE
+  )
 )
 }
 }

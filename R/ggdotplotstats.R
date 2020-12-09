@@ -122,8 +122,8 @@ ggdotplotstats <- function(data,
           x = {{ x }},
           test.value = test.value,
           bf.prior = bf.prior,
-          caption = caption,
-          output = "caption",
+          top.text = caption,
+          output = "expression",
           k = k
         )
     }
@@ -136,22 +136,16 @@ ggdotplotstats <- function(data,
         type = type,
         test.value = test.value,
         bf.prior = bf.prior,
-        robust.estimator = "onestep",
         effsize.type = effsize.type,
-        conf.type = "norm",
         conf.level = conf.level,
         nboot = nboot,
         k = k
       )
   }
 
-  # quit early if only subtitle is needed
-  if (output %in% c("subtitle", "caption")) {
-    return(switch(
-      EXPR = output,
-      "subtitle" = subtitle,
-      "caption" = caption
-    ))
+  # return early if anything other than plot
+  if (output != "plot") {
+    return(switch(EXPR = output, "caption" = caption, subtitle))
   }
 
   # ------------------------------ basic plot ----------------------------

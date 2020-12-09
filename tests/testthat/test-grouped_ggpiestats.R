@@ -3,14 +3,13 @@ testthat::test_that(
   code = {
     testthat::skip_on_cran()
 
-    #--------------------- only main variable -------------------------------
+    #--------------------- only x variable -------------------------------
 
     ## expecting error
     testthat::expect_error(
       ggstatsplot::grouped_ggpiestats(
         data = mtcars,
-        main = cyl,
-        messages = FALSE
+        x = cyl
       )
     )
 
@@ -22,15 +21,14 @@ testthat::test_that(
       ggstatsplot::grouped_ggpiestats(
         data = mtcars,
         grouping.var = am,
-        main = "cyl",
-        results.subtitle = FALSE,
-        messages = FALSE
+        x = "cyl",
+        results.subtitle = FALSE
       )
     ),
     what = "gg"
     ))
 
-    #------------------ both main and condition variables ------------------
+    #------------------ both x and y variables ------------------
 
     ## without counts
 
@@ -53,8 +51,7 @@ testthat::test_that(
         y = "class",
         results.subtitle = FALSE,
         grouping.var = drv,
-        label.repel = TRUE,
-        messages = FALSE
+        label.repel = TRUE
       )
     ),
     what = "gg"
@@ -68,11 +65,10 @@ testthat::test_that(
       ggstatsplot::grouped_ggpiestats(
         data = as.data.frame(Titanic),
         grouping.var = Class,
-        main = Sex,
+        x = Sex,
         results.subtitle = FALSE,
-        condition = Survived,
-        counts = "Freq",
-        messages = FALSE
+        y = Survived,
+        counts = "Freq"
       )
     ),
     what = "gg"
@@ -87,27 +83,30 @@ testthat::test_that(
   code = {
     testthat::skip_on_cran()
 
+    set.seed(123)
+    df <- dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1) %>%
+      dplyr::mutate_if(., is.factor, droplevels)
+
+
     # should output a list of length 3
     set.seed(123)
     ls_results <-
       suppressWarnings(ggstatsplot::grouped_ggpiestats(
-        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-        main = relig,
-        condition = marital,
+        data = df,
+        x = relig,
+        y = marital,
         grouping.var = race,
-        output = "subtitle",
-        messages = FALSE
+        output = "subtitle"
       ))
 
     set.seed(123)
     sexpr_results <-
       suppressWarnings(statsExpressions::expr_contingency_tab(
-        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1) %>%
-          dplyr::filter(race == "Other"),
+        data = dplyr::filter(df, race == "Other") %>%
+          dplyr::mutate_if(., is.factor, droplevels),
         x = relig,
         y = marital,
-        output = "subtitle",
-        messages = FALSE
+        output = "subtitle"
       ))
 
     # checking subtitle

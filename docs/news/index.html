@@ -87,19 +87,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -196,10 +190,70 @@
       <small>Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggstatsplot-0619000" class="section level1">
-<h1 class="page-header" data-toc-text="0.6.1.9000">
-<a href="#ggstatsplot-0619000" class="anchor"></a>ggstatsplot 0.6.1.9000<small> Unreleased </small>
+    <div id="ggstatsplot-070" class="section level1">
+<h1 class="page-header" data-toc-text="0.7.0">
+<a href="#ggstatsplot-070" class="anchor"></a>ggstatsplot 0.7.0<small> Unreleased </small>
 </h1>
+<p>BREAKING CHANGES</p>
+<ul>
+<li>
+<code>gghistostats</code> removes <code>bar.measure</code> argument. The function now defaults to showing the <code>count</code> information on the <code>x</code>-axis and the <code>proportion</code> information on the duplicated <code>x</code>-axis.</li>
+</ul>
+<p>MINOR CHANGES</p>
+<ul>
+<li><p><code>ggcorrmat</code> uses pretty formatting to display sample size information.</p></li>
+<li><p><code>ggcoefstats</code> now also displays degrees of freedom for chi-squared tests.</p></li>
+</ul>
+</div>
+    <div id="ggstatsplot-066" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.6">
+<a href="#ggstatsplot-066" class="anchor"></a>ggstatsplot 0.6.6<small> 2020-12-03 </small>
+</h1>
+<p>BREAKING CHANGES</p>
+<ul>
+<li><p><code>ggcoefstats</code> no longer supports <code>exponentiate</code> argument. If it is specified, the user will have to themselves adjust the scales appropriately.</p></li>
+<li>
+<p><code>ggcorrmat</code> defaults have changed significantly:</p>
+<ol>
+<li><p>As a matter of good practice, the <em>p</em>-values are adjusted by default for multiple comparisons.</p></li>
+<li><p>The default matrix is upper type, and not the full matrix, which features many redundant comparisons and self-correlations diagonally.</p></li>
+<li><p>Default text size for legend has been increased to 15 and background grid has been removed.</p></li>
+</ol>
+</li>
+</ul>
+<p>BUG FIXES</p>
+<ul>
+<li><p>In the prior release, when the GitHub version of <code>BayesFactor</code> wasn’t present, <code>ggwithinstats</code> just outright failed to run for ANOVA designs. This has been fixed.</p></li>
+<li><p>Setting <code>mean.path = FALSE</code> in <code>ggwithinstats</code> produced incorrect colors for points (<a href='https://github.com/IndrajeetPatil/ggstatsplot/issues/470'>#470</a>). This bug was introduced in <code>0.6.5</code> and is now fixed.</p></li>
+<li><p>If user had set <code><a href="https://rdrr.io/r/base/options.html">options(scipen = 999)</a></code> in their session, the <em>p</em>-value formatting for <code>ggpiestats</code> and <code>ggcoefstats</code> looked super-ugly (<a href='https://github.com/IndrajeetPatil/ggstatsplot/issues/478'>#478</a>). This has been fixed.</p></li>
+</ul>
+<p>MAJOR CHANGES</p>
+<ul>
+<li><p>Drops <code>broomExtra</code> from dependencies. All regression modeling-related analysis now relies on <code>easystats</code> ecosystem.</p></li>
+<li><p><code>ggpiestats</code> and <code>ggbarstats</code> don’t support returning dataframes. See FAQ vignette on how to get these dataframes: <a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/faq.html#faq-1" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/faq.html#faq-1</a></p></li>
+<li><p><code>ggpiestats</code> and <code>ggbarstats</code> were not supposed to support returning Bayes Factor for paired contingency table analysis, which is not supported in <code>BayesFactor</code> itself.</p></li>
+<li><p><code>ggcoefstats</code> defaults to displaying the intercept term. Also, when the degrees of freedom are not available for <code>t</code>-statistic, they are displayed to be <code>Inf</code>, in keeping with <code>easystats</code> conventions.</p></li>
+<li><p>Instead of showing significance of <em>p</em>-values with APA’s asterisks conventions, <code>ggbarstats</code> now instead shows the actual <em>p</em>-values from one-sample proportion tests.</p></li>
+</ul>
+<p>NEW FEATURES</p>
+<ul>
+<li>More models supported in <code>ggcoefstats</code>: <code>Glm</code>.</li>
+</ul>
+</div>
+    <div id="ggstatsplot-065" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.5">
+<a href="#ggstatsplot-065" class="anchor"></a>ggstatsplot 0.6.5<small> 2020-10-31 </small>
+</h1>
+<p>BREAKING CHANGES</p>
+<ul>
+<li>
+<code>ggpiestats</code> and <code>ggbarstats</code> no longer have the vestigial arguments <code>main</code> and <code>condition</code>, which are superseded by <code>x</code> and <code>y</code>, respectively.</li>
+</ul>
+<p>MAJOR CHANGES</p>
+<ul>
+<li><p>For consistency and to reduce confusion, all Bayes Factor (irrespective of whether in the subtitle or caption) are always in favor of null over alternative (<code>BF01</code>).</p></li>
+<li><p>Retires centrality parameter tagging functionality of <code>ggscatterstats</code>. Although it was not the default, when turned on, it definitely created a cluttered plot.</p></li>
+</ul>
 </div>
     <div id="ggstatsplot-061" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.1">
@@ -253,8 +307,8 @@
 <li>
 <p>The <code>pairwise.annotation</code> argument for <code>ggbetweenstats</code> and <code>ggwithinstats</code> is deprecated. This was done because-</p>
 <ol>
-<li>Different fields have different schema for what significance levels asterisks represent.</li>
-<li>The <em>p</em>-value labels also contain information about whether they are adjusted for multiple comparisons.</li>
+<li><p>Different fields have different schema for what significance levels asterisks represent.</p></li>
+<li><p>The <em>p</em>-value labels also contain information about whether they are adjusted for multiple comparisons.</p></li>
 </ol>
 </li>
 <li><p>The <code>normality_message</code> and <code>bartlett_message</code> helper functions have been removed. This is because model assumption checks don’t really fall under the purview of this package. There are excellent visualization tools out there for model assumption checks (<code>ggResidpanel</code>, <code>performance</code>, <code>DHARMa</code>, <code>olsrr</code>, etc.), which should be preferred over unhelpful messages with only <em>p</em>-values that these functions were printing. For what it’s worth, the functions where these messages were displayed (<code>ggbetweenstats</code> or <code>ggwithinstats</code>) feature visualizations rich enough and defaults sensible enough that most of the time one can either assess these assumptions from the plots or need not worry about them.</p></li>
@@ -304,12 +358,8 @@
 <li>
 <p>The following vestigial arguments are retired:</p>
 <ul>
-<li>
-<code>caption.default</code> in <code>ggcorrmat</code>
-</li>
-<li>
-<code>k.caption.summary</code> in <code>ggcoefstats</code>
-</li>
+<li><p><code>caption.default</code> in <code>ggcorrmat</code></p></li>
+<li><p><code>k.caption.summary</code> in <code>ggcoefstats</code></p></li>
 </ul>
 </li>
 </ul>
@@ -411,7 +461,7 @@
 </ul>
 <p>MINOR</p>
 <ul>
-<li><p><code>ggcoefstats</code> now uses <code><a href="https://easystats.github.io/parameters/reference/p_value.html">parameters::p_value</a></code> instead of <code>sjstats::p_value</code>, as requested by the maintainer of that package. This might lead to differences in <em>p</em>-values for <code>lmer</code> models.</p></li>
+<li><p><code>ggcoefstats</code> now uses <code><a href="https://easystats.github.io/parameters/reference/p_value.html">parameters::p_value</a></code> instead of <code><a href="https://strengejacke.github.io/sjstats/reference/r2.html">sjstats::p_value</a></code>, as requested by the maintainer of that package. This might lead to differences in <em>p</em>-values for <code>lmer</code> models.</p></li>
 <li><p>More models supported in <code>ggcoefstats</code>: <code>blavaan</code>, <code>bracl</code>, <code>brglm2</code>, <code>glmc</code>, <code>lavaan</code>, <code>nlreg</code>, <code>slm</code>, <code>wbgee</code>.</p></li>
 <li><p><code>ggcoefstats</code> gains <code>only.significant</code> argument to only display display stats labels for significant effects. This can be helpful when a large number of regression coefficients are to be displayed in a single plot.</p></li>
 </ul>
@@ -459,7 +509,7 @@
 <li><p>New dataset included: <code>bugs_long</code>, for repeated measures designs with <code>NA</code>s present in the data.</p></li>
 <li><p><code>ggstatsplot</code> now uses <code>rcompanion</code> to compute Spearman’s <em>rho</em> and Kendall’s <em>W</em>. Therefore, <code>DescTools</code> is removed from dependencies.</p></li>
 <li><p><code>ggcoefstats</code> supports following objects: <code>bglmerMod</code>, <code>blmerMod</code>, <code>lme</code>, <code>mclogit</code>, <code>mmclogit</code>, <code>tobit</code>, <code>wblm</code>.</p></li>
-<li><p><code>ggcoefstats</code> now respects <code>conf.int</code>. It internally always defaulted to <code>conf.int = TRUE</code> in <code><a href="https://rdrr.io/pkg/generics/man/tidy.html">broom::tidy</a></code> irrespective of what was specified by the user.</p></li>
+<li><p><code>ggcoefstats</code> now respects <code>conf.int</code>. It internally always defaulted to <code>conf.int = TRUE</code> in <code><a href="https://generics.r-lib.org/reference/tidy.html">broom::tidy</a></code> irrespective of what was specified by the user.</p></li>
 <li><p>It was painfully confusing for a lot of users what exactly the asterisks in each facet of <code>ggpiestats</code> signified. So instead now <code>ggpiestats</code> displays more detailed results from a goodness of fit (gof) test. No such change is made for <code>ggbarstats</code> because there is no space to include more details above the bar.</p></li>
 <li><p>Removed <code>conf.method</code> and <code>conf.type</code> arguments for <code>ggcoefstats</code>. Also, <code>p.kr</code> argument removed because <code>ggcoefstats</code> will begin to rely on <code>parameters</code> instead of <code>sjstats</code> package to compute <em>p</em>-values for some regression models.</p></li>
 </ul>
@@ -709,7 +759,7 @@
 <li><p>Removed the trailing comma from the robust correlation analyses.</p></li>
 <li><p><code>gghistostats</code> has a new argument to remove color fill gradient.</p></li>
 <li><p><code>ggbetweenstats</code> takes new argument <code>mean.ci</code> to show confidence intervals for the mean values.</p></li>
-<li><p>For <code>lmer</code> models, <em>p</em>-values are now computed using <code>sjstats::p_value</code>. This removes <code>lmerTest</code> package from dependencies.</p></li>
+<li><p>For <code>lmer</code> models, <em>p</em>-values are now computed using <code><a href="https://strengejacke.github.io/sjstats/reference/r2.html">sjstats::p_value</a></code>. This removes <code>lmerTest</code> package from dependencies.</p></li>
 <li><p><code>sjstats</code> no longer suggests <code>apaTables</code> package to compute confidence intervals for partial eta- and omega-squared. Therefore, <code>apaTables</code> and <code>MBESS</code> are removed from dependencies.</p></li>
 <li><p><code>ggscatterstats</code> supports <code>densigram</code> with the development version of <code>ggExtra</code>. It additionally gains few extra arguments to change aesthetics of marginals (alpha, size, etc.).</p></li>
 </ul>
@@ -820,7 +870,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

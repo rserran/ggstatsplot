@@ -40,18 +40,13 @@ your data.}
 plot title (name of each factor level) (Default: \code{NULL}). If \code{NULL}, the
 variable name entered for \code{grouping.var} will be used.}
 
-\item{output}{Can either be \code{"expression"}, which will return expression or
-\code{"dataframe"}, which will return a dataframe with results.}
+\item{output}{If \code{"expression"}, will return expression with statistical
+details, while \code{"dataframe"} will return a dataframe containing the
+results.}
 
 \item{...}{
   Arguments passed on to \code{\link[=gghistostats]{gghistostats}}
   \describe{
-    \item{\code{bar.measure}}{Character describing what value needs to be represented as
-height in the bar chart. This can either be \code{"count"}, which shows number
-of points in bin, or \code{"density"}, which density of points in bin, scaled to
-integrate to 1, or "\code{proportion}", which shows relative frequencies of
-observations in each bin, or "\code{mix}", which shows \emph{both} count and
-proportion in the same plot.}
     \item{\code{normal.curve}}{A logical value that decides whether to super-impose a
 normal curve using \code{stats::dnorm(mean(x), sd(x))}. Default is \code{FALSE}.}
     \item{\code{normal.curve.args}}{A list of additional aesthetic arguments to be
@@ -69,11 +64,11 @@ width to use in calculating Bayes factors.}
     \item{\code{effsize.type}}{Type of effect size needed for \emph{parametric} tests. The
 argument can be \code{"d"} (for Cohen's \emph{d}) or \code{"g"} (for Hedge's \emph{g}).}
     \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
-\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
+\verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
-(Default: \code{k = 2}).}
+(Default: \code{k = 2L}).}
     \item{\code{test.k}}{Integer denoting the number of decimal places expected for
 \code{test.value} label. (Default: \code{0} ).}
     \item{\code{test.value.line}}{Logical that decides whether a line corresponding to

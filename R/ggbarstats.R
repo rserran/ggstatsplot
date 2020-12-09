@@ -6,11 +6,6 @@
 #' @param xlab Custom text for the `x` axis label (Default: `NULL`, which
 #'   will cause the `x` axis label to be the `x` variable).
 #' @param ylab Custom text for the `y` axis label (Default: `NULL`).
-#' @param proportion.test Decides whether proportion test for `main` variable is
-#'   to be carried out for each level of `y` (Default: `TRUE`).
-#' @param label Character decides what information needs to be
-#'   displayed on the label in each pie slice. Possible options are
-#'   `"percentage"` (default), `"counts"`, `"both"`.
 #' @param sample.size.label Logical that decides whether sample size information
 #'   should be displayed for each level of the grouping variable `y`
 #'   (Default: `TRUE`).
@@ -30,6 +25,7 @@
 #' @inherit ggpiestats return details
 #'
 #' @examples
+#' \donttest{
 #' # for reproducibility
 #' set.seed(123)
 #'
@@ -39,12 +35,13 @@
 #'   x = vs,
 #'   y = cyl
 #' )
+#' }
 #' @export
 
 # defining the function
 ggbarstats <- function(data,
-                       x = NULL,
-                       y = NULL,
+                       x,
+                       y,
                        counts = NULL,
                        ratio = NULL,
                        paired = FALSE,
@@ -72,18 +69,12 @@ ggbarstats <- function(data,
                        palette = "Dark2",
                        ggplot.component = NULL,
                        output = "plot",
-                       main,
-                       condition,
                        ...) {
+  # make sure both quoted and unquoted arguments are allowed
+  c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
 
-  # ensure the variables work quoted or unquoted
-  main <- rlang::ensym(main)
-  condition <- rlang::ensym(condition)
-  x <- if (!rlang::quo_is_null(rlang::enquo(x))) rlang::ensym(x)
-  y <- if (!rlang::quo_is_null(rlang::enquo(y))) rlang::ensym(y)
-  x <- x %||% main
-  y <- y %||% condition
-  counts <- if (!rlang::quo_is_null(rlang::enquo(counts))) rlang::ensym(counts)
+  # this is currently not supported in `BayesFactor`
+  if (isTRUE(paired)) bf.message <- FALSE
 
   # ================= extracting column names as labels  =====================
 
@@ -97,25 +88,14 @@ ggbarstats <- function(data,
 
   # creating a dataframe
   data %<>%
-    dplyr::select(.data = ., {{ x }}, {{ y }}, {{ counts }}) %>%
+    dplyr::select(.data = ., {{ x }}, {{ y }}, .counts = {{ counts }}) %>%
     tidyr::drop_na(data = .) %>%
     as_tibble(x = .)
 
-  # =========================== converting counts ============================
-
   # untable the dataframe based on the count for each observation
-  if (!rlang::quo_is_null(rlang::enquo(counts))) {
-    data %<>%
-      tidyr::uncount(
-        data = .,
-        weights = {{ counts }},
-        .remove = TRUE,
-        .id = "id"
-      )
-  }
+  if (".counts" %in% names(data)) data %<>% tidyr::uncount(data = ., weights = .counts)
 
-  # x and y need to be a factor for this analysis
-  # also drop the unused levels of the factors
+  # x and y need to be a factor; also drop the unused levels of the factors
   data %<>%
     dplyr::mutate(
       {{ x }} := droplevels(as.factor({{ x }})),
@@ -158,7 +138,7 @@ ggbarstats <- function(data,
             sampling.plan = sampling.plan,
             fixed.margin = fixed.margin,
             prior.concentration = prior.concentration,
-            caption = caption,
+            top.text = caption,
             output = "caption",
             k = k
           ),
@@ -167,40 +147,18 @@ ggbarstats <- function(data,
     }
   }
 
-  # ============================ percentage dataframe ========================
-
-  # convert the data into percentages; group by yal variable
-  # dataframe with summary labels
-  df <-
-    cat_label_df(
-      data = cat_counter(data = data, x = {{ x }}, y = {{ y }}),
-      label.content = label,
-      perc.k = perc.k
-    )
-
-  # dataframe containing all details needed for sample size and prop test
-  df_labels <-
-    df_facet_label(
-      data = data,
-      x = {{ x }},
-      y = {{ y }},
-      k = k
-    )
-
-  # reorder the category factor levels to order the legend
-  df %<>% dplyr::mutate(.data = ., {{ x }} := factor({{ x }}, unique({{ x }})))
-
   # return early if anything other than plot
   if (output != "plot") {
-    return(switch(
-      EXPR = output,
-      "subtitle" = subtitle,
-      "caption" = caption,
-      "proptest" = df_labels
-    ))
+    return(switch(EXPR = output, "caption" = caption, subtitle))
   }
 
   # =================================== plot =================================
+
+  # dataframe with summary labels
+  df_descriptive <- df_descriptive(data, {{ x }}, {{ y }}, label, perc.k)
+
+  # dataframe containing all details needed for prop test
+  df_proptest <- df_proptest(data, {{ x }}, {{ y }}, k)
 
   # if no. of factor levels is greater than the default palette color count
   palette_message(
@@ -212,7 +170,7 @@ ggbarstats <- function(data,
   # plot
   p <-
     ggplot2::ggplot(
-      data = df,
+      data = df_descriptive,
       mapping = ggplot2::aes(x = {{ y }}, y = perc, fill = {{ x }})
     ) +
     ggplot2::geom_bar(
@@ -228,7 +186,7 @@ ggbarstats <- function(data,
     ) +
     rlang::exec(
       .fn = ggplot2::geom_label,
-      mapping = ggplot2::aes(label = label, group = {{ x }}),
+      mapping = ggplot2::aes(label = .label, group = {{ x }}),
       show.legend = FALSE,
       position = ggplot2::position_fill(vjust = 0.5),
       na.rm = TRUE,
@@ -246,15 +204,11 @@ ggbarstats <- function(data,
     # modify plot
     p <- p +
       ggplot2::geom_text(
-        data = df_labels,
-        mapping = ggplot2::aes(
-          x = {{ y }},
-          y = 1.05,
-          label = significance,
-          fill = NULL
-        ),
-        size = 5,
-        na.rm = TRUE
+        data = df_proptest,
+        mapping = ggplot2::aes(x = {{ y }}, y = 1.05, label = .p.label, fill = NULL),
+        size = 2.8,
+        na.rm = TRUE,
+        parse = TRUE
       )
   }
 
@@ -262,13 +216,8 @@ ggbarstats <- function(data,
   if (isTRUE(sample.size.label)) {
     p <- p +
       ggplot2::geom_text(
-        data = df_labels,
-        mapping = ggplot2::aes(
-          x = {{ y }},
-          y = -0.05,
-          label = N,
-          fill = NULL
-        ),
+        data = df_proptest,
+        mapping = ggplot2::aes(x = {{ y }}, y = -0.05, label = N, fill = NULL),
         size = 4,
         na.rm = TRUE
       )

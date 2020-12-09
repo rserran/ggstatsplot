@@ -11,7 +11,7 @@
 #' @param xlab,ylab Labels for `x` and `y` axis variables. If `NULL` (default),
 #'   variable names for `x` and `y` will be used.
 #' @param pairwise.comparisons Logical that decides whether pairwise comparisons
-#'   are to be displayed (default: `FALSE`). Please note that only
+#'   are to be displayed (default: `TRUE`). Please note that only
 #'   **significant** comparisons will be shown by default. To change this
 #'   behavior, select appropriate option with `pairwise.display` argument. The
 #'   pairwise comparison dataframes are prepared using the
@@ -46,8 +46,8 @@
 #'   displayed. If `TRUE`, a notched box plot will be used. Notches are used to
 #'   compare groups; if the notches of two boxes do not overlap, this suggests
 #'   that the medians are significantly different. In a notched box plot, the
-#'   notches extend `1.58 * IQR / sqrt(n)`. This gives a roughly `95%`
-#'   confidence interval for comparing medians. IQR: Inter-Quartile Range.
+#'   notches extend `1.58 * IQR / sqrt(n)`, where IQR: Inter-Quartile Range.
+#'   This gives a roughly `95%` confidence interval for comparing medians.
 #' @param notchwidth For a notched box plot, width of the notch relative to the
 #'   body (default `0.5`).
 #' @param outlier.color Default aesthetics for outliers (Default: `"black"`).
@@ -59,9 +59,8 @@
 #'   `outlier.shape = NA`. Importantly, this does not remove the outliers,
 #'   it only hides them, so the range calculated for the `y`-axis will be
 #'   the same with outliers shown and outliers hidden.
-#' @param outlier.point.args,outlier.label.args A list of additional aesthetic arguments to be
-#'   passed to `ggplot2::geom_point` and `ggrepel::geom_label_repel` geoms
-#'   involved outlier value plotting.
+#' @param outlier.label.args A list of additional aesthetic arguments to be
+#'   passed to `ggrepel::geom_label_repel` for outlier label plotting.
 #' @param outlier.coef Coefficient for outlier detection using Tukey's method.
 #'   With Tukey's method, outliers are below (1st Quartile) or above (3rd
 #'   Quartile) `outlier.coef` times the Inter-Quartile Range (IQR) (Default:
@@ -87,9 +86,7 @@
 #'   you have set `results.subtitle = FALSE`, then this will return a `NULL`.
 #'   Setting this to `"caption"` will return the expression containing details
 #'   about Bayes Factor analysis, but valid only when `type = "parametric"` and
-#'   `bf.message = TRUE`, otherwise this will return a `NULL`. For functions
-#'   `ggpiestats` and `ggbarstats`, setting `output = "proptest"` will return a
-#'   dataframe containing results from proportion tests.
+#'   `bf.message = TRUE`, otherwise this will return a `NULL`.
 #' @param ... Currently ignored.
 #' @inheritParams theme_ggstatsplot
 #' @param mean.point.args,mean.label.args A list of additional aesthetic
@@ -113,25 +110,9 @@
 #' @importFrom ggsignif geom_signif
 #' @importFrom statsExpressions bf_ttest bf_oneway_anova
 #' @importFrom pairwiseComparisons pairwise_comparisons pairwise_caption
-#' @importFrom ipmisc outlier_df
 #'
 #' @seealso \code{\link{grouped_ggbetweenstats}}, \code{\link{ggwithinstats}},
 #'  \code{\link{grouped_ggwithinstats}}
-#'
-#' @details
-#' For parametric tests, Welch's ANOVA/*t*-test are used as a default (i.e.,
-#' `var.equal = FALSE`).
-#'
-#'  If robust tests are selected, following tests are used is .
-#' \itemize{
-#'  \item ANOVA: one-way ANOVA on trimmed means (see `?WRS2::t1way`)
-#'  \item *t*-test: Yuen's test for trimmed means (see `?WRS2::yuen`)
-#'  }
-#'
-#'  For more about how the effect size measures (for nonparametric tests) and
-#'  their confidence intervals are computed, see `?rcompanion::wilcoxonR`.
-#'
-#'  For repeated measures designs, use `ggwithinstats`.
 #'
 #' @references
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html}
@@ -180,7 +161,6 @@ ggbetweenstats <- function(data,
                            pairwise.display = "significant",
                            p.adjust.method = "holm",
                            effsize.type = "unbiased",
-                           partial = TRUE,
                            bf.prior = 0.707,
                            bf.message = TRUE,
                            results.subtitle = TRUE,
@@ -193,7 +173,7 @@ ggbetweenstats <- function(data,
                            k = 2L,
                            var.equal = FALSE,
                            conf.level = 0.95,
-                           nboot = 100,
+                           nboot = 100L,
                            tr = 0.1,
                            mean.plotting = TRUE,
                            mean.ci = FALSE,
@@ -207,7 +187,6 @@ ggbetweenstats <- function(data,
                            outlier.shape = 19,
                            outlier.color = "black",
                            outlier.label.args = list(size = 3),
-                           outlier.point.args = list(),
                            point.args = list(
                              position = ggplot2::position_jitterdodge(dodge.width = 0.60),
                              alpha = 0.4,
@@ -256,7 +235,7 @@ ggbetweenstats <- function(data,
 
   # add a logical column indicating whether a point is or is not an outlier
   data %<>%
-    ipmisc::outlier_df(
+    outlier_df(
       data = .,
       x = {{ x }},
       y = {{ y }},
@@ -280,7 +259,7 @@ ggbetweenstats <- function(data,
           x = rlang::as_string(x),
           y = rlang::as_string(y),
           bf.prior = bf.prior,
-          caption = caption,
+          top.text = caption,
           paired = FALSE,
           output = "caption",
           k = k
@@ -293,13 +272,12 @@ ggbetweenstats <- function(data,
         # switch based on
         type = type,
         test = test,
-        # arguments relevant for subtitle helper functions
+        # arguments relevant for expression helper functions
         data = data,
         x = {{ x }},
         y = {{ y }},
         paired = FALSE,
         effsize.type = effsize.type,
-        partial = partial,
         var.equal = var.equal,
         bf.prior = bf.prior,
         tr = tr,
@@ -309,19 +287,14 @@ ggbetweenstats <- function(data,
       )
   }
 
-  # quit early if only subtitle is needed
-  if (output %in% c("subtitle", "caption")) {
-    return(switch(
-      EXPR = output,
-      "subtitle" = subtitle,
-      "caption" = caption
-    ))
+  # return early if anything other than plot
+  if (output != "plot") {
+    return(switch(EXPR = output, "caption" = caption, subtitle))
   }
 
   # -------------------------- basic plot -----------------------------------
 
-  # create the basic plot
-  # add only the points which are *not* outliers
+  # first add only the points which are *not* outliers
   plot <-
     ggplot2::ggplot(data = data, mapping = ggplot2::aes(x = {{ x }}, y = {{ y }})) +
     rlang::exec(
@@ -332,7 +305,7 @@ ggbetweenstats <- function(data,
       !!!point.args
     )
 
-  # if outliers are not being tagged, then add the points that were left out
+  # if outliers are not being tagged, then add the points that were previously left out
   if (isFALSE(outlier.tagging)) {
     plot <- plot +
       rlang::exec(
@@ -362,34 +335,35 @@ ggbetweenstats <- function(data,
   # adding a boxplot
   if (plot.type %in% c("box", "boxviolin")) {
     if (isTRUE(outlier.tagging)) {
-      plot <- plot +
-        ggplot2::stat_boxplot(
-          notch = notch,
-          notchwidth = notchwidth,
-          geom = "boxplot",
-          width = 0.3,
-          alpha = 0.2,
-          fill = "white",
-          outlier.shape = outlier.shape,
-          outlier.size = 3,
-          outlier.alpha = 0.7,
-          outlier.color = outlier.color,
-          coef = outlier.coef,
-          na.rm = TRUE
-        )
+      .f <- ggplot2::stat_boxplot
+      outlier_list <- list(
+        outlier.shape = outlier.shape,
+        outlier.size = 3,
+        outlier.alpha = 0.7,
+        outlier.color = outlier.color
+      )
     } else {
-      plot <- plot +
-        ggplot2::geom_boxplot(
-          notch = notch,
-          notchwidth = notchwidth,
-          width = 0.3,
-          alpha = 0.2,
-          fill = "white",
-          outlier.shape = NA,
-          position = ggplot2::position_dodge(width = NULL),
-          na.rm = TRUE
-        )
+      .f <- ggplot2::geom_boxplot
+      outlier_list <- list(
+        outlier.shape = NA,
+        position = ggplot2::position_dodge(width = NULL)
+      )
     }
+
+    # add a boxplot
+    suppressWarnings(plot <- plot +
+      rlang::exec(
+        .fn = .f,
+        notch = notch,
+        notchwidth = notchwidth,
+        width = 0.3,
+        alpha = 0.2,
+        fill = "white",
+        na.rm = TRUE,
+        geom = "boxplot",
+        coef = outlier.coef,
+        !!!outlier_list
+      ))
   }
 
   # add violin geom
@@ -403,14 +377,14 @@ ggbetweenstats <- function(data,
       )
   }
 
-  # ---------------------------- outlier tagging -----------------------------
+  # ---------------------------- outlier labeling -----------------------------
 
   # If `outlier.label` is not provided, outlier labels will just be values of
   # the `y` vector. If the outlier tag has been provided, just use the dataframe
   # already created.
 
+  # applying the labels to tagged outliers with `ggrepel`
   if (isTRUE(outlier.tagging)) {
-    # applying the labels to tagged outliers with `ggrepel`
     plot <- plot +
       rlang::exec(
         .fn = ggrepel::geom_label_repel,
@@ -426,37 +400,21 @@ ggbetweenstats <- function(data,
 
   # ---------------- mean value tagging -------------------------------------
 
-  # computing mean and confidence interval for mean using helper function
-  # creating label column based on whether just mean is to be displayed or
-  # mean plus its CI
-  mean_dat <-
-    mean_labeller(
-      data = data,
-      x = {{ x }},
-      y = {{ y }},
-      mean.ci = mean.ci,
-      k = k
-    )
-
   # add labels for mean values
   if (isTRUE(mean.plotting)) {
     plot <-
       mean_ggrepel(
-        mean.data = mean_dat,
+        plot = plot,
+        data = data,
         x = {{ x }},
         y = {{ y }},
-        plot = plot,
+        mean.ci = mean.ci,
+        k = k,
+        inherit.aes = TRUE,
+        sample.size.label = sample.size.label,
         mean.point.args = mean.point.args,
-        mean.label.args = mean.label.args,
-        inherit.aes = TRUE
+        mean.label.args = mean.label.args
       )
-  }
-
-  # ----------------- sample size labels --------------------------------------
-
-  # adding sample size labels to the x axes
-  if (isTRUE(sample.size.label)) {
-    plot <- plot + ggplot2::scale_x_discrete(labels = c(unique(mean_dat$n_label)))
   }
 
   # ggsignif labels -----------------------------------------------------------
@@ -473,8 +431,7 @@ ggbetweenstats <- function(data,
         paired = FALSE,
         var.equal = var.equal,
         p.adjust.method = p.adjust.method,
-        k = k,
-        messages = FALSE
+        k = k
       )
 
     # adding the layer for pairwise comparisons

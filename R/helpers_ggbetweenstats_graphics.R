@@ -1,90 +1,22 @@
-#' @name mean_labeller
-#' @title Dataframe with mean per group and a formatted label for display in
-#'   `ggbetweenstats` plot.
-#'
-#' @inheritParams ggbetweenstats
-#' @param ... Currently ignored.
-#'
-#' @importFrom parameters describe_distribution
-#' @importFrom broomExtra easystats_to_tidy_names
-#' @importFrom dplyr select group_by matches mutate rowwise group_modify arrange ungroup
-#' @importFrom rlang !! enquo ensym :=
-#' @importFrom tidyr drop_na
-#'
-#' @examples
-#' ggstatsplot:::mean_labeller(
-#'   data = ggplot2::msleep,
-#'   x = vore,
-#'   y = brainwt,
-#'   mean.ci = TRUE,
-#'   k = 3
-#' )
-#' @keywords internal
-
-# function body
-mean_labeller <- function(data, x, y, mean.ci = FALSE, k = 3L, ...) {
-  # creating the dataframe
-  data %<>%
-    dplyr::select(.data = ., {{ x }}, {{ y }}) %>%
-    tidyr::drop_na(.) %>%
-    dplyr::mutate(.data = ., {{ x }} := droplevels(as.factor({{ x }}))) %>%
-    as_tibble(.) %>%
-    dplyr::group_by(.data = ., {{ x }}) %>%
-    dplyr::group_modify(
-      .f = ~ broomExtra::easystats_to_tidy_names(
-        parameters::describe_distribution(x = ., centrality = "mean", ci = 0.95)
-      )
-    ) %>%
-    dplyr::ungroup(.) %>%
-    dplyr::rowwise()
-
-  # prepare label
-  if (isTRUE(mean.ci)) {
-    data %<>%
-      dplyr::mutate(
-        label = paste0(
-          "list(~italic(widehat(mu))==",
-          specify_decimal_p(mean, k),
-          ",",
-          "CI[95*'%']",
-          "*'['*",
-          specify_decimal_p(conf.low, k),
-          ",",
-          specify_decimal_p(conf.high, k),
-          "*']')"
-        )
-      )
-  } else {
-    data %<>%
-      dplyr::mutate(
-        label = paste0("list(~italic(widehat(mu))==", specify_decimal_p(mean, k), ")")
-      )
-  }
-
-  # add label about sample size
-  data %>%
-    dplyr::ungroup(.) %>%
-    dplyr::mutate(n_label = paste0({{ x }}, "\n(n = ", n, ")")) %>%
-    dplyr::arrange({{ x }}) %>%
-    dplyr::select({{ x }}, !!as.character(rlang::ensym(y)) := mean, dplyr::matches("label"))
-}
-
-
 #' @title Adding labels for mean values.
 #' @name mean_ggrepel
 #'
-#' @param mean.data A dataframe containing means for each level of the factor.
-#'   The columns should be titled `x`, `y`, and `label`.
 #' @param plot A `ggplot` object for which means are to be displayed.
 #' @param ... Additional arguments.
 #' @inheritParams ggbetweenstats
+#' @inheritParams ggwithinstats
 #' @inheritParams ggrepel::geom_label_repel
 #'
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom rlang !! enquo ensym exec
+#' @importFrom parameters describe_distribution
+#' @importFrom insight standardize_names
+#' @importFrom dplyr select group_by matches mutate rowwise group_modify arrange ungroup
+#' @importFrom rlang !! enquo ensym :=
+#' @importFrom tidyr drop_na
+#' @importFrom ipmisc specify_decimal_p
 #'
 #' @examples
-#'
 #' # this internal function may not have much utility outside of the package
 #' set.seed(123)
 #' library(ggplot2)
@@ -93,34 +25,98 @@ mean_labeller <- function(data, x, y, mean.ci = FALSE, k = 3L, ...) {
 #' p <- ggplot(data = iris, aes(x = Species, y = Sepal.Length)) +
 #'   geom_boxplot()
 #'
-#' # get a dataframe with means
-#' mean_dat <- ggstatsplot:::mean_labeller(
-#'   data = iris,
-#'   x = Species,
-#'   y = Sepal.Length,
-#'   mean.ci = TRUE,
-#'   k = 3
-#' )
-#'
 #' # add means
 #' ggstatsplot:::mean_ggrepel(
+#'   data = iris,
 #'   plot = p,
 #'   x = Species,
-#'   y = Sepal.Length,
-#'   mean.data = mean_dat,
-#'   mean.color = "darkgreen"
+#'   y = Sepal.Length
 #' )
 #' @keywords internal
 
 # function body
 mean_ggrepel <- function(plot,
+                         data,
                          x,
                          y,
-                         mean.data,
+                         mean.ci = FALSE,
+                         k = 3L,
+                         inherit.aes = TRUE,
+                         sample.size.label = TRUE,
+                         mean.path = FALSE,
+                         mean.path.args = list(color = "red", size = 1, alpha = 0.5),
                          mean.point.args = list(size = 5, color = "darkred"),
                          mean.label.args = list(size = 3),
-                         inherit.aes = TRUE,
                          ...) {
+
+  # ------------------------ dataframe -------------------------------------
+
+  # creating the dataframe
+  mean_df <-
+    data %>%
+    dplyr::select(.data = ., {{ x }}, {{ y }}) %>%
+    tidyr::drop_na(.) %>%
+    dplyr::mutate(.data = ., {{ x }} := droplevels(as.factor({{ x }}))) %>%
+    as_tibble(.) %>%
+    dplyr::group_by(.data = ., {{ x }}) %>%
+    dplyr::group_modify(
+      .f = ~ parameters::standardize_names(
+        data = as.data.frame(parameters::describe_distribution(
+          x = .,
+          centrality = "mean",
+          ci = 0.95
+        )),
+        style = "broom"
+      )
+    ) %>%
+    dplyr::rename(mean = estimate) %>%
+    dplyr::ungroup(.) %>%
+    dplyr::rowwise()
+
+  # prepare label
+  if (isTRUE(mean.ci)) {
+    mean_df %<>%
+      dplyr::mutate(
+        label = paste0(
+          "list(~italic(widehat(mu))=='",
+          specify_decimal_p(mean, k),
+          "',",
+          "CI[95*'%']",
+          "*'['*'",
+          specify_decimal_p(conf.low, k),
+          "','",
+          specify_decimal_p(conf.high, k),
+          "'*']')"
+        )
+      )
+  } else {
+    mean_df %<>%
+      dplyr::mutate(
+        label = paste0("list(~italic(widehat(mu))=='", specify_decimal_p(mean, k), "')")
+      )
+  }
+
+  # add label about sample size
+  mean_df %<>%
+    dplyr::ungroup(.) %>%
+    dplyr::mutate(n_label = paste0({{ x }}, "\n(n = ", n, ")")) %>%
+    dplyr::arrange({{ x }}) %>%
+    dplyr::select({{ x }}, !!as.character(rlang::ensym(y)) := mean, dplyr::matches("label"))
+
+  # if there should be lines connecting mean values across groups
+  if (isTRUE(mean.path)) {
+    plot <- plot +
+      rlang::exec(
+        .fn = ggplot2::geom_path,
+        data = mean_df,
+        mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, group = 1),
+        inherit.aes = FALSE,
+        !!!mean.path.args
+      )
+  }
+
+  # ------------------------ plot -------------------------------------
+
   # highlight the mean of each group
   plot <- plot +
     rlang::exec(
@@ -134,10 +130,10 @@ mean_ggrepel <- function(plot,
     )
 
   # attach the labels with means to the plot
-  plot +
+  plot <- plot +
     rlang::exec(
       .fn = ggrepel::geom_label_repel,
-      data = mean.data,
+      data = mean_df,
       mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, label = label),
       show.legend = FALSE,
       min.segment.length = 0,
@@ -146,6 +142,14 @@ mean_ggrepel <- function(plot,
       na.rm = TRUE,
       !!!mean.label.args
     )
+
+  # adding sample size labels to the x axes
+  if (isTRUE(sample.size.label)) {
+    plot <- plot + ggplot2::scale_x_discrete(labels = c(unique(mean_df$n_label)))
+  }
+
+  # return the plot
+  plot
 }
 
 #' @title Adding `geom_signif` to `ggplot`
@@ -198,17 +202,17 @@ ggsignif_adder <- function(plot,
   # creating a column for group combinations
   df_pairwise %<>% dplyr::mutate(groups = purrr::pmap(.l = list(group1, group2), .f = c))
 
-  # for Bayes Factor, there will be no "significance" column
-  if ("significance" %in% names(df_pairwise)) {
+  # for Bayes Factor, there will be no "p.value" column
+  if ("p.value" %in% names(df_pairwise)) {
     # decide what needs to be displayed:
     # only significant comparisons shown
     if (pairwise.display %in% c("s", "significant")) {
-      df_pairwise %<>% dplyr::filter(.data = ., significance != "ns")
+      df_pairwise %<>% dplyr::filter(.data = ., p.value < 0.05)
     }
 
     # only non-significant comparisons shown
     if (pairwise.display %in% c("ns", "nonsignificant", "non-significant")) {
-      df_pairwise %<>% dplyr::filter(.data = ., significance == "ns")
+      df_pairwise %<>% dplyr::filter(.data = ., p.value >= 0.05)
     }
 
     # proceed only if there are any significant comparisons to display
@@ -313,5 +317,61 @@ aesthetic_addon <- function(plot,
   # ---------------- adding ggplot component ---------------------------------
 
   # return with any additional modification that needs to be made to the plot
-  return(plot + ggplot.component)
+  plot + ggplot.component
+}
+
+
+#' @title Adding a column to dataframe describing outlier status
+#' @name outlier_df
+#'
+#' @inheritParams long_to_wide_converter
+#' @param outlier.label Label to put on the outliers that have been tagged. This
+#'   can't be the same as x argument.
+#' @param outlier.coef Coefficient for outlier detection using Tukey's method.
+#'   With Tukey's method, outliers are below (1st Quartile) or above (3rd
+#'   Quartile) `coef` times the Inter-Quartile Range (IQR) (Default: `1.5`).
+#' @param ... Additional arguments.
+#'
+#' @return The dataframe entered as `data` argument is returned with two
+#'   additional columns: `isanoutlier` and `outlier` denoting which observation
+#'   are outliers and their corresponding labels.
+#'
+#' @importFrom rlang enquo ensym
+#' @importFrom stats quantile
+#' @importFrom dplyr group_by mutate ungroup
+#'
+#'
+#' @examples
+#' # adding column for outlier and a label for that outlier
+#' ggstatsplot:::outlier_df(
+#'   data = morley,
+#'   x = Expt,
+#'   y = Speed,
+#'   outlier.label = Run,
+#'   outlier.coef = 2
+#' ) %>%
+#'   dplyr::arrange(outlier)
+#' @noRd
+
+# function body
+outlier_df <- function(data,
+                       x,
+                       y,
+                       outlier.label,
+                       outlier.coef = 1.5,
+                       ...) {
+  # defining function to detect outliers based on interquartile range
+  check_outlier <- function(var, coef = 1.5) {
+    quantiles <- stats::quantile(x = var, probs = c(0.25, 0.75), na.rm = TRUE)
+    IQR <- quantiles[2] - quantiles[1]
+    (var < (quantiles[1] - coef * IQR)) | (var > (quantiles[2] + coef * IQR))
+  }
+
+  # add a logical column indicating whether a point is or is not an outlier
+  dplyr::group_by(.data = data, {{ x }}) %>%
+    dplyr::mutate(
+      isanoutlier = ifelse(check_outlier({{ y }}, outlier.coef), TRUE, FALSE),
+      outlier = ifelse(isanoutlier, {{ outlier.label }}, NA)
+    ) %>%
+    dplyr::ungroup(.)
 }

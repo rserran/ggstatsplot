@@ -17,12 +17,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE, warning = FALSE, message = FALSE}
+```{r setup, include = FALSE}
 # show me all columns
-options(tibble.width = Inf)
+options(tibble.width = Inf, pillar.bold = TRUE, pillar.subtle_num = TRUE)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
+  dpi = 300,
+  warning = FALSE,
+  message = FALSE,
+  out.width = "100%",
   comment = "#>"
 )
 ```
@@ -41,14 +45,14 @@ Let's begin with a very simple example from the `ggplot2` package
 (`ggplot2::mpg`), a subset of the fuel economy data that the EPA makes available
 on <http://fueleconomy.gov>.
 
-```{r mpg, warning = FALSE, message = FALSE}
+```{r mpg}
 # looking at the structure of the data using glimpse
 dplyr::glimpse(x = ggplot2::mpg)
 ```
 
 Let's say we want to visualize the distribution of mileage by car manufacturer. 
 
-```{r mpg2, warning = FALSE, message = FALSE, fig.height = 7, fig.width = 9}
+```{r mpg2, fig.height = 7, fig.width = 9}
 # for reproducibility
 set.seed(123)
 
@@ -97,7 +101,7 @@ single plot.
 Let's see how we can use this function to apply `ggdotplotstats` to accomplish our
 task. 
 
-```{r grouped1, warning = FALSE, message = FALSE, fig.height = 12, fig.width = 7}
+```{r grouped1, fig.height = 12, fig.width = 7}
 # for reproducibility
 set.seed(123)
 
@@ -146,22 +150,22 @@ See the associated vignette here:
 
 Following tests are carried out for each type of analyses-
 
-Type | Test
------------------- | -------------------------
-Parametric | One-sample Student's *t*-test
-Non-parametric | One-sample Wilcoxon test 
-Robust | One-sample percentile bootstrap
-Bayes Factor | One-sample Student's *t*-test
+Type | Test | Function
+------------------ | ------------------------- | -----
+Parametric | One-sample Student's *t*-test | `stats::t.test`
+Non-parametric | One-sample Wilcoxon test | `stats::wilcox.test`
+Robust | One-sample percentile bootstrap | `WRS2::onesampb`
+Bayes Factor | One-sample Student's *t*-test | `BayesFactor::ttestBF`
 
 Following effect sizes (and confidence intervals/CI) are available for each type
 of test-
 
-Type | Effect size | CI?
------------ | ------------------------- | --- 
-Parametric | Cohen's *d*, Hedge's *g* (central-and noncentral-*t* distribution based) | <font color="green">Yes<font>
-Non-parametric | *r* (computed as $Z/\sqrt{N_{obs}}$) | <font color="green">Yes<font>
-Robust | $M_{robust}$ (Robust location measure) | <font color="green">Yes<font>
-Bayes Factor | <font color="green">Yes</font> | <font color="green">Yes</font>
+Type | Effect size | CI? | Function
+------------ | ----------------------- | --- | -----
+Parametric | Cohen's *d*, Hedge's *g* | <font color="green">Yes<font> | `effectsize::cohens_d`, `effectsize::hedges_g`
+Non-parametric | *r* | <font color="green">Yes<font> | `rcompanion::wilcoxonOneSampleR`
+Robust | robust location measure | <font color="green">Yes<font> | `WRS2::onesampb`
+Bayes Factor | $\delta_{posterior}$ | <font color="green">Yes<font> | `bayestestR::describe_posterior`
 
 
 ## Effect size interpretation

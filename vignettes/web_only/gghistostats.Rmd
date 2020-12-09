@@ -17,12 +17,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE, warning = FALSE, message = FALSE}
+```{r setup, include = FALSE}
 # show me all columns
-options(tibble.width = Inf)
+options(tibble.width = Inf, pillar.bold = TRUE, pillar.subtle_num = TRUE)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
+  dpi = 300,
+  warning = FALSE,
+  message = FALSE,
+  out.width = "100%",
   comment = "#>"
 )
 ```
@@ -45,7 +49,7 @@ Let's begin with a very simple example from the `psych` package
 Quantitative and ACT tests. ACT composite scores may range from 1 - 36. National
 norms have a mean of 20.
 
-```{r psychact, warning = FALSE, message = FALSE}
+```{r psychact}
 # loading needed libraries
 library(ggstatsplot)
 library(psych)
@@ -61,7 +65,7 @@ You should always check this value and explore multiple widths to find the best
 to illustrate the stories in your data since histograms are sensitive to
 binwidth.
 
-```{r psychact2, warning = FALSE, message = FALSE, fig.height = 6, fig.width = 7}
+```{r psychact2, fig.height = 6, fig.width = 7}
 ggstatsplot::gghistostats(
   data = psych::sat.act, # data from which variable is to be taken
   x = ACT, # numeric variable
@@ -86,10 +90,9 @@ we'll also:
 
   1.  Change the overall theme with `ggtheme = ggthemes::theme_tufte()`
   2.  Make the histogram bars a different color with `bar.fill = "#D55E00"`
-  3.  Plot proportions on the `y` axes with `bar.measure = "proportion"`
-  4.  Compute information about the Bayes Factor (`bf.message = TRUE`, see below)
+  3.  Compute information about the Bayes Factor (`bf.message = TRUE`, see below)
 
-```{r psychact3, warning = FALSE, message = FALSE, fig.height = 6, fig.width = 7}
+```{r psychact3, fig.height = 6, fig.width = 7}
 ggstatsplot::gghistostats(
   data = psych::sat.act, # data from which variable is to be taken
   x = ACT, # numeric variable
@@ -129,7 +132,7 @@ given study, groups in a study sample, different studies, etc.
 Let's see how we can use this function to apply `gghistostats` to accomplish our
 task. 
 
-```{r grouped1, warning = FALSE, message = FALSE, fig.height = 10, fig.width = 7}
+```{r grouped1, fig.height = 10, fig.width = 7}
 ggstatsplot::grouped_gghistostats(
   # arguments relevant for ggstatsplot::gghistostats
   data = psych::sat.act, # same dataset
@@ -137,11 +140,9 @@ ggstatsplot::grouped_gghistostats(
   xlab = "ACT Score",
   grouping.var = gender, # grouping variable males = 1, females = 2
   title.prefix = "Gender", # prefix for the fixed title
-  k = 1, # number of decimal places in results
   type = "robust", # robust test: one-sample percentile bootstrap
   test.value = 20, # test value against which sample mean is to be compared
   test.value.line = TRUE, # show a vertical line at `test.value`
-  bar.measure = "density", # density
   centrality.parameter = "median", # plotting centrality parameter
   centrality.line.args = list(color = "#D55E00"), 
   centrality.label.args = list(color = "#D55E00"),
@@ -178,23 +179,22 @@ See the associated vignette here:
 
 Following tests are carried out for each type of analyses-
 
-Type | Test
------------------- | -------------------------
-Parametric | One-sample Student's *t*-test
-Non-parametric | One-sample Wilcoxon test 
-Robust | One-sample percentile bootstrap
-Bayes Factor | One-sample Student's *t*-test
+Type | Test | Function
+------------------ | ------------------------- | -----
+Parametric | One-sample Student's *t*-test | `stats::t.test`
+Non-parametric | One-sample Wilcoxon test | `stats::wilcox.test`
+Robust | One-sample percentile bootstrap | `WRS2::onesampb`
+Bayes Factor | One-sample Student's *t*-test | `BayesFactor::ttestBF`
 
 Following effect sizes (and confidence intervals/CI) are available for each type
 of test-
 
-Type | Effect size | CI?
------------ | ------------------------- | --- 
-Parametric | Cohen's *d*, Hedge's *g* (central-and noncentral-*t* distribution based) | <font color="green">Yes<font>
-Non-parametric | *r* (computed as $Z/\sqrt{N_{obs}}$) | <font color="green">Yes<font>
-Robust | $M_{robust}$ (Robust location measure) | <font color="green">Yes<font>
-Bayes Factor | <font color="green">Yes</font> | <font color="green">Yes</font>
-
+Type | Effect size | CI? | Function
+------------ | ----------------------- | --- | -----
+Parametric | Cohen's *d*, Hedge's *g* | <font color="green">Yes<font> | `effectsize::cohens_d`, `effectsize::hedges_g`
+Non-parametric | *r* | <font color="green">Yes<font> | `rcompanion::wilcoxonOneSampleR`
+Robust | robust location measure | <font color="green">Yes<font> | `WRS2::onesampb`
+Bayes Factor | $\delta_{posterior}$ | <font color="green">Yes<font> | `bayestestR::describe_posterior`
 
 ## Effect size interpretation
 

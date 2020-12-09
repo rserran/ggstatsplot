@@ -1,14 +1,13 @@
 ---
 title: "ggstatsplot: ggplot2 Based Plots with Statistical Details"
 author: Indrajeet Patil^[Max Planck Institute for Human Development, patilindrajeet.science@gmail.com]
-date: "2020-10-06"
+date: "2020-12-09"
 output: 
   bookdown::pdf_document2:
     fig_caption: true
     toc: true
     keep_tex: true
     keep_md: true
-  latex_engine: xelatex
 header-includes: 
   - \usepackage{amsmath}
   - \usepackage{amssymb}
@@ -27,6 +26,120 @@ linkcolor: blue
 ---
 
 
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## Found more than one class "atomicVector" in cache; using the first, from namespace 'Matrix'
+```
+
+```
+## Also defined by 'Rmpfr'
+```
+
+```
+## -- Attaching packages ------------------------------------------------------------------------------------- tidyverse 1.3.0 --
+```
+
+```
+## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.4     v dplyr   1.0.2
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.0
+```
+
+```
+## -- Conflicts ---------------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter()  masks ggstatsplot::filter(), stats::filter()
+## x purrr::is_null() masks ggstatsplot::is_null(), testthat::is_null()
+## x dplyr::lag()     masks stats::lag()
+## x dplyr::matches() masks tidyr::matches(), ggstatsplot::matches(), testthat::matches()
+```
 
 > "What is to be sought in designs for the display of information is the clear
 portrayal of complexity. Not the complication of the simple; rather ... the
@@ -108,7 +221,7 @@ Functions | Description | Parametric | Non-parametric | Robust | Bayes Factor
 `ggpiestats`, `ggbarstats` | Association between categorical variables | \textcolor{ForestGreen}{Yes} | `NA` | `NA` | \textcolor{ForestGreen}{Yes}
 `ggpiestats`, `ggbarstats` | Equal proportions for categorical variable levels | \textcolor{ForestGreen}{Yes} | `NA` | `NA` | \textcolor{ForestGreen}{Yes}
 `ggcoefstats` | Regression model coefficients | \textcolor{ForestGreen}{Yes} | \textcolor{ForestGreen}{Yes} | \textcolor{ForestGreen}{Yes} | \textcolor{ForestGreen}{Yes}
-`ggcoefstats` | Random-effects meta-analysis | \textcolor{ForestGreen}{Yes} | \textcolor{red}{No} | \textcolor{ForestGreen}{Yes} | \textcolor{ForestGreen}{Yes}
+`ggcoefstats` | Random-effects meta-analysis | \textcolor{ForestGreen}{Yes} | `NA` | \textcolor{ForestGreen}{Yes} | \textcolor{ForestGreen}{Yes}
 
 In the following sections, we will discuss at depth justification for why the
 plots have been designed in certain ways and what principles were followed to
@@ -159,8 +272,6 @@ ggstatsplot::ggbetweenstats(
   title = "IMDB rating by film genre",
   xlab = "Genre",
   ylab = "IMDB rating (average)",
-  pairwise.comparisons = TRUE,
-  p.adjust.method = "bonferroni",
   ggtheme = hrbrthemes::theme_ipsum_tw(),
   ggstatsplot.layer = FALSE,
   outlier.tagging = TRUE,
@@ -433,10 +544,8 @@ ggstatsplot::combine_plots(
   plotlist = purrr::pmap(
     .l = list(data = list(msleep_no_na, ggplot2::msleep)),
     .f = ggstatsplot::ggcorrmat,
-    p.adjust.method = "holm",
     cor.vars = c(sleep_rem, awake:bodywt),
     cor.vars.names = var_names,
-    matrix.type = "upper",
     colors = c("#B2182B", "white", "#4D4D4D"),
     title = "Correlalogram for mammals sleep dataset",
     subtitle = "sleep units: hours; weight units: kilograms"
@@ -464,15 +573,19 @@ APA guidelines [@associationPublicationManualAmerican2009] are followed by
 default while reporting statistical details:
 
   - Percentages are displayed with no decimal places (Figure \@ref(fig:fig2)).
+  
   - Correlations, *t*-tests, and $\chi^2$-tests are reported with the degrees
     of freedom in parentheses and the significance level (Figure \@ref(fig:fig4),
     Figure \@ref(fig:fig3), Figure \@ref(fig:fig5)).
+    
   - ANOVAs are reported with two degrees of freedom and the significance level
     (Figure \@ref(fig:fig1)).
+    
   - Regression results are presented with the unstandardized or standardized
     estimate (beta), whichever was specified by the user, along with the
     statistic (depending on the model, this can be a *t*, *F*, or *z* statistic)
     and the corresponding significance level (Figure \@ref(fig:fig6)).
+    
   - With the exception of *p*-values, most statistics are rounded to two decimal
     places by default.
 

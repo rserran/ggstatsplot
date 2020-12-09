@@ -8,7 +8,6 @@ gghistostats(
   data,
   x,
   binwidth = NULL,
-  bar.measure = "count",
   xlab = NULL,
   title = NULL,
   subtitle = NULL,
@@ -34,7 +33,7 @@ gghistostats(
   centrality.line.args = list(size = 1, color = "blue"),
   centrality.label.args = list(color = "blue", size = 3),
   normal.curve = FALSE,
-  normal.curve.args = list(size = 3),
+  normal.curve.args = list(size = 2),
   ggplot.component = NULL,
   output = "plot",
   ...
@@ -51,13 +50,6 @@ numeric value, or a function that calculates width from \code{x}. The default is
 to use the \code{max(x) - min(x) / sqrt(N)}. You should always check this value
 and explore multiple widths to find the best to illustrate the stories in
 your data.}
-
-\item{bar.measure}{Character describing what value needs to be represented as
-height in the bar chart. This can either be \code{"count"}, which shows number
-of points in bin, or \code{"density"}, which density of points in bin, scaled to
-integrate to 1, or "\code{proportion}", which shows relative frequencies of
-observations in each bin, or "\code{mix}", which shows \emph{both} count and
-proportion in the same plot.}
 
 \item{xlab}{Labels for \code{x} and \code{y} axis variables. If \code{NULL} (default),
 variable names for \code{x} and \code{y} will be used.}
@@ -88,13 +80,13 @@ parametric test} (Default: \code{TRUE}).}
 argument can be \code{"d"} (for Cohen's \emph{d}) or \code{"g"} (for Hedge's \emph{g}).}
 
 \item{conf.level}{Scalar between 0 and 1. If unspecified, the defaults return
-\verb{95\%} lower and upper confidence intervals (\code{0.95}).}
+\verb{95\%} confidence/credible intervals (\code{0.95}).}
 
 \item{nboot}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
 
 \item{k}{Number of digits after decimal point (should be an integer)
-(Default: \code{k = 2}).}
+(Default: \code{k = 2L}).}
 
 \item{ggtheme}{A function, \code{ggplot2} theme name. Default value is
 \code{ggplot2::theme_bw()}. Any of the \code{ggplot2} themes, or themes from
@@ -153,8 +145,9 @@ by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} va
 of the current function. Default is \code{NULL}. The argument should be entered
 as a function.}
 
-\item{output}{Can either be \code{"expression"}, which will return expression or
-\code{"dataframe"}, which will return a dataframe with results.}
+\item{output}{If \code{"expression"}, will return expression with statistical
+details, while \code{"dataframe"} will return a dataframe containing the
+results.}
 
 \item{...}{Currently ignored.}
 }
@@ -177,9 +170,8 @@ ggstatsplot::gghistostats(
 ggstatsplot::gghistostats(
   data = iris,
   x = Sepal.Length,
-  bar.measure = "mix",
   type = "p",
-  caption = substitute(paste(italic("Note"), ": Iris dataset by Fisher.")),
+  caption = substitute(paste(italic("Note"), ": Iris dataset by Anderson")),
   bf.prior = 0.8,
   test.value = 3,
   test.value.line = TRUE,

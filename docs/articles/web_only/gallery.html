@@ -41,18 +41,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../../reference/index.html">Reference</a>
 </li>
@@ -143,14 +137,13 @@
 
       
 
-      </header><script src="gallery_files/header-attrs-2.4.5/header-attrs.js"></script><link href="gallery_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="gallery_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="gallery_files/header-attrs-2.5.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Gallery of ggstatsplot examples</h1>
                         <h4 class="author">Indrajeet Patil</h4>
             
-            <h4 class="date">2020-10-16</h4>
+            <h4 class="date">2020-12-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/master/vignettes/web_only/gallery.Rmd"><code>vignettes/web_only/gallery.Rmd</code></a></small>
       <div class="hidden name"><code>gallery.Rmd</code></div>
@@ -167,8 +160,8 @@
 <h2 class="hasAnchor">
 <a href="#example-1-ggscatterstats" class="anchor"></a>Example-1: <code>ggscatterstats</code>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># for reproducibility</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># for reproducibility</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="co"># plot</span>
@@ -185,28 +178,25 @@
 <span class="op">)</span> <span class="op">+</span> <span class="co"># further modifications with `ggplot2`</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_rug.html">geom_rug</a></span><span class="op">(</span>sides <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'broom.mixed':</span>
-<span class="co">#&gt;   method      from </span>
-<span class="co">#&gt;   tidy.gamlss broom</span>
 <span class="co">#&gt; Registered S3 methods overwritten by 'lme4':</span>
 <span class="co">#&gt;   method                          from</span>
 <span class="co">#&gt;   cooks.distance.influence.merMod car </span>
 <span class="co">#&gt;   influence.merMod                car </span>
 <span class="co">#&gt;   dfbeta.influence.merMod         car </span>
-<span class="co">#&gt;   dfbetas.influence.merMod        car</span></pre></div>
+<span class="co">#&gt;   dfbetas.influence.merMod        car</span></code></pre></div>
 <p><img src="gallery_files/figure-html/gallery1-1.png" width="100%"></p>
 </div>
 <div id="example-2-ggbetweenstats" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-2-ggbetweenstats" class="anchor"></a>Example-2: <code>ggbetweenstats</code>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># for reproducibility</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># for reproducibility</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="co"># needed library (download from GitHub)</span>
 <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isFALSE</a></span><span class="op">(</span><span class="st">"ggpomological"</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"gadenbuie/ggpomological"</span><span class="op">)</span>
+  <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"gadenbuie/ggpomological"</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="co"># setup</span>
@@ -235,7 +225,7 @@
   res <span class="op">=</span> <span class="fl">110</span>,
   width <span class="op">=</span> <span class="fl">1000</span>,
   height <span class="op">=</span> <span class="fl">700</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <p><img src="gallery_files/figure-html/gallery2-1.png" width="100%"></p>
 </div>
 </div>
@@ -266,7 +256,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

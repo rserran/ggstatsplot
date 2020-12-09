@@ -91,19 +91,13 @@ grouping variable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -266,9 +260,7 @@ variable name entered for <code>grouping.var</code> will be used.</p></td>
 you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
 Setting this to <code>"caption"</code> will return the expression containing details
 about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
-<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>. For functions
-<code>ggpiestats</code> and <code>ggbarstats</code>, setting <code>output = "proptest"</code> will return a
-dataframe containing results from proportion tests.</p></td>
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -296,7 +288,7 @@ or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations ar
 <code>"p"</code> (for parametric), <code>"np"</code> (nonparametric), <code>"r"</code> (robust), or
 <code>"bf"</code>resp.</p></dd>
     <dt><code>pairwise.comparisons</code></dt><dd><p>Logical that decides whether pairwise comparisons
-are to be displayed (default: <code>FALSE</code>). Please note that only
+are to be displayed (default: <code>TRUE</code>). Please note that only
 <strong>significant</strong> comparisons will be shown by default. To change this
 behavior, select appropriate option with <code>pairwise.display</code> argument. The
 pairwise comparison dataframes are prepared using the
@@ -313,11 +305,8 @@ displayed.</p></dd>
 comparisons. Possible methods are: <code>"holm"</code> (default), <code>"hochberg"</code>,
 <code>"hommel"</code>, <code>"bonferroni"</code>, <code>"BH"</code>, <code>"BY"</code>, <code>"fdr"</code>, <code>"none"</code>.</p></dd>
     <dt><code>effsize.type</code></dt><dd><p>Type of effect size needed for <em>parametric</em> tests. The
-argument can be <code>"biased"</code> (equivalent to <code>"d"</code> for Cohen's <em>d</em> for
-<strong>t-test</strong>; <code>"partial_eta"</code> for partial eta-squared for <strong>anova</strong>) or
-<code>"unbiased"</code> (equivalent to <code>"g"</code> Hedge's <em>g</em> for <strong>t-test</strong>;
-<code>"partial_omega"</code> for partial omega-squared for <strong>anova</strong>)).</p></dd>
-    <dt><code>partial</code></dt><dd><p>If <code>TRUE</code>, return partial indices.</p></dd>
+argument can be <code>"eta"</code> (partial eta-squared) or <code>"omega"</code> (partial
+omega-squared).</p></dd>
     <dt><code>bf.prior</code></dt><dd><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
 width to use in calculating Bayes factors.</p></dd>
     <dt><code>bf.message</code></dt><dd><p>Logical that decides whether to display Bayes Factor in
@@ -337,9 +326,9 @@ variable names for <code>x</code> and <code>y</code> will be used.</p></dd>
 should be displayed for each level of the grouping variable <code>x</code> (Default:
 <code>TRUE</code>).</p></dd>
     <dt><code>k</code></dt><dd><p>Number of digits after decimal point (should be an integer)
-(Default: <code>k = 2</code>).</p></dd>
+(Default: <code>k = 2L</code>).</p></dd>
     <dt><code>conf.level</code></dt><dd><p>Scalar between 0 and 1. If unspecified, the defaults return
-<code>95%</code> lower and upper confidence intervals (<code>0.95</code>).</p></dd>
+<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></dd>
     <dt><code>nboot</code></dt><dd><p>Number of bootstrap samples for computing confidence interval
 for the effect size (Default: <code>100</code>).</p></dd>
     <dt><code>tr</code></dt><dd><p>Trim level for the mean when carrying out <code>robust</code> tests. If you
@@ -361,8 +350,8 @@ arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference
 displayed. If <code>TRUE</code>, a notched box plot will be used. Notches are used to
 compare groups; if the notches of two boxes do not overlap, this suggests
 that the medians are significantly different. In a notched box plot, the
-notches extend <code>1.58 * IQR / sqrt(n)</code>. This gives a roughly <code>95%</code>
-confidence interval for comparing medians. IQR: Inter-Quartile Range.</p></dd>
+notches extend <code>1.58 * IQR / sqrt(n)</code>, where IQR: Inter-Quartile Range.
+This gives a roughly <code>95%</code> confidence interval for comparing medians.</p></dd>
     <dt><code>notchwidth</code></dt><dd><p>For a notched box plot, width of the notch relative to the
 body (default <code>0.5</code>).</p></dd>
     <dt><code>outlier.tagging</code></dt><dd><p>Decides whether outliers should be tagged (Default:
@@ -372,11 +361,7 @@ With Tukey's method, outliers are below (1st Quartile) or above (3rd
 Quartile) <code>outlier.coef</code> times the Inter-Quartile Range (IQR) (Default:
 <code>1.5</code>).</p></dd>
     <dt><code>outlier.label.args</code></dt><dd><p>A list of additional aesthetic arguments to be
-passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms
-involved outlier value plotting.</p></dd>
-    <dt><code>outlier.point.args</code></dt><dd><p>A list of additional aesthetic arguments to be
-passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms
-involved outlier value plotting.</p></dd>
+passed to <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> for outlier label plotting.</p></dd>
     <dt><code>violin.args</code></dt><dd><p>A list of additional aesthetic arguments to be passed to
 the <code>geom_violin</code>.</p></dd>
     <dt><code>ggsignif.args</code></dt><dd><p>A list of additional aesthetic
@@ -438,11 +423,9 @@ provided to <code>title</code>, <code>caption</code> and <code>sub</code>, resp.
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>For more about how the effect size measures (for nonparametric tests) and
-their confidence intervals are computed, see <code><a href='https://rdrr.io/pkg/rcompanion/man/wilcoxonPairedR.html'>?rcompanion::wilcoxonPairedR</a></code>.</p>
-<p>For independent measures designs, use <code>ggbetweenstats</code>.</p>
+    <p><a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='ggwithinstats.html'>ggwithinstats</a></code>, <code><a href='ggbetweenstats.html'>ggbetweenstats</a></code>,
@@ -463,8 +446,7 @@ their confidence intervals are computed, see <code><a href='https://rdrr.io/pkg/
   ggplot.component <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>
     breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.1</span><span class='op'>)</span>,
     limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
-  <span class='op'>)</span>,
-  messages <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='op'>)</span>
 <span class='op'>)</span>
 </div><div class='img'><img src='grouped_ggwithinstats-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
@@ -483,7 +465,7 @@ their confidence intervals are computed, see <code><a href='https://rdrr.io/pkg/
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

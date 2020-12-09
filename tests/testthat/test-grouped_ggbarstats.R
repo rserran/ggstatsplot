@@ -11,24 +11,21 @@ testthat::test_that(
     ## expecting error message
     testthat::expect_error(ggstatsplot::grouped_ggbarstats(
       data = mpg_short,
-      main = cyl,
-      grouping.var = class,
-      messages = FALSE
+      x = cyl,
+      grouping.var = class
     ))
 
     testthat::expect_error(ggstatsplot::grouped_ggbarstats(
       data = mpg_short,
-      main = cyl,
-      messages = FALSE
+      x = cyl
     ))
 
-    testthat::expect_is(
+    testthat::expect_s3_class(
       ggstatsplot::grouped_ggbarstats(
         data = mpg_short,
-        main = cyl,
-        condition = class,
-        grouping.var = class,
-        messages = FALSE
+        x = cyl,
+        y = class,
+        grouping.var = class
       ),
       "ggplot"
     )
@@ -38,11 +35,10 @@ testthat::test_that(
     testthat::expect_true(inherits(suppressWarnings(
       ggstatsplot::grouped_ggbarstats(
         data = mpg_short,
-        main = "cyl",
-        condition = class,
+        x = "cyl",
+        y = class,
         grouping.var = drv,
-        x.axis.orientation = "horizontal",
-        messages = FALSE
+        x.axis.orientation = "horizontal"
       )
     ),
     what = "gg"
@@ -53,11 +49,10 @@ testthat::test_that(
     testthat::expect_true(inherits(suppressWarnings(
       ggstatsplot::grouped_ggbarstats(
         data = mpg_short,
-        main = cyl,
-        condition = "class",
+        x = cyl,
+        y = "class",
         grouping.var = "drv",
-        x.axis.orientation = "slant",
-        messages = FALSE
+        x.axis.orientation = "slant"
       )
     ),
     what = "gg"
@@ -71,10 +66,9 @@ testthat::test_that(
       ggstatsplot::grouped_ggbarstats(
         data = as.data.frame(Titanic),
         grouping.var = Class,
-        main = Sex,
-        condition = Survived,
-        counts = Freq,
-        messages = FALSE
+        x = Sex,
+        y = Survived,
+        counts = Freq
       )
     ),
     what = "gg"
@@ -86,10 +80,9 @@ testthat::test_that(
       ggstatsplot::grouped_ggbarstats(
         data = as.data.frame(Titanic),
         grouping.var = "Class",
-        main = "Sex",
-        condition = "Survived",
-        counts = "Freq",
-        messages = FALSE
+        x = "Sex",
+        y = "Survived",
+        counts = "Freq"
       )
     ),
     what = "gg"
@@ -104,29 +97,30 @@ testthat::test_that(
   code = {
     testthat::skip_on_cran()
 
+    set.seed(123)
+    df <- dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1) %>%
+      dplyr::mutate_if(., is.factor, droplevels)
+
+
     # should output a list of length 3
     set.seed(123)
     ls_results <-
       suppressWarnings(ggstatsplot::grouped_ggbarstats(
-        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1),
-        main = relig,
-        condition = marital,
-        grouping.var = "race",
-        output = "subtitle",
-        k = 3,
-        messages = FALSE
+        data = df,
+        x = relig,
+        y = marital,
+        grouping.var = race,
+        output = "subtitle"
       ))
 
     set.seed(123)
     sexpr_results <-
       suppressWarnings(statsExpressions::expr_contingency_tab(
-        data = dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1) %>%
-          dplyr::filter(race == "Other"),
+        data = dplyr::filter(df, race == "Other") %>%
+          dplyr::mutate_if(., is.factor, droplevels),
         x = relig,
         y = marital,
-        output = "subtitle",
-        k = 3,
-        messages = FALSE
+        output = "subtitle"
       ))
 
     # checking subtitle

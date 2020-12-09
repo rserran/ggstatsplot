@@ -16,7 +16,7 @@ modeling are two different phases: visualization informs modeling, and
 modeling in its turn can suggest a different visualization method, and so
 on and so forth. The central idea of \code{ggstatsplot} is simple: combine these
 two phases into one in the form of graphics with statistical details, which
-makes data exploration simpler and faster. Currently, it supports only the
+makes data exploration simpler and faster. Currently, it supports the
 most common types of statistical tests (parametric, non-parametric, Bayes
 Factor, and robust versions of \emph{t}-test/anova, correlation, regression
 analyses, contingency tables analyses, and meta-analysis).
@@ -68,6 +68,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Indrajeet Patil \email{patilindrajeet.science@gmail.com} (\href{https://orcid.org/0000-0003-1995-6531}{ORCID}) [copyright holder]
+\strong{Maintainer}: Indrajeet Patil \email{patilindrajeet.science@gmail.com} (\href{https://orcid.org/0000-0003-1995-6531}{ORCID}) (@patilindrajeets) [copyright holder]
 
 }

@@ -11,7 +11,7 @@
 #' @import ggplot2
 #'
 #' @importFrom dplyr select
-#' @importFrom rlang !! enquo quo_name ensym
+#' @importFrom rlang enquo quo_name ensym
 #' @importFrom purrr map
 #'
 #' @seealso \code{\link{ggbarstats}}, \code{\link{ggpiestats}},
@@ -33,13 +33,13 @@
 #'   dplyr::sample_frac(tbl = ., size = 0.05)
 #'
 #' # plot
+#' # let's skip statistical analysis
 #' ggstatsplot::grouped_ggbarstats(
 #'   data = diamonds_short,
 #'   x = color,
 #'   y = clarity,
 #'   grouping.var = cut,
 #'   title.prefix = "Quality",
-#'   bar.label = "both",
 #'   plotgrid.args = list(nrow = 2)
 #' )
 #' }
@@ -47,14 +47,12 @@
 
 # defining the function
 grouped_ggbarstats <- function(data,
-                               x = NULL,
-                               y = NULL,
+                               x,
+                               y,
                                counts = NULL,
                                grouping.var,
                                title.prefix = NULL,
                                output = "plot",
-                               main,
-                               condition,
                                ...,
                                plotgrid.args = list(),
                                title.text = NULL,
@@ -68,12 +66,8 @@ grouped_ggbarstats <- function(data,
 
   # ensure the grouping variable works quoted or unquoted
   grouping.var <- rlang::ensym(grouping.var)
-  main <- rlang::ensym(main)
-  condition <- if (!rlang::quo_is_null(rlang::enquo(condition))) rlang::ensym(condition)
-  x <- if (!rlang::quo_is_null(rlang::enquo(x))) rlang::ensym(x)
+  x <- rlang::ensym(x)
   y <- if (!rlang::quo_is_null(rlang::enquo(y))) rlang::ensym(y)
-  x <- x %||% main
-  y <- y %||% condition
   counts <- if (!rlang::quo_is_null(rlang::enquo(counts))) rlang::ensym(counts)
 
   # if `title.prefix` is not provided, use the variable `grouping.var` name

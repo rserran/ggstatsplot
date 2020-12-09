@@ -41,18 +41,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../../reference/index.html">Reference</a>
 </li>
@@ -143,14 +137,13 @@
 
       
 
-      </header><script src="ggwithinstats_files/header-attrs-2.4.5/header-attrs.js"></script><link href="ggwithinstats_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="ggwithinstats_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="ggwithinstats_files/header-attrs-2.5.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>ggwithinstats</h1>
                         <h4 class="author">Indrajeet Patil</h4>
             
-            <h4 class="date">2020-10-16</h4>
+            <h4 class="date">2020-12-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/master/vignettes/web_only/ggwithinstats.Rmd"><code>vignettes/web_only/ggwithinstats.Rmd</code></a></small>
       <div class="hidden name"><code>ggwithinstats.Rmd</code></div>
@@ -173,8 +166,8 @@
 <p>To illustrate how this function can be used, we will use the <code>bugs</code> dataset throughout this vignette. This data set, “Bugs”, provides the extent to which men and women want to kill arthropods that vary in freighteningness (low, high) and disgustingness (low, high). Each participant rates their attitudes towards all anthropods. Subset of the data reported by <a href="https://www.sciencedirect.com/science/article/pii/S0747563213000277">Ryan et al. (2013)</a>. Note that this is a repeated measures design because the same participant gave four different ratings across four different conditions (LDLF, LDHF, HDLF, HDHF).</p>
 <p>Suppose the first thing we want to inspect is the distribution of desire to kill across all conditions (disregarding the factorial structure of the experiment). We also want to know if the mean differences in this desire across conditions is statistically significant.</p>
 <p>The simplest form of the function call is-</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># since the confidence intervals for the effect sizes are computed using</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># since the confidence intervals for the effect sizes are computed using</span>
 <span class="co"># bootstrapping, important to set a seed for reproducibility</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a></span><span class="op">)</span>
@@ -184,8 +177,8 @@
   data <span class="op">=</span> <span class="va">bugs_long</span>,
   x <span class="op">=</span> <span class="va">condition</span>,
   y <span class="op">=</span> <span class="va">desire</span>
-<span class="op">)</span></pre></div>
-<p><img src="ggwithinstats_files/figure-html/ggwithinstats1-1.png" width="768"></p>
+<span class="op">)</span></code></pre></div>
+<p><img src="ggwithinstats_files/figure-html/ggwithinstats1-1.png" width="100%"></p>
 <p><strong>Note</strong>:</p>
 <ul>
 <li><p>The function automatically decides whether a dependent samples test is preferred (for 2 groups) or an ANOVA (3 or more groups). based on the number of levels in the grouping variable.</p></li>
@@ -194,8 +187,8 @@
 <p>As can be seen from the plot, the function by default returns Bayes Factor for the test. If the null hypothesis can’t be rejected with the null hypothesis significance testing (NHST) approach, the Bayesian approach can help index evidence in favor of the null hypothesis (i.e., <span class="math inline">\(BF_{01}\)</span>).</p>
 <p>By default, natural logarithms are shown because Bayes Factor values can sometimes be pretty large. Having values on logarithmic scale also makes it easy to compare evidence in favor alternative (<span class="math inline">\(BF_{10}\)</span>) versus null (<span class="math inline">\(BF_{01}\)</span>) hypotheses (since <span class="math inline">\(log_{e}(BF_{01}) = - log_{e}(BF_{10})\)</span>).</p>
 <p>We can make the output much more aesthetically pleasing as well as informative by making use of the many optional parameters in <code>ggwithinstats</code>. We’ll add a title and caption, better <code>x</code> and <code>y</code> axis labels, and tag and label the outliers in the data. We can and will change the overall theme as well as the color palette in use.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># for reproducibility</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># for reproducibility</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">firatheme</span><span class="op">)</span>
@@ -227,14 +220,14 @@
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>
     limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>,
     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">10</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-  <span class="op">)</span></pre></div>
-<p><img src="ggwithinstats_files/figure-html/ggwithinstats2-1.png" width="768"></p>
+  <span class="op">)</span></code></pre></div>
+<p><img src="ggwithinstats_files/figure-html/ggwithinstats2-1.png" width="100%"></p>
 <p>As can be appreciated from the effect size (partial eta squared) of 0.18, there are small differences in the mean desire to kill across conditions. Importantly, this plot also helps us appreciate the distributions within any given condition.</p>
 <p>So far we have only used a classic parametric test, but we can also use other available options: The <code>type</code> (of test) argument also accepts the following abbreviations: <code>"p"</code> (for <em>parametric</em>), <code>"np"</code> (for <em>nonparametric</em>), <code>"r"</code> (for <em>robust</em>), <code>"bf"</code> (for <em>Bayes Factor</em>).</p>
 <p>Let’s use the <code>combine_plots</code> function to make one plot from four separate plots that demonstrates all of these options. Let’s compare desire to kill bugs only for low versus high disgust conditions to see how much of a difference whether a bug is disgusting-looking or not makes to the desire to kill that bug. We will generate the plots one by one and then use <code>combine_plots</code> to merge them into one plot with some common labeling. It is possible, but not necessarily recommended, to make each plot have different colors or themes.</p>
 <p>For example,</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># for reproducibility</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># for reproducibility</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a></span><span class="op">)</span>
 
@@ -313,8 +306,8 @@
   caption.text <span class="op">=</span> <span class="st">"Source: Bugs dataset from `jmv` R package"</span>,
   title.size <span class="op">=</span> <span class="fl">14</span>,
   caption.size <span class="op">=</span> <span class="fl">12</span>
-<span class="op">)</span></pre></div>
-<p><img src="ggwithinstats_files/figure-html/ggwithinstats3-1.png" width="1344"></p>
+<span class="op">)</span></code></pre></div>
+<p><img src="ggwithinstats_files/figure-html/ggwithinstats3-1.png" width="100%"></p>
 </div>
 <div id="grouped-analysis-with-grouped_ggwithinstats" class="section level2">
 <h2 class="hasAnchor">
@@ -323,8 +316,8 @@
 <p>What if we want to carry out this same analysis but for each region (or gender)?</p>
 <p><code>ggstatsplot</code> provides a special helper function for such instances: <code>grouped_ggwithinstats</code>. This is merely a wrapper function around <code><a href="../../reference/combine_plots.html">ggstatsplot::combine_plots</a></code>. It applies <code>ggwithinstats</code> across all <strong>levels</strong> of a specified <strong>grouping variable</strong> and then combines list of individual plots into a single plot. Note that the grouping variable can be anything: conditions in a given study, groups in a study sample, different studies, etc.</p>
 <p>Let’s focus on the two regions and for years: 1967, 1987, 2007. Also, let’s carry out pairwise comparisons to see if there differences between every pair of continents.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># for reproducibility</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># for reproducibility</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a></span><span class="op">)</span>
 
@@ -343,7 +336,6 @@
   ggtheme <span class="op">=</span> <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>,
   package <span class="op">=</span> <span class="st">"ggsci"</span>,
   palette <span class="op">=</span> <span class="st">"default_jco"</span>,
-  notch <span class="op">=</span> <span class="cn">TRUE</span>,
   outlier.tagging <span class="op">=</span> <span class="cn">TRUE</span>,
   ggstatsplot.layer <span class="op">=</span> <span class="cn">FALSE</span>,
   outlier.label <span class="op">=</span> <span class="va">education</span>,
@@ -353,8 +345,8 @@
   <span class="co"># arguments relevant for ggstatsplot::combine_plots</span>
   title.text <span class="op">=</span> <span class="st">"Desire to kill bugs across genders"</span>,
   plotgrid.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="op">)</span></pre></div>
-<p><img src="ggwithinstats_files/figure-html/grouped1-1.png" width="768"></p>
+<span class="op">)</span></code></pre></div>
+<p><img src="ggwithinstats_files/figure-html/grouped1-1.png" width="100%"></p>
 </div>
 <div id="grouped-analysis-with-ggwithinstats-purrr" class="section level2">
 <h2 class="hasAnchor">
@@ -392,7 +384,7 @@
 <tr class="even">
 <td>Non-parametric</td>
 <td>&gt; 2</td>
-<td>Friedman test</td>
+<td>Friedman rank sum test</td>
 </tr>
 <tr class="odd">
 <td>Robust</td>
@@ -429,25 +421,30 @@
 <p>Following effect sizes (and confidence intervals/CI) are available for each type of test-</p>
 <table class="table">
 <colgroup>
-<col width="26%">
-<col width="7%">
-<col width="59%">
-<col width="7%">
+<col width="23%">
+<col width="6%">
+<col width="53%">
+<col width="6%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th>Type</th>
 <th>No. of groups</th>
 <th>Effect size</th>
 <th>CI?</th>
+<th>Function</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td>Parametric</td>
 <td>&gt; 2</td>
 <td>
-<span class="math inline">\(\eta_{p}^2\)</span>, <span class="math inline">\(\omega^2\)</span>
+<span class="math inline">\(\eta_{p}^2\)</span>, <span class="math inline">\(\omega_{p}^2\)</span>
 </td>
 <td><font color="green">Yes<font></font></font></td>
+<td>
+<code><a href="https://easystats.github.io/effectsize/reference/eta_squared.html">effectsize::omega_squared</a></code>, <code><a href="https://easystats.github.io/effectsize/reference/eta_squared.html">effectsize::eta_squared</a></code>
+</td>
 </tr>
 <tr class="even">
 <td>Non-parametric</td>
@@ -455,24 +452,31 @@
 <td>
 <span class="math inline">\(W_{Kendall}\)</span> (Kendall’s coefficient of concordance)</td>
 <td><font color="green">Yes<font></font></font></td>
+<td><code><a href="https://rdrr.io/pkg/rcompanion/man/kendallW.html">rcompanion::kendallW</a></code></td>
 </tr>
 <tr class="odd">
 <td>Robust</td>
 <td>&gt; 2</td>
 <td><font color="red">No<font></font></font></td>
 <td><font color="red">No<font></font></font></td>
+<td><code>NA</code></td>
 </tr>
 <tr class="even">
 <td>Bayes Factor</td>
 <td>&gt; 2</td>
-<td><font color="red">No<font></font></font></td>
-<td><font color="red">No<font></font></font></td>
+<td><span class="math inline">\(R_{posterior}^2\)</span></td>
+<td><font color="green">Yes<font></font></font></td>
+<td><code><a href="https://easystats.github.io/performance/reference/r2_bayes.html">performance::r2_bayes</a></code></td>
 </tr>
 <tr class="odd">
 <td>Parametric</td>
 <td>2</td>
-<td>Cohen’s <em>d</em>, Hedge’s <em>g</em> (central-and noncentral-<em>t</em> distribution based)</td>
+<td>Cohen’s <em>d</em>, Hedge’s <em>g</em>
+</td>
 <td><font color="green">Yes<font></font></font></td>
+<td>
+<code><a href="https://easystats.github.io/effectsize/reference/cohens_d.html">effectsize::cohens_d</a></code>, <code><a href="https://easystats.github.io/effectsize/reference/cohens_d.html">effectsize::hedges_g</a></code>
+</td>
 </tr>
 <tr class="even">
 <td>Non-parametric</td>
@@ -480,19 +484,22 @@
 <td>
 <em>r</em> (computed as <span class="math inline">\(Z/\sqrt{N}\)</span>)</td>
 <td><font color="green">Yes<font></font></font></td>
+<td><code><a href="https://rdrr.io/pkg/rcompanion/man/wilcoxonR.html">rcompanion::wilcoxonR</a></code></td>
 </tr>
 <tr class="odd">
 <td>Robust</td>
 <td>2</td>
 <td>
-<span class="math inline">\(\delta_{R}\)</span> (robust standardized difference similar to Cohen’s <em>d</em>)</td>
+<span class="math inline">\(\delta_{R}\)</span> (robust standardized difference)</td>
 <td><font color="green">Yes<font></font></font></td>
+<td><code><a href="https://rdrr.io/pkg/WRS2/man/yuend.html">WRS2::dep.effect</a></code></td>
 </tr>
 <tr class="even">
 <td>Bayes Factor</td>
 <td>2</td>
-<td><font color="green">Yes</font></td>
-<td><font color="green">Yes</font></td>
+<td><span class="math inline">\(\delta_{posterior}\)</span></td>
+<td><font color="green">Yes<font></font></font></td>
+<td><code><a href="https://easystats.github.io/bayestestR/reference/describe_posterior.html">bayestestR::describe_posterior</a></code></td>
 </tr>
 </tbody>
 </table>
@@ -503,27 +510,32 @@
 <th>Test</th>
 <th>
 <em>p</em>-value adjustment?</th>
+<th>Function</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td>Parametric</td>
 <td>Student’s <em>t</em>-test</td>
 <td><font color="green">Yes</font></td>
+<td><code><a href="https://rdrr.io/r/stats/pairwise.t.test.html">stats::pairwise.t.test</a></code></td>
 </tr>
 <tr class="even">
 <td>Non-parametric</td>
 <td>Durbin-Conover test</td>
 <td><font color="green">Yes</font></td>
+<td><code><a href="https://rdrr.io/pkg/PMCMRplus/man/durbinAllPairsTest.html">PMCMRplus::durbinAllPairsTest</a></code></td>
 </tr>
 <tr class="odd">
 <td>Robust</td>
 <td>Yuen’s trimmed means test</td>
 <td><font color="green">Yes</font></td>
+<td><code><a href="https://rdrr.io/pkg/WRS2/man/rmanova.html">WRS2::rmmcp</a></code></td>
 </tr>
 <tr class="even">
 <td>Bayes Factor</td>
 <td>Student’s <em>t</em>-test</td>
 <td><code>NA</code></td>
+<td><code><a href="https://rdrr.io/pkg/BayesFactor/man/ttestBF.html">BayesFactor::ttestBF</a></code></td>
 </tr>
 </tbody>
 </table>
@@ -560,7 +572,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

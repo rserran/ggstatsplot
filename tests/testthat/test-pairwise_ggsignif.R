@@ -14,8 +14,6 @@ testthat::test_that(
         y = brainwt,
         results.subtitle = FALSE,
         bf.message = FALSE,
-        messages = FALSE,
-        pairwise.comparisons = TRUE,
         pairwise.display = "s",
         caption = "mammalian sleep",
         k = 3
@@ -60,8 +58,6 @@ testthat::test_that(
         y = votes,
         results.subtitle = FALSE,
         bf.message = FALSE,
-        messages = FALSE,
-        pairwise.comparisons = TRUE,
         p.adjust.method = "none",
         pairwise.display = "ns",
         pairwise.annotation = "p.value",
@@ -121,9 +117,7 @@ testthat::test_that(
         y = rating,
         results.subtitle = FALSE,
         type = "np",
-        messages = FALSE,
         bf.message = FALSE,
-        pairwise.comparisons = TRUE,
         p.adjust.method = "fdr",
         pairwise.display = "all",
         k = 3,
@@ -148,7 +142,6 @@ testthat::test_that(
     # checking comparison groups and labels
     testthat::expect_identical(dat$group1, c("Action", "Action", "Comedy"))
     testthat::expect_identical(dat$group2, c("Comedy", "RomCom", "RomCom"))
-    testthat::expect_identical(dat$significance, c("ns", "***", "***"))
     testthat::expect_identical(
       dat$label,
       c(
@@ -165,14 +158,6 @@ testthat::test_that(
         "; Comparisons shown: ",
         bold("all")
       ))
-    )
-    testthat::expect_identical(
-      ggstatsplot::specify_decimal_p(
-        x = dat$p.value[1],
-        p.value = TRUE,
-        k = 4
-      ),
-      "0.8116"
     )
 
     # checking values
@@ -210,11 +195,9 @@ testthat::test_that(
         y = cty,
         results.subtitle = FALSE,
         bf.message = FALSE,
-        messages = FALSE,
         k = 3,
         type = "r",
         nboot = 20,
-        pairwise.comparisons = TRUE,
         pairwise.display = "s",
         pairwise.annotation = "p.value"
       )
@@ -237,7 +220,6 @@ testthat::test_that(
     # checking comparison groups and labels
     testthat::expect_identical(dat$group1, c("4", "4", "f"))
     testthat::expect_identical(dat$group2, c("f", "r", "r"))
-    testthat::expect_identical(dat$significance, c("***", "ns", "***"))
     testthat::expect_identical(
       pb$plot$labels$caption,
       ggplot2::expr(atop(
@@ -288,14 +270,12 @@ testthat::test_that(
         data = mtcars,
         x = cyl,
         y = wt,
+        results.subtitle = FALSE,
         bf.message = FALSE,
-        messages = FALSE,
         k = 3,
         type = "p",
         p.adjust.method = "bonferroni",
-        nboot = 50,
         var.equal = TRUE,
-        pairwise.comparisons = TRUE,
         pairwise.display = "everything",
         pairwise.annotation = "p"
       )
@@ -318,7 +298,6 @@ testthat::test_that(
     # checking comparison groups and labels)
     testthat::expect_identical(dat$group1, c("4", "4", "6"))
     testthat::expect_identical(dat$group2, c("6", "8", "8"))
-    testthat::expect_identical(dat$significance, c("*", "***", "*"))
     testthat::expect_identical(
       pb$plot$labels$caption,
       ggplot2::expr(atop(
