@@ -1,9 +1,14 @@
 #' @title Visualization of a correlalogram (or correlation matrix) for all
 #'   levels of a grouping variable
 #' @name grouped_ggcorrmat
-#' @description Helper function for `ggstatsplot::ggcorrmat` to apply this
-#'   function across multiple levels of a given factor and combining the
-#'   resulting plots using `ggstatsplot::combine_plots`.
+#'
+#' @description
+#'
+#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+#'
+#' Helper function for `ggstatsplot::ggcorrmat` to apply this function across
+#' multiple levels of a given factor and combining the resulting plots using
+#' `ggstatsplot::combine_plots`.
 #'
 #' @inheritParams ggcorrmat
 #' @inheritParams grouped_ggbetweenstats
@@ -45,29 +50,20 @@
 # defining the function
 grouped_ggcorrmat <- function(data,
                               cor.vars = NULL,
-                              cor.vars.names = NULL,
                               grouping.var,
                               title.prefix = NULL,
                               output = "plot",
                               ...,
                               plotgrid.args = list(),
-                              title.text = NULL,
-                              title.args = list(size = 16, fontface = "bold"),
-                              caption.text = NULL,
-                              caption.args = list(size = 10),
-                              sub.text = NULL,
-                              sub.args = list(size = 12)) {
+                              annotation.args = list()) {
 
   # ========================= preparing dataframe =============================
 
   # create a list of function call to check for label.expression
   param_list <- as.list(match.call())
 
-  # ensure the grouping variable works quoted or unquoted
-  grouping.var <- rlang::ensym(grouping.var)
-
   # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(grouping.var)
+  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
 
   # getting the dataframe ready
   if ("cor.vars" %in% names(param_list)) {
@@ -86,7 +82,6 @@ grouped_ggcorrmat <- function(data,
     purrr::pmap(
       .l = list(data = df, title = paste0(title.prefix, ": ", names(df))),
       .f = ggstatsplot::ggcorrmat,
-      cor.vars.names = cor.vars.names,
       output = output,
       ...
     )
@@ -96,15 +91,10 @@ grouped_ggcorrmat <- function(data,
   # combining the list of plots into a single plot
   # inform user this can't be modified further with ggplot commands
   if (output == "plot") {
-    return(ggstatsplot::combine_plots2(
+    return(combine_plots(
       plotlist = plotlist_purrr,
       plotgrid.args = plotgrid.args,
-      title.text = title.text,
-      title.args = title.args,
-      caption.text = caption.text,
-      caption.args = caption.args,
-      sub.text = sub.text,
-      sub.args = sub.args
+      annotation.args = annotation.args
     ))
   } else {
     return(dplyr::bind_rows(plotlist_purrr, .id = title.prefix))

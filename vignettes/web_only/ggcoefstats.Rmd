@@ -64,6 +64,10 @@ be invariant across models:
     function will, by default, display a helpful `x`-axis label that should
     clear up what estimates are being displayed. The confidence intervals can
     sometimes be asymmetric if bootstrapping was used.
+    
+  - The label attached to dot will provide more details from the statistical
+    test carried out and it will typically contain estimate, statistic, and
+    *p*-value.
 
   - The caption will contain diagnostic information, if available, about
     models that can be useful for model selection: The smaller the Akaike's
@@ -78,26 +82,28 @@ be invariant across models:
 Most of the regression models that are supported in the underlying packages are
 also supported by `ggcoefstats`. For example-
 
-`aareg`, `anova`, `aov`, `aovlist`, `Arima`, `bam`, `bayesx`, `bayesGARCH`,
-`BBmm`, `BBreg`, `bcplm`, `betamfx`, `betaor`, `BFBayesFactor`, `bglmerMod`,
-`bife`, `bigglm`, `biglm`, `blavaan`, `bmlm`, `blmerMod`, `bracl`, `brglm`,
-`brglm2`, `brmsfit`, `brmultinom`, `btergm`, `cch`, `censReg`, `cgam`, `cgamm`,
-`cglm`, `clm`, `clm2`, `clmm`, `clmm2`, `coeftest`, `complmrob`,
-`confusionMatrix`, `coxme`, `coxph`, `coxph.penal`, `cpglm`, `cpglmm`, `crch`,
-`crq`, `DirichReg`, `drc`, `emmGrid`, `epi.2by2`, `ergm`, `feis`, `felm`,
-`fitdistr`, `flexsurvreg`, `gam`, `Gam`, `gamlss`, `garch`, `geeglm`, `glmc`,
-`glmerMod`, `glmmTMB`, `gls`, `glht`, `glm`, `glmm`, `glmmadmb`, `glmmPQL`,
-`glmRob`, `glmrob`, `glmx`, `gmm`, `HLfit`, `hurdle`, `ivreg`, `iv_robust`,
-`lavaan`, `lm`, `lm.beta`, `lmerMod`, `lmerModLmerTest`, `lmodel2`, `lmRob`,
-`lmrob`, `lm_robust`, `logitmfx`, `logitor`, `logitsf`, `LORgee`, `lqm`, `lqmm`,
-`lrm`, `manova`, `maov`, `margins`, `mcmc`, `mcmc.list`, `MCMCglmm`, `mclogit`,
-`mice`, `mmclogit`, `mediate`, `metafor`, `merMod`, `merModList`, `metaplus`,
-`mixor`, `mjoint`, `mle2`, `mlm`, `multinom`, `negbin`, `negbinmfx`,
-`negbinirr`, `nlmerMod`, `nlrq`, `nlreg`, `nls`, `orcutt`, `orm`, `plm`,
-`poissonmfx`, `poissonirr`, `polr`, `ridgelm`, `rjags`, `rlm`, `rlmerMod`,
-`robmixglm`, `rq`, `rqss`, `rrvglm`, `scam`, `semLm`, `semLme`, `slm`,
-`speedglm`, `speedlm`, `stanfit`, `stanreg`, `survreg`, `svyglm`, `svyolr`,
-`svyglm`, `tobit`, `truncreg`, `vgam`, `vglm`, `wbgee`, `wblm`, `zeroinfl`, etc.
+`aareg`, `afex_aov`, `anova`, `anova.mlm`, `anova`, `aov`, `aovlist`, `Arima`,
+`bam`, `bayesx`, `bayesGARCH`, `BBmm`, `BBreg`, `bcplm`, `betamfx`, `betaor`,
+`BFBayesFactor`, `bglmerMod`, `bife`, `bigglm`, `biglm`, `blavaan`, `bmlm`,
+`blmerMod`, `bracl`, `brglm`, `brglm2`, `brmsfit`, `brmultinom`, `btergm`,
+`cch`, `censReg`, `cgam`, `cgamm`, `cglm`, `clm`, `clm2`, `clmm`, `clmm2`,
+`coeftest`, `complmrob`, `confusionMatrix`, `coxme`, `coxph`, `coxph.penal`,
+`cpglm`, `cpglmm`, `crch`, `crq`, `DirichReg`, `drc`, `emmGrid`, `epi.2by2`,
+`ergm`, `feis`, `felm`, `fitdistr`, `fixest`, `flexsurvreg`, `gam`, `Gam`,
+`gamlss`, `garch`, `geeglm`, `glmc`, `glmerMod`, `glmmTMB`, `gls`, `glht`,
+`glm`, `glmm`, `glmmadmb`, `glmmPQL`, `glmRob`, `glmrob`, `glmx`, `gmm`,
+`HLfit`, `hurdle`, `ivFixed`, `ivprobit`, `ivreg`, `iv_robust`, `lavaan`, `lm`,
+`lm.beta`, `lmerMod`, `lmerModLmerTest`, `lmodel2`, `lmRob`, `lmrob`,
+`lm_robust`, `logitmfx`, `logitor`, `logitsf`, `LORgee`, `lqm`, `lqmm`, `lrm`,
+`manova`, `maov`, `margins`, `mcmc`, `mcmc.list`, `MCMCglmm`, `mclogit`, `mice`,
+`mmclogit`, `mediate`, `metafor`, `merMod`, `merModList`, `metaplus`, `mixor`,
+`mjoint`, `mle2`, `mlm`, `multinom`, `negbin`, `negbinmfx`, `negbinirr`,
+`nlmerMod`, `nlrq`, `nlreg`, `nls`, `orcutt`, `orm`, `plm`, `poissonmfx`,
+`poissonirr`, `polr`, `ridgelm`, `riskRegression`, `rjags`, `rlm`, `rlmerMod`,
+`robmixglm`, `rq`, `rqs`, `rqss`, `rrvglm`, `scam`, `semLm`, `semLme`, `slm`,
+`speedglm`, `speedlm`, `stanfit`, `stanreg`, `summary.lm`, `survreg`, `svyglm`,
+`svyolr`, `svyglm`, `tobit`, `truncreg`, `vgam`, `vglm`, `wbgee`, `wblm`,
+`zeroinfl`, etc.
 
 # Summary of meta-analyis tests
 
@@ -109,7 +115,7 @@ Bayes | Meta-analysis via robust random-effects models | $\beta$ | <font color="
 
 # Examples of supported models
 
-The following are in no particular order.
+The following demos are in **no particular order**.
 
 ## summary grid from `emmeans` package (`emmGrid`)
 
@@ -146,8 +152,8 @@ library(emmeans)
 
 # model and effect sizes
 fiber.lm <- lm(strength ~ diameter + machine, data = fiber)
-emm <- emmeans(fiber.lm, "machine")
-es <- eff_size(emm, sigma = sigma(fiber.lm), edf = df.residual(fiber.lm))
+emm <- emmeans::emmeans(fiber.lm, "machine")
+es <- emmeans::eff_size(emm, sigma = sigma(fiber.lm), edf = df.residual(fiber.lm))
 
 # plot
 ggstatsplot::ggcoefstats(
@@ -177,13 +183,13 @@ mod3 <- ttestBF(x = sleep$extra[1:10], y = sleep$extra[11:20], paired = TRUE)
 mod4 <- correlationBF(y = iris$Sepal.Length, x = iris$Sepal.Width)
 
 # contingency tabs (not supported)
-# data("raceDolls")
-# mod5 <-
-#   contingencyTableBF(
-#     raceDolls,
-#     sampleType = "indepMulti",
-#     fixedMargin = "cols"
-#   )
+data("raceDolls")
+mod5 <-
+  contingencyTableBF(
+    raceDolls,
+    sampleType = "indepMulti",
+    fixedMargin = "cols"
+  )
 
 # anova
 data("puzzles")
@@ -202,9 +208,10 @@ mod7 <- regressionBF(rating ~ ., data = attitude, progress = FALSE)
 # meta-analysis
 t <- c(-.15, 2.39, 2.42, 2.43, -.15, 2.39, 2.42, 2.43)
 N <- c(100, 150, 97, 99, 99, 97, 100, 150)
-
-# using `rscale = 1` and one-sided test to be consistent with Rouder & Morey (2011)
 mod8 <- meta.ttestBF(t, N, rscale = 1, nullInterval = c(0, Inf))
+
+# proportion test
+mod9 <- proportionBF(y = 15, N = 25, p = .5)
 
 # list of plots
 ggstatsplot::combine_plots(
@@ -212,9 +219,11 @@ ggstatsplot::combine_plots(
   ggcoefstats(mod2, title = "independent t-test"),
   ggcoefstats(mod3, title = "paired t-test"),
   ggcoefstats(mod4, title = "correlation"),
+  ggcoefstats(mod5, title = "contingency table"),
   ggcoefstats(mod6, title = "anova"),
   ggcoefstats(mod7, title = "regression-1"),
   ggcoefstats(mod8, title = "meta-analysis"),
+  ggcoefstats(mod9, title = "proportion test"),
   title.text = "Example from `BayesFactor` package"
 )
 ```
@@ -228,11 +237,11 @@ library(ggstatsplot)
 library(ggplot2)
 
 # model
-mod <- stats::aov(formula = rating ~ mpaa * genre, data = movies_long)
+mod_aov <- stats::aov(formula = rating ~ mpaa * genre, data = movies_long)
 
 # plot
 ggstatsplot::ggcoefstats(
-  x = mod,
+  x = mod_aov,
   effsize = "omega", # changing the effect size estimate being displayed
   point.args = list(color = "red", size = 4, shape = 15), # changing the point geom
   package = "dutchmasters", # package from which color palette is to be taken
@@ -326,16 +335,16 @@ ggstatsplot::ggcoefstats(
 )
 ```
 
-## Anova with `car` package (`anova`)
+## anova with `car` package (`Anova`)
 
-```{r anova_car, fig.height = 6, fig.width = 6}
+```{r Anova, fig.height = 6, fig.width = 6}
 # setup
 set.seed(123)
 library(car)
 library(ggstatsplot)
 
 # model
-mod <-
+mod_Anova <-
   car::Anova(stats::lm(
     formula = conformity ~ fcategory * partner.status,
     data = Moore,
@@ -344,8 +353,52 @@ mod <-
 
 # plot
 ggstatsplot::ggcoefstats(
-  x = mod,
+  x = mod_Anova,
   title = "Anova with `car`"
+)
+```
+
+## ANOVA with `car` package on multiple linear models (`Anova.mlm`)
+
+```{r Anova.mlm, fig.height = 6, fig.width = 6, eval=FALSE}
+# setup
+set.seed(123)
+library(car)
+
+# data
+dv <- c(1, 3, 4, 2, 2, 3, 2, 5, 6, 3, 4, 4, 3, 5, 6)
+subject <- factor(c(
+  "s1", "s1", "s1", "s2", "s2", "s2", "s3", "s3", "s3",
+  "s4", "s4", "s4", "s5", "s5", "s5"
+))
+myfactor <- factor(c(
+  "f1", "f2", "f3", "f1", "f2", "f3", "f1", "f2", "f3",
+  "f1", "f2", "f3", "f1", "f2", "f3"
+))
+mydata <- data.frame(dv, subject, myfactor)
+
+dvm <- with(mydata, cbind(
+  dv[myfactor == "f1"],
+  dv[myfactor == "f2"], dv[myfactor == "f3"]
+))
+
+# model
+mlm1 <- lm(dvm ~ 1)
+
+rfactor <- factor(c("f1", "f2", "f3"))
+
+# model
+mlm1.aov <-
+  car::Anova(mlm1,
+    idata = data.frame(rfactor),
+    idesign = ~rfactor,
+    type = "III"
+  )
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = mlm1.aov,
+  title = "ANOVA with `car` on multiple linear models"
 )
 ```
 
@@ -401,19 +454,10 @@ ggstatsplot::ggcoefstats(
   stats.label.color = c("#CC79A7", "darkgreen", "#0072B2", "darkred", "black", "red"),
   title = "Movie ratings by their genre",
   subtitle = "Source: www.imdb.com"
-) +
-  # further modification with the ggplot2 commands
-  # note the order in which the labels are entered
-  ggplot2::scale_y_discrete(labels = c(
-    "Comedy",
-    "Action Comedy",
-    "Action Drama",
-    "Comedy Drama",
-    "Drama"
-  )) +
-  ggplot2::labs(y = "Genre compared to Action movies)") +
-  ggplot2::theme(axis.title.y = ggplot2::element_text(size = 14, face = "bold"))
+)
 ```
+
+The same output will also be returned for objects of type `summary.lm`.
 
 ## standardized regression coefficients with `lm` (`lm.beta`)
 
@@ -577,6 +621,58 @@ ggstatsplot::combine_plots(
 )
 ```
 
+## anova using `afex` (`afex_aov`)
+
+```{r afex_aov, fig.height = 6, fig.width = 6}
+# setup
+set.seed(123)
+library(afex)
+data(obk.long)
+
+# model
+fit_all <-
+  afex::aov_ez(
+    "id",
+    "value",
+    obk.long,
+    between = c("treatment"),
+    within = c("phase")
+  )
+
+# plot
+ggcoefstats(
+  x = fit_all,
+  title = "anova using `afex`"
+)
+```
+
+## risk regression (`riskRegression`)
+
+```{r riskRegression, fig.height = 6, fig.width = 6}
+# setup
+set.seed(123)
+library(riskRegression)
+library(prodlim)
+data(Melanoma, package = "riskRegression")
+
+# tumor thickness on the log-scale
+Melanoma$logthick <- log(Melanoma$thick)
+
+# absolute risk model
+multi.arr <-
+  riskRegression::ARR(
+    formula = Hist(time, status) ~ logthick + sex + age + ulcer,
+    data = Melanoma,
+    cause = 1
+  )
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = multi.arr,
+  title = "risk regression"
+)
+```
+
 ## Aalen's additive regression model for censored data (`aareg`)
 
 ```{r aareg, fig.height = 5, fig.width = 5}
@@ -682,9 +778,6 @@ ggstatsplot::ggcoefstats(
 
 ## robust linear mixed-effects models (`rlmer`)
 
-Robust version of `lmer` (as implemented in `robustlmm` package) is also
-supported-
-
 ```{r rlmer, width = 5, height = 5}
 # setups
 set.seed(123)
@@ -709,7 +802,7 @@ ggstatsplot::ggcoefstats(
 
 ## linear mixed-effects models with `lmerTest` (`lmerModLmerTest`)
 
-```{r lmerModLmerTest, width = 6, height = 16}
+```{r lmerModLmerTest, width = 8, height = 18}
 # setup
 set.seed(123)
 library(lmerTest)
@@ -754,13 +847,6 @@ ggstatsplot::ggcoefstats(
 
 ## non-linear least-squares model (`nls`)
 
-So far we have been assuming a linear relationship between movie budget and
-rating. But what if we want to also explore the possibility of a non-linear
-relationship? In that case, we can run a non-linear least squares regression.
-Note that you need to choose some non-linear function, which will be based on
-prior exploratory data analysis (`y ~ k/x + c` implemented here, but you can try
-out other non-linear functions, e.g. `Y ~ k * exp(-b*c)`).
-
 ```{r nls, fig.height = 5, fig.width = 5}
 # setup
 set.seed(123)
@@ -781,10 +867,6 @@ ggstatsplot::ggcoefstats(
   subtitle = "Non-linear relationship between budget and rating"
 )
 ```
-
-This analysis shows that there is indeed a possible non-linear association
-between rating and budget (non-linear regression term `k` is significant), at
-least with the particular non-linear function we used.
 
 ## conditional generalized linear models for clustered data (`cglm`)
 
@@ -880,11 +962,6 @@ ggstatsplot::ggcoefstats(
 ```
 
 ## generalized linear model (`glm`)
-
-In all the analyses carried out thus far, the outcome variable (`y` in `y ~ x`)
-has been continuous. In case the outcome variable is nominal/categorical/factor,
-we can use the **generalized** form of linear model that works even if the
-response is a numeric vector or a factor vector, etc.
 
 ```{r glm1, fig.height = 6, fig.width = 6}
 # setup
@@ -2290,29 +2367,23 @@ ggstatsplot::ggcoefstats(
 
 ## Bayesian generalized linear mixed-effects models (`bglmerMod`)
 
-```{r bglmerMod, fig.height = 4, fig.width = 4}
+```{r bglmerMod, fig.height = 6, fig.width = 6}
 # for reproducibility
 set.seed(123)
 library(blme)
 
-# data
-y <- c(28, 8, -3, 7, -1, 1, 18, 12)
-sigma <- c(15, 10, 16, 11, 9, 11, 10, 18)
-g <- 1:8
-
 # model
-schools <-
-  blme::blmer(
-    y ~ 1 + (1 | g),
-    resid.prior = point,
+mod_bglmer <-
+  blme::bglmer(
+    formula = Reaction ~ Days + (1 + Days | Subject),
+    data = sleepstudy,
     cov.prior = NULL,
-    REML = FALSE,
-    weights = 1 / sigma^2
+    fixef.prior = normal
   )
 
 # plot
 ggstatsplot::ggcoefstats(
-  x = schools,
+  x = mod_bglmer,
   title = "Bayesian generalized linear mixed-effects models"
 )
 ```
@@ -2598,7 +2669,7 @@ ggstatsplot::combine_plots(
     x = lmrob(formula = Y ~ ., data = coleman),
     title = "robust linear model"
   ),
-  # arguments relevant for `combine_plots` function
+  # arguments relevant for `combine_plots`
   title.text = "Robust variants of `lmRob` and `glmRob` \n(from`robustbase` package)",
   nrow = 2
 )
@@ -3036,7 +3107,7 @@ ggstatsplot::ggcoefstats(
 )
 ```
 
-# censored regression (tobit) regression (`censReg`)
+## censored regression (tobit) regression (`censReg`)
 
 ```{r censReg, fig.height = 5, fig.width = 5, eval=FALSE}
 # setup
@@ -3313,6 +3384,29 @@ ggstatsplot::ggcoefstats(
 )
 ```
 
+## multiple response quantile regression (`rqs`)
+
+```{r rqs, fig.height = 7, fig.width = 6}
+# setup
+set.seed(123)
+library(quantreg)
+data("engel")
+
+# model
+fm <-
+  quantreg::rq(
+    formula = foodexp ~ income,
+    data = engel,
+    tau = 1:4 / 10
+  )
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = fm,
+  title = "multiple response quantile regression (`rqs`)"
+)
+```
+
 ## nonlinear quantile regression estimates (`nlrq`)
 
 ```{r nlrq, fig.height = 5, fig.width = 5}
@@ -3412,6 +3506,58 @@ ggstatsplot::ggcoefstats(
 )
 ```
 
+## instrumental variables probit regression (`ivprobit`)
+
+```{r ivprobit, fig.height = 6, fig.width = 6}
+# setup
+set.seed(123)
+library(ivprobit)
+data(eco)
+
+# model
+pro <-
+  ivprobit::ivprobit(
+    formula = d2 ~ ltass + roe + div | eqrat + bonus | ltass + roe + div + gap + cfa,
+    data = eco
+  )
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = pro,
+  title = "instrumental variables probit regression"
+)
+```
+
+## instrumental fixed effect panel regression (`ivFixed`)
+
+```{r ivFixed, fig.height = 6, fig.width = 6}
+# setup
+set.seed(123)
+library(ivfixed)
+
+#  data
+pib <- as.matrix(c(12, 3, 4, 0.4, 0.7, 5, 0.7, 0.3, 0.6, 89, 7, 8, 45, 7, 4, 5, 0.5, 5),
+  nrows = 18, ncols = 1
+)
+tir <- as.matrix(c(12, 0.3, 4, 0.4, 7, 12, 3.0, 6.0, 45, 7.0, 0.8, 44, 65, 23, 4, 6, 76, 9),
+  nrows = 18, ncols = 1
+)
+inf <- as.matrix(c(1.2, 3.6, 44, 1.4, 0.78, 54, 0.34, 0.66, 12, 0.7, 8.0, 12, 65, 43, 5, 76, 65, 8), nrows = 18, ncols = 1)
+npl <- as.matrix(c(0.2, 3.8, 14, 2.4, 1.7, 43, 0.2, 0.5, 23, 7.8, 88, 36, 65, 3, 44, 65, 7, 34),
+  nrows = 18, ncols = 1
+)
+mdata <- data.frame(p = pib, t = tir, int = inf, np = npl)
+
+# model
+ivf <- ivfixed::ivFixed(t ~ p + int | p + np, mdata, n = 6, t = 3)
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = ivf,
+  title = "instrumental fixed effect panel regression"
+)
+```
+
 ## causal mediation analysis (`mediate`)
 
 ```{r mediate, fig.height = 5, fig.width = 5}
@@ -3433,7 +3579,7 @@ c <-
   )
 
 # mediation model
-mod <-
+mod_mediate <-
   mediation::mediate(
     model.m = b,
     model.y = c,
@@ -3444,7 +3590,7 @@ mod <-
 
 # plot
 ggstatsplot::ggcoefstats(
-  x = mod,
+  x = mod_mediate,
   title = "causal mediation analysis"
 )
 ```
@@ -3495,6 +3641,32 @@ g_gamlss <-
 ggstatsplot::ggcoefstats(
   x = g_gamlss,
   title = "generalized additive models \nfor location scale and shape"
+)
+```
+
+## Bayesian additive models for location scale and shape (`bamlss`)
+
+```{r bamlss, fig.height = 5, fig.width = 6}
+# setup
+set.seed(123)
+library(bamlss)
+data("SwissLabor", package = "AER")
+
+# formula
+f <- participation ~ income + age + education + youngkids + oldkids + foreign + I(age^2)
+
+# model
+b_bamlss <-
+  bamlss::bamlss(
+    formula = f,
+    family = "binomial",
+    data = SwissLabor
+  )
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = b_bamlss,
+  title = "Bayesian additive models \nfor location scale and shape"
 )
 ```
 
@@ -3710,7 +3882,7 @@ lmod <- lm(Fertility ~ ., data = swiss)
 
 # model
 mod_glht <-
-  glht(
+  multcomp::glht(
     model = lmod,
     linfct = c(
       "Agriculture = 0",
@@ -3793,7 +3965,7 @@ ggstatsplot::ggcoefstats(
 )
 ```
 
-## Firth's Bias-Reduced Logistic Regression (`logitsf`)
+## Firth's bias-reduced logistic regression (`logitsf`)
 
 ```{r logitsf, fig.height = 4, fig.width = 4}
 # setup
@@ -3809,7 +3981,7 @@ mod_logistf <- logistf::logistf(event ~ time, data)
 # plot
 ggstatsplot::ggcoefstats(
   x = mod_logistf,
-  title = "Firth's Bias-Reduced Logistic Regression"
+  title = "Firth's bias-reduced logistic regression"
 )
 ```
 
@@ -3848,7 +4020,7 @@ wages <- panelr::panel_data(data = WageData, id = id, wave = t)
 
 # model
 mod_wblm <-
-  wbm(
+  panelr::wbm(
     formula = lwage ~ lag(union) + wks | blk + fem | blk * lag(union),
     data = wages
   )
@@ -4417,6 +4589,80 @@ ggstatsplot::ggcoefstats(
 )
 ```
 
+## estimations with multiple fixed-effects (`fixest`)
+
+```{r fixest, fig.height = 10, fig.width = 10}
+# setup
+library(fixest)
+
+# data
+data(trade)
+
+# generating data for a simple example
+set.seed(1)
+n <- 100
+x <- rnorm(n, 1, 5)**2
+y <- rnorm(n, -1, 5)**2
+z1 <- rpois(n, x * y) + rpois(n, 2)
+base <- data.frame(x, y, z1)
+
+# creating different `fixest` regression model objects
+mod_fx1 <-
+  fixest::femlm(
+    fml = Euros ~ log(dist_km) | Origin + Destination + Product,
+    data = trade
+  )
+
+mod_fx2 <-
+  fixest::fepois(
+    fml = Sepal.Length ~ Sepal.Width + Petal.Length | Species,
+    data = iris
+  )
+
+mod_fx3 <-
+  fixest::feols(
+    fml = Sepal.Length ~ Sepal.Width + Petal.Length | Species,
+    data = iris
+  )
+
+mod_fx4 <-
+  fixest::feNmlm(
+    z1 ~ 1, base,
+    NL.fml = ~ a * log(x) + b * log(y),
+    NL.start = list(a = 0, b = 0)
+  )
+
+# combining plots
+ggstatsplot::combine_plots(
+  ggstatsplot::ggcoefstats(mod_fx1),
+  ggstatsplot::ggcoefstats(mod_fx2),
+  ggstatsplot::ggcoefstats(mod_fx3),
+  ggstatsplot::ggcoefstats(mod_fx4),
+  labels = "auto",
+  title.text = "fast and user-friendly fixed-effects estimations"
+)
+```
+
+## multivariate analysis of variance (`manova`)
+
+```{r manova, fig.height = 8, fig.width = 8}
+# setup
+set.seed(123)
+op <- options(contrasts = c("contr.helmert", "contr.poly"))
+
+# fake a 2nd response variable
+npk2 <- within(npk, foo <- rnorm(24))
+
+# model
+m_manova <- manova(cbind(yield, foo) ~ block + N * P * K, npk2)
+
+# plot
+ggstatsplot::ggcoefstats(
+  x = m_manova,
+  title = "multivariate analysis of variance"
+)
+```
+
 # Regression models with `list` outputs
 
 Note that a number of regression models will return an object of class `list`,
@@ -4461,26 +4707,6 @@ ggstatsplot::combine_plots(
     k = 3
   ),
   nrow = 1
-)
-```
-
-## multivariate analysis of variance (`manova`)
-
-```{r manova, fig.height = 8, fig.width = 8}
-# setup
-set.seed(123)
-op <- options(contrasts = c("contr.helmert", "contr.poly"))
-
-# fake a 2nd response variable
-npk2 <- within(npk, foo <- rnorm(24))
-
-# model
-m_manova <- manova(cbind(yield, foo) ~ block + N * P * K, npk2)
-
-# plot
-ggstatsplot::ggcoefstats(
-  x = m_manova,
-  title = "multivariate analysis of variance"
 )
 ```
 

@@ -1,6 +1,6 @@
-#'  @title A dataframe with descriptive labels
+#' @title A dataframe with descriptive labels
 #'
-#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate case_when
 #' @importFrom rlang !! :=
 #'
 #' @noRd
@@ -13,26 +13,16 @@ df_descriptive <- function(data,
                            perc.k = 1,
                            ...) {
   # creating a dataframe with counts
-  data %<>% cat_counter(., {{ x }}, {{ y }})
-
-  # checking what needs to be displayed in a label
-  # only percentage
-  if (label.content %in% c("percentage", "perc", "proportion", "prop", "%")) {
-    data %<>% dplyr::mutate(.label = paste0(round(perc, perc.k), "%"))
-  }
-
-  # only raw counts
-  if (label.content %in% c("counts", "n", "count", "N")) {
-    data %<>% dplyr::mutate(.label = paste0(.prettyNum(counts)))
-  }
-
-  # both raw counts and percentages
-  if (label.content %in% c("both", "mix", "all", "everything")) {
-    data %<>% dplyr::mutate(.label = paste0(.prettyNum(counts), "\n", "(", round(perc, perc.k), "%)"))
-  }
-
-  # reorder the category factor levels to order the legend
-  return(data %<>% dplyr::mutate(.data = ., {{ x }} := factor({{ x }}, unique({{ x }}))))
+  cat_counter(data, {{ x }}, {{ y }}) %>%
+    dplyr::mutate(
+      .label = dplyr::case_when(
+        grepl("perc|prop", label.content) ~ paste0(round(perc, perc.k), "%"),
+        grepl("count|n|N", label.content) ~ paste0(.prettyNum(counts)),
+        TRUE ~ paste0(.prettyNum(counts), "\n", "(", round(perc, perc.k), "%)")
+      )
+    ) %>%
+    # reorder the category factor levels to order the legend
+    dplyr::mutate({{ x }} := factor({{ x }}, unique({{ x }})))
 }
 
 
@@ -44,18 +34,20 @@ df_descriptive <- function(data,
 
 # creating a dataframe with counts
 cat_counter <- function(data, x, y = NULL, ...) {
-  dplyr::group_by(.data = data, {{ y }}, {{ x }}, .drop = TRUE) %>%
+  data %>%
+    dplyr::group_by({{ y }}, {{ x }}, .drop = TRUE) %>%
     dplyr::tally(x = ., name = "counts") %>%
-    dplyr::mutate(.data = ., perc = (counts / sum(counts)) * 100) %>%
+    dplyr::mutate(perc = (counts / sum(counts)) * 100) %>%
     dplyr::ungroup(.) %>%
-    dplyr::arrange(.data = ., dplyr::desc({{ x }})) %>%
-    dplyr::filter(.data = ., counts != 0L)
+    dplyr::arrange(dplyr::desc({{ x }})) %>%
+    dplyr::filter(counts != 0L)
 }
 
 #' @title A dataframe with chi-squared test results
 #'
 #' @importFrom dplyr group_modify rowwise ungroup
 #' @importFrom rlang as_name ensym
+#' @importFrom ipmisc format_num
 #'
 #' @noRd
 
@@ -78,14 +70,14 @@ df_proptest <- function(data, x, y, k = 2L, ...) {
         "(",
         df,
         ")==",
-        specify_decimal_p(x = statistic, k = k),
+        format_num(statistic, k),
         ", ~italic(p)=='",
-        specify_decimal_p(x = p.value, k = k, p.value = TRUE),
+        format_num(p.value, k, p.value = TRUE),
         "', ~italic(n)==",
         counts,
         ")"
       ),
-      .p.label = paste0("list(~italic(p)=='", specify_decimal_p(p.value, k, TRUE), "')")
+      .p.label = paste0("list(~italic(p)=='", format_num(p.value, k, TRUE), "')")
     ) %>%
     dplyr::ungroup()
 }

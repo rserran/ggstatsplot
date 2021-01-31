@@ -15,12 +15,7 @@ grouped_ggwithinstats(
   output = "plot",
   ...,
   plotgrid.args = list(),
-  title.text = NULL,
-  title.args = list(size = 16, fontface = "bold"),
-  caption.text = NULL,
-  caption.args = list(size = 10),
-  sub.text = NULL,
-  sub.args = list(size = 12)
+  annotation.args = list()
 )
 }
 \arguments{
@@ -59,13 +54,13 @@ default to \code{TRUE}. Note that \code{point.path} argument is relevant only wh
 there are two groups (i.e., in case of a \emph{t}-test). In case of large number
 of data points, it is advisable to set \code{point.path = FALSE} as these lines
 can overwhelm the plot.}
-    \item{\code{mean.path}}{Logical that decides whether individual data
+    \item{\code{centrality.path}}{Logical that decides whether individual data
 points and means, respectively, should be connected using \code{geom_path}. Both
 default to \code{TRUE}. Note that \code{point.path} argument is relevant only when
 there are two groups (i.e., in case of a \emph{t}-test). In case of large number
 of data points, it is advisable to set \code{point.path = FALSE} as these lines
 can overwhelm the plot.}
-    \item{\code{mean.path.args}}{A list of additional aesthetic
+    \item{\code{centrality.path.args}}{A list of additional aesthetic
 arguments passed on to \code{geom_path} connecting raw data points and mean
 points.}
     \item{\code{point.path.args}}{A list of additional aesthetic
@@ -115,7 +110,7 @@ should be displayed for each level of the grouping variable \code{x} (Default:
 \code{TRUE}).}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2L}).}
-    \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
+    \item{\code{conf.level}}{Scalar between \code{0} and \code{1}. If unspecified, the defaults return
 \verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{nboot}}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100}).}
@@ -124,16 +119,17 @@ get error stating "Standard error cannot be computed because of Winsorized
 variance of 0 (e.g., due to ties). Try to decrease the trimming level.",
 try to play around with the value of \code{tr}, which is by default set to
 \code{0.1}. Lowering the value might help.}
-    \item{\code{mean.plotting}}{Logical that decides whether mean is to be highlighted
-and its value to be displayed (Default: \code{TRUE}).}
-    \item{\code{mean.ci}}{Logical that decides whether \verb{95\%} confidence interval for
-mean is to be displayed (Default: \code{FALSE}).}
-    \item{\code{mean.point.args}}{A list of additional aesthetic
+    \item{\code{centrality.plotting}}{Logical that decides whether centrality tendency measure
+is to be displayed as a point with a label (Default: \code{TRUE}). Function
+decides which central tendency measure to show depending on the \code{type}
+argument (\strong{mean} for parametric, \strong{median} for non-parametric,
+\strong{trimmed mean} for robust, and \strong{MAP estimator} for Bayes).}
+    \item{\code{centrality.point.args}}{A list of additional aesthetic
 arguments to be passed to \code{ggplot2::geom_point} and
-\code{ggrepel::geom_label_repel} geoms involved mean value plotting.}
-    \item{\code{mean.label.args}}{A list of additional aesthetic
+\code{ggrepel::geom_label_repel} geoms, which are involved in mean plotting.}
+    \item{\code{centrality.label.args}}{A list of additional aesthetic
 arguments to be passed to \code{ggplot2::geom_point} and
-\code{ggrepel::geom_label_repel} geoms involved mean value plotting.}
+\code{ggrepel::geom_label_repel} geoms, which are involved in mean plotting.}
     \item{\code{notch}}{A logical. If \code{FALSE} (default), a standard box plot will be
 displayed. If \code{TRUE}, a notched box plot will be used. Notches are used to
 compare groups; if the notches of two boxes do not overlap, this suggests
@@ -169,30 +165,15 @@ be extracted. The available palettes and packages can be checked by running
 be extracted. The available palettes and packages can be checked by running
 \code{View(paletteer::palettes_d_names)}.}
     \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
-by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
-of the current function. Default is \code{NULL}. The argument should be entered
-as a function.}
+by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_}
+variants of all primary functions. Default is \code{NULL}. The argument should
+be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
   }}
 
-\item{plotgrid.args}{A list of additional arguments to \code{cowplot::plot_grid}.}
+\item{plotgrid.args}{Additional arguments passed to \code{patchwork::wrap_plots}.}
 
-\item{title.text}{String or plotmath expression to be drawn as title for the
-\emph{combined plot}.}
-
-\item{title.args}{A list of additional arguments
-provided to \code{title}, \code{caption} and \code{sub}, resp.}
-
-\item{caption.text}{String or plotmath expression to be drawn as the caption
-for the \emph{combined plot}.}
-
-\item{caption.args}{A list of additional arguments
-provided to \code{title}, \code{caption} and \code{sub}, resp.}
-
-\item{sub.text}{The label with which the \emph{combined plot} should be annotated.
-Can be a plotmath expression.}
-
-\item{sub.args}{A list of additional arguments
-provided to \code{title}, \code{caption} and \code{sub}, resp.}
+\item{annotation.args}{Additional arguments passed to
+\code{patchwork::plot_annotation}.}
 }
 \description{
 A combined plot of comparison plot created for levels of a

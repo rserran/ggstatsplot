@@ -1,9 +1,9 @@
 # z-statistic --------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "ggcoefstats with glm with z",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
     set.seed(123)
 
     # having a look at the Titanic dataset
@@ -21,7 +21,7 @@ testthat::test_that(
     # plot
     set.seed(123)
     p <-
-      ggstatsplot::ggcoefstats(
+      ggcoefstats(
         x = mod,
         conf.level = 0.90,
         exclude.intercept = FALSE
@@ -31,7 +31,88 @@ testthat::test_that(
     pb <- ggplot2::ggplot_build(p)
 
     # tidy dataframe from the function
-    testthat::expect_equal(
+    expect_equal(
+      pb$data[[1]],
+      structure(
+        list(
+          xintercept = 0,
+          PANEL = structure(1L, .Label = "1", class = "factor"),
+          group = structure(-1L, n = 1L),
+          colour = "black",
+          size = 1,
+          linetype = "dashed",
+          alpha = NA
+        ),
+        row.names = c(NA, -1L),
+        class = "data.frame"
+      )
+    )
+
+    expect_equal(
+      pb$data[[2]],
+      structure(
+        list(
+          x = c(-0.780044678205957, 2.29400668890043, -0.556439259603544),
+          xmin = c(-1.15213248524039, 2.09855242875921, -0.929998880210387),
+          xmax = c(-0.412406648700957, 2.49329224456418, -0.180433778592503),
+          y = structure(1:3, class = c("mapped_discrete", "numeric")),
+          PANEL = structure(c(1L, 1L, 1L), .Label = "1", class = "factor"),
+          group = structure(1:3, n = 3L),
+          ymin = structure(c(
+            1, 2,
+            3
+          ), class = c("mapped_discrete", "numeric")),
+          ymax = structure(c(
+            1,
+            2, 3
+          ), class = c("mapped_discrete", "numeric")),
+          colour = c(
+            "black",
+            "black", "black"
+          ),
+          size = c(0.5, 0.5, 0.5),
+          linetype = c(
+            1,
+            1, 1
+          ),
+          height = c(0, 0, 0),
+          alpha = c(NA, NA, NA)
+        ),
+        row.names = c(
+          NA,
+          -3L
+        ),
+        class = "data.frame"
+      )
+    )
+
+    expect_equal(
+      pb$data[[3]],
+      structure(
+        list(
+          x = c(-0.780044678205957, 2.29400668890043, -0.556439259603544),
+          y = structure(1:3, class = c("mapped_discrete", "numeric")),
+          PANEL = structure(c(1L, 1L, 1L), .Label = "1", class = "factor"),
+          group = structure(1:3, n = 3L),
+          shape = c(19, 19, 19),
+          colour = c(
+            "blue",
+            "blue", "blue"
+          ),
+          size = c(3, 3, 3),
+          fill = c(NA, NA, NA),
+          alpha = c(NA, NA, NA),
+          stroke = c(0.5, 0.5, 0.5)
+        ),
+        row.names = c(
+          NA,
+          -3L
+        ),
+        class = "data.frame"
+      )
+    )
+
+    expect_equal(
       pb$data[[4]],
       structure(
         list(
@@ -65,7 +146,33 @@ testthat::test_that(
             0.5, 0.5,
             0.5
           ),
-          vjust = c(0.5, 0.5, 0.5)
+          vjust = c(0.5, 0.5, 0.5),
+          point.size = c(1, 1, 1),
+          segment.linetype = c(1, 1, 1),
+          segment.size = c(
+            0.5, 0.5,
+            0.5
+          ),
+          segment.curvature = c(0, 0, 0),
+          segment.angle = c(
+            90,
+            90, 90
+          ),
+          segment.ncp = c(1, 1, 1),
+          segment.shape = c(
+            0.5,
+            0.5, 0.5
+          ),
+          segment.square = c(TRUE, TRUE, TRUE),
+          segment.squareShape = c(
+            1,
+            1, 1
+          ),
+          segment.inflect = c(FALSE, FALSE, FALSE),
+          segment.debug = c(
+            FALSE,
+            FALSE, FALSE
+          )
         ),
         row.names = c(NA, -3L),
         class = "data.frame"
@@ -76,10 +183,10 @@ testthat::test_that(
 
 # chi^2-statistic --------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "ggcoefstats with coxph.panel model",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     # model
     df <-
@@ -127,13 +234,13 @@ testthat::test_that(
 
     # plot
     set.seed(123)
-    p <- ggstatsplot::ggcoefstats(df, statistic = "chi")
+    p <- ggcoefstats(df, statistic = "chi")
 
     # plot build
     pb <- ggplot2::ggplot_build(p)
 
     # tidy dataframe from the function
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[4]],
       structure(
         list(
@@ -163,7 +270,33 @@ testthat::test_that(
             0.5,
             0.5
           ),
-          vjust = c(0.5, 0.5)
+          vjust = c(0.5, 0.5),
+          point.size = c(1, 1),
+          segment.linetype = c(
+            1,
+            1
+          ),
+          segment.size = c(0.5, 0.5),
+          segment.curvature = c(
+            0,
+            0
+          ),
+          segment.angle = c(90, 90),
+          segment.ncp = c(1, 1),
+          segment.shape = c(
+            0.5,
+            0.5
+          ),
+          segment.square = c(TRUE, TRUE),
+          segment.squareShape = c(
+            1,
+            1
+          ),
+          segment.inflect = c(FALSE, FALSE),
+          segment.debug = c(
+            FALSE,
+            FALSE
+          )
         ),
         row.names = c(NA, -2L),
         class = "data.frame"
@@ -174,10 +307,10 @@ testthat::test_that(
 
 # t-statistic --------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "ggcoefstats with lm model",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
     set.seed(123)
 
     # model
@@ -185,10 +318,10 @@ testthat::test_that(
 
     # plot
     p <-
-      ggstatsplot::ggcoefstats(
+      ggcoefstats(
         x = mod,
         conf.level = 0.99,
-        exclude.intercept = FALSE,
+        exclude.intercept = TRUE,
         only.significant = TRUE,
         k = 3
       )
@@ -197,33 +330,32 @@ testthat::test_that(
     pb <- ggplot2::ggplot_build(p)
 
     # checking panel parameters
-    testthat::expect_equal(
+    expect_equal(
       pb$layout$panel_params[[1]]$y$breaks,
-      structure(c("(Intercept)", "mpg", "am", "mpg:am"), pos = 1:4)
+      structure(c("mpg", "am", "mpg:am"), pos = 1:3)
     )
 
     # checking layered data
-    testthat::expect_equal(dim(pb$data[[1]]), c(1L, 7L))
-    testthat::expect_equal(dim(pb$data[[2]]), c(4L, 13L))
-    testthat::expect_equal(dim(pb$data[[3]]), c(4L, 10L))
+    expect_equal(dim(pb$data[[1]]), c(1L, 7L))
+    expect_equal(dim(pb$data[[2]]), c(3L, 13L))
+    expect_equal(dim(pb$data[[3]]), c(3L, 10L))
 
     # checking ggrepel label layer
-    testthat::expect_identical(
+    expect_identical(
       pb$data[[4]]$label,
       c(
-        "list(~widehat(italic(beta))==6.438, ~italic(t)(28)==13.765, ~italic(p)=='5.48e-14')",
         "list(~widehat(italic(beta))==-0.156, ~italic(t)(28)==-5.840, ~italic(p)=='2.81e-06')",
         "list(~widehat(italic(beta))==-1.809, ~italic(t)(28)==-2.615, ~italic(p)=='0.014')",
         NA_character_
       )
     )
-    testthat::expect_identical(
+    expect_identical(
       unclass(pb$data[[4]]$colour),
-      c("#1B9E77FF", "#D95F02FF", "#7570B3FF", "#E7298AFF")
+      c("#1B9E77FF", "#D95F02FF", "#7570B3FF")
     )
 
     # testing specific geoms
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[1]],
       structure(
         list(
@@ -245,10 +377,10 @@ testthat::test_that(
 
 # f-statistic and partial eta- and omega-squared -----------------------------
 
-testthat::test_that(
+test_that(
   desc = "ggcoefstats with partial variants of effect size for f-statistic",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     ## partial eta-squared
 
@@ -259,7 +391,7 @@ testthat::test_that(
 
     # plot
     p <-
-      ggstatsplot::ggcoefstats(
+      ggcoefstats(
         x = mod,
         exclude.intercept = FALSE,
         effsize = "eta",
@@ -274,20 +406,20 @@ testthat::test_that(
     # tidy dataframe from the function
     tidy_df <- p$plot_env$tidy_df
 
-    testthat::expect_equal(tidy_df$estimate,
+    expect_equal(tidy_df$estimate,
       c(0.8093822, 0.2068347, 0.1176152),
       tolerance = 1e-3
     )
-    testthat::expect_equal(tidy_df$df1[1], 1L)
-    testthat::expect_equal(tidy_df$df2[1], 28L)
-    testthat::expect_equal(tidy_df$p.value,
+    expect_equal(tidy_df$df[1], 1L)
+    expect_equal(tidy_df$df.error[1], 28L)
+    expect_equal(tidy_df$p.value,
       c(1.378306e-11, 1.156944e-02, 6.355055e-02),
       tolerance = 1e-5
     )
 
-    testthat::expect_identical(p$labels$x, "partial eta-squared")
-    testthat::expect_identical(p$labels$y, "effect")
-    testthat::expect_identical(
+    expect_identical(p$labels$x, "partial eta-squared")
+    expect_identical(p$labels$y, "effect")
+    expect_identical(
       p$labels$caption,
       ggplot2::expr(atop(
         displaystyle(NULL),
@@ -299,9 +431,9 @@ testthat::test_that(
         )
       ))
     )
-    testthat::expect_null(p$labels$title, NULL)
-    testthat::expect_null(p$labels$subtitle, NULL)
-    testthat::expect_identical(
+    expect_null(p$labels$title, NULL)
+    expect_null(p$labels$subtitle, NULL)
+    expect_identical(
       tidy_df$label,
       c(
         "list(~italic(F)(1*\",\"*28)==118.89, ~italic(p)=='1.38e-11', ~widehat(italic(eta)[p]^2)==0.81)",
@@ -324,12 +456,11 @@ testthat::test_that(
 
     # plot
     p <-
-      ggstatsplot::ggcoefstats(
+      ggcoefstats(
         x = mod,
         exclude.intercept = FALSE,
         sort = "ascending",
         effsize = "omega",
-        partial = TRUE,
         title = "mammalian sleep",
         subtitle = "Source: `ggplot2` package",
         caption = substitute(paste(italic("Note"), ": From `tidyverse`")),
@@ -345,40 +476,40 @@ testthat::test_that(
     tidy_df <- p$plot_env$tidy_df
 
     # tests
-    testthat::expect_identical(p$labels$x, "partial omega-squared")
-    testthat::expect_identical(p$labels$y, "term")
-    testthat::expect_identical(
+    expect_identical(p$labels$x, "partial omega-squared")
+    expect_identical(p$labels$y, "term")
+    expect_identical(
       p$labels$caption,
       ggplot2::expr(atop(
         displaystyle(paste(italic("Note"), ": From `tidyverse`")),
         expr = paste("AIC = ", "126", ", BIC = ", "142")
       ))
     )
-    testthat::expect_identical(p$labels$title, "mammalian sleep")
-    testthat::expect_identical(p$labels$subtitle, "Source: `ggplot2` package")
+    expect_identical(p$labels$title, "mammalian sleep")
+    expect_identical(p$labels$subtitle, "Source: `ggplot2` package")
 
-    testthat::expect_equal(pb$data[[2]]$x, tidy_df$estimate, tolerance = 0.001)
-    testthat::expect_equal(pb$data[[2]]$xmin, tidy_df$conf.low, tolerance = 0.001)
-    testthat::expect_equal(pb$data[[2]]$xmax, tidy_df$conf.high, tolerance = 0.001)
-    testthat::expect_equal(
+    expect_equal(pb$data[[2]]$x, tidy_df$estimate, tolerance = 0.001)
+    expect_equal(pb$data[[2]]$xmin, tidy_df$conf.low, tolerance = 0.001)
+    expect_equal(pb$data[[2]]$xmax, tidy_df$conf.high, tolerance = 0.001)
+    expect_equal(
       pb$data[[2]]$y,
       structure(c(3L, 1L, 2L), class = c("mapped_discrete", "numeric"))
     )
 
-    testthat::expect_identical(tidy_df$label, pb$data[[4]]$label)
+    expect_identical(tidy_df$label, pb$data[[4]]$label)
 
-    testthat::expect_equal(tidy_df$estimate,
+    expect_equal(tidy_df$estimate,
       c(0.30828881, 0.02348073, 0.17365008),
       tolerance = 0.001
     )
-    testthat::expect_equal(tidy_df$df1[1], 3L)
-    testthat::expect_equal(tidy_df$df2[1], 35L)
-    testthat::expect_equal(tidy_df$p.value,
+    expect_equal(tidy_df$df[1], 3L)
+    expect_equal(tidy_df$df.error[1], 35L)
+    expect_equal(tidy_df$p.value,
       c(0.0005838887, 0.1626797382, 0.0148476585),
       tolerance = 0.001
     )
 
-    testthat::expect_identical(
+    expect_identical(
       tidy_df$label,
       c(
         "list(~italic(F)(3*\",\"*35)==7.388, ~italic(p)=='0.001', ~widehat(italic(omega)[p]^2)==0.308)",
@@ -389,304 +520,149 @@ testthat::test_that(
   }
 )
 
-# dataframe as input ----------------------------------------------------
-
-testthat::test_that(
-  desc = "ggcoefstats works with data frames",
-  code = {
-    testthat::skip_on_cran()
-    set.seed(123)
-
-    # creating dataframe
-    df1 <-
-      tibble::tribble(
-        ~term,
-        ~statistic,
-        ~estimate,
-        ~conf.low,
-        ~conf.high,
-        ~p.value,
-        ~df.error,
-        "level2",
-        0.158,
-        0.0665,
-        -0.778,
-        0.911,
-        0.875,
-        5L,
-        "level1",
-        1.33,
-        0.542,
-        -0.280,
-        1.36,
-        0.191,
-        10L,
-        "level3",
-        1.24,
-        0.045,
-        0.030,
-        0.65,
-        0.001,
-        12L
-      )
-    df2 <- dplyr::select(.data = df1, -p.value)
-    df3 <- dplyr::select(.data = df1, -statistic)
-    df3$p.value <- as.factor(df3$p.value)
-    df4 <- dplyr::select(.data = df1, -df.error)
-    df5 <- tibble::add_column(df1, std.error = c(0.015, 0.2, 0.09))
-    df6 <- dplyr::select(.data = df5, -term, -estimate, -std.error)
-
-    # repeated term dataframe
-    df7 <-
-      tibble::tribble(
-        ~term,
-        ~statistic,
-        ~estimate,
-        ~conf.low,
-        ~conf.high,
-        ~p.value,
-        ~df.error,
-        "x",
-        0.158,
-        0.0665,
-        -0.778,
-        0.911,
-        0.875,
-        5L,
-        "x",
-        1.33,
-        0.542,
-        -0.280,
-        1.36,
-        0.191,
-        10L,
-        "x",
-        1.24,
-        0.045,
-        0.030,
-        0.65,
-        0.001,
-        12L
-      )
-
-    # check that term column is generated
-    df8 <-
-      tibble::tribble(
-        ~statistic,
-        ~estimate,
-        ~conf.low,
-        ~conf.high,
-        ~p.value,
-        ~df.error,
-        0.158,
-        0.0665,
-        -0.778,
-        0.911,
-        0.875,
-        5L,
-        1.33,
-        0.542,
-        -0.280,
-        1.36,
-        0.191,
-        10L,
-        1.24,
-        0.045,
-        0.030,
-        0.65,
-        0.001,
-        12L
-      )
-
-    testthat::expect_identical(
-      colnames(ggstatsplot::ggcoefstats(df8, output = "tidy"))[[7]],
-      "term"
-    )
-
-    # expect errors
-    testthat::expect_message(ggstatsplot::ggcoefstats(x = df1))
-    testthat::expect_error(ggstatsplot::ggcoefstats(
-      x = df6,
-      meta.analytic.effect = TRUE
-    ))
-    testthat::expect_message(ggstatsplot::ggcoefstats(x = df7))
-
-    # plotting the dataframe
-    p1 <-
-      ggstatsplot::ggcoefstats(
-        x = df1,
-        statistic = "t",
-        sort = "none"
-      )
-    p2 <-
-      ggstatsplot::ggcoefstats(
-        x = df1,
-        statistic = "z",
-        sort = "descending"
-      )
-    p3 <- ggstatsplot::ggcoefstats(x = df2, statistic = "t")
-    p4 <- ggstatsplot::ggcoefstats(x = df3, statistic = "T") +
-      ggplot2::scale_y_discrete(labels = c("x1", "x2", "x3")) +
-      ggplot2::labs(x = "location", y = NULL)
-    p5 <- ggstatsplot::ggcoefstats(x = df4, statistic = "T-value")
-    set.seed(123)
-    p6 <-
-      suppressWarnings(
-        ggstatsplot::ggcoefstats(
-          x = df5,
-          statistic = "t",
-          k = 3,
-          meta.analytic.effect = TRUE,
-          bf.message = TRUE,
-          messages = FALSE
-        )
-      )
-    p7 <-
-      suppressWarnings(
-        ggstatsplot::ggcoefstats(
-          x = df5,
-          statistic = "T",
-          k = 3,
-          meta.analytic.effect = TRUE,
-          meta.type = "bf",
-          caption = "mnp",
-          bf.message = TRUE,
-          messages = FALSE
-        )
-      )
-
-    # build plots
-    pb1 <- ggplot2::ggplot_build(p1)
-    pb2 <- ggplot2::ggplot_build(p2)
-    pb3 <- ggplot2::ggplot_build(p3)
-    pb4 <- ggplot2::ggplot_build(p4)
-    pb5 <- ggplot2::ggplot_build(p5)
-    pb6 <- ggplot2::ggplot_build(p6)
-    pb7 <- ggplot2::ggplot_build(p7)
-
-    # stats labels
-    testthat::expect_identical(
-      pb1$data[[4]]$label,
-      c(
-        "list(~widehat(italic(beta))==0.07, ~italic(t)(5)==0.16, ~italic(p)=='0.875')",
-        "list(~widehat(italic(beta))==0.54, ~italic(t)(10)==1.33, ~italic(p)=='0.191')",
-        "list(~widehat(italic(beta))==0.04, ~italic(t)(12)==1.24, ~italic(p)=='0.001')"
-      )
-    )
-    testthat::expect_identical(
-      pb5$data[[4]]$label,
-      c(
-        "list(~widehat(italic(beta))==0.07, ~italic(t)(Inf)==0.16, ~italic(p)=='0.875')",
-        "list(~widehat(italic(beta))==0.54, ~italic(t)(Inf)==1.33, ~italic(p)=='0.191')",
-        "list(~widehat(italic(beta))==0.04, ~italic(t)(Inf)==1.24, ~italic(p)=='0.001')"
-      )
-    )
-
-    testthat::expect_equal(
-      pb2$data[[3]]$y,
-      structure(c(2L, 1L, 3L), class = c("mapped_discrete", "numeric"))
-    )
-    testthat::expect_identical(
-      pb2$data[[4]]$label,
-      c(
-        "list(~widehat(italic(beta))==0.07, ~italic(z)==0.16, ~italic(p)=='0.875')",
-        "list(~widehat(italic(beta))==0.54, ~italic(z)==1.33, ~italic(p)=='0.191')",
-        "list(~widehat(italic(beta))==0.04, ~italic(z)==1.24, ~italic(p)=='0.001')"
-      )
-    )
-
-    # checking number of data layers
-    testthat::expect_equal(length(pb1$data), 4L)
-    testthat::expect_equal(length(pb2$data), 4L)
-    testthat::expect_equal(length(pb3$data), 3L)
-    testthat::expect_equal(length(pb4$data), 3L)
-
-    # confidence intervals used for each layer should be the same as df
-    testthat::expect_equal(pb3$data[[2]]$xmin, df1$conf.low)
-    testthat::expect_equal(pb3$data[[2]]$xmax, df2$conf.high)
-    testthat::expect_equal(pb2$data[[2]]$xmin, df3$conf.low)
-    testthat::expect_equal(pb2$data[[2]]$xmax, df3$conf.high)
-
-    # annotations
-    testthat::expect_identical(p4$labels$x, "location")
-    testthat::expect_null(p4$labels$y, NULL)
-    testthat::expect_null(p4$labels$title, NULL)
-    testthat::expect_null(p4$labels$subtitle, NULL)
-
-    # checking meta-analysis
-    testthat::expect_error(ggstatsplot::ggcoefstats(
-      x = df1,
-      statistic = "t",
-      meta.analytic.effect = TRUE
-    ))
-
-    testthat::expect_identical(pb7$plot$labels$caption, "mnp")
-
-    # caption
-    set.seed(123)
-    meta_info <-
-      suppressWarnings(
-        ggstatsplot::ggcoefstats(
-          x = df5,
-          statistic = "t",
-          k = 3,
-          meta.analytic.effect = TRUE,
-          bf.message = TRUE,
-          output = "caption",
-          messages = TRUE
-        )
-      )
-    testthat::expect_identical(as.character(meta_info$expr)[19], "81.42%")
-  }
-)
-
 # check tidy output ----------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "check tidy output",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
+
+    library(ggstatsplot)
 
     set.seed(123)
-    mod <- stats::lm(data = iris, formula = Sepal.Length ~ Species)
+    m <- aov(yield ~ N * P * K + Error(block), npk)
+    m2 <- aov(yield ~ N * P * K, npk)
 
     # computed dataframes
-    tidy_df <-
-      ggstatsplot::ggcoefstats(
-        x = mod,
-        exclude.intercept = TRUE,
-        statistic = "t",
-        output = "tidy"
-      )
+    set.seed(123)
+    tidy_df1 <- ggcoefstats(m, output = "tidy")
 
-    # checking confidence intervals
-    testthat::expect_s3_class(tidy_df, "tbl_df")
+    set.seed(123)
+    tidy_df2 <- ggcoefstats(m2, output = "tidy")
+
+    # checking entire objects
+    expect_equal(
+      tidy_df1,
+      structure(list(
+        group = c(
+          "block", "Within", "Within", "Within",
+          "Within", "Within", "Within"
+        ), term = structure(1:7, .Label = c(
+          "N:P:K",
+          "N", "P", "K", "N:P", "N:K", "P:K"
+        ), class = "factor"), df = c(
+          1,
+          1, 1, 1, 1, 1, 1
+        ), statistic = c(
+          0.483218701027338, 12.2587342136509,
+          0.544129816860359, 6.16568920231712, 1.37829669341201, 2.14597200733998,
+          0.0311949051919548
+        ), p.value = c(
+          0.525236141197407, 0.00437181182579937,
+          0.474904092674435, 0.0287950535002327, 0.263165282877168, 0.168647878500492,
+          0.862752085685407
+        ), estimate = c(
+          0.107783878782583, 0.505332805318122,
+          0.0433772469517178, 0.33941399820551, 0.103024826328657, 0.151701983167116,
+          0.00259283516207463
+        ), conf.low = c(
+          0, 0.084350699680618, 0, 0,
+          0, 0, 0
+        ), conf.high = c(
+          0.638747800504964, 0.740593750884156,
+          0.377609203815996, 0.641576291838933, 0.454996866706633, 0.502438966717436,
+          0.223149127768657
+        ), df.error = c(4, 12, 12, 12, 12, 12, 12),
+        estimate.type = c(
+          "partial eta-squared", "partial eta-squared",
+          "partial eta-squared", "partial eta-squared", "partial eta-squared",
+          "partial eta-squared", "partial eta-squared"
+        ), label = c(
+          "list(~italic(F)(1*\",\"*4)==0.48, ~italic(p)=='0.525', ~widehat(italic(eta)[p]^2)==0.11)",
+          "list(~italic(F)(1*\",\"*12)==12.26, ~italic(p)=='0.004', ~widehat(italic(eta)[p]^2)==0.51)",
+          "list(~italic(F)(1*\",\"*12)==0.54, ~italic(p)=='0.475', ~widehat(italic(eta)[p]^2)==0.04)",
+          "list(~italic(F)(1*\",\"*12)==6.17, ~italic(p)=='0.029', ~widehat(italic(eta)[p]^2)==0.34)",
+          "list(~italic(F)(1*\",\"*12)==1.38, ~italic(p)=='0.263', ~widehat(italic(eta)[p]^2)==0.10)",
+          "list(~italic(F)(1*\",\"*12)==2.15, ~italic(p)=='0.169', ~widehat(italic(eta)[p]^2)==0.15)",
+          "list(~italic(F)(1*\",\"*12)==0.03, ~italic(p)=='0.863', ~widehat(italic(eta)[p]^2)==0.00)"
+        )
+      ),
+      row.names = c(NA, -7L),
+      class = c("tbl_df", "tbl", "data.frame")
+      ),
+      tolerance = 0.001
+    )
+
+    expect_equal(
+      tidy_df2,
+      structure(list(
+        term = structure(1:7, .Label = c(
+          "N", "P", "K", "N:P", "N:K", "P:K", "N:P:K"
+        ), class = "factor"), df = c(
+          1, 1,
+          1, 1, 1, 1, 1
+        ), statistic = c(
+          6.1607605408411, 0.273458372323257,
+          3.09863433554389, 0.692678031381803, 1.07848163066032, 0.0156773397344615,
+          1.20433432333835
+        ), p.value = c(
+          0.0245421094142749, 0.608187501010219,
+          0.0974576803101534, 0.417504736737997, 0.314477857657635, 0.901917664764329,
+          0.288698985559183
+        ), estimate = c(
+          0.278003118597268, 0.0168039494781475,
+          0.162243764716575, 0.0414959199524239, 0.063148566364598, 0.000978874599050923,
+          0.0700017972624853
+        ), conf.low = c(
+          0.000467178720183505, 0, 0,
+          0, 0, 0, 0
+        ), conf.high = c(
+          0.568063130817655, 0.273991917185563,
+          0.472609487705818, 0.328449842009168, 0.3622247504399, 0.146641480018096,
+          0.371691379747126
+        ), df.error = c(16, 16, 16, 16, 16, 16, 16),
+        estimate.type = c(
+          "partial eta-squared", "partial eta-squared",
+          "partial eta-squared", "partial eta-squared", "partial eta-squared",
+          "partial eta-squared", "partial eta-squared"
+        ), label = c(
+          "list(~italic(F)(1*\",\"*16)==6.16, ~italic(p)=='0.025', ~widehat(italic(eta)[p]^2)==0.28)",
+          "list(~italic(F)(1*\",\"*16)==0.27, ~italic(p)=='0.608', ~widehat(italic(eta)[p]^2)==0.02)",
+          "list(~italic(F)(1*\",\"*16)==3.10, ~italic(p)=='0.097', ~widehat(italic(eta)[p]^2)==0.16)",
+          "list(~italic(F)(1*\",\"*16)==0.69, ~italic(p)=='0.418', ~widehat(italic(eta)[p]^2)==0.04)",
+          "list(~italic(F)(1*\",\"*16)==1.08, ~italic(p)=='0.314', ~widehat(italic(eta)[p]^2)==0.06)",
+          "list(~italic(F)(1*\",\"*16)==0.02, ~italic(p)=='0.902', ~widehat(italic(eta)[p]^2)==0.00)",
+          "list(~italic(F)(1*\",\"*16)==1.20, ~italic(p)=='0.289', ~widehat(italic(eta)[p]^2)==0.07)"
+        )
+      ), row.names = c(NA, -7L), class = c("tbl_df", "tbl", "data.frame")),
+      tolerance = 0.001
+    )
   }
 )
 
 # check if glance works ----------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "check if glance works",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     # lm
     set.seed(123)
     mod1 <- stats::lm(data = iris, formula = Sepal.Length ~ Species)
-    glance_df1 <- ggstatsplot::ggcoefstats(x = mod1, output = "glance")
+    glance_df1 <- ggcoefstats(x = mod1, output = "glance")
 
     # checking if they are present
-    testthat::expect_true(all(c("aic", "bic") %in% names(glance_df1)))
+    expect_true(all(c("aic", "bic") %in% names(glance_df1)))
   }
 )
 
 # CIs missing and palette change message -------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "CIs missing and palette change message",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     df <-
       structure(list(
@@ -727,6 +703,124 @@ testthat::test_that(
 
     pb <- ggplot2::ggplot_build(p)
 
-    testthat::expect_equal(length(pb$data), 3L)
+    expect_equal(length(pb$data), 3L)
+  }
+)
+
+# duplicated terms -------------------------------------
+
+test_that(
+  desc = "duplicated terms",
+  code = {
+    skip_on_cran()
+
+    df <-
+      structure(
+        list(
+          term = c(
+            "(Intercept)", "x", "(Intercept)", "x",
+            "(Intercept)", "x"
+          ),
+          estimate = c(
+            29.3220715172958,
+            1.1244506550584,
+            29.9547605920406,
+            1.1822574944936,
+            30.6283792821576,
+            1.25165747424685
+          ),
+          std.error = c(
+            0.117485050182681,
+            0.255357284283965,
+            0.113389002110287,
+            0.16192823674221,
+            0.0997134241212493,
+            0.184844896331203
+          ),
+          ci.width = c(
+            95,
+            95, 95, 95, 95, 95
+          ),
+          conf.low = c(
+            29.0912440592861,
+            0.622740244041031,
+            29.7319807993548,
+            0.864110775323021,
+            30.4324684306615,
+            0.888485500622392
+          ),
+          conf.high = c(
+            29.5528989753056,
+            1.62616106607576,
+            30.1775403847265,
+            1.50040421366417,
+            30.8242901336538,
+            1.61482944787131
+          ),
+          statistic = c(
+            249.581299677722,
+            4.40344068590569,
+            264.176948685952,
+            7.30112004106952,
+            307.164050899648,
+            6.77139320094696
+          ),
+          df = c(498L, 498L, 498L, 498L, 498L, 498L),
+          p.value = c(
+            9.8364342079353e-78,
+            5.77239788522003e-05,
+            6.0849598304989e-79,
+            2.26914690385169e-09,
+            3.78325168389556e-82,
+            1.49961152818978e-08
+          ),
+          component = c(
+            "tau (0.25)",
+            "tau (0.25)",
+            "tau (0.50)",
+            "tau (0.50)",
+            "tau (0.75)",
+            "tau (0.75)"
+          )
+        ),
+        row.names = c(
+          NA,
+          6L
+        ),
+        pretty_names = c(`(Intercept)` = "(Intercept)", x = "x"),
+        ci = 0.95,
+        verbose = TRUE,
+        exponentiate = FALSE,
+        ordinal_model = FALSE,
+        model_class = "lqm",
+        bootstrap = FALSE,
+        iterations = 1000,
+        model_formula = "y ~ x",
+        coefficient_name = "Coefficient",
+        zi_coefficient_name = "Log-Odds",
+        digits = 2,
+        ci_digits = 2,
+        p_digits = 3,
+        class = "data.frame",
+        object_name = "fit.lqm"
+      )
+
+    p <- ggcoefstats(df, statistic = "t")
+
+    pb <- ggplot2::ggplot_build(p)
+
+    expect_equal(length(pb$data), 4L)
+
+    expect_identical(
+      pb$data[[4]]$label,
+      c(
+        "list(~widehat(italic(beta))==29.32, ~italic(t)(Inf)==249.58, ~italic(p)=='9.84e-78')",
+        "list(~widehat(italic(beta))==1.12, ~italic(t)(Inf)==4.40, ~italic(p)=='5.77e-05')",
+        "list(~widehat(italic(beta))==29.95, ~italic(t)(Inf)==264.18, ~italic(p)=='6.08e-79')",
+        "list(~widehat(italic(beta))==1.18, ~italic(t)(Inf)==7.30, ~italic(p)=='2.27e-09')",
+        "list(~widehat(italic(beta))==30.63, ~italic(t)(Inf)==307.16, ~italic(p)=='3.78e-82')",
+        "list(~widehat(italic(beta))==1.25, ~italic(t)(Inf)==6.77, ~italic(p)=='1.5e-08')"
+      )
+    )
   }
 )

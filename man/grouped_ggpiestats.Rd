@@ -14,12 +14,7 @@ grouped_ggpiestats(
   output = "plot",
   ...,
   plotgrid.args = list(),
-  title.text = NULL,
-  title.args = list(size = 16, fontface = "bold"),
-  caption.text = NULL,
-  caption.args = list(size = 10),
-  sub.text = NULL,
-  sub.args = list(size = 12)
+  annotation.args = list()
 )
 }
 \arguments{
@@ -71,16 +66,20 @@ on the label in each pie slice. Possible options are \code{"percentage"}
     \item{\code{label.repel}}{Whether labels should be repelled using \code{ggrepel} package.
 This can be helpful in case the labels are overlapping.}
     \item{\code{legend.title}}{Title text for the legend.}
+    \item{\code{type}}{Type of statistic expected (\code{"parametric"} or \code{"nonparametric"}
+or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
+\code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
+\code{"bf"}resp.}
     \item{\code{results.subtitle}}{Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
 the plot will be returned.}
-    \item{\code{conf.level}}{Scalar between 0 and 1. If unspecified, the defaults return
-\verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2L}).}
     \item{\code{bf.message}}{Logical that decides whether to display Bayes Factor in
 favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
 parametric test} (Default: \code{TRUE}).}
+    \item{\code{conf.level}}{Scalar between \code{0} and \code{1}. If unspecified, the defaults return
+\verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{subtitle}}{The text for the plot subtitle. Will work only if
 \code{results.subtitle = FALSE}.}
     \item{\code{caption}}{The text for the plot caption.}
@@ -99,9 +98,13 @@ be extracted. The available palettes and packages can be checked by running
 be extracted. The available palettes and packages can be checked by running
 \code{View(paletteer::palettes_d_names)}.}
     \item{\code{ggplot.component}}{A \code{ggplot} component to be added to the plot prepared
-by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_} variant
-of the current function. Default is \code{NULL}. The argument should be entered
-as a function.}
+by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_}
+variants of all primary functions. Default is \code{NULL}. The argument should
+be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
+    \item{\code{paired}}{Logical indicating whether data came from a within-subjects or
+repeated measures design study (Default: \code{FALSE}). If \code{TRUE}, McNemar's
+test expression will be returned. If \code{FALSE}, Pearson's chi-square test will
+be returned.}
     \item{\code{ratio}}{A vector of proportions: the expected proportions for the
 proportion test (should sum to 1). Default is \code{NULL}, which means the null
 is equal theoretical proportions across the levels of the nominal variable.
@@ -117,31 +120,12 @@ margin is fixed (\code{"rows"} or \code{"cols"}). Defaults to \code{"rows"}.}
 to \code{1} by default. It indexes the expected deviation from the null
 hypothesis under the alternative, and corresponds to Gunel and Dickey's
 (1974) \code{"a"} parameter.}
-    \item{\code{paired}}{Logical indicating whether data came from a within-subjects or
-repeated measures design study (Default: \code{FALSE}). If \code{TRUE}, McNemar's
-test expression will be returned. If \code{FALSE}, Pearson's chi-square test will
-be returned.}
   }}
 
-\item{plotgrid.args}{A list of additional arguments to \code{cowplot::plot_grid}.}
+\item{plotgrid.args}{Additional arguments passed to \code{patchwork::wrap_plots}.}
 
-\item{title.text}{String or plotmath expression to be drawn as title for the
-\emph{combined plot}.}
-
-\item{title.args}{A list of additional arguments
-provided to \code{title}, \code{caption} and \code{sub}, resp.}
-
-\item{caption.text}{String or plotmath expression to be drawn as the caption
-for the \emph{combined plot}.}
-
-\item{caption.args}{A list of additional arguments
-provided to \code{title}, \code{caption} and \code{sub}, resp.}
-
-\item{sub.text}{The label with which the \emph{combined plot} should be annotated.
-Can be a plotmath expression.}
-
-\item{sub.args}{A list of additional arguments
-provided to \code{title}, \code{caption} and \code{sub}, resp.}
+\item{annotation.args}{Additional arguments passed to
+\code{patchwork::plot_annotation}.}
 }
 \description{
 Helper function for \code{ggstatsplot::ggpiestats} to apply this

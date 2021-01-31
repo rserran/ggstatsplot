@@ -55,8 +55,9 @@
   
 
 <meta property="og:title" content="Pie charts with statistical tests — ggpiestats" />
-<meta property="og:description" content="Pie charts for categorical data with statistical details
-included in the plot as a subtitle." />
+<meta property="og:description" content="
+Pie charts for categorical data with statistical details included in the plot
+as a subtitle." />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
 
 
@@ -89,7 +90,7 @@ included in the plot as a subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
       </span>
     </div>
 
@@ -105,56 +106,62 @@ included in the plot as a subtitle." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/combine_plots.html">combine_plots</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/effsize_interpretation.html">effect size interpretation</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/faq.html">Frequently asked questions</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/gallery.html">Gallery of ggstatsplot examples</a>
-    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Primary functions</li>
     <li>
       <a href="../articles/web_only/ggbetweenstats.html">ggbetweenstats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggcoefstats.html">ggcoefstats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/gghistostats.html">gghistostats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggpiestats.html">ggpiestats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggscatterstats.html">ggscatterstats</a>
     </li>
     <li>
       <a href="../articles/web_only/ggwithinstats.html">ggwithinstats</a>
     </li>
     <li>
-      <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
+      <a href="../articles/web_only/gghistostats.html">gghistostats</a>
     </li>
     <li>
-      <a href="../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggscatterstats.html">ggscatterstats</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggpiestats.html">ggpiestats</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggcoefstats.html">ggcoefstats</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Helper functions</li>
+    <li>
+      <a href="../articles/web_only/combine_plots.html">combine_plots</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/theme_ggstatsplot.html">ggstatsplot theme</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Miscellaneous</li>
+    <li>
+      <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
       <a href="../articles/web_only/session_info.html">session information</a>
     </li>
     <li>
-      <a href="../articles/web_only/theme_ggstatsplot.html">ggstatsplot theme</a>
+      <a href="../articles/web_only/gallery.html">gallery of `ggstatsplot` examples</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/effsize_interpretation.html">effect size interpretation</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/faq.html">frequently asked questions (FAQ)</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
   </ul>
 </li>
@@ -165,7 +172,7 @@ included in the plot as a subtitle." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -194,8 +201,9 @@ included in the plot as a subtitle." />
     </div>
 
     <div class="ref-description">
-    <p>Pie charts for categorical data with statistical details
-included in the plot as a subtitle.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#maturing'><img src='figures/lifecycle-maturing.svg' alt='Maturing lifecycle'></a></p>
+<p>Pie charts for categorical data with statistical details included in the plot
+as a subtitle.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ggpiestats</span><span class='op'>(</span>
@@ -203,17 +211,18 @@ included in the plot as a subtitle.</p>
   <span class='va'>x</span>,
   y <span class='op'>=</span> <span class='cn'>NULL</span>,
   counts <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ratio <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='st'>"parametric"</span>,
   paired <span class='op'>=</span> <span class='cn'>FALSE</span>,
   results.subtitle <span class='op'>=</span> <span class='cn'>TRUE</span>,
   label <span class='op'>=</span> <span class='st'>"percentage"</span>,
   label.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>direction <span class='op'>=</span> <span class='st'>"both"</span><span class='op'>)</span>,
   label.repel <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  conf.level <span class='op'>=</span> <span class='fl'>0.95</span>,
   k <span class='op'>=</span> <span class='fl'>2L</span>,
   proportion.test <span class='op'>=</span> <span class='cn'>TRUE</span>,
   perc.k <span class='op'>=</span> <span class='fl'>0</span>,
   bf.message <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  ratio <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conf.level <span class='op'>=</span> <span class='fl'>0.95</span>,
   sampling.plan <span class='op'>=</span> <span class='st'>"indepMulti"</span>,
   fixed.margin <span class='op'>=</span> <span class='st'>"rows"</span>,
   prior.concentration <span class='op'>=</span> <span class='fl'>1</span>,
@@ -259,12 +268,11 @@ for <code>ggbarstats</code> function.</p></td>
 if each row represents a single observation.</p></td>
     </tr>
     <tr>
-      <th>ratio</th>
-      <td><p>A vector of proportions: the expected proportions for the
-proportion test (should sum to 1). Default is <code>NULL</code>, which means the null
-is equal theoretical proportions across the levels of the nominal variable.
-This means if there are two levels this will be <code>ratio = c(0.5,0.5)</code> or if
-there are four levels this will be <code>ratio = c(0.25,0.25,0.25,0.25)</code>, etc.</p></td>
+      <th>type</th>
+      <td><p>Type of statistic expected (<code>"parametric"</code> or <code>"nonparametric"</code>
+or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations are also accepted:
+<code>"p"</code> (for parametric), <code>"np"</code> (nonparametric), <code>"r"</code> (robust), or
+<code>"bf"</code>resp.</p></td>
     </tr>
     <tr>
       <th>paired</th>
@@ -296,11 +304,6 @@ on the label in each pie slice. Possible options are <code>"percentage"</code>
 This can be helpful in case the labels are overlapping.</p></td>
     </tr>
     <tr>
-      <th>conf.level</th>
-      <td><p>Scalar between 0 and 1. If unspecified, the defaults return
-<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
-    </tr>
-    <tr>
       <th>k</th>
       <td><p>Number of digits after decimal point (should be an integer)
 (Default: <code>k = 2L</code>).</p></td>
@@ -321,6 +324,19 @@ labels (Default: <code>0</code>).</p></td>
       <td><p>Logical that decides whether to display Bayes Factor in
 favor of the <em>null</em> hypothesis. This argument is relevant only <strong>for
 parametric test</strong> (Default: <code>TRUE</code>).</p></td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td><p>A vector of proportions: the expected proportions for the
+proportion test (should sum to 1). Default is <code>NULL</code>, which means the null
+is equal theoretical proportions across the levels of the nominal variable.
+This means if there are two levels this will be <code>ratio = c(0.5,0.5)</code> or if
+there are four levels this will be <code>ratio = c(0.25,0.25,0.25,0.25)</code>, etc.</p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults return
+<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
     </tr>
     <tr>
       <th>sampling.plan</th>
@@ -387,9 +403,9 @@ be extracted. The available palettes and packages can be checked by running
     <tr>
       <th>ggplot.component</th>
       <td><p>A <code>ggplot</code> component to be added to the plot prepared
-by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
-of the current function. Default is <code>NULL</code>. The argument should be entered
-as a function.</p></td>
+by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code>
+variants of all primary functions. Default is <code>NULL</code>. The argument should
+be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> functions.</p></td>
     </tr>
     <tr>
       <th>output</th>

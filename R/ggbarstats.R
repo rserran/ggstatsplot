@@ -1,7 +1,12 @@
 #' @title Bar (column) charts with statistical tests
 #' @name ggbarstats
-#' @description Bar charts for categorical data with statistical details
-#'   included in the plot as a subtitle.
+#'
+#' @description
+#'
+#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+#'
+#' Bar charts for categorical data with statistical details included in the plot
+#' as a subtitle.
 #'
 #' @param xlab Custom text for the `x` axis label (Default: `NULL`, which
 #'   will cause the `x` axis label to be the `x` variable).
@@ -16,11 +21,11 @@
 #'
 #' @import ggplot2
 #'
-#' @importFrom dplyr select group_by summarize n mutate mutate_at mutate_if
-#' @importFrom rlang !! enquo quo_name as_name ensym
+#' @importFrom dplyr select mutate
+#' @importFrom rlang !!! as_name ensym exec
 #' @importFrom paletteer scale_fill_paletteer_d
 #' @importFrom tidyr uncount drop_na
-#' @importFrom statsExpressions expr_contingency_tab bf_contingency_tab
+#' @importFrom statsExpressions expr_contingency_tab
 #'
 #' @inherit ggpiestats return details
 #'
@@ -43,17 +48,18 @@ ggbarstats <- function(data,
                        x,
                        y,
                        counts = NULL,
-                       ratio = NULL,
+                       type = "parametric",
                        paired = FALSE,
                        results.subtitle = TRUE,
                        sample.size.label = TRUE,
                        label = "percentage",
                        label.args = list(alpha = 1, fill = "white"),
-                       conf.level = 0.95,
                        k = 2L,
                        proportion.test = TRUE,
                        perc.k = 0,
                        bf.message = TRUE,
+                       ratio = NULL,
+                       conf.level = 0.95,
                        sampling.plan = "indepMulti",
                        fixed.margin = "rows",
                        prior.concentration = 1,
@@ -70,11 +76,11 @@ ggbarstats <- function(data,
                        ggplot.component = NULL,
                        output = "plot",
                        ...) {
+  # convert entered stats type to a standard notation
+  type <- ipmisc::stats_type_switch(type)
+
   # make sure both quoted and unquoted arguments are allowed
   c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
-
-  # this is currently not supported in `BayesFactor`
-  if (isTRUE(paired)) bf.message <- FALSE
 
   # ================= extracting column names as labels  =====================
 
@@ -88,30 +94,23 @@ ggbarstats <- function(data,
 
   # creating a dataframe
   data %<>%
-    dplyr::select(.data = ., {{ x }}, {{ y }}, .counts = {{ counts }}) %>%
-    tidyr::drop_na(data = .) %>%
-    as_tibble(x = .)
+    dplyr::select({{ x }}, {{ y }}, .counts = {{ counts }}) %>%
+    tidyr::drop_na(.)
 
   # untable the dataframe based on the count for each observation
   if (".counts" %in% names(data)) data %<>% tidyr::uncount(data = ., weights = .counts)
 
   # x and y need to be a factor; also drop the unused levels of the factors
-  data %<>%
-    dplyr::mutate(
-      {{ x }} := droplevels(as.factor({{ x }})),
-      {{ y }} := droplevels(as.factor({{ y }}))
-    )
+  data %<>% dplyr::mutate(dplyr::across(dplyr::everything(), ~ droplevels(as.factor(.x))))
 
   # TO DO: until one-way table is supported by `BayesFactor`
   if (nlevels(data %>% dplyr::pull({{ y }})) == 1L) {
-    bf.message <- FALSE
-    proportion.test <- FALSE
+    c(bf.message, proportion.test) %<-% c(FALSE, FALSE)
   }
 
-  # ========================= statistical analysis ===========================
+  # -------------------------- statistical analysis --------------------------
 
-  # running appropriate statistical test
-  # unpaired: Pearson's Chi-square test of independence
+  # if subtitle with results is to be displayed
   if (isTRUE(results.subtitle)) {
     subtitle <-
       tryCatch(
@@ -119,28 +118,29 @@ ggbarstats <- function(data,
           data = data,
           x = {{ x }},
           y = {{ y }},
-          ratio = ratio,
+          type = type,
+          k = k,
           paired = paired,
-          conf.level = conf.level,
-          k = k
+          ratio = ratio,
+          conf.level = conf.level
         ),
         error = function(e) NULL
       )
 
-    # preparing the BF message for null hypothesis support
-    if (isTRUE(bf.message) && !is.null(subtitle)) {
+    # preparing Bayes Factor caption
+    if (type != "bayes" && isTRUE(bf.message) && isFALSE(paired)) {
       caption <-
         tryCatch(
-          expr = bf_contingency_tab(
+          expr = statsExpressions::expr_contingency_tab(
             data = data,
             x = {{ x }},
             y = {{ y }},
+            type = "bayes",
+            k = k,
+            top.text = caption,
             sampling.plan = sampling.plan,
             fixed.margin = fixed.margin,
-            prior.concentration = prior.concentration,
-            top.text = caption,
-            output = "caption",
-            k = k
+            prior.concentration = prior.concentration
           ),
           error = function(e) NULL
         )
@@ -161,11 +161,7 @@ ggbarstats <- function(data,
   df_proptest <- df_proptest(data, {{ x }}, {{ y }}, k)
 
   # if no. of factor levels is greater than the default palette color count
-  palette_message(
-    package = package,
-    palette = palette,
-    min_length = nlevels(data %>% dplyr::pull({{ x }}))[[1]]
-  )
+  palette_message(package, palette, min_length = nlevels(data %>% dplyr::pull({{ x }}))[[1]])
 
   # plot
   p <-

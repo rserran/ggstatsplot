@@ -1,22 +1,27 @@
 #' @title Violin plots for group or condition comparisons in between-subjects
 #'   designs repeated across all levels of a grouping variable.
 #' @name grouped_ggbetweenstats
-#' @description A combined plot of comparison plot created for levels of a
-#'   grouping variable.
+#'
+#' @description
+#'
+#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+#'
+#' Helper function for `ggstatsplot::ggbetweenstats` to apply this function
+#' across multiple levels of a given factor and combining the resulting plots
+#' using `ggstatsplot::combine_plots`.
 #'
 #' @param title.prefix Character string specifying the prefix text for the fixed
 #'   plot title (name of each factor level) (Default: `NULL`). If `NULL`, the
 #'   variable name entered for `grouping.var` will be used.
 #' @inheritParams ggbetweenstats
 #' @inheritParams grouped_list
-#' @inheritParams combine_plots2
+#' @inheritParams combine_plots
 #' @inheritDotParams ggbetweenstats -title
 #'
 #' @import ggplot2
 #'
-#' @importFrom dplyr select bind_rows summarize mutate mutate_at mutate_if
-#' @importFrom dplyr group_by n arrange
-#' @importFrom rlang !! enquo quo_name ensym
+#' @importFrom dplyr select
+#' @importFrom rlang as_name ensym
 #' @importFrom purrr pmap
 #'
 #' @seealso \code{\link{ggbetweenstats}}, \code{\link{ggwithinstats}},
@@ -67,37 +72,17 @@ grouped_ggbetweenstats <- function(data,
                                    output = "plot",
                                    ...,
                                    plotgrid.args = list(),
-                                   title.text = NULL,
-                                   title.args = list(size = 16, fontface = "bold"),
-                                   caption.text = NULL,
-                                   caption.args = list(size = 10),
-                                   sub.text = NULL,
-                                   sub.args = list(size = 12)) {
-
-  # =================== check user input and prep =========================
-
-  # ensure the grouping variable works quoted or unquoted
-  x <- rlang::ensym(x)
-  y <- rlang::ensym(y)
-  grouping.var <- rlang::ensym(grouping.var)
-  outlier.label <- if (!rlang::quo_is_null(rlang::enquo(outlier.label))) {
-    rlang::ensym(outlier.label)
-  }
-
-  # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(grouping.var)
+                                   annotation.args = list()) {
 
   # ======================== preparing dataframe ==========================
 
+  # if `title.prefix` is not provided, use the variable `grouping.var` name
+  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
+
   # creating a dataframe
   df <-
-    dplyr::select(
-      .data = data,
-      {{ grouping.var }},
-      {{ x }},
-      {{ y }},
-      {{ outlier.label }}
-    ) %>%
+    data %>%
+    dplyr::select({{ grouping.var }}, {{ x }}, {{ y }}, {{ outlier.label }}) %>%
     grouped_list(data = ., grouping.var = {{ grouping.var }})
 
   # ============== creating a list of plots using `pmap`=======================
@@ -116,15 +101,10 @@ grouped_ggbetweenstats <- function(data,
 
   # combining the list of plots into a single plot
   if (output == "plot") {
-    return(ggstatsplot::combine_plots2(
+    return(combine_plots(
       plotlist = plotlist_purrr,
       plotgrid.args = plotgrid.args,
-      title.text = title.text,
-      title.args = title.args,
-      caption.text = caption.text,
-      caption.args = caption.args,
-      sub.text = sub.text,
-      sub.args = sub.args
+      annotation.args = annotation.args
     ))
   } else {
     return(plotlist_purrr) # subtitle list

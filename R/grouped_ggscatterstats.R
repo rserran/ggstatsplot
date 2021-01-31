@@ -12,7 +12,7 @@
 #' @import ggplot2
 #'
 #' @importFrom dplyr select
-#' @importFrom rlang !! enquo enexpr ensym
+#' @importFrom rlang as_name enexpr ensym
 #' @importFrom purrr pmap
 #'
 #' @seealso \code{\link{ggscatterstats}}, \code{\link{ggcorrmat}},
@@ -80,23 +80,15 @@ grouped_ggscatterstats <- function(data,
                                    output = "plot",
                                    ...,
                                    plotgrid.args = list(),
-                                   title.text = NULL,
-                                   title.args = list(size = 16, fontface = "bold"),
-                                   caption.text = NULL,
-                                   caption.args = list(size = 10),
-                                   sub.text = NULL,
-                                   sub.args = list(size = 12)) {
-
-  # ======================== check user input =============================
-
-  # ensure the grouping variable works quoted or unquoted
-  grouping.var <- rlang::ensym(grouping.var)
-  label.var <- if (!rlang::quo_is_null(rlang::enquo(label.var))) rlang::ensym(label.var)
+                                   annotation.args = list()) {
 
   # ======================== preparing dataframe =============================
 
+  # ensure the grouping variable works quoted or unquoted
+  label.var <- if (!rlang::quo_is_null(rlang::enquo(label.var))) rlang::ensym(label.var)
+
   # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(grouping.var)
+  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
 
   # getting the dataframe ready
   df <- grouped_list(data = data, grouping.var = {{ grouping.var }})
@@ -119,15 +111,10 @@ grouped_ggscatterstats <- function(data,
 
   # combining the list of plots into a single plot
   if (output == "plot") {
-    return(ggstatsplot::combine_plots2(
+    return(combine_plots(
       plotlist = plotlist_purrr,
       plotgrid.args = plotgrid.args,
-      title.text = title.text,
-      title.args = title.args,
-      caption.text = caption.text,
-      caption.args = caption.args,
-      sub.text = sub.text,
-      sub.args = sub.args
+      annotation.args = annotation.args
     ))
   } else {
     return(plotlist_purrr) # subtitle list

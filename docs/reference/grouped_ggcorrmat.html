@@ -57,9 +57,10 @@ levels of a grouping variable — grouped_ggcorrmat • ggstatsplot</title>
 
 <meta property="og:title" content="Visualization of a correlalogram (or correlation matrix) for all
 levels of a grouping variable — grouped_ggcorrmat" />
-<meta property="og:description" content="Helper function for ggstatsplot::ggcorrmat to apply this
-function across multiple levels of a given factor and combining the
-resulting plots using ggstatsplot::combine_plots." />
+<meta property="og:description" content="
+Helper function for ggstatsplot::ggcorrmat to apply this function across
+multiple levels of a given factor and combining the resulting plots using
+ggstatsplot::combine_plots." />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
 
 
@@ -92,7 +93,7 @@ resulting plots using ggstatsplot::combine_plots." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
       </span>
     </div>
 
@@ -108,56 +109,62 @@ resulting plots using ggstatsplot::combine_plots." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/combine_plots.html">combine_plots</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/effsize_interpretation.html">effect size interpretation</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/faq.html">Frequently asked questions</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/gallery.html">Gallery of ggstatsplot examples</a>
-    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Primary functions</li>
     <li>
       <a href="../articles/web_only/ggbetweenstats.html">ggbetweenstats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggcoefstats.html">ggcoefstats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/gghistostats.html">gghistostats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggpiestats.html">ggpiestats</a>
-    </li>
-    <li>
-      <a href="../articles/web_only/ggscatterstats.html">ggscatterstats</a>
     </li>
     <li>
       <a href="../articles/web_only/ggwithinstats.html">ggwithinstats</a>
     </li>
     <li>
-      <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
+      <a href="../articles/web_only/gghistostats.html">gghistostats</a>
     </li>
     <li>
-      <a href="../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+      <a href="../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggscatterstats.html">ggscatterstats</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggpiestats.html">ggpiestats</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/ggcoefstats.html">ggcoefstats</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Helper functions</li>
+    <li>
+      <a href="../articles/web_only/combine_plots.html">combine_plots</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/theme_ggstatsplot.html">ggstatsplot theme</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Miscellaneous</li>
+    <li>
+      <a href="../articles/additional.html">additional vignettes</a>
     </li>
     <li>
       <a href="../articles/web_only/session_info.html">session information</a>
     </li>
     <li>
-      <a href="../articles/web_only/theme_ggstatsplot.html">ggstatsplot theme</a>
+      <a href="../articles/web_only/gallery.html">gallery of `ggstatsplot` examples</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/effsize_interpretation.html">effect size interpretation</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/faq.html">frequently asked questions (FAQ)</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
   </ul>
 </li>
@@ -168,7 +175,7 @@ resulting plots using ggstatsplot::combine_plots." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -198,26 +205,21 @@ levels of a grouping variable</h1>
     </div>
 
     <div class="ref-description">
-    <p>Helper function for <code><a href='ggcorrmat.html'>ggstatsplot::ggcorrmat</a></code> to apply this
-function across multiple levels of a given factor and combining the
-resulting plots using <code><a href='combine_plots.html'>ggstatsplot::combine_plots</a></code>.</p>
+    <p><a href='https://www.tidyverse.org/lifecycle/#maturing'><img src='figures/lifecycle-maturing.svg' alt='Maturing lifecycle'></a></p>
+<p>Helper function for <code><a href='ggcorrmat.html'>ggstatsplot::ggcorrmat</a></code> to apply this function across
+multiple levels of a given factor and combining the resulting plots using
+<code><a href='combine_plots.html'>ggstatsplot::combine_plots</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>grouped_ggcorrmat</span><span class='op'>(</span>
   <span class='va'>data</span>,
   cor.vars <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cor.vars.names <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>grouping.var</span>,
   title.prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
   output <span class='op'>=</span> <span class='st'>"plot"</span>,
   <span class='va'>...</span>,
   plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
-  title.text <span class='op'>=</span> <span class='cn'>NULL</span>,
-  title.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>16</span>, fontface <span class='op'>=</span> <span class='st'>"bold"</span><span class='op'>)</span>,
-  caption.text <span class='op'>=</span> <span class='cn'>NULL</span>,
-  caption.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>,
-  sub.text <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sub.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>
+  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -233,11 +235,6 @@ taken.</p></td>
       <td><p>List of variables for which the correlation matrix is to be
 computed and visualized. If <code>NULL</code> (default), all numeric variables from
 <code>data</code> will be used.</p></td>
-    </tr>
-    <tr>
-      <th>cor.vars.names</th>
-      <td><p>Optional list of names to be used for <code>cor.vars</code>. The
-names should be entered in the same order.</p></td>
     </tr>
     <tr>
       <th>grouping.var</th>
@@ -261,6 +258,11 @@ values, <em>p</em>-values, no. of observations, etc.) will be returned.</p></td>
     <tr>
       <th>...</th>
       <td><p>Arguments passed on to <code><a href='ggcorrmat.html'>ggcorrmat</a></code></p><dl>
+    <dt><code>cor.vars.names</code></dt><dd><p>Optional list of names to be used for <code>cor.vars</code>. The
+names should be entered in the same order.</p></dd>
+    <dt><code>partial</code></dt><dd><p>Can be <code>TRUE</code> for partial correlations. For Bayesian partial
+correlations, "full" instead of pseudo-Bayesian partial correlations (i.e.,
+Bayesian correlation based on frequentist partialization) are returned.</p></dd>
     <dt><code>matrix.type</code></dt><dd><p>Character, <code>"upper"</code> (default), <code>"lower"</code>, or <code>"full"</code>,
 display full matrix, lower triangular or upper triangular matrix.</p></dd>
     <dt><code>sig.level</code></dt><dd><p>Significance level (Default: <code>0.05</code>). If the <em>p</em>-value in
@@ -287,7 +289,7 @@ parametric/pearson), <code>"np"</code> (nonparametric/spearman), <code>"r"</code
     <dt><code>beta</code></dt><dd><p>bending constant (Default: <code>0.1</code>). For more, see <code><a href='https://rdrr.io/pkg/WRS2/man/pbcor.html'>WRS2::pbcor()</a></code>.</p></dd>
     <dt><code>k</code></dt><dd><p>Number of digits after decimal point (should be an integer)
 (Default: <code>k = 2L</code>).</p></dd>
-    <dt><code>conf.level</code></dt><dd><p>Scalar between 0 and 1. If unspecified, the defaults return
+    <dt><code>conf.level</code></dt><dd><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults return
 <code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></dd>
     <dt><code>bf.prior</code></dt><dd><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
 width to use in calculating Bayes factors.</p></dd>
@@ -309,9 +311,9 @@ theme elements are to be displayed along with the selected <code>ggtheme</code>
 (Default: <code>TRUE</code>). <code>theme_ggstatsplot</code> is an opinionated theme layer that
 override some aspects of the selected <code>ggtheme</code>.</p></dd>
     <dt><code>ggplot.component</code></dt><dd><p>A <code>ggplot</code> component to be added to the plot prepared
-by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code> variant
-of the current function. Default is <code>NULL</code>. The argument should be entered
-as a function.</p></dd>
+by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code>
+variants of all primary functions. Default is <code>NULL</code>. The argument should
+be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> functions.</p></dd>
     <dt><code>subtitle</code></dt><dd><p>The text for the plot subtitle. Will work only if
 <code>results.subtitle = FALSE</code>.</p></dd>
     <dt><code>caption</code></dt><dd><p>The text for the plot caption.</p></dd>
@@ -320,47 +322,15 @@ as a function.</p></dd>
     </tr>
     <tr>
       <th>plotgrid.args</th>
-      <td><p>A list of additional arguments to <code><a href='https://wilkelab.org/cowplot/reference/plot_grid.html'>cowplot::plot_grid</a></code>.</p></td>
+      <td><p>Additional arguments passed to <code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>.</p></td>
     </tr>
     <tr>
-      <th>title.text</th>
-      <td><p>String or plotmath expression to be drawn as title for the
-<em>combined plot</em>.</p></td>
-    </tr>
-    <tr>
-      <th>title.args</th>
-      <td><p>A list of additional arguments
-provided to <code>title</code>, <code>caption</code> and <code>sub</code>, resp.</p></td>
-    </tr>
-    <tr>
-      <th>caption.text</th>
-      <td><p>String or plotmath expression to be drawn as the caption
-for the <em>combined plot</em>.</p></td>
-    </tr>
-    <tr>
-      <th>caption.args</th>
-      <td><p>A list of additional arguments
-provided to <code>title</code>, <code>caption</code> and <code>sub</code>, resp.</p></td>
-    </tr>
-    <tr>
-      <th>sub.text</th>
-      <td><p>The label with which the <em>combined plot</em> should be annotated.
-Can be a plotmath expression.</p></td>
-    </tr>
-    <tr>
-      <th>sub.args</th>
-      <td><p>A list of additional arguments
-provided to <code>title</code>, <code>caption</code> and <code>sub</code>, resp.</p></td>
+      <th>annotation.args</th>
+      <td><p>Additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Correlation matrix plot or a dataframe containing results from
-pairwise correlation tests. The package internally uses
-<code><a href='https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html'>ggcorrplot::ggcorrplot</a></code> for creating the visualization matrix, while the
-correlation analysis is carried out using the <code><a href='https://easystats.github.io/correlation/reference/correlation.html'>correlation::correlation</a></code>
-function.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html'>https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html</a></p>
@@ -389,31 +359,43 @@ function.</p>
   type <span class='op'>=</span> <span class='st'>"bayes"</span>,
   output <span class='op'>=</span> <span class='st'>"dataframe"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 60 x 14</span><span>
-#&gt;    </span><span style='font-weight: bold;'>vore</span><span>  </span><span style='font-weight: bold;'>parameter1</span><span>  </span><span style='font-weight: bold;'>parameter2</span><span>      </span><span style='font-weight: bold;'>rho</span><span> </span><span style='font-weight: bold;'>ci_low</span><span> </span><span style='font-weight: bold;'>ci_high</span><span>    </span><span style='font-weight: bold;'>pd</span><span> </span><span style='font-weight: bold;'>rope_percentage</span><span>
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> carni sleep_total sleep_rem    </span><span style='color: #949494;'>0.</span><span>845   </span><span style='color: #949494;'>0.</span><span>641  </span><span style='color: #949494;'>0.</span><span>961  1              </span><span style='color: #949494;'>0</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> carni sleep_total sleep_cycle  </span><span style='color: #949494;'>0.</span><span>204  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>351</span><span>  </span><span style='color: #949494;'>0.</span><span>764  </span><span style='color: #949494;'>0.</span><span>698          </span><span style='color: #949494;'>0.</span><span>168 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> carni sleep_total awake       -</span><span style='color: #BB0000;'>1.00</span><span>   -</span><span style='color: #BB0000;'>1.00</span><span>  -</span><span style='color: #BB0000;'>1.00</span><span>   1              </span><span style='color: #949494;'>0</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> carni sleep_total brainwt     -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>382</span><span>  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>759</span><span>  </span><span style='color: #949494;'>0.0</span><span>54</span><span style='text-decoration: underline;'>9</span><span> </span><span style='color: #949494;'>0.</span><span>895          </span><span style='color: #949494;'>0.</span><span>116 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> carni sleep_total bodywt      -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>379</span><span>  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>662</span><span> -</span><span style='color: #949494;'>0.0</span><span style='color: #BB0000;'>65</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span> </span><span style='color: #949494;'>0.</span><span>960          </span><span style='color: #949494;'>0.0</span><span>78 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> carni sleep_rem   sleep_cycle  </span><span style='color: #949494;'>0.0</span><span>54</span><span style='text-decoration: underline;'>8</span><span> -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>534</span><span>  </span><span style='color: #949494;'>0.</span><span>587  </span><span style='color: #949494;'>0.</span><span>562          </span><span style='color: #949494;'>0.</span><span>206 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> carni sleep_rem   awake       -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>848</span><span>  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>962</span><span> -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>678</span><span>  1              </span><span style='color: #949494;'>0.0</span><span>11</span><span style='text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> carni sleep_rem   brainwt     -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>308</span><span>  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>760</span><span>  </span><span style='color: #949494;'>0.</span><span>252  </span><span style='color: #949494;'>0.</span><span>804          </span><span style='color: #949494;'>0.</span><span>136 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> carni sleep_rem   bodywt      -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>371</span><span>  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>716</span><span>  </span><span style='color: #949494;'>0.0</span><span>69</span><span style='text-decoration: underline;'>4</span><span> </span><span style='color: #949494;'>0.</span><span>899          </span><span style='color: #949494;'>0.</span><span>124 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> carni sleep_cycle awake       -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>205</span><span>  -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>754</span><span>  </span><span style='color: #949494;'>0.</span><span>373  </span><span style='color: #949494;'>0.</span><span>690          </span><span style='color: #949494;'>0.</span><span>165 
-#&gt;    </span><span style='font-weight: bold;'>prior_distribution</span><span> </span><span style='font-weight: bold;'>prior_location</span><span> </span><span style='font-weight: bold;'>prior_scale</span><span>      </span><span style='font-weight: bold;'>bf</span><span> </span><span style='font-weight: bold;'>method</span><span>            </span><span style='font-weight: bold;'>nobs</span><span>
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707 112.    Bayesian Pearson    10
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   </span><span style='color: #949494;'>0.</span><span>714 Bayesian Pearson     5
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707  </span><span style='color: #BB0000;'>NA</span><span>     Bayesian Pearson    19
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   1.13  Bayesian Pearson     9
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   1.72  Bayesian Pearson    19
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   </span><span style='color: #949494;'>0.</span><span>621 Bayesian Pearson     5
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707 112.    Bayesian Pearson    10
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   </span><span style='color: #949494;'>0.</span><span>848 Bayesian Pearson     6
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   1.03  Bayesian Pearson    10
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> cauchy                          </span><span style='color: #949494;'>0</span><span>       </span><span style='color: #949494;'>0.</span><span>707   </span><span style='color: #949494;'>0.</span><span>714 Bayesian Pearson     5
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Series not converged.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 60 x 15</span><span>
+#&gt;    </span><span style='font-weight: bold;'>vore</span><span>  </span><span style='font-weight: bold;'>parameter1</span><span>  </span><span style='font-weight: bold;'>parameter2</span><span>  </span><span style='font-weight: bold;'>estimate</span><span> </span><span style='font-weight: bold;'>conf.low</span><span> </span><span style='font-weight: bold;'>conf.high</span><span> </span><span style='font-weight: bold;'>ci.width</span><span>    </span><span style='font-weight: bold;'>pd</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> carni sleep_total sleep_rem     </span><span style='color: #949494;'>0.</span><span>845     </span><span style='color: #949494;'>0.</span><span>641    </span><span style='color: #949494;'>0.</span><span>961      </span><span style='color: #949494;'>0.</span><span>89 1    
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> carni sleep_total sleep_cycle   </span><span style='color: #949494;'>0.</span><span>204    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>351</span><span>    </span><span style='color: #949494;'>0.</span><span>764      </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>698
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> carni sleep_total awake        -</span><span style='color: #BB0000;'>1.00</span><span>     -</span><span style='color: #BB0000;'>1.00</span><span>    -</span><span style='color: #BB0000;'>1.00</span><span>       </span><span style='color: #949494;'>0.</span><span>89 1    
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> carni sleep_total brainwt      -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>382</span><span>    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>759</span><span>    </span><span style='color: #949494;'>0.0</span><span>54</span><span style='text-decoration: underline;'>9</span><span>     </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>895
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> carni sleep_total bodywt       -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>379</span><span>    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>662</span><span>   -</span><span style='color: #949494;'>0.0</span><span style='color: #BB0000;'>65</span><span style='color: #BB0000;text-decoration: underline;'>4</span><span>     </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>960
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> carni sleep_rem   sleep_cycle   </span><span style='color: #949494;'>0.0</span><span>54</span><span style='text-decoration: underline;'>8</span><span>   -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>534</span><span>    </span><span style='color: #949494;'>0.</span><span>587      </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>562
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> carni sleep_rem   awake        -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>848</span><span>    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>962</span><span>   -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>678</span><span>      </span><span style='color: #949494;'>0.</span><span>89 1    
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> carni sleep_rem   brainwt      -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>308</span><span>    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>760</span><span>    </span><span style='color: #949494;'>0.</span><span>252      </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>804
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> carni sleep_rem   bodywt       -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>371</span><span>    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>716</span><span>    </span><span style='color: #949494;'>0.0</span><span>69</span><span style='text-decoration: underline;'>4</span><span>     </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>899
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> carni sleep_cycle awake        -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>205</span><span>    -</span><span style='color: #949494;'>0.</span><span style='color: #BB0000;'>754</span><span>    </span><span style='color: #949494;'>0.</span><span>373      </span><span style='color: #949494;'>0.</span><span>89 </span><span style='color: #949494;'>0.</span><span>690
+#&gt;    </span><span style='font-weight: bold;'>rope.percentage</span><span> </span><span style='font-weight: bold;'>prior.distribution</span><span> </span><span style='font-weight: bold;'>prior.location</span><span> </span><span style='font-weight: bold;'>prior.scale</span><span> </span><span style='font-weight: bold;'>bayes.factor</span><span>
+#&gt;              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>          </span><span style='color: #949494;'>0</span><span>      beta                         1.41        1.41      112.   
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>          </span><span style='color: #949494;'>0.</span><span>168  beta                         1.41        1.41        </span><span style='color: #949494;'>0.</span><span>714
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>          </span><span style='color: #949494;'>0</span><span>      beta                         1.41        1.41       </span><span style='color: #BB0000;'>NA</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>          </span><span style='color: #949494;'>0.</span><span>116  beta                         1.41        1.41        1.13 
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>          </span><span style='color: #949494;'>0.0</span><span>78  beta                         1.41        1.41        1.72 
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>          </span><span style='color: #949494;'>0.</span><span>206  beta                         1.41        1.41        </span><span style='color: #949494;'>0.</span><span>621
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>          </span><span style='color: #949494;'>0.0</span><span>11</span><span style='text-decoration: underline;'>8</span><span> beta                         1.41        1.41      112.   
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>          </span><span style='color: #949494;'>0.</span><span>136  beta                         1.41        1.41        </span><span style='color: #949494;'>0.</span><span>848
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>          </span><span style='color: #949494;'>0.</span><span>124  beta                         1.41        1.41        1.03 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>          </span><span style='color: #949494;'>0.</span><span>165  beta                         1.41        1.41        </span><span style='color: #949494;'>0.</span><span>714
+#&gt;    </span><span style='font-weight: bold;'>method</span><span>           </span><span style='font-weight: bold;'>n.obs</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Bayesian Pearson    10
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Bayesian Pearson     5
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Bayesian Pearson    19
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Bayesian Pearson     9
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Bayesian Pearson    19
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Bayesian Pearson     5
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Bayesian Pearson    10
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Bayesian Pearson     6
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Bayesian Pearson    10
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Bayesian Pearson     5
 #&gt; </span><span style='color: #949494;'># ... with 50 more rows</span><span></div><div class='input'><span class='co'># }</span>
 </div></span></pre>
   </div>

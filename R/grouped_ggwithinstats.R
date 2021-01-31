@@ -49,27 +49,12 @@ grouped_ggwithinstats <- function(data,
                                   output = "plot",
                                   ...,
                                   plotgrid.args = list(),
-                                  title.text = NULL,
-                                  title.args = list(size = 16, fontface = "bold"),
-                                  caption.text = NULL,
-                                  caption.args = list(size = 10),
-                                  sub.text = NULL,
-                                  sub.args = list(size = 12)) {
-
-  # =================== check user input and prep =========================
-
-  # ensure the grouping variable works quoted or unquoted
-  x <- rlang::ensym(x)
-  y <- rlang::ensym(y)
-  grouping.var <- rlang::ensym(grouping.var)
-  outlier.label <- if (!rlang::quo_is_null(rlang::enquo(outlier.label))) {
-    rlang::ensym(outlier.label)
-  }
-
-  # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(grouping.var)
+                                  annotation.args = list()) {
 
   # ======================== preparing dataframe =============================
+
+  # if `title.prefix` is not provided, use the variable `grouping.var` name
+  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
 
   # creating a dataframe
   df <-
@@ -98,15 +83,10 @@ grouped_ggwithinstats <- function(data,
 
   # combining the list of plots into a single plot
   if (output == "plot") {
-    return(ggstatsplot::combine_plots2(
+    return(combine_plots(
       plotlist = plotlist_purrr,
       plotgrid.args = plotgrid.args,
-      title.text = title.text,
-      title.args = title.args,
-      caption.text = caption.text,
-      caption.args = caption.args,
-      sub.text = sub.text,
-      sub.args = sub.args
+      annotation.args = annotation.args
     ))
   } else {
     # subtitle list

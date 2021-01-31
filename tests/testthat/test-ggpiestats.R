@@ -1,14 +1,14 @@
 # one sample proportion test -----------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "checking one sample proportion test",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggpiestats(
+      ggpiestats(
         data = ggplot2::msleep,
         x = vore,
         bf.message = TRUE,
@@ -17,8 +17,7 @@ testthat::test_that(
         caption = "From ggplot2 package",
         perc.k = 2,
         ggstatsplot.layer = FALSE,
-        label = "both",
-        messages = FALSE
+        label = "both"
       )
 
     # built plot
@@ -35,15 +34,16 @@ testthat::test_that(
     # caption
     set.seed(123)
     p_cap <-
-      statsExpressions::bf_contingency_tab(
+      statsExpressions::expr_contingency_tab(
         data = ggplot2::msleep,
+        type = "bayes",
         x = "vore",
         top.text = "From ggplot2 package",
         output = "caption"
       )
 
     # checking geom data
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[1]],
       structure(
         list(
@@ -97,7 +97,7 @@ testthat::test_that(
       )
     )
 
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[2]],
       structure(
         list(
@@ -155,27 +155,27 @@ testthat::test_that(
     )
 
     # checking plot labels
-    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
-    testthat::expect_identical(pb$plot$labels$title, "mammalian sleep")
-    testthat::expect_identical(pb$plot$labels$caption, p_cap)
-    testthat::expect_null(pb$plot$labels$x, NULL)
-    testthat::expect_null(pb$plot$labels$y, NULL)
-    testthat::expect_identical(pb$plot$plot_env$legend.title, "vore")
+    expect_identical(pb$plot$labels$subtitle, p_subtitle)
+    expect_identical(pb$plot$labels$title, "mammalian sleep")
+    expect_identical(pb$plot$labels$caption, p_cap)
+    expect_null(pb$plot$labels$x, NULL)
+    expect_null(pb$plot$labels$y, NULL)
+    expect_identical(pb$plot$plot_env$legend.title, "vore")
   }
 )
 
 # contingency tab ---------------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "checking labels with contingency tab",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     # creating the plot
     set.seed(123)
     p <-
       suppressWarnings(
-        ggstatsplot::ggpiestats(
+        ggpiestats(
           data = mtcars,
           x = "am",
           y = "cyl",
@@ -184,8 +184,7 @@ testthat::test_that(
           palette = "Royal2",
           ggtheme = ggplot2::theme_bw(),
           label = "counts",
-          legend.title = "transmission",
-          messages = FALSE
+          legend.title = "transmission"
         )
       )
 
@@ -194,14 +193,14 @@ testthat::test_that(
 
     # plot
     p1 <-
-      ggstatsplot::ggpiestats(
+      ggpiestats(
         data = mtcars_small,
         x = cyl,
         y = am
       )
 
-    testthat::expect_s3_class(
-      suppressWarnings(ggstatsplot::ggpiestats(
+    expect_s3_class(
+      suppressWarnings(ggpiestats(
         data = mtcars_small,
         y = cyl,
         x = am
@@ -225,27 +224,28 @@ testthat::test_that(
     # subtitle used
     set.seed(123)
     p_cap <-
-      suppressWarnings(statsExpressions::bf_contingency_tab(
+      suppressWarnings(statsExpressions::expr_contingency_tab(
         data = mtcars,
         x = "am",
         y = "cyl",
+        type = "bayes",
         output = "caption"
       ))
 
 
     # with facets
-    testthat::expect_equal(length(pb$data), 3L)
-    testthat::expect_equal(dim(pb$data[[1]]), c(6L, 14L))
-    testthat::expect_equal(dim(pb$data[[2]]), c(6L, 19L))
-    testthat::expect_equal(dim(pb$data[[3]]), c(3L, 18L))
+    expect_equal(length(pb$data), 3L)
+    expect_equal(dim(pb$data[[1]]), c(6L, 14L))
+    expect_equal(dim(pb$data[[2]]), c(6L, 19L))
+    expect_equal(dim(pb$data[[3]]), c(3L, 18L))
 
     # without facets
-    testthat::expect_equal(length(pb1$data), 2L)
-    testthat::expect_equal(dim(pb1$data[[1]]), c(3L, 14L))
-    testthat::expect_equal(dim(pb1$data[[2]]), c(3L, 19L))
+    expect_equal(length(pb1$data), 2L)
+    expect_equal(dim(pb1$data[[1]]), c(3L, 14L))
+    expect_equal(dim(pb1$data[[2]]), c(3L, 19L))
 
     # check geoms
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[2]]$y,
       c(
         0.636363636363636,
@@ -257,26 +257,26 @@ testthat::test_that(
       ),
       tolerance = 0.001
     )
-    testthat::expect_equal(
+    expect_equal(
       pb1$data[[2]]$y,
       c(0.684210526315789, 0.263157894736842, 0.0789473684210526),
       tolerance = 0.001
     )
 
     # checking plot labels
-    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
-    testthat::expect_identical(pb$plot$labels$caption, p_cap)
-    testthat::expect_null(pb$plot$labels$x, NULL)
-    testthat::expect_null(pb$plot$labels$y, NULL)
-    testthat::expect_identical(pb$plot$guides$fill$title[1], "transmission")
-    testthat::expect_type(pb1$plot$labels$subtitle, "language")
+    expect_identical(pb$plot$labels$subtitle, p_subtitle)
+    expect_identical(pb$plot$labels$caption, p_cap)
+    expect_null(pb$plot$labels$x, NULL)
+    expect_null(pb$plot$labels$y, NULL)
+    expect_identical(pb$plot$guides$fill$title[1], "transmission")
+    expect_type(pb1$plot$labels$subtitle, "language")
 
     # checking labels
-    testthat::expect_identical(
+    expect_identical(
       pb$data[[2]]$label,
       c("8", "3", "3", "4", "2", "12")
     )
-    testthat::expect_identical(
+    expect_identical(
       pb$data[[3]]$label,
       c(
         "list(~chi['gof']^2~(1)==2.27, ~italic(p)=='0.132', ~italic(n)==11)",
@@ -286,7 +286,7 @@ testthat::test_that(
     )
 
     # check if palette changed
-    testthat::expect_identical(
+    expect_identical(
       pb$data[[1]]$fill,
       c(
         "#9A8822FF",
@@ -297,7 +297,7 @@ testthat::test_that(
         "#F5CDB4FF"
       )
     )
-    testthat::expect_identical(
+    expect_identical(
       pb1$data[[1]]$fill,
       c("#1B9E77FF", "#D95F02FF", "#7570B3FF")
     )
@@ -306,15 +306,15 @@ testthat::test_that(
 
 # contingency tab (with counts) ----------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "checking labels with counts",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     # plot
     set.seed(123)
     p <-
-      ggstatsplot::ggpiestats(
+      ggpiestats(
         data = as.data.frame(Titanic),
         x = Sex,
         y = Survived,
@@ -347,27 +347,27 @@ testthat::test_that(
       )
 
     # testing everything is okay with data
-    testthat::expect_equal(dim(dat), c(4L, 5L))
-    testthat::expect_equal(dat$perc, c(8.46, 48.38, 91.54, 51.62), tolerance = 1e-3)
-    testthat::expect_equal(dat$Survived[1], "No")
-    testthat::expect_equal(dat$Survived[4], "Yes")
-    testthat::expect_equal(dat$Sex[2], "Female")
-    testthat::expect_equal(dat$Sex[3], "Male")
-    testthat::expect_identical(dat$counts, c(126L, 344L, 1364L, 367L))
+    expect_equal(dim(dat), c(4L, 5L))
+    expect_equal(dat$perc, c(8.46, 48.38, 91.54, 51.62), tolerance = 1e-3)
+    expect_equal(dat$Survived[1], "No")
+    expect_equal(dat$Survived[4], "Yes")
+    expect_equal(dat$Sex[2], "Female")
+    expect_equal(dat$Sex[3], "Male")
+    expect_identical(dat$counts, c(126L, 344L, 1364L, 367L))
 
     # checking plot labels
-    testthat::expect_identical(pb$plot$labels$subtitle, p_subtitle)
-    testthat::expect_null(pb$plot$labels$caption, NULL)
-    testthat::expect_identical(pb$plot$plot_env$legend.title, "Sex")
+    expect_identical(pb$plot$labels$subtitle, p_subtitle)
+    expect_null(pb$plot$labels$caption, NULL)
+    expect_identical(pb$plot$plot_env$legend.title, "Sex")
   }
 )
 
 # mcnemar test ---------------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "checking labels with contingency tab (paired)",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     # data
     set.seed(123)
@@ -381,7 +381,7 @@ testthat::test_that(
     # plot
     set.seed(123)
     p <-
-      ggstatsplot::ggpiestats(
+      ggpiestats(
         data = survey.data,
         x = `1st survey`,
         y = `2nd survey`,
@@ -406,7 +406,7 @@ testthat::test_that(
       )
 
     # checking plot labels
-    testthat::expect_identical(
+    expect_identical(
       pb$plot$labels,
       list(
         x = NULL,
@@ -421,7 +421,7 @@ testthat::test_that(
     )
 
     # labels
-    testthat::expect_identical(
+    expect_identical(
       pb$data[[3]]$label,
       c(
         "list(~chi['gof']^2~(1)==569.62, ~italic(p)=='6.8e-126', ~italic(n)==880)",
@@ -433,10 +433,10 @@ testthat::test_that(
 
 # repelling labels -------------------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "repelling labels",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
     set.seed(123)
 
     # data
@@ -492,7 +492,7 @@ testthat::test_that(
     pb <- ggplot2::ggplot_build(p)
 
     # tests
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[2]]$y,
       c(
         0.923951048951049,
@@ -506,7 +506,7 @@ testthat::test_that(
       )
     )
 
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[2]]$ymin,
       c(
         0.847902097902098,
@@ -520,7 +520,7 @@ testthat::test_that(
       )
     )
 
-    testthat::expect_equal(
+    expect_equal(
       pb$data[[2]]$ymax,
       c(
         1,
@@ -538,10 +538,10 @@ testthat::test_that(
 
 # without enough data ---------------------------------------------------------
 
-testthat::test_that(
+test_that(
   desc = "checking if functions work without enough data",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
     set.seed(123)
 
     # creating a dataframe
@@ -552,7 +552,7 @@ testthat::test_that(
       )
 
     # subtitle
-    testthat::expect_null(ggstatsplot::ggpiestats(
+    expect_null(ggpiestats(
       data = df,
       x = x,
       output = "subtitle"
@@ -560,12 +560,12 @@ testthat::test_that(
   }
 )
 
-# subtitle output --------------------------------------------------
+# expression output --------------------------------------------------
 
-testthat::test_that(
-  desc = "subtitle output",
+test_that(
+  desc = "expression output",
   code = {
-    testthat::skip_on_cran()
+    skip_on_cran()
 
     set.seed(123)
     df <- dplyr::sample_frac(tbl = forcats::gss_cat, size = 0.1) %>%
@@ -574,7 +574,7 @@ testthat::test_that(
     # subtitle output
     set.seed(123)
     p_sub <-
-      ggstatsplot::ggpiestats(
+      ggpiestats(
         data = df,
         x = race,
         y = marital,
@@ -594,27 +594,28 @@ testthat::test_that(
     # caption output
     set.seed(123)
     p_cap <-
-      ggstatsplot::ggpiestats(
+      ggpiestats(
         data = df,
         x = race,
         y = "marital",
-        output = "caption",
+        type = "bayes",
+        output = "subtitle",
         k = 4
       )
 
     # caption output
     set.seed(123)
     p_cap_exp <-
-      statsExpressions::bf_contingency_tab(
+      statsExpressions::expr_contingency_tab(
         data = df,
         x = "race",
         y = marital,
-        output = "caption",
+        type = "bayes",
         k = 4
       )
 
     # tests
-    testthat::expect_identical(p_sub, stats_output)
-    testthat::expect_identical(p_cap, p_cap_exp)
+    expect_identical(p_sub, stats_output)
+    expect_identical(p_cap, p_cap_exp)
   }
 )

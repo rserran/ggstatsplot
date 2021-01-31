@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.6</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
       </span>
     </div>
 
@@ -57,56 +57,62 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/additional.html">additional vignettes</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/combine_plots.html">combine_plots</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/effsize_interpretation.html">effect size interpretation</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/faq.html">Frequently asked questions</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/gallery.html">Gallery of ggstatsplot examples</a>
-    </li>
+<li class="divider">
+    <li class="dropdown-header">Primary functions</li>
     <li>
       <a href="../../articles/web_only/ggbetweenstats.html">ggbetweenstats</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/ggcoefstats.html">ggcoefstats</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/ggcorrmat.html">ggcorrmat</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/gghistostats.html">gghistostats</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/ggpiestats.html">ggpiestats</a>
-    </li>
-    <li>
-      <a href="../../articles/web_only/ggscatterstats.html">ggscatterstats</a>
     </li>
     <li>
       <a href="../../articles/web_only/ggwithinstats.html">ggwithinstats</a>
     </li>
     <li>
-      <a href="../../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
+      <a href="../../articles/web_only/gghistostats.html">gghistostats</a>
     </li>
     <li>
-      <a href="../../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+      <a href="../../articles/web_only/ggdotplotstats.html">ggdotplotstats</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/ggcorrmat.html">ggcorrmat</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/ggscatterstats.html">ggscatterstats</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/ggpiestats.html">ggpiestats</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/ggcoefstats.html">ggcoefstats</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Helper functions</li>
+    <li>
+      <a href="../../articles/web_only/combine_plots.html">combine_plots</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/theme_ggstatsplot.html">ggstatsplot theme</a>
+    </li>
+    <li class="divider">
+    <li class="dropdown-header">Miscellaneous</li>
+    <li>
+      <a href="../../articles/additional.html">additional vignettes</a>
     </li>
     <li>
       <a href="../../articles/web_only/session_info.html">session information</a>
     </li>
     <li>
-      <a href="../../articles/web_only/theme_ggstatsplot.html">ggstatsplot theme</a>
+      <a href="../../articles/web_only/gallery.html">gallery of `ggstatsplot` examples</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/effsize_interpretation.html">effect size interpretation</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/faq.html">frequently asked questions (FAQ)</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+    </li>
+    <li>
+      <a href="../../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
   </ul>
 </li>
@@ -117,7 +123,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/IndrajeetPatil/ggstatsplot/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -137,13 +143,13 @@
 
       
 
-      </header><script src="ggbetweenstats_files/header-attrs-2.5.3/header-attrs.js"></script><div class="row">
+      </header><script src="ggbetweenstats_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>ggbetweenstats</h1>
                         <h4 class="author">Indrajeet Patil</h4>
             
-            <h4 class="date">2020-12-02</h4>
+            <h4 class="date">2021-01-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/master/vignettes/web_only/ggbetweenstats.Rmd"><code>vignettes/web_only/ggbetweenstats.Rmd</code></a></small>
       <div class="hidden name"><code>ggbetweenstats.Rmd</code></div>
@@ -258,7 +264,6 @@
     ylab <span class="op">=</span> <span class="st">"Life expectancy"</span>,
     plot.type <span class="op">=</span> <span class="st">"box"</span>,
     type <span class="op">=</span> <span class="st">"p"</span>,
-    effsize.type <span class="op">=</span> <span class="st">"d"</span>,
     conf.level <span class="op">=</span> <span class="fl">0.99</span>,
     title <span class="op">=</span> <span class="st">"Parametric test"</span>,
     package <span class="op">=</span> <span class="st">"ggsci"</span>,
@@ -316,12 +321,12 @@
 
 <span class="co"># combining the individual plots into a single plot</span>
 <span class="fu">ggstatsplot</span><span class="fu">::</span><span class="fu"><a href="../../reference/combine_plots.html">combine_plots</a></span><span class="op">(</span>
-  <span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span>,
-  nrow <span class="op">=</span> <span class="fl">2</span>,
-  title.text <span class="op">=</span> <span class="st">"Comparison of life expectancy between 1957 and 2007"</span>,
-  caption.text <span class="op">=</span> <span class="st">"Source: Gapminder Foundation"</span>,
-  title.size <span class="op">=</span> <span class="fl">14</span>,
-  caption.size <span class="op">=</span> <span class="fl">12</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, <span class="va">p4</span><span class="op">)</span>,
+  plotgrid.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
+  annotation.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"Comparison of life expectancy between 1957 and 2007"</span>,
+    caption <span class="op">=</span> <span class="st">"Source: Gapminder Foundation"</span>
+  <span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="ggbetweenstats_files/figure-html/ggbetweenstats3-1.png" width="100%"></p>
 </div>
@@ -347,7 +352,6 @@
     grouping.var <span class="op">=</span> <span class="va">year</span>,
     xlab <span class="op">=</span> <span class="st">"Continent"</span>,
     ylab <span class="op">=</span> <span class="st">"Life expectancy"</span>,
-    pairwise.comparisons <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># display results from pairwise comparisons</span>
     pairwise.display <span class="op">=</span> <span class="st">"significant"</span>, <span class="co"># display only significant pairwise comparisons</span>
     p.adjust.method <span class="op">=</span> <span class="st">"fdr"</span>, <span class="co"># adjust p-values for multiple tests using this method</span>
     ggtheme <span class="op">=</span> <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>,
@@ -358,7 +362,7 @@
     outlier.label <span class="op">=</span> <span class="va">country</span>,
     title.prefix <span class="op">=</span> <span class="st">"Year"</span>,
     <span class="co"># arguments relevant for ggstatsplot::combine_plots</span>
-    title.text <span class="op">=</span> <span class="st">"Changes in life expectancy across continents (1967-2007)"</span>,
+    annotation.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Changes in life expectancy across continents (1967-2007)"</span><span class="op">)</span>,
     plotgrid.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <p><img src="ggbetweenstats_files/figure-html/grouped1-1.png" width="100%"></p>
@@ -379,13 +383,44 @@
 <div id="summary-of-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary-of-tests" class="anchor"></a>Summary of tests</h2>
+<p>The central tendency measure displayed will depend on the statistics:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Type</th>
+<th>Measure</th>
+<th>Function used</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Parametric</td>
+<td>mean</td>
+<td><code><a href="https://easystats.github.io/parameters/reference/describe_distribution.html">parameters::describe_distribution</a></code></td>
+</tr>
+<tr class="even">
+<td>Non-parametric</td>
+<td>median</td>
+<td><code><a href="https://easystats.github.io/parameters/reference/describe_distribution.html">parameters::describe_distribution</a></code></td>
+</tr>
+<tr class="odd">
+<td>Robust</td>
+<td>trimmed mean</td>
+<td><code><a href="https://easystats.github.io/parameters/reference/describe_distribution.html">parameters::describe_distribution</a></code></td>
+</tr>
+<tr class="even">
+<td>Bayesian</td>
+<td>MAP estimate</td>
+<td><code><a href="https://easystats.github.io/parameters/reference/describe_distribution.html">parameters::describe_distribution</a></code></td>
+</tr>
+</tbody>
+</table>
+<p>MAP: maximum a posteriori probability</p>
 <p>Following (between-subjects) tests are carried out for each type of analyses-</p>
 <table class="table">
 <thead><tr class="header">
 <th>Type</th>
 <th>No. of groups</th>
 <th>Test</th>
-<th>Function</th>
+<th>Function used</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -431,7 +466,7 @@
 <td><code><a href="https://rdrr.io/pkg/WRS2/man/yuen.html">WRS2::yuen</a></code></td>
 </tr>
 <tr class="even">
-<td>Bayes Factor</td>
+<td>Bayesian</td>
 <td>2</td>
 <td>Student’s <em>t</em>-test</td>
 <td><code><a href="https://rdrr.io/pkg/BayesFactor/man/ttestBF.html">BayesFactor::ttestBF</a></code></td>
@@ -452,7 +487,7 @@
 <th>No. of groups</th>
 <th>Effect size</th>
 <th>CI?</th>
-<th>Function</th>
+<th>Function used</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -469,10 +504,9 @@
 <tr class="even">
 <td>Non-parametric</td>
 <td>&gt; 2</td>
-<td>
-<span class="math inline">\(\eta_{H}^2\)</span> (<em>H</em>-statistic based eta-squared)</td>
+<td><span class="math inline">\(\epsilon_{ordinal}^2\)</span></td>
 <td><font color="green">Yes<font></font></font></td>
-<td><code><a href="https://rdrr.io/pkg/rcompanion/man/epsilonSquared.html">rcompanion::epsilonSquared</a></code></td>
+<td><code><a href="https://easystats.github.io/effectsize/reference/rank_biserial.html">effectsize::rank_epsilon_squared</a></code></td>
 </tr>
 <tr class="odd">
 <td>Robust</td>
@@ -503,9 +537,9 @@
 <td>Non-parametric</td>
 <td>2</td>
 <td>
-<em>r</em> (computed as <span class="math inline">\(Z/\sqrt{N}\)</span>)</td>
+<em>r</em> (rank-biserial correlation)</td>
 <td><font color="green">Yes<font></font></font></td>
-<td><code><a href="https://rdrr.io/pkg/rcompanion/man/wilcoxonR.html">rcompanion::wilcoxonR</a></code></td>
+<td><code><a href="https://easystats.github.io/effectsize/reference/rank_biserial.html">effectsize::rank_biserial</a></code></td>
 </tr>
 <tr class="odd">
 <td>Robust</td>
@@ -516,7 +550,7 @@
 <td><code><a href="https://rdrr.io/pkg/WRS2/man/yuen.html">WRS2::yuen.effect.ci</a></code></td>
 </tr>
 <tr class="even">
-<td>Bayes Factor</td>
+<td>Bayesian</td>
 <td>2</td>
 <td><span class="math inline">\(\delta_{posterior}\)</span></td>
 <td><font color="green">Yes<font></font></font></td>
@@ -532,7 +566,7 @@
 <th>Test</th>
 <th>
 <em>p</em>-value adjustment?</th>
-<th>Function</th>
+<th>Function used</th>
 </tr></thead>
 <tbody>
 <tr class="odd">

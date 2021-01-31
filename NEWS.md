@@ -2,15 +2,69 @@
 
 BREAKING CHANGES
 
+  - `combine_plots` has been completely revised to rely not on `patchwork`, but on
+    `patchwork`, to combine a list of `ggplot` together. This was done to have a
+    leaner syntax. With this revision, its vestigial twin `combine_plots` is no
+    longer needed and has been removed.
+
+# ggstatsplot 0.6.8
+
+MAJOR CHANGES
+
   - `gghistostats` removes `bar.measure` argument. The function now defaults to
     showing the `count` information on the `x`-axis and the `proportion`
     information on the duplicated `x`-axis.
- 
+
+  - `ggscatterstats` removes `method` and `method.args` arguments. It will no
+    longer be possible to use this function to visualize data for when the model
+    is not linear. It also retires `margins` argument.
+
+  - For `ggbetweenstats` and `ggwithinstats` functions, the arguments of type
+    `mean.*` have all been replaced by `centrality.*`. This is because now these
+    functions decide which central tendency measure to show depending on the
+    `type` argument (**mean** for parametric, **median** for non-parametric,
+    **trimmed mean** for robust, and **MAP estimator** for Bayes).
+
+  - Similarly, `gghistostats` and `ggdotplotstats` functions also decide which
+    central tendency measure to show depending on the `type` argument (**mean**
+    for parametric, **median** for non-parametric, **trimmed mean** for robust,
+    and **MAP estimator** for Bayes). Therefore, `centrality.parameter` argument
+    has been removed. If you want to turn off displaying centrality measure, set
+    `centrality.plotting = FALSE`.
+
+  - `gghistostats` and `ggdotplotstats` functions remove the functionality to
+    display a vertical line corresponding to `test.value`. This feature was
+    turned off by default in prior releases. Accordingly, all related arguments
+    from these two functions have been removed.
+
+  - `ggscatterstats` defaults to `densigram` as the marginal distribution
+    visualization.
+
+  - `ggbetweenstats` and `ggwithinstats` now display the centrality tendency
+    measure in such a way that the label doesn't occlude any of the raw data
+    points (#429).
+
+  - `mean.ci` argument is retired for `ggbetweenstats` and `ggwithinstats`.
+    Future `ggstatsplot` releases will be providing different centrality
+    measures depending on the `type` argument and it is not guaranteed that all
+    of them will have CIs available. So, for the sake of consistency, this
+    argument is just going to be retired.
+
 MINOR CHANGES
 
   - `ggcorrmat` uses pretty formatting to display sample size information.
-  
+
   - `ggcoefstats` now also displays degrees of freedom for chi-squared tests.
+
+  - Expects minor changes in some of the effect sizes and their confidence
+    intervals due to changes in `statsExpressions`.
+
+NEW FEATURES
+
+  - More models supported in `ggcoefstats`: `fixest`, `ivFixed`, `ivprobit`,
+    `riskRegression`.
+
+  - `ggcorrmat` supports partial correlations.
 
 # ggstatsplot 0.6.6
 
@@ -287,7 +341,7 @@ list of arguments `list(size = 5, color = "darkgreen", alpha = 0.8)` can be
 supplied).
 
   - All `grouped_` functions have been refactored to reduce the number of
-    arguments. These functions now internally use the new `combine_plots2`
+    arguments. These functions now internally use the new `combine_plots`
     instead of `combine_plots`. The additional arguments to primary functions
     can be provided through `...`. These changes will not necessarily break the
     existing code but will lead to some minor graphical changes (e.g., if you
