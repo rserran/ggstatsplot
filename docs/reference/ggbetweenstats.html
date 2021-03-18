@@ -66,6 +66,8 @@ subtitle." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -77,9 +79,15 @@ subtitle." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -93,7 +101,7 @@ subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -166,6 +174,14 @@ subtitle." />
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -229,17 +245,15 @@ subtitle.</p>
   caption <span class='op'>=</span> <span class='cn'>NULL</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   subtitle <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sample.size.label <span class='op'>=</span> <span class='cn'>TRUE</span>,
   k <span class='op'>=</span> <span class='fl'>2L</span>,
   var.equal <span class='op'>=</span> <span class='cn'>FALSE</span>,
   conf.level <span class='op'>=</span> <span class='fl'>0.95</span>,
   nboot <span class='op'>=</span> <span class='fl'>100L</span>,
-  tr <span class='op'>=</span> <span class='fl'>0.1</span>,
+  tr <span class='op'>=</span> <span class='fl'>0.2</span>,
   centrality.plotting <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  centrality.type <span class='op'>=</span> <span class='va'>type</span>,
   centrality.point.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>5</span>, color <span class='op'>=</span> <span class='st'>"darkred"</span><span class='op'>)</span>,
   centrality.label.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>3</span>, nudge_x <span class='op'>=</span> <span class='fl'>0.4</span>, segment.linetype <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>,
-  notch <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  notchwidth <span class='op'>=</span> <span class='fl'>0.5</span>,
   outlier.tagging <span class='op'>=</span> <span class='cn'>FALSE</span>,
   outlier.label <span class='op'>=</span> <span class='cn'>NULL</span>,
   outlier.coef <span class='op'>=</span> <span class='fl'>1.5</span>,
@@ -265,29 +279,37 @@ subtitle.</p>
     <tr>
       <th>data</th>
       <td><p>A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
+be taken. Other data types (e.g., matrix,table, array, etc.) will <strong>not</strong>
+be accepted.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>The grouping variable from the dataframe <code>data</code>.</p></td>
+      <td><p>The grouping (or independent) variable from the dataframe <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>The response (a.k.a. outcome or dependent) variable from the
+      <td><p>The response (or outcome or dependent) variable from the
 dataframe <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>plot.type</th>
       <td><p>Character describing the <em>type</em> of plot. Currently supported
-plots are <code>"box"</code> (for pure boxplots), <code>"violin"</code> (for pure violin plots),
+plots are <code>"box"</code> (for only boxplots), <code>"violin"</code> (for only violin plots),
 and <code>"boxviolin"</code> (for a combination of box and violin plots; default).</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of statistic expected (<code>"parametric"</code> or <code>"nonparametric"</code>
-or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations are also accepted:
-<code>"p"</code> (for parametric), <code>"np"</code> (nonparametric), <code>"r"</code> (robust), or
-<code>"bf"</code>resp.</p></td>
+      <td><p>A character specifying the type of statistical approach.
+Four possible options:</p>
+<ul>
+<li><p><code>"parametric"</code></p></li>
+<li><p><code>"nonparametric"</code></p></li>
+<li><p><code>"robust"</code></p></li>
+<li><p><code>"bayes"</code></p></li>
+</ul>
+
+<p>Corresponding abbreviations are also accepted: <code>"p"</code> (for parametric),
+<code>"np"</code> (for nonparametric), <code>"r"</code> (for robust), or <code>"bf"</code> (for Bayesian).</p></td>
     </tr>
     <tr>
       <th>pairwise.comparisons</th>
@@ -301,13 +323,16 @@ about pairwise comparisons, see the documentation for that function.</p></td>
     </tr>
     <tr>
       <th>pairwise.display</th>
-      <td><p>Decides which pairwise comparisons to display.
-Available options are <code>"significant"</code> (abbreviation accepted: <code>"s"</code>) or
-<code>"non-significant"</code> (abbreviation accepted: <code>"ns"</code>) or
-<code>"everything"</code>/<code>"all"</code>. The default is <code>"significant"</code>. You can use this
-argument to make sure that your plot is not uber-cluttered when you have
-multiple groups being compared and scores of pairwise comparisons being
-displayed.</p></td>
+      <td><p>Decides <em>which</em> pairwise comparisons to display.
+Available options are:</p><ul>
+<li><p><code>"significant"</code> (abbreviation accepted: <code>"s"</code>)</p></li>
+<li><p><code>"non-significant"</code> (abbreviation accepted: <code>"ns"</code>)</p></li>
+<li><p><code>"all"</code></p></li>
+</ul>
+
+<p>You can use this argument to make sure that your plot is not uber-cluttered
+when you have multiple groups being compared and scores of pairwise
+comparisons being displayed.</p></td>
     </tr>
     <tr>
       <th>p.adjust.method</th>
@@ -357,12 +382,6 @@ variable names for <code>x</code> and <code>y</code> will be used.</p></td>
 <code>results.subtitle = FALSE</code>.</p></td>
     </tr>
     <tr>
-      <th>sample.size.label</th>
-      <td><p>Logical that decides whether sample size information
-should be displayed for each level of the grouping variable <code>x</code> (Default:
-<code>TRUE</code>).</p></td>
-    </tr>
-    <tr>
       <th>k</th>
       <td><p>Number of digits after decimal point (should be an integer)
 (Default: <code>k = 2L</code>).</p></td>
@@ -376,8 +395,8 @@ should be displayed for each level of the grouping variable <code>x</code> (Defa
     </tr>
     <tr>
       <th>conf.level</th>
-      <td><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults return
-<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
+      <td><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults
+return <code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
     </tr>
     <tr>
       <th>nboot</th>
@@ -386,39 +405,43 @@ for the effect size (Default: <code>100</code>).</p></td>
     </tr>
     <tr>
       <th>tr</th>
-      <td><p>Trim level for the mean when carrying out <code>robust</code> tests. If you
-get error stating "Standard error cannot be computed because of Winsorized
-variance of 0 (e.g., due to ties). Try to decrease the trimming level.",
-try to play around with the value of <code>tr</code>, which is by default set to
-<code>0.1</code>. Lowering the value might help.</p></td>
+      <td><p>Trim level for the mean when carrying out <code>robust</code> tests. In case
+of an error, try reducing the value of <code>tr</code>, which is by default set to
+<code>0.2</code>. Lowering the value might help.</p></td>
     </tr>
     <tr>
       <th>centrality.plotting</th>
-      <td><p>Logical that decides whether centrality tendency measure
-is to be displayed as a point with a label (Default: <code>TRUE</code>). Function
-decides which central tendency measure to show depending on the <code>type</code>
-argument (<strong>mean</strong> for parametric, <strong>median</strong> for non-parametric,
-<strong>trimmed mean</strong> for robust, and <strong>MAP estimator</strong> for Bayes).</p></td>
+      <td><p>Logical that decides whether centrality tendency
+measure is to be displayed as a point with a label (Default: <code>TRUE</code>).
+Function decides which central tendency measure to show depending on the
+<code>type</code> argument.</p><ul>
+<li><p><strong>mean</strong> for parametric statistics</p></li>
+<li><p><strong>median</strong> for non-parametric statistics</p></li>
+<li><p><strong>trimmed mean</strong> for robust statistics</p></li>
+<li><p><strong>MAP estimator</strong> for Bayesian statistics</p></li>
+</ul>
+
+<p>If you want default centrality parameter, you can specify this using
+<code>centrality.type</code> argument.</p></td>
+    </tr>
+    <tr>
+      <th>centrality.type</th>
+      <td><p>Decides which centrality parameter is to be displayed.
+The default is to choose the same as <code>type</code> argument. You can specify this
+to be:</p><ul>
+<li><p><code>"parameteric"</code> (for <strong>mean</strong>)</p></li>
+<li><p><code>"nonparametric"</code> (for <strong>median</strong>)</p></li>
+<li><p><code>robust</code> (for <strong>trimmed mean</strong>)</p></li>
+<li><p><code>bayes</code> (for <strong>MAP estimator</strong>)</p></li>
+</ul>
+
+<p>Just as <code>type</code> argument, abbreviations are also accepted.</p></td>
     </tr>
     <tr>
       <th>centrality.point.args, centrality.label.args</th>
       <td><p>A list of additional aesthetic
 arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and
 <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms, which are involved in mean plotting.</p></td>
-    </tr>
-    <tr>
-      <th>notch</th>
-      <td><p>A logical. If <code>FALSE</code> (default), a standard box plot will be
-displayed. If <code>TRUE</code>, a notched box plot will be used. Notches are used to
-compare groups; if the notches of two boxes do not overlap, this suggests
-that the medians are significantly different. In a notched box plot, the
-notches extend <code>1.58 * IQR / sqrt(n)</code>, where IQR: Inter-Quartile Range.
-This gives a roughly <code>95%</code> confidence interval for comparing medians.</p></td>
-    </tr>
-    <tr>
-      <th>notchwidth</th>
-      <td><p>For a notched box plot, width of the notch relative to the
-body (default <code>0.5</code>).</p></td>
     </tr>
     <tr>
       <th>outlier.tagging</th>
@@ -563,11 +586,11 @@ about Bayes Factor analysis, but valid only when <code>type = "parametric"</code
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -592,6 +615,8 @@ about Bayes Factor analysis, but valid only when <code>type = "parametric"</code
 </script>
 
 
+
+  
 
   </body>
 </html>

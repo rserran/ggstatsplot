@@ -63,6 +63,8 @@ plots with annotations." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -74,9 +76,15 @@ plots with annotations." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,7 +98,7 @@ plots with annotations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -163,6 +171,14 @@ plots with annotations." />
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -206,7 +222,13 @@ plots with annotations." />
 plots with annotations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>combine_plots</span><span class='op'>(</span><span class='va'>plotlist</span>, plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>combine_plots</span><span class='op'>(</span>
+  <span class='va'>plotlist</span>,
+  guides <span class='op'>=</span> <span class='st'>"collect"</span>,
+  plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,12 +238,25 @@ plots with annotations.</p>
       <td><p>A list containing <code>ggplot</code> objects.</p></td>
     </tr>
     <tr>
+      <th>guides</th>
+      <td><p>A string specifying how guides should be treated in the layout.
+<code>'collect'</code> will collect guides below to the given nesting level, removing
+duplicates. <code>'keep'</code> will stop collection at this level and let guides be
+placed alongside their plot. <code>auto</code> will allow guides to be collected if a
+upper level tries, but place them alongside the plot if not.  If you modify
+default guide "position" with <a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme(legend.position=...)</a>
+while also collecting guides you must apply that change to the overall
+patchwork (see example).</p></td>
+    </tr>
+    <tr>
       <th>plotgrid.args</th>
-      <td><p>Additional arguments passed to <code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>.</p></td>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>, except for <code>guides</code> argument which is already
+separately specified here.</p></td>
     </tr>
     <tr>
       <th>annotation.args</th>
-      <td><p>Additional arguments passed to
+      <td><p>A <code>list</code> of additional arguments passed to
 <code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     <tr>
@@ -281,11 +316,11 @@ plots with annotations.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -310,6 +345,8 @@ plots with annotations.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

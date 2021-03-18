@@ -81,23 +81,12 @@
 #' @inheritParams statsExpressions::expr_meta_random
 #' @inheritParams ggbetweenstats
 #'
-#' @note **Important**: The function assumes that you have already downloaded
-#'   the needed package (`metafor`, `metaplus`, or `metaBMA`) for meta-analysis.
-#'
-#' @import ggplot2
-#' @importFrom rlang exec !!! !!
-#' @importFrom dplyr select mutate matches across row_number last group_by ungroup
-#' @importFrom ggrepel geom_label_repel
-#' @importFrom tidyr unite
-#' @importFrom insight is_model find_statistic standardize_names
-#' @importFrom statsExpressions expr_meta_random
-#' @importFrom parameters model_parameters
-#' @importFrom performance model_performance
-#'
-#' @references
-#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
-#'
 #' @note
+#'
+#' **Important**: In case you want to carry out meta-analysis using this
+#' function, it assumes that you have already downloaded the needed package
+#' (`metafor`, `metaplus`, or `metaBMA`) for meta-analysis.
+#'
 #' 1. All rows of regression estimates where either of the following
 #'   quantities is `NA` will be removed if labels are requested: `estimate`,
 #'   `statistic`, `p.value`.
@@ -106,100 +95,37 @@
 #'   is recommended that you install the GitHub versions of `parameters` and
 #'   `performance` in order to make most of this function.
 #'
+#' @import ggplot2
+#' @importFrom rlang exec !!! !!
+#' @importFrom dplyr select mutate matches across row_number last group_by ungroup
+#' @importFrom ggrepel geom_label_repel
+#' @importFrom tidyr unite
+#' @importFrom insight is_model find_statistic
+#' @importFrom statsExpressions expr_meta_random
+#' @importFrom parameters model_parameters standardize_names
+#' @importFrom performance model_performance
+#'
+#' @references
+#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
+#'
+#'
 #' @examples
 #' \donttest{
 #' # for reproducibility
 #' set.seed(123)
-#'
-#' # -------------- with model object --------------------------------------
+#' library(ggstatsplot)
 #'
 #' # model object
 #' mod <- lm(formula = mpg ~ cyl * am, data = mtcars)
 #'
 #' # to get a plot
-#' ggstatsplot::ggcoefstats(x = mod, output = "plot")
+#' ggcoefstats(x = mod, output = "plot")
 #'
 #' # to get a tidy dataframe
-#' ggstatsplot::ggcoefstats(x = mod, output = "tidy")
+#' ggcoefstats(x = mod, output = "tidy")
 #'
 #' # to get a glance summary
-#' ggstatsplot::ggcoefstats(x = mod, output = "glance")
-#'
-#' # -------------- with custom dataframe -----------------------------------
-#'
-#' # creating a dataframe
-#' df <-
-#'   structure(
-#'     list(
-#'       term = structure(
-#'         c(3L, 4L, 1L, 2L, 5L),
-#'         .Label = c(
-#'           "Africa",
-#'           "Americas", "Asia", "Europe", "Oceania"
-#'         ),
-#'         class = "factor"
-#'       ),
-#'       estimate = c(
-#'         0.382047603321706,
-#'         0.780783111514665,
-#'         0.425607573765058,
-#'         0.558365541235078,
-#'         0.956473848429961
-#'       ),
-#'       std.error = c(
-#'         0.0465576338644502,
-#'         0.0330218199731529,
-#'         0.0362834986178494,
-#'         0.0480571500648261,
-#'         0.062215818388157
-#'       ),
-#'       statistic = c(
-#'         8.20590677855356,
-#'         23.6444603038067,
-#'         11.7300588415607,
-#'         11.6187818146078,
-#'         15.3734833553524
-#'       ),
-#'       conf.low = c(
-#'         0.290515146096969,
-#'         0.715841986960399,
-#'         0.354354575031406,
-#'         0.46379116008131,
-#'         0.827446138277154
-#'       ),
-#'       conf.high = c(
-#'         0.473580060546444,
-#'         0.845724236068931,
-#'         0.496860572498711,
-#'         0.652939922388847,
-#'         1.08550155858277
-#'       ),
-#'       p.value = c(
-#'         3.28679518728519e-15,
-#'         4.04778497135963e-75,
-#'         7.59757330804449e-29,
-#'         5.45155840151592e-26,
-#'         2.99171217913312e-13
-#'       ),
-#'       df.error = c(
-#'         394L, 358L, 622L,
-#'         298L, 22L
-#'       )
-#'     ),
-#'     row.names = c(NA, -5L),
-#'     class = c(
-#'       "tbl_df",
-#'       "tbl", "data.frame"
-#'     )
-#'   )
-#'
-#' # plotting the dataframe
-#' ggstatsplot::ggcoefstats(
-#'   x = df,
-#'   statistic = "t",
-#'   meta.analytic.effect = TRUE,
-#'   k = 3
-#' )
+#' ggcoefstats(x = mod, output = "glance")
 #' }
 #' @export
 
@@ -273,8 +199,8 @@ ggcoefstats <- function(x,
         verbose = FALSE,
         ...
       ) %>%
-      insight::standardize_names(data = ., style = "broom") %>%
-      dplyr::rename_all(., ~ gsub("omega2.|eta2.", "", .x))
+      parameters::standardize_names(style = "broom") %>%
+      dplyr::rename_all(~ gsub("omega2.|eta2.", "", .x))
 
     # anova objects need further cleaning
     if (class(x)[[1]] %in% c("aov", "aovlist", "anova", "Gam", "manova", "maov")) {
@@ -331,7 +257,7 @@ ggcoefstats <- function(x,
       tidyr::unite(
         data = .,
         col = "term",
-        dplyr::matches("term|variable|parameter|method|curve|response|component|contrast"),
+        dplyr::matches("term|variable|parameter|method|curve|response|component|contrast|group"),
         remove = TRUE,
         sep = "_"
       )
@@ -382,9 +308,10 @@ ggcoefstats <- function(x,
   # for non-dataframe objects
   if (isTRUE(insight::is_model(x))) {
     # creating glance dataframe
-    suppressWarnings(glance_df <-
-      performance::model_performance(x, verbose = FALSE) %>%
-      parameters::standardize_names(data = ., style = "broom"))
+    glance_df <- performance::model_performance(x, verbose = FALSE)
+
+    # rename to `broom` convention
+    if (!is.null(glance_df)) glance_df %<>% parameters::standardize_names(style = "broom")
 
     # no meta-analysis in this context
     meta.analytic.effect <- FALSE
@@ -410,18 +337,21 @@ ggcoefstats <- function(x,
     meta.type <- ipmisc::stats_type_switch(meta.type)
 
     # results from frequentist random-effects meta-analysis
-    subtitle <- statsExpressions::expr_meta_random(tidy_df, type = meta.type, k = k)
+    subtitle_df <- statsExpressions::expr_meta_random(tidy_df, type = meta.type, k = k)
+
+    subtitle <- subtitle_df$expression[[1]]
 
     # results from Bayesian random-effects meta-analysis (only for parametric)
     if (meta.type == "parametric" && isTRUE(bf.message)) {
-      caption <-
+      caption_df <-
         statsExpressions::expr_meta_random(
           top.text = caption,
           type = "bayes",
-          output = "expression",
           data = tidy_df,
           k = k
         )
+
+      caption <- caption_df$expression[[1]]
     }
   }
 
@@ -432,8 +362,7 @@ ggcoefstats <- function(x,
 
   # sorting factor levels
   new_order <-
-    switch(
-      sort,
+    switch(sort,
       "none" = order(tidy_df$.rowid, decreasing = FALSE),
       "ascending" = order(tidy_df$estimate, decreasing = FALSE),
       "descending" = order(tidy_df$estimate, decreasing = TRUE),
@@ -547,20 +476,18 @@ ggcoefstats <- function(x,
         subtitle = subtitle,
         title = title
       ) +
-      theme_ggstatsplot(ggtheme = ggtheme, ggstatsplot.layer = ggstatsplot.layer) +
+      theme_ggstatsplot(ggtheme, ggstatsplot.layer) +
       ggplot2::theme(plot.caption = ggplot2::element_text(size = 10))
   }
 
   # =========================== output =====================================
 
   # what needs to be returned?
-  return(switch(
-    EXPR = output,
-    "plot" = plot,
+  switch(output,
     "subtitle" = subtitle,
     "caption" = caption,
     "tidy" = as_tibble(tidy_df),
     "glance" = as_tibble(glance_df),
-    "plot"
-  ))
+    plot
+  )
 }

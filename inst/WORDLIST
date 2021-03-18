@@ -6,6 +6,8 @@ Algina
 Anova
 AppVeyor
 BayesX
+Benchmarking
+BusinessScience
 Cikara
 Cochrane
 Codecov
@@ -40,6 +42,7 @@ Keselman
 LDHF
 LDLF
 LFHD
+LadiesTunis
 Licence
 Lüdecke
 MCML
@@ -73,6 +76,7 @@ Shachar
 StackOverflow
 TERGM
 Tufte
+UseROslo
 Welch
 Welch's
 Welch’s
@@ -83,13 +87,14 @@ Yuen’s
 YuryZablotski
 accidently
 adg
+advancedpreprocessingandusingggstatsplotinrstudio
 al
-analyis
 anevaluator
 anova
 anovas
 anthropods
 au
+bCFBMWg
 bayes
 bayesian
 bbolker
@@ -123,6 +128,7 @@ faq
 fn
 freighteningness
 fueleconomy
+generalised
 geoms
 ggbetweenstats
 ggcoefstats
@@ -168,8 +174,6 @@ pairwiseComparisons
 partialization
 patilindrajeets
 paulvanderlaken
-pearson
-pearson's
 piechart
 posteriori
 pre
@@ -179,11 +183,13 @@ purrr
 readme
 reproducibility
 ridgeplot
+rnt
 rpubs
+sXeshyVRI
+sc
 scisbd
 sdt
 setosa
-spearman
 statsExpressions
 svg
 tibble
@@ -198,6 +204,7 @@ uber
 unjittered
 versicolor
 virginica
+wCo
 www
 yellowgreen
 youtu

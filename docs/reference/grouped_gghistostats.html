@@ -64,6 +64,8 @@ using ggstatsplot::combine_plots." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -75,9 +77,15 @@ using ggstatsplot::combine_plots." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -91,7 +99,7 @@ using ggstatsplot::combine_plots." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -164,6 +172,14 @@ using ggstatsplot::combine_plots." />
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -213,11 +229,10 @@ using <code><a href='combine_plots.html'>ggstatsplot::combine_plots</a></code>.<
   <span class='va'>x</span>,
   <span class='va'>grouping.var</span>,
   binwidth <span class='op'>=</span> <span class='cn'>NULL</span>,
-  title.prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
   output <span class='op'>=</span> <span class='st'>"plot"</span>,
-  <span class='va'>...</span>,
   plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
-  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -226,7 +241,8 @@ using <code><a href='combine_plots.html'>ggstatsplot::combine_plots</a></code>.<
     <tr>
       <th>data</th>
       <td><p>A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
+be taken. Other data types (e.g., matrix,table, array, etc.) will <strong>not</strong>
+be accepted.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -246,16 +262,25 @@ and explore multiple widths to find the best to illustrate the stories in
 your data.</p></td>
     </tr>
     <tr>
-      <th>title.prefix</th>
-      <td><p>Character string specifying the prefix text for the fixed
-plot title (name of each factor level) (Default: <code>NULL</code>). If <code>NULL</code>, the
-variable name entered for <code>grouping.var</code> will be used.</p></td>
+      <th>output</th>
+      <td><p>Character that describes what is to be returned: can be
+<code>"plot"</code> (default) or <code>"subtitle"</code> or <code>"caption"</code>. Setting this to
+<code>"subtitle"</code> will return the expression containing statistical results. If
+you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
+Setting this to <code>"caption"</code> will return the expression containing details
+about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>output</th>
-      <td><p>If <code>"expression"</code>, will return expression with statistical
-details, while <code>"dataframe"</code> will return a dataframe containing the
-results.</p></td>
+      <th>plotgrid.args</th>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>, except for <code>guides</code> argument which is already
+separately specified here.</p></td>
+    </tr>
+    <tr>
+      <th>annotation.args</th>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -266,35 +291,32 @@ normal curve using <code><a href='https://rdrr.io/r/stats/Normal.html'>stats::dn
 passed to the normal curve.</p></dd>
     <dt><code>bar.fill</code></dt><dd><p>Character input that decides which color will uniformly fill
 all the bars in the histogram (Default: <code>"grey50"</code>).</p></dd>
-    <dt><code>type</code></dt><dd><p>Type of statistic expected (<code>"parametric"</code> or <code>"nonparametric"</code>
-or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations are also accepted:
-<code>"p"</code> (for parametric), <code>"np"</code> (nonparametric), <code>"r"</code> (robust), or
-<code>"bf"</code>resp.</p></dd>
-    <dt><code>test.value</code></dt><dd><p>A number specifying the value of the null hypothesis
-(Default: <code>0</code>).</p></dd>
+    <dt><code>type</code></dt><dd><p>A character specifying the type of statistical approach.
+Four possible options:<ul>
+<li><p><code>"parametric"</code></p></li>
+<li><p><code>"nonparametric"</code></p></li>
+<li><p><code>"robust"</code></p></li>
+<li><p><code>"bayes"</code></p></li>
+</ul>Corresponding abbreviations are also accepted: <code>"p"</code> (for parametric),
+<code>"np"</code> (for nonparametric), <code>"r"</code> (for robust), or <code>"bf"</code> (for Bayesian).</p></dd>
+    <dt><code>test.value</code></dt><dd><p>A number indicating the true value of the mean (Default:
+<code>0</code>).</p></dd>
     <dt><code>bf.prior</code></dt><dd><p>A number between <code>0.5</code> and <code>2</code> (default <code>0.707</code>), the prior
-width to use in calculating Bayes factors.</p></dd>
+width to use in calculating Bayes factors and posterior estimates.</p></dd>
     <dt><code>effsize.type</code></dt><dd><p>Type of effect size needed for <em>parametric</em> tests. The
 argument can be <code>"d"</code> (for Cohen's <em>d</em>) or <code>"g"</code> (for Hedge's <em>g</em>).</p></dd>
-    <dt><code>conf.level</code></dt><dd><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults return
-<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></dd>
+    <dt><code>conf.level</code></dt><dd><p>Confidence/Credible Interval (CI) level. Default to <code>0.95</code>
+(<code>95%</code>).</p></dd>
     <dt><code>nboot</code></dt><dd><p>Number of bootstrap samples for computing confidence interval
 for the effect size (Default: <code>100</code>).</p></dd>
-    <dt><code>tr</code></dt><dd><p>Trim level for the mean when carrying out <code>robust</code> tests. If you
-get error stating "Standard error cannot be computed because of Winsorized
-variance of 0 (e.g., due to ties). Try to decrease the trimming level.",
-try to play around with the value of <code>tr</code>, which is by default set to
-<code>0.1</code>. Lowering the value might help.</p></dd>
+    <dt><code>tr</code></dt><dd><p>Trim level for the mean when carrying out <code>robust</code> tests. In case
+of an error, try reducing the value of <code>tr</code>, which is by default set to
+<code>0.2</code>. Lowering the value might help.</p></dd>
     <dt><code>k</code></dt><dd><p>Number of digits after decimal point (should be an integer)
 (Default: <code>k = 2L</code>).</p></dd>
-    <dt><code>centrality.k</code></dt><dd><p>Integer denoting the number of decimal places expected
-for centrality parameter label. (Default: <code>2L</code>).</p></dd>
-    <dt><code>centrality.line.args</code></dt><dd><p>A list of additional
-aesthetic arguments to be passed to the <code>geom_line</code> used to display the
-lines corresponding to the centrality parameter and test value.</p></dd>
-    <dt><code>centrality.label.args</code></dt><dd><p>A list of additional
-aesthetic arguments to be passed to the <code>geom_label</code> used to display the
-label corresponding to the centrality parameter and test value.</p></dd>
+    <dt><code>centrality.line.args</code></dt><dd><p>A list of additional aesthetic arguments to be
+passed to the <code>geom_line</code> used to display the lines corresponding to the
+centrality parameter.</p></dd>
     <dt><code>xlab</code></dt><dd><p>Labels for <code>x</code> and <code>y</code> axis variables. If <code>NULL</code> (default),
 variable names for <code>x</code> and <code>y</code> will be used.</p></dd>
     <dt><code>subtitle</code></dt><dd><p>The text for the plot subtitle. Will work only if
@@ -314,26 +336,32 @@ override some aspects of the selected <code>ggtheme</code>.</p></dd>
     <dt><code>results.subtitle</code></dt><dd><p>Decides whether the results of statistical tests are
 to be displayed as a subtitle (Default: <code>TRUE</code>). If set to <code>FALSE</code>, only
 the plot will be returned.</p></dd>
-    <dt><code>centrality.plotting</code></dt><dd><p>Logical that decides whether centrality tendency measure
-is to be displayed as a point with a label (Default: <code>TRUE</code>). Function
-decides which central tendency measure to show depending on the <code>type</code>
-argument (<strong>mean</strong> for parametric, <strong>median</strong> for non-parametric,
-<strong>trimmed mean</strong> for robust, and <strong>MAP estimator</strong> for Bayes).</p></dd>
+    <dt><code>centrality.plotting</code></dt><dd><p>Logical that decides whether centrality tendency
+measure is to be displayed as a point with a label (Default: <code>TRUE</code>).
+Function decides which central tendency measure to show depending on the
+<code>type</code> argument.
+<ul>
+<li><p><strong>mean</strong> for parametric statistics</p></li>
+<li><p><strong>median</strong> for non-parametric statistics</p></li>
+<li><p><strong>trimmed mean</strong> for robust statistics</p></li>
+<li><p><strong>MAP estimator</strong> for Bayesian statistics</p></li>
+</ul>If you want default centrality parameter, you can specify this using
+<code>centrality.type</code> argument.</p></dd>
+    <dt><code>centrality.type</code></dt><dd><p>Decides which centrality parameter is to be displayed.
+The default is to choose the same as <code>type</code> argument. You can specify this
+to be:
+<ul>
+<li><p><code>"parameteric"</code> (for <strong>mean</strong>)</p></li>
+<li><p><code>"nonparametric"</code> (for <strong>median</strong>)</p></li>
+<li><p><code>robust</code> (for <strong>trimmed mean</strong>)</p></li>
+<li><p><code>bayes</code> (for <strong>MAP estimator</strong>)</p></li>
+</ul>Just as <code>type</code> argument, abbreviations are also accepted.</p></dd>
     <dt><code>ggplot.component</code></dt><dd><p>A <code>ggplot</code> component to be added to the plot prepared
 by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code>
 variants of all primary functions. Default is <code>NULL</code>. The argument should
 be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> functions.</p></dd>
   
 </dl></td>
-    </tr>
-    <tr>
-      <th>plotgrid.args</th>
-      <td><p>Additional arguments passed to <code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>annotation.args</th>
-      <td><p>Additional arguments passed to
-<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     </table>
 
@@ -362,12 +390,15 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
     <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>25</span>, <span class='fl'>5</span><span class='op'>)</span>, limits <span class='op'>=</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>25</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
   <span class='op'>)</span>,
   plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>nrow <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
-  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>tag_levels <span class='op'>=</span> <span class='st'>'i'</span><span class='op'>)</span>,
+  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>tag_levels <span class='op'>=</span> <span class='st'>"i"</span><span class='op'>)</span>,
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
+</div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 #&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>t is large; approximation invoked.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
-#&gt; <span class='message'>replace the existing scale.</span></div><div class='img'><img src='grouped_gghistostats-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>t is large; approximation invoked.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'x' is already present. Adding another scale for 'x', which will</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='message'>Scale for 'y' is already present. Adding another scale for 'y', which will</span>
+#&gt; <span class='message'>replace the existing scale.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 rows containing missing values (geom_bar).</span></div><div class='img'><img src='grouped_gghistostats-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -380,11 +411,11 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -409,6 +440,8 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
 </script>
 
 
+
+  
 
   </body>
 </html>

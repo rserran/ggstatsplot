@@ -1,7 +1,7 @@
 ---
 title: "ggstatsplot: ggplot2 Based Plots with Statistical Details"
 author: Indrajeet Patil^[Max Planck Institute for Human Development, patilindrajeet.science@gmail.com]
-date: "2021-01-31"
+date: "2021-03-01"
 output: 
   bookdown::pdf_document2:
     fig_caption: true
@@ -26,6 +26,11 @@ linkcolor: blue
 ---
 
 
+```
+## In case you would like cite this package, cite it as:
+##      Patil, I. (2018). ggstatsplot: "ggplot2" Based Plots with Statistical Details. CRAN.
+##      Retrieved from https://cran.r-project.org/web/packages/ggstatsplot/index.html
+```
 
 > "What is to be sought in designs for the display of information is the clear
 portrayal of complexity. Not the complication of the simple; rather ... the
@@ -231,7 +236,7 @@ df <- dplyr::filter(ggstatsplot::movies_long, genre %in% c("Comedy", "Drama"))
 
 # plot
 ggstatsplot::combine_plots(
-  list(
+  plotlist = list(
     # plot 1: superposition
     ggplot(data = df, mapping = ggplot2::aes(x = length, y = rating, color = genre)) +
       geom_jitter(size = 3, alpha = 0.5) +

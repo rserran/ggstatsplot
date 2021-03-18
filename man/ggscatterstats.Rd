@@ -12,16 +12,16 @@ ggscatterstats(
   conf.level = 0.95,
   bf.prior = 0.707,
   bf.message = TRUE,
-  beta = 0.1,
+  tr = 0.2,
   k = 2L,
   results.subtitle = TRUE,
   label.var = NULL,
   label.expression = NULL,
-  point.label.args = list(size = 3),
-  smooth.line.args = list(size = 1.5, color = "blue"),
   point.args = list(size = 3, alpha = 0.4),
   point.width.jitter = 0,
   point.height.jitter = 0,
+  point.label.args = list(size = 3),
+  smooth.line.args = list(size = 1.5, color = "blue"),
   marginal = TRUE,
   marginal.type = "densigram",
   marginal.size = 5,
@@ -41,7 +41,8 @@ ggscatterstats(
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will \strong{not} be accepted.}
+be taken. Other data types (e.g., matrix,table, array, etc.) will \strong{not}
+be accepted.}
 
 \item{x}{The column in \code{data} containing the explanatory variable to be
 plotted on the \code{x}-axis. Can be entered either as a character string (e.g.,
@@ -51,25 +52,32 @@ plotted on the \code{x}-axis. Can be entered either as a character string (e.g.,
 be plotted on the \code{y}-axis. Can be entered either as a character string
 (e.g., \code{"y"}) or as a bare expression (e.g, \code{y}).}
 
-\item{type}{Type of association between paired samples required
-("\code{"parametric"}: Pearson's product moment correlation coefficient" or
-"\code{"nonparametric"}: Spearman's rho" or "\code{"robust"}: percentage bend
-correlation coefficient" or "\code{"bayes"}: Bayes Factor for Pearson's \emph{r}").
-Corresponding abbreviations are also accepted: \code{"p"} (for
-parametric/pearson), \code{"np"} (nonparametric/spearman), \code{"r"} (robust),
-\code{"bf"} (for bayes factor), resp.}
+\item{type}{A character specifying the type of statistical approach.
+Four possible options:
 
-\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults return
-\verb{95\%} confidence/credible intervals (\code{0.95}).}
+\itemize{
+\item \code{"parametric"}
+\item \code{"nonparametric"}
+\item \code{"robust"}
+\item \code{"bayes"}
+}
+
+Corresponding abbreviations are also accepted: \code{"p"} (for parametric),
+\code{"np"} (for nonparametric), \code{"r"} (for robust), or \code{"bf"} (for Bayesian).}
+
+\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
+return \verb{95\%} confidence/credible intervals (\code{0.95}).}
 
 \item{bf.prior}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
-width to use in calculating Bayes factors.}
+width to use in calculating Bayes factors and posterior estimates.}
 
 \item{bf.message}{Logical that decides whether to display Bayes Factor in
 favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
 parametric test} (Default: \code{TRUE}).}
 
-\item{beta}{bending constant (Default: \code{0.1}). For more, see \code{\link[WRS2:pbcor]{WRS2::pbcor()}}.}
+\item{tr}{Trim level for the mean when carrying out \code{robust} tests. In case
+of an error, try reducing the value of \code{tr}, which is by default set to
+\code{0.2}. Lowering the value might help.}
 
 \item{k}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2L}).}
@@ -79,18 +87,12 @@ to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, on
 the plot will be returned.}
 
 \item{label.var}{Variable to use for points labels. Can be entered either as
-a character string (e.g., \code{"var1"}) or as a bare expression (e.g, \code{var1}).}
+a bare expression (e.g, \code{var1}) or as a string (e.g., \code{"var1"}).}
 
 \item{label.expression}{An expression evaluating to a logical vector that
 determines the subset of data points to label. This argument can be entered
-either as a character string (e.g., \code{"y < 4 & z < 20"}) or as a bare
-expression (e.g., \code{y < 4 & z < 20}).}
-
-\item{point.label.args}{A list of additional aesthetic arguments to be passed
-to \code{ggrepel::geom_label_repel} geom used to display the labels.}
-
-\item{smooth.line.args}{A list of additional aesthetic arguments to be passed
-to \code{ggplot2::geom_smooth} geom used to display the regression line.}
+either as a bare expression (e.g., \code{y < 4 & z < 20}) or as a string (e.g.,
+\code{"y < 4 & z < 20"}).}
 
 \item{point.args}{A list of additional aesthetic arguments to be passed
 to \code{ggplot2::geom_point} geom used to display the raw data points.}
@@ -99,7 +101,14 @@ to \code{ggplot2::geom_point} geom used to display the raw data points.}
 direction, respectively. Defaults to \code{0} (0\%) of the resolution of the
 data. Note that the jitter should not be specified in the \code{point.args}
 because this information will be passed to two different \code{geom}s: one
-displaying the points and the other displaying the labels for these points.}
+displaying the \strong{points} and the other displaying the *\strong{labels} for
+these points.}
+
+\item{point.label.args}{A list of additional aesthetic arguments to be passed
+to \code{ggrepel::geom_label_repel} geom used to display the labels.}
+
+\item{smooth.line.args}{A list of additional aesthetic arguments to be passed
+to \code{ggplot2::geom_smooth} geom used to display the regression line.}
 
 \item{marginal}{Decides whether \code{ggExtra::ggMarginal()} plots will be
 displayed; the default is \code{TRUE}.}
@@ -143,9 +152,13 @@ by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
 
-\item{output}{If \code{"expression"}, will return expression with statistical
-details, while \code{"dataframe"} will return a dataframe containing the
-results.}
+\item{output}{Character that describes what is to be returned: can be
+\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
+\code{"subtitle"} will return the expression containing statistical results. If
+you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
+Setting this to \code{"caption"} will return the expression containing details
+about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
 \item{...}{Currently ignored.}
 }
@@ -158,10 +171,10 @@ subtitle.
 }
 \note{
 \itemize{
-\item If you set \code{marginal = TRUE}, the resulting plot can't be further modified
-with \code{ggplot2} functions since it is no longer a \code{ggplot} object. In case you
-want a \code{ggplot} object, set \code{marginal = FALSE}. Also have a look at the
-\code{ggplot.component} argument.
+\item If you set \code{marginal = TRUE}, the resulting plot can \strong{not} be further
+modified with \code{ggplot2} functions since it is no longer a \code{ggplot} object. In
+case you want a \code{ggplot} object, set \code{marginal = FALSE}. Also have a look at
+the \code{ggplot.component} argument.
 \item The plot uses \code{ggrepel::geom_label_repel} to attempt to keep labels
 from over-lapping to the largest degree possible.  As a consequence plot
 times will slow down massively (and the plot file will grow in size) if you

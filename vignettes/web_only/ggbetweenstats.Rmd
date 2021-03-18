@@ -31,6 +31,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+---
+
+You can cite this package/vignette as:
+
+```{r citation, echo=FALSE, comment = ""}
+citation("ggstatsplot")
+```
+
+---
+
 The function `ggstatsplot::ggbetweenstats` is designed to facilitate 
 **data exploration**, and for making highly customizable **publication-ready plots**,
 with relevant statistical details included in the plot itself if desired. We
@@ -235,7 +245,7 @@ p4 <-
     y = lifeExp,
     xlab = "Year",
     ylab = "Life expectancy",
-    type = "bf",
+    type = "bayes",
     plot.type = "box",
     title = "Bayesian Test (box plot)",
     package = "ggsci",
@@ -292,7 +302,6 @@ gapminder::gapminder %>%
     outlier.tagging = TRUE,
     ggstatsplot.layer = FALSE,
     outlier.label = country,
-    title.prefix = "Year",
     # arguments relevant for ggstatsplot::combine_plots
     annotation.args = list(title = "Changes in life expectancy across continents (1967-2007)"),
     plotgrid.args = list(nrow = 3)

@@ -40,17 +40,15 @@ centrality_ggrepel <- function(plot,
                                x,
                                y,
                                type = "parametric",
-                               tr = 0.1,
+                               tr = 0.2,
                                k = 2L,
-                               sample.size.label = TRUE,
                                centrality.path = FALSE,
                                centrality.path.args = list(color = "red", size = 1, alpha = 0.5),
                                centrality.point.args = list(size = 5, color = "darkred"),
                                centrality.label.args = list(size = 3, nudge_x = 0.4, segment.linetype = 4),
                                ...) {
   # creating the dataframe
-  centrality_df <-
-    centrality_data(data, {{ x }}, {{ y }}, type = type, tr = tr, k = k)
+  centrality_df <- centrality_data(data, {{ x }}, {{ y }}, type = type, tr = tr, k = k)
 
   # if there should be lines connecting mean values across groups
   if (isTRUE(centrality.path)) {
@@ -73,12 +71,11 @@ centrality_ggrepel <- function(plot,
       mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}),
       data = centrality_df,
       inherit.aes = FALSE,
-      na.rm = TRUE,
       !!!centrality.point.args
     )
 
   # attach the labels with means to the plot
-  plot <- plot +
+  plot +
     rlang::exec(
       .fn = ggrepel::geom_label_repel,
       data = centrality_df,
@@ -87,22 +84,14 @@ centrality_ggrepel <- function(plot,
       min.segment.length = 0,
       inherit.aes = FALSE,
       parse = TRUE,
-      na.rm = TRUE,
       !!!centrality.label.args
-    )
-
-  # adding sample size labels to the x axes
-  if (isTRUE(sample.size.label)) {
-    plot <- plot + ggplot2::scale_x_discrete(labels = c(unique(centrality_df$n_label)))
-  }
-
-  # return the plot
-  plot
+    ) + # adding sample size labels to the x axes
+    ggplot2::scale_x_discrete(labels = c(unique(centrality_df$n_label)))
 }
 
 #' @noRd
 
-centrality_data <- function(data, x, y, type = "parametric", tr = 0.1, k = 2L, ...) {
+centrality_data <- function(data, x, y, type = "parametric", tr = 0.2, k = 2L, ...) {
 
   # ------------------------ measure -------------------------------------
 
@@ -135,11 +124,9 @@ centrality_data <- function(data, x, y, type = "parametric", tr = 0.1, k = 2L, .
     ) %>%
     dplyr::ungroup() %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(
-      label = paste0("list(~widehat(mu)[", centrality, "]=='", format_num(estimate, k), "')")
-    ) %>%
+    dplyr::mutate(label = paste0("list(~widehat(mu)[", centrality, "]=='", format_num(estimate, k), "')")) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate(n_label = paste0({{ x }}, "\n(n = ", n, ")")) %>%
+    dplyr::mutate(n_label = paste0({{ x }}, "\n(n = ", .prettyNum(n), ")")) %>%
     dplyr::arrange({{ x }}) %>%
     dplyr::select({{ x }}, !!as.character(rlang::ensym(y)) := estimate, dplyr::matches("label"))
 }
@@ -225,7 +212,6 @@ ggsignif_adder <- function(plot,
       y_position = ggsignif_xy(data %>% dplyr::pull({{ x }}), data %>% dplyr::pull({{ y }})),
       annotations = df_pairwise$label,
       test = NULL,
-      na.rm = TRUE,
       parse = TRUE,
       vjust = 0,
       !!!ggsignif.args
@@ -294,7 +280,7 @@ aesthetic_addon <- function(plot,
       caption = caption,
       color = xlab
     ) +
-    theme_ggstatsplot(ggtheme = ggtheme, ggstatsplot.layer = ggstatsplot.layer) +
+    theme_ggstatsplot(ggtheme, ggstatsplot.layer) +
     ggplot2::theme(legend.position = "none") +
     paletteer::scale_color_paletteer_d(paste0(package, "::", palette)) +
     paletteer::scale_fill_paletteer_d(paste0(package, "::", palette))

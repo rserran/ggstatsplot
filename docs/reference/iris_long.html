@@ -61,6 +61,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -72,9 +74,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -161,6 +169,14 @@
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -209,15 +225,15 @@
 
     <p>A data frame with 600 rows and 5 variables</p><ul>
 <li><p>id. Dummy identity number for each flower (150 flowers in total).</p></li>
-<li><p>Species.	The species are <em>Iris setosa</em>, <em>versicolor</em>, and
+<li><p>Species. The species are <em>Iris setosa</em>, <em>versicolor</em>, and
 <em>virginica</em>.</p></li>
 <li><p>condition. Factor giving a detailed description of the attribute
 (Four levels: <code>"Petal.Length"</code>, <code>"Petal.Width"</code>,  <code>"Sepal.Length"</code>,
 <code>"Sepal.Width"</code>).</p></li>
-<li><p>attribute.	What attribute is being measured (<code>"Sepal"</code> or <code>"Pepal"</code>).</p></li>
-<li><p>measure.	What aspect of the attribute is being measured (<code>"Length"</code>
+<li><p>attribute. What attribute is being measured (<code>"Sepal"</code> or <code>"Pepal"</code>).</p></li>
+<li><p>measure. What aspect of the attribute is being measured (<code>"Length"</code>
 or <code>"Width"</code>).</p></li>
-<li><p>value.	Value of the measurement.</p></li>
+<li><p>value. Value of the measurement.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -239,15 +255,15 @@ of iris. The species are Iris setosa, versicolor, and virginica.</p>
 #&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3 setosa  Sepal.Length Sepal     Length    4.7
 #&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4 setosa  Sepal.Length Sepal     Length    4.6
 #&gt; </span><span style='color: #BCBCBC;'>5</span><span>     5 setosa  Sepal.Length Sepal     Length    5  
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     6 setosa  Sepal.Length Sepal     Length    5.4</div><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>iris_long</span><span class='op'>)</span>
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     6 setosa  Sepal.Length Sepal     Length    5.4</div><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>iris_long</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Rows: 600
 #&gt; Columns: 6
-#&gt; $ </span><span style='font-weight: bold;'>id       </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...
-#&gt; $ </span><span style='font-weight: bold;'>Species  </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> setosa, setosa, setosa, setosa, setosa, setosa, setosa, s...
-#&gt; $ </span><span style='font-weight: bold;'>condition</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> Sepal.Length, Sepal.Length, Sepal.Length, Sepal.Length, S...
-#&gt; $ </span><span style='font-weight: bold;'>attribute</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> Sepal, Sepal, Sepal, Sepal, Sepal, Sepal, Sepal, Sepal, S...
-#&gt; $ </span><span style='font-weight: bold;'>measure  </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> Length, Length, Length, Length, Length, Length, Length, L...
-#&gt; $ </span><span style='font-weight: bold;'>value    </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4....</div></span></pre>
+#&gt; $ </span><span style='font-weight: bold;'>id       </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1~
+#&gt; $ </span><span style='font-weight: bold;'>Species  </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> setosa, setosa, setosa, setosa, setosa, setosa, setosa, seto~
+#&gt; $ </span><span style='font-weight: bold;'>condition</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> Sepal.Length, Sepal.Length, Sepal.Length, Sepal.Length, Sepa~
+#&gt; $ </span><span style='font-weight: bold;'>attribute</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> Sepal, Sepal, Sepal, Sepal, Sepal, Sepal, Sepal, Sepal, Sepa~
+#&gt; $ </span><span style='font-weight: bold;'>measure  </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> Length, Length, Length, Length, Length, Length, Length, Leng~
+#&gt; $ </span><span style='font-weight: bold;'>value    </span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.8, ~</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -259,11 +275,11 @@ of iris. The species are Iris setosa, versicolor, and virginica.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -288,6 +304,8 @@ of iris. The species are Iris setosa, versicolor, and virginica.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

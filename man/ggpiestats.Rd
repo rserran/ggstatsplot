@@ -39,7 +39,8 @@ ggpiestats(
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will \strong{not} be accepted.}
+be taken. Other data types (e.g., matrix,table, array, etc.) will \strong{not}
+be accepted.}
 
 \item{x}{The variable to use as the \strong{rows} in the contingency table. Please
 note that if there are empty factor levels in your variable, they will be
@@ -55,10 +56,18 @@ for \code{ggbarstats} function.}
 \item{counts}{A string naming a variable in data containing counts, or \code{NULL}
 if each row represents a single observation.}
 
-\item{type}{Type of statistic expected (\code{"parametric"} or \code{"nonparametric"}
-or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
-\code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
-\code{"bf"}resp.}
+\item{type}{A character specifying the type of statistical approach.
+Four possible options:
+
+\itemize{
+\item \code{"parametric"}
+\item \code{"nonparametric"}
+\item \code{"robust"}
+\item \code{"bayes"}
+}
+
+Corresponding abbreviations are also accepted: \code{"p"} (for parametric),
+\code{"np"} (for nonparametric), \code{"r"} (for robust), or \code{"bf"} (for Bayesian).}
 
 \item{paired}{Logical indicating whether data came from a within-subjects or
 repeated measures design study (Default: \code{FALSE}). If \code{TRUE}, McNemar's
@@ -99,8 +108,8 @@ is equal theoretical proportions across the levels of the nominal variable.
 This means if there are two levels this will be \code{ratio = c(0.5,0.5)} or if
 there are four levels this will be \code{ratio = c(0.25,0.25,0.25,0.25)}, etc.}
 
-\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults return
-\verb{95\%} confidence/credible intervals (\code{0.95}).}
+\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
+return \verb{95\%} confidence/credible intervals (\code{0.95}).}
 
 \item{sampling.plan}{Character describing the sampling plan. Possible options
 are \code{"indepMulti"} (independent multinomial; default), \code{"poisson"},

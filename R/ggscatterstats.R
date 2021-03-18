@@ -11,11 +11,11 @@
 #'
 #' @param ... Currently ignored.
 #' @param label.var Variable to use for points labels. Can be entered either as
-#'   a character string (e.g., `"var1"`) or as a bare expression (e.g, `var1`).
+#'   a bare expression (e.g, `var1`) or as a string (e.g., `"var1"`).
 #' @param label.expression An expression evaluating to a logical vector that
 #'   determines the subset of data points to label. This argument can be entered
-#'   either as a character string (e.g., `"y < 4 & z < 20"`) or as a bare
-#'   expression (e.g., `y < 4 & z < 20`).
+#'   either as a bare expression (e.g., `y < 4 & z < 20`) or as a string (e.g.,
+#'   `"y < 4 & z < 20"`).
 #' @param point.label.args A list of additional aesthetic arguments to be passed
 #'   to `ggrepel::geom_label_repel` geom used to display the labels.
 #' @param smooth.line.args A list of additional aesthetic arguments to be passed
@@ -28,7 +28,8 @@
 #'   direction, respectively. Defaults to `0` (0%) of the resolution of the
 #'   data. Note that the jitter should not be specified in the `point.args`
 #'   because this information will be passed to two different `geom`s: one
-#'   displaying the points and the other displaying the labels for these points.
+#'   displaying the **points** and the other displaying the ***labels** for
+#'   these points.
 #' @param marginal.type Type of marginal distribution to be plotted on the axes
 #'   (`"histogram"`, `"boxplot"`, `"density"`, `"violin"`, `"densigram"`).
 #' @param marginal.size Integer describing the relative size of the marginal
@@ -59,10 +60,10 @@
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html}
 #'
 #' @note
-#' - If you set `marginal = TRUE`, the resulting plot can't be further modified
-#' with `ggplot2` functions since it is no longer a `ggplot` object. In case you
-#' want a `ggplot` object, set `marginal = FALSE`. Also have a look at the
-#' `ggplot.component` argument.
+#' - If you set `marginal = TRUE`, the resulting plot can **not** be further
+#' modified with `ggplot2` functions since it is no longer a `ggplot` object. In
+#' case you want a `ggplot` object, set `marginal = FALSE`. Also have a look at
+#' the `ggplot.component` argument.
 #'
 #' - The plot uses `ggrepel::geom_label_repel` to attempt to keep labels
 #' from over-lapping to the largest degree possible.  As a consequence plot
@@ -102,16 +103,16 @@ ggscatterstats <- function(data,
                            conf.level = 0.95,
                            bf.prior = 0.707,
                            bf.message = TRUE,
-                           beta = 0.1,
+                           tr = 0.2,
                            k = 2L,
                            results.subtitle = TRUE,
                            label.var = NULL,
                            label.expression = NULL,
-                           point.label.args = list(size = 3),
-                           smooth.line.args = list(size = 1.5, color = "blue"),
                            point.args = list(size = 3, alpha = 0.4),
                            point.width.jitter = 0,
                            point.height.jitter = 0,
+                           point.label.args = list(size = 3),
+                           smooth.line.args = list(size = 1.5, color = "blue"),
                            marginal = TRUE,
                            marginal.type = "densigram",
                            marginal.size = 5,
@@ -144,10 +145,6 @@ ggscatterstats <- function(data,
     point.labelling <- FALSE
   }
 
-  # if `xlab` and `ylab` is not provided, use the variable `x` and `y` name
-  if (is.null(xlab)) xlab <- rlang::as_name(x)
-  if (is.null(ylab)) ylab <- rlang::as_name(y)
-
   #----------------------- dataframe ---------------------------------------
 
   # preparing the dataframe
@@ -159,7 +156,7 @@ ggscatterstats <- function(data,
   if (isTRUE(results.subtitle)) {
     # preparing the BF message for null hypothesis support
     if (type == "parametric" && isTRUE(bf.message)) {
-      caption <-
+      caption_df <-
         statsExpressions::expr_corr_test(
           data = data,
           x = {{ x }},
@@ -167,27 +164,33 @@ ggscatterstats <- function(data,
           type = "bayes",
           bf.prior = bf.prior,
           top.text = caption,
-          output = "expression",
           k = k
         )
+
+      caption <- caption_df$expression[[1]]
     }
 
     # extracting the subtitle using the switch function
-    subtitle <-
+    subtitle_df <-
       statsExpressions::expr_corr_test(
         data = data,
         x = {{ x }},
         y = {{ y }},
-        beta = beta,
+        tr = tr,
         type = type,
         conf.level = conf.level,
         k = k
       )
+
+    subtitle <- subtitle_df$expression[[1]]
   }
 
   # quit early if only subtitle is needed
   if (output %in% c("subtitle", "caption")) {
-    return(switch(output, "subtitle" = subtitle, "caption" = caption))
+    return(switch(output,
+      "subtitle" = subtitle,
+      "caption" = caption
+    ))
   }
 
   #---------------------------- user expression -------------------------
@@ -210,10 +213,10 @@ ggscatterstats <- function(data,
       # testing for whether we received bare or quoted
       if (typeof(label.expression) == "language") {
         # unquoted case
-        label_data <- dplyr::filter(.data = data, !!label.expression)
+        label_data <- dplyr::filter(data, !!label.expression)
       } else {
         # quoted case
-        label_data <- dplyr::filter(.data = data, !!rlang::parse_expr(label.expression))
+        label_data <- dplyr::filter(data, !!rlang::parse_expr(label.expression))
       }
     } else {
       label_data <- data
@@ -232,7 +235,6 @@ ggscatterstats <- function(data,
       .fn = ggplot2::geom_point,
       stroke = 0,
       position = pos,
-      na.rm = TRUE,
       !!!point.args
     ) +
     rlang::exec(
@@ -240,7 +242,6 @@ ggscatterstats <- function(data,
       method = "lm",
       formula = y ~ x,
       level = conf.level,
-      na.rm = TRUE,
       !!!smooth.line.args
     )
 
@@ -255,7 +256,6 @@ ggscatterstats <- function(data,
         mapping = ggplot2::aes(label = {{ label.var }}),
         show.legend = FALSE,
         min.segment.length = 0,
-        na.rm = TRUE,
         position = pos,
         !!!point.label.args
       )
@@ -266,13 +266,13 @@ ggscatterstats <- function(data,
   # annotations
   plot <- plot +
     ggplot2::labs(
-      x = xlab,
-      y = ylab,
+      x = xlab %||% rlang::as_name(x),
+      y = ylab %||% rlang::as_name(y),
       title = title,
       subtitle = subtitle,
       caption = caption
     ) +
-    theme_ggstatsplot(ggtheme = ggtheme, ggstatsplot.layer = ggstatsplot.layer) +
+    theme_ggstatsplot(ggtheme, ggstatsplot.layer) +
     ggplot.component
 
   #------------------------- ggMarginal  ---------------------------------

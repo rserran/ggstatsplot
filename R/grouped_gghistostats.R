@@ -52,11 +52,10 @@ grouped_gghistostats <- function(data,
                                  x,
                                  grouping.var,
                                  binwidth = NULL,
-                                 title.prefix = NULL,
                                  output = "plot",
-                                 ...,
                                  plotgrid.args = list(),
-                                 annotation.args = list()) {
+                                 annotation.args = list(),
+                                 ...) {
 
   # ======================== computing binwidth ============================
 
@@ -74,18 +73,15 @@ grouped_gghistostats <- function(data,
 
   # ======================== preparing dataframe ============================
 
-  # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
-
   # getting the dataframe ready
   df <-
     dplyr::select(.data = data, {{ grouping.var }}, {{ x }}) %>%
-    grouped_list(data = ., grouping.var = {{ grouping.var }})
+    grouped_list(grouping.var = {{ grouping.var }})
 
   # creating a list of plots
   plotlist_purrr <-
     purrr::pmap(
-      .l = list(data = df, title = paste0(title.prefix, ": ", names(df))),
+      .l = list(data = df, title = names(df)),
       .f = ggstatsplot::gghistostats,
       # put common parameters here
       x = {{ x }},
@@ -96,11 +92,7 @@ grouped_gghistostats <- function(data,
 
   # combining the list of plots into a single plot
   if (output == "plot") {
-    return(combine_plots(
-      plotlist = plotlist_purrr,
-      plotgrid.args = plotgrid.args,
-      annotation.args = annotation.args
-    ))
+    return(combine_plots(plotlist_purrr, plotgrid.args = plotgrid.args, annotation.args = annotation.args))
   } else {
     return(plotlist_purrr) # subtitle list
   }

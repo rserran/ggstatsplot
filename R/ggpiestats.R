@@ -108,9 +108,6 @@ ggpiestats <- function(data,
   # one-way or two-way table?
   test <- ifelse(!rlang::quo_is_null(rlang::enquo(y)), "two.way", "one.way")
 
-  # saving the column label for the 'x' variables
-  if (rlang::is_null(legend.title)) legend.title <- rlang::as_name(x)
-
   # =============================== dataframe ================================
 
   # creating a dataframe
@@ -119,7 +116,7 @@ ggpiestats <- function(data,
     tidyr::drop_na(.)
 
   # untable the dataframe based on the count for each observation
-  if (".counts" %in% names(data)) data %<>% tidyr::uncount(data = ., weights = .counts)
+  if (".counts" %in% names(data)) data %<>% tidyr::uncount(weights = .counts)
 
   # x and y need to be a factor; also drop the unused levels of the factors
   data %<>% dplyr::mutate(dplyr::across(dplyr::everything(), ~ droplevels(as.factor(.x))))
@@ -137,15 +134,15 @@ ggpiestats <- function(data,
     y_levels <- 0L
   }
 
-  # facting is happening only if both vars have more than one levels
+  # faceting is happening only if both vars have more than one levels
   facet <- ifelse(y_levels > 1L, TRUE, FALSE)
-  if (x_levels == 1L && isTRUE(facet)) proportion.test <- FALSE
+  if ((x_levels == 1L && isTRUE(facet)) || type == "bayes") proportion.test <- FALSE
 
   # -------------------------- statistical analysis --------------------------
 
   # if subtitle with results is to be displayed
   if (isTRUE(results.subtitle)) {
-    subtitle <-
+    subtitle_df <-
       tryCatch(
         expr = statsExpressions::expr_contingency_tab(
           data = data,
@@ -160,9 +157,11 @@ ggpiestats <- function(data,
         error = function(e) NULL
       )
 
+    if (!is.null(subtitle_df)) subtitle <- subtitle_df$expression[[1]]
+
     # preparing Bayes Factor caption
     if (type != "bayes" && isTRUE(bf.message) && isFALSE(paired)) {
-      caption <-
+      caption_df <-
         tryCatch(
           expr = statsExpressions::expr_contingency_tab(
             data = data,
@@ -177,12 +176,17 @@ ggpiestats <- function(data,
           ),
           error = function(e) NULL
         )
+
+      if (!is.null(caption_df)) caption <- caption_df$expression[[1]]
     }
   }
 
   # return early if anything other than plot
   if (output != "plot") {
-    return(switch(EXPR = output, "caption" = caption, subtitle))
+    return(switch(output,
+      "caption" = caption,
+      subtitle
+    ))
   }
 
   # =================================== plot =================================
@@ -220,7 +224,6 @@ ggpiestats <- function(data,
       min.segment.length = 0,
       fill = "white",
       alpha = 1,
-      na.rm = TRUE,
       !!!label.args
     )))
 
@@ -231,8 +234,8 @@ ggpiestats <- function(data,
   p <- p +
     ggplot2::coord_polar(theta = "y") +
     ggplot2::scale_y_continuous(breaks = NULL) +
-    paletteer::scale_fill_paletteer_d(palette = paste0(package, "::", palette), name = "") +
-    theme_pie(ggtheme = ggtheme, ggstatsplot.layer = ggstatsplot.layer) +
+    paletteer::scale_fill_paletteer_d(paste0(package, "::", palette), name = "") +
+    theme_pie(ggtheme, ggstatsplot.layer) +
     ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(color = NA)))
 
   # ================ sample size + proportion test labels =================
@@ -246,7 +249,6 @@ ggpiestats <- function(data,
         mapping = ggplot2::aes(label = .label, x = 1.65, y = 0.5),
         position = ggplot2::position_fill(vjust = 1),
         size = 2.8,
-        na.rm = TRUE,
         parse = TRUE
       )
   }
@@ -262,6 +264,6 @@ ggpiestats <- function(data,
       title = title,
       caption = caption
     ) +
-    ggplot2::guides(fill = ggplot2::guide_legend(title = legend.title)) +
+    ggplot2::guides(fill = ggplot2::guide_legend(title = legend.title %||% rlang::as_name(x))) +
     ggplot.component
 }

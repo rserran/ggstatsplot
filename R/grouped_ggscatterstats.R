@@ -1,9 +1,13 @@
 #' @title Scatterplot with marginal distributions for all levels of a grouping
 #'   variable
 #' @name grouped_ggscatterstats
-#' @description Grouped scatterplots from `ggplot2` combined with marginal
-#'   histograms/boxplots/density plots with statistical details added as a
-#'   subtitle.
+#'
+#' @description
+#'
+#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+#'
+#' Grouped scatterplots from `ggplot2` combined with marginal distribution plots
+#' with statistical details added as a subtitle.
 #'
 #' @inheritParams ggscatterstats
 #' @inheritParams grouped_ggbetweenstats
@@ -27,12 +31,11 @@
 #' library(ggstatsplot)
 #'
 #' # basic function call
-#' ggstatsplot::grouped_ggscatterstats(
+#' grouped_ggscatterstats(
 #'   data = dplyr::filter(movies_long, genre == "Comedy" | genre == "Drama"),
 #'   x = length,
 #'   y = rating,
-#'   method = "lm",
-#'   formula = y ~ x + I(x^3),
+#'   type = "robust",
 #'   grouping.var = genre
 #' )
 #'
@@ -43,7 +46,6 @@
 #'   x = displ,
 #'   y = hwy,
 #'   grouping.var = cyl,
-#'   title.prefix = "Cylinder count",
 #'   type = "robust",
 #'   label.var = manufacturer,
 #'   label.expression = hwy > 25 & displ > 2.5,
@@ -52,7 +54,7 @@
 #'
 #' # labeling without expression
 #'
-#' ggstatsplot::grouped_ggscatterstats(
+#' grouped_ggscatterstats(
 #'   data = dplyr::filter(
 #'     .data = movies_long,
 #'     rating == 7,
@@ -64,8 +66,7 @@
 #'   bf.message = FALSE,
 #'   label.var = "title",
 #'   marginal = FALSE,
-#'   title.prefix = "Genre",
-#'   caption.text = "All movies have IMDB rating equal to 7."
+#'   annotation.args = list(caption = "All movies have IMDB rating greater than 7")
 #' )
 #' @export
 
@@ -76,19 +77,15 @@ grouped_ggscatterstats <- function(data,
                                    grouping.var,
                                    label.var = NULL,
                                    label.expression = NULL,
-                                   title.prefix = NULL,
                                    output = "plot",
-                                   ...,
                                    plotgrid.args = list(),
-                                   annotation.args = list()) {
+                                   annotation.args = list(),
+                                   ...) {
 
   # ======================== preparing dataframe =============================
 
   # ensure the grouping variable works quoted or unquoted
   label.var <- if (!rlang::quo_is_null(rlang::enquo(label.var))) rlang::ensym(label.var)
-
-  # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
 
   # getting the dataframe ready
   df <- grouped_list(data = data, grouping.var = {{ grouping.var }})
@@ -98,7 +95,7 @@ grouped_ggscatterstats <- function(data,
   # creating a list of plots using `pmap`
   plotlist_purrr <-
     purrr::pmap(
-      .l = list(data = df, title = paste0(title.prefix, ": ", names(df))),
+      .l = list(data = df, title = names(df)),
       .f = ggstatsplot::ggscatterstats,
       # put common parameters here
       x = {{ x }},
@@ -111,11 +108,7 @@ grouped_ggscatterstats <- function(data,
 
   # combining the list of plots into a single plot
   if (output == "plot") {
-    return(combine_plots(
-      plotlist = plotlist_purrr,
-      plotgrid.args = plotgrid.args,
-      annotation.args = annotation.args
-    ))
+    return(combine_plots(plotlist_purrr, plotgrid.args = plotgrid.args, annotation.args = annotation.args))
   } else {
     return(plotlist_purrr) # subtitle list
   }

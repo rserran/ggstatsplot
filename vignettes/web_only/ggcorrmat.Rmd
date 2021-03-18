@@ -31,6 +31,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+---
+
+You can cite this package/vignette as:
+
+```{r citation, echo=FALSE, comment = ""}
+citation("ggstatsplot")
+```
+
+---
+
 The function `ggstatsplot::ggcorrmat` provides a quick way to produce
 **publication-ready correlation matrix** (aka *correlalogram*) plot. The function
 can also be used for quick **data exploration**. In addition to the plot, it can
@@ -256,18 +266,17 @@ in a given study, groups in a study sample, different studies, etc.
 # for reproducibility
 set.seed(123)
 
-# let's use just 10% of the data to speed it up
+# plot
 ggstatsplot::grouped_ggcorrmat(
   # arguments relevant for `ggstatsplot::ggcorrmat`
-  data = dplyr::sample_frac(tbl = ggplot2::diamonds, size = 0.1),
-  type = "bf", # Bayesian test
+  data = ggplot2::diamonds,
+  type = "bayes", # Bayesian test
   grouping.var = cut,
-  title.prefix = "Quality of cut",
   # arguments relevant for `ggstatsplot::combine_plots`
   plotgrid.args = list(nrow = 3),
   annotation.args = list(
-    labels = "a",
-    title.text = "Relationship between diamond attributes and price across cut",
+    tag_levels = "a",
+    title = "Relationship between diamond attributes and price across cut",
     caption = "Dataset: Diamonds from ggplot2 package"
   )
 )
@@ -308,7 +317,7 @@ Type | Test | CI? | partial? | Function used
 ----------- | ------------------------- | --- | --- | -----
 Parametric | Pearson's correlation coefficient | <font color="green">Yes<font> | <font color="green">Yes<font> | `correlation::correlation`
 Non-parametric | Spearman's rank correlation coefficient | <font color="green">Yes<font> | <font color="green">Yes<font> | `correlation::correlation`
-Robust | Percentage bend correlation coefficient | <font color="green">Yes<font> | <font color="green">Yes<font> | `correlation::correlation`
+Robust | Winsorized Pearson correlation coefficient | <font color="green">Yes<font> | <font color="green">Yes<font> | `correlation::correlation`
 Bayesian | Pearson's correlation coefficient | <font color="green">Yes</font> | <font color="green">Yes<font> | `correlation::correlation`
 
 # Suggestions

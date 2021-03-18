@@ -63,6 +63,8 @@ as a subtitle." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -74,9 +76,15 @@ as a subtitle." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,7 +98,7 @@ as a subtitle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -162,6 +170,14 @@ as a subtitle." />
     </li>
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
     </li>
   </ul>
 </li>
@@ -245,7 +261,8 @@ as a subtitle.</p>
     <tr>
       <th>data</th>
       <td><p>A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
+be taken. Other data types (e.g., matrix,table, array, etc.) will <strong>not</strong>
+be accepted.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -269,10 +286,17 @@ if each row represents a single observation.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of statistic expected (<code>"parametric"</code> or <code>"nonparametric"</code>
-or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations are also accepted:
-<code>"p"</code> (for parametric), <code>"np"</code> (nonparametric), <code>"r"</code> (robust), or
-<code>"bf"</code>resp.</p></td>
+      <td><p>A character specifying the type of statistical approach.
+Four possible options:</p>
+<ul>
+<li><p><code>"parametric"</code></p></li>
+<li><p><code>"nonparametric"</code></p></li>
+<li><p><code>"robust"</code></p></li>
+<li><p><code>"bayes"</code></p></li>
+</ul>
+
+<p>Corresponding abbreviations are also accepted: <code>"p"</code> (for parametric),
+<code>"np"</code> (for nonparametric), <code>"r"</code> (for robust), or <code>"bf"</code> (for Bayesian).</p></td>
     </tr>
     <tr>
       <th>paired</th>
@@ -335,8 +359,8 @@ there are four levels this will be <code>ratio = c(0.25,0.25,0.25,0.25)</code>, 
     </tr>
     <tr>
       <th>conf.level</th>
-      <td><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults return
-<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
+      <td><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults
+return <code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></td>
     </tr>
     <tr>
       <th>sampling.plan</th>
@@ -458,11 +482,11 @@ about Bayes Factor analysis, but valid only when <code>type = "parametric"</code
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -487,6 +511,8 @@ about Bayes Factor analysis, but valid only when <code>type = "parametric"</code
 </script>
 
 
+
+  
 
   </body>
 </html>

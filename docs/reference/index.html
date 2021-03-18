@@ -60,6 +60,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -71,9 +73,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -87,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -160,6 +168,14 @@
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -206,8 +222,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-primary-functions" class="hasAnchor"><a href="#section-primary-functions" class="anchor"></a>Primary functions</h2>
-          <p class="section-desc"><p>Main functions to use from <code>ggstatsplot</code>.</p></p>
+          <h2 id="section-hypothesis-about-group-differences" class="hasAnchor"><a href="#section-hypothesis-about-group-differences" class="anchor"></a>Hypothesis about group differences</h2>
+          <p class="section-desc"></p>
         </th>
       </tr>
       
@@ -218,12 +234,6 @@
       <tr>
         
         <td>
-          <p><code><a href="ggbarstats.html">ggbarstats()</a></code> </p>
-        </td>
-        <td><p>Bar (column) charts with statistical tests</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="ggbetweenstats.html">ggbetweenstats()</a></code> </p>
         </td>
         <td><p>Box/Violin plots for group or condition comparisons in
@@ -231,21 +241,10 @@ between-subjects designs.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="ggcoefstats.html">ggcoefstats()</a></code> </p>
+          <p><code><a href="ggwithinstats.html">ggwithinstats()</a></code> </p>
         </td>
-        <td><p>Dot-and-whisker plots for regression analyses</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ggcorrmat.html">ggcorrmat()</a></code> </p>
-        </td>
-        <td><p>Visualization of a correlation matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ggdotplotstats.html">ggdotplotstats()</a></code> </p>
-        </td>
-        <td><p>Dot plot/chart for labeled numeric data.</p></td>
+        <td><p>Box/Violin plots for group or condition comparisons in
+within-subjects (or repeated measures) designs.</p></td>
       </tr><tr>
         
         <td>
@@ -255,10 +254,23 @@ between-subjects designs.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="ggpiestats.html">ggpiestats()</a></code> </p>
+          <p><code><a href="ggdotplotstats.html">ggdotplotstats()</a></code> </p>
         </td>
-        <td><p>Pie charts with statistical tests</p></td>
-      </tr><tr>
+        <td><p>Dot plot/chart for labeled numeric data.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-hypothesis-about-correlation" class="hasAnchor"><a href="#section-hypothesis-about-correlation" class="anchor"></a>Hypothesis about correlation</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="ggscatterstats.html">ggscatterstats()</a></code> </p>
@@ -267,22 +279,59 @@ between-subjects designs.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="ggstatsplot-package.html">ggstatsplot-package</a></code> </p>
+          <p><code><a href="ggcorrmat.html">ggcorrmat()</a></code> </p>
         </td>
-        <td><p>ggstatsplot: 'ggplot2' Based Plots with Statistical Details</p></td>
+        <td><p>Visualization of a correlation matrix</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-hypothesis-about-composition-of-categorical-variables" class="hasAnchor"><a href="#section-hypothesis-about-composition-of-categorical-variables" class="anchor"></a>Hypothesis about composition of categorical variables</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="ggpiestats.html">ggpiestats()</a></code> </p>
+        </td>
+        <td><p>Pie charts with statistical tests</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="ggwithinstats.html">ggwithinstats()</a></code> </p>
+          <p><code><a href="ggbarstats.html">ggbarstats()</a></code> </p>
         </td>
-        <td><p>Box/Violin plots for group or condition comparisons in
-within-subjects (or repeated measures) designs.</p></td>
+        <td><p>Bar (column) charts with statistical tests</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-hypothesis-about-regression-coefficients" class="hasAnchor"><a href="#section-hypothesis-about-regression-coefficients" class="anchor"></a>Hypothesis about regression coefficients</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="ggcoefstats.html">ggcoefstats()</a></code> </p>
+        </td>
+        <td><p>Dot-and-whisker plots for regression analyses</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
           <h2 id="section-grouped-variants-of-primary-functions" class="hasAnchor"><a href="#section-grouped-variants-of-primary-functions" class="anchor"></a>Grouped variants of primary functions</h2>
-          <p class="section-desc"><p>Convenience functions to run the main functions repeatedly across all levels of a single grouping variable.</p></p>
+          <p class="section-desc"><p>Convenience functions to run the main functions repeatedly across all levels of a single grouping variable</p></p>
         </th>
       </tr>
       
@@ -366,7 +415,7 @@ designs repeated across all levels of a grouping variable.</p></td>
       <tr>
         <th colspan="2">
           <h2 id="section-graphics-helper-functions" class="hasAnchor"><a href="#section-graphics-helper-functions" class="anchor"></a>Graphics helper functions</h2>
-          <p class="section-desc"><p>The <code>ggplot2</code> themes and other graphics-related helpers in <code>ggstatsplot</code>.</p></p>
+          <p class="section-desc"><p>The <code>ggplot2</code> themes and other graphics-related helpers in <code>ggstatsplot</code></p></p>
         </th>
       </tr>
       
@@ -442,6 +491,25 @@ designs repeated across all levels of a grouping variable.</p></td>
         </td>
         <td><p>Tidy version of the "Bugs" dataset.</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-package-information" class="hasAnchor"><a href="#section-package-information" class="anchor"></a>Package information</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="ggstatsplot-package.html">ggstatsplot-package</a></code> </p>
+        </td>
+        <td><p>ggstatsplot: 'ggplot2' Based Plots with Statistical Details</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -456,11 +524,11 @@ designs repeated across all levels of a grouping variable.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -485,6 +553,8 @@ designs repeated across all levels of a grouping variable.</p></td>
 </script>
 
 
+
+  
 
   </body>
 </html>

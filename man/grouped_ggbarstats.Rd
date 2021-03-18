@@ -10,16 +10,16 @@ grouped_ggbarstats(
   y,
   counts = NULL,
   grouping.var,
-  title.prefix = NULL,
   output = "plot",
-  ...,
   plotgrid.args = list(),
-  annotation.args = list()
+  annotation.args = list(),
+  ...
 )
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will \strong{not} be accepted.}
+be taken. Other data types (e.g., matrix,table, array, etc.) will \strong{not}
+be accepted.}
 
 \item{x}{The variable to use as the \strong{rows} in the contingency table. Please
 note that if there are empty factor levels in your variable, they will be
@@ -38,10 +38,6 @@ if each row represents a single observation.}
 \item{grouping.var}{A single grouping variable (can be entered either as a
 bare name \code{x} or as a string \code{"x"}).}
 
-\item{title.prefix}{Character string specifying the prefix text for the fixed
-plot title (name of each factor level) (Default: \code{NULL}). If \code{NULL}, the
-variable name entered for \code{grouping.var} will be used.}
-
 \item{output}{Character that describes what is to be returned: can be
 \code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
 \code{"subtitle"} will return the expression containing statistical results. If
@@ -50,19 +46,31 @@ Setting this to \code{"caption"} will return the expression containing details
 about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 \code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
+\item{plotgrid.args}{A \code{list} of additional arguments passed to
+\code{patchwork::wrap_plots}, except for \code{guides} argument which is already
+separately specified here.}
+
+\item{annotation.args}{A \code{list} of additional arguments passed to
+\code{patchwork::plot_annotation}.}
+
 \item{...}{
   Arguments passed on to \code{\link[=ggbarstats]{ggbarstats}}
   \describe{
     \item{\code{xlab}}{Custom text for the \code{x} axis label (Default: \code{NULL}, which
 will cause the \code{x} axis label to be the \code{x} variable).}
     \item{\code{ylab}}{Custom text for the \code{y} axis label (Default: \code{NULL}).}
-    \item{\code{sample.size.label}}{Logical that decides whether sample size information
-should be displayed for each level of the grouping variable \code{y}
-(Default: \code{TRUE}).}
-    \item{\code{type}}{Type of statistic expected (\code{"parametric"} or \code{"nonparametric"}
-or \code{"robust"} or \code{"bayes"}).Corresponding abbreviations are also accepted:
-\code{"p"} (for parametric), \code{"np"} (nonparametric), \code{"r"} (robust), or
-\code{"bf"}resp.}
+    \item{\code{type}}{A character specifying the type of statistical approach.
+Four possible options:
+
+\itemize{
+\item \code{"parametric"}
+\item \code{"nonparametric"}
+\item \code{"robust"}
+\item \code{"bayes"}
+}
+
+Corresponding abbreviations are also accepted: \code{"p"} (for parametric),
+\code{"np"} (for nonparametric), \code{"r"} (for robust), or \code{"bf"} (for Bayesian).}
     \item{\code{paired}}{Logical indicating whether data came from a within-subjects or
 repeated measures design study (Default: \code{FALSE}). If \code{TRUE}, McNemar's
 test expression will be returned. If \code{FALSE}, Pearson's chi-square test will
@@ -90,8 +98,8 @@ proportion test (should sum to 1). Default is \code{NULL}, which means the null
 is equal theoretical proportions across the levels of the nominal variable.
 This means if there are two levels this will be \code{ratio = c(0.5,0.5)} or if
 there are four levels this will be \code{ratio = c(0.25,0.25,0.25,0.25)}, etc.}
-    \item{\code{conf.level}}{Scalar between \code{0} and \code{1}. If unspecified, the defaults return
-\verb{95\%} confidence/credible intervals (\code{0.95}).}
+    \item{\code{conf.level}}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
+return \verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{sampling.plan}}{Character describing the sampling plan. Possible options
 are \code{"indepMulti"} (independent multinomial; default), \code{"poisson"},
 \code{"jointMulti"} (joint multinomial), \code{"hypergeom"} (hypergeometric). For
@@ -125,11 +133,6 @@ by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
   }}
-
-\item{plotgrid.args}{Additional arguments passed to \code{patchwork::wrap_plots}.}
-
-\item{annotation.args}{Additional arguments passed to
-\code{patchwork::plot_annotation}.}
 }
 \description{
 \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
@@ -156,7 +159,6 @@ ggstatsplot::grouped_ggbarstats(
   x = color,
   y = clarity,
   grouping.var = cut,
-  title.prefix = "Quality",
   plotgrid.args = list(nrow = 2)
 )
 }

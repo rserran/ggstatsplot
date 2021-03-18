@@ -30,6 +30,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+---
+
+You can cite this package/vignette as:
+
+```{r citation, echo=FALSE, comment = ""}
+citation("ggstatsplot")
+```
+
+---
+
 Here are some of the common questions that have been asked in GitHub issues and
 on social media platforms.  
 
@@ -217,7 +227,7 @@ plot_list <-
 ggstatsplot::combine_plots(
   plotlist = plot_list,
   plotgrid.args = list(nrow = 2),
-  annotation.args = list(tag_levels = 'i')
+  annotation.args = list(tag_levels = "i")
 )
 ```
 
@@ -428,6 +438,19 @@ you want to actually get back dataframe containing the results?
 This is possible via `statsExpressions`:
 <https://indrajeetpatil.github.io/statsExpressions/articles/dataframe_outputs.html>
 
+# How can I remove sample size labels for `ggbarstats`?
+
+```{r ggbar_samplesize}
+library(ggstatsplot)
+library(gginnards)
+
+# create a plot
+p <- ggbarstats(mtcars, am, cyl)
+
+# remove layer corresponding to sample size
+delete_layers(p, "GeomText")
+```
+
 # Test I need is not available. What can I do?
 
 By default, since `ggstatsplot` always allows just **one** type of test per
@@ -452,17 +475,16 @@ df <- dplyr::select(mtcars, wt, mpg)
 # correlation results
 results <-
   correlation(df, method = "kendall") %>%
-  parameters::standardize_names(., "broom")
+  parameters::standardize_names(style = "broom")
 
 # creating expression out of these results
 expr_results <-
   statsExpressions::expr_template(
+    data = results,
     no.parameters = 0L,
     statistic.text = quote(italic("T")),
     effsize.text = quote(widehat(italic(tau))["Kendall"]),
-    stats.df = results,
-    n = results$n.obs[[1]],
-    conf.level = 0.95
+    n = results$n.obs[[1]]
   )
 
 # plot (overriding defaults and using custom expression)

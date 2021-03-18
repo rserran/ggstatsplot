@@ -64,6 +64,8 @@ grouping variable." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -75,9 +77,15 @@ grouping variable." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -91,7 +99,7 @@ grouping variable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.7.1</span>
       </span>
     </div>
 
@@ -164,6 +172,14 @@ grouping variable." />
     <li>
       <a href="../articles/web_only/other_resources.html">other resources to learn about `ggstatsplot`</a>
     </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Development-focused</li>
+    <li>
+      <a href="../articles/web_only/benchmarking.html">Benchmarking</a>
+    </li>
+    <li>
+      <a href="../articles/web_only/dependencies.html">Dependencies</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -213,11 +229,10 @@ grouping variable.</p>
   <span class='va'>y</span>,
   <span class='va'>grouping.var</span>,
   outlier.label <span class='op'>=</span> <span class='cn'>NULL</span>,
-  title.prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
   output <span class='op'>=</span> <span class='st'>"plot"</span>,
-  <span class='va'>...</span>,
   plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
-  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -226,15 +241,16 @@ grouping variable.</p>
     <tr>
       <th>data</th>
       <td><p>A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will <strong>not</strong> be accepted.</p></td>
+be taken. Other data types (e.g., matrix,table, array, etc.) will <strong>not</strong>
+be accepted.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>The grouping variable from the dataframe <code>data</code>.</p></td>
+      <td><p>The grouping (or independent) variable from the dataframe <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>The response (a.k.a. outcome or dependent) variable from the
+      <td><p>The response (or outcome or dependent) variable from the
 dataframe <code>data</code>.</p></td>
     </tr>
     <tr>
@@ -248,12 +264,6 @@ bare name <code>x</code> or as a string <code>"x"</code>).</p></td>
 <strong>can't</strong> be the same as <code>x</code> argument.</p></td>
     </tr>
     <tr>
-      <th>title.prefix</th>
-      <td><p>Character string specifying the prefix text for the fixed
-plot title (name of each factor level) (Default: <code>NULL</code>). If <code>NULL</code>, the
-variable name entered for <code>grouping.var</code> will be used.</p></td>
-    </tr>
-    <tr>
       <th>output</th>
       <td><p>Character that describes what is to be returned: can be
 <code>"plot"</code> (default) or <code>"subtitle"</code> or <code>"caption"</code>. Setting this to
@@ -262,6 +272,17 @@ you have set <code>results.subtitle = FALSE</code>, then this will return a <cod
 Setting this to <code>"caption"</code> will return the expression containing details
 about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
 <code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>plotgrid.args</th>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>, except for <code>guides</code> argument which is already
+separately specified here.</p></td>
+    </tr>
+    <tr>
+      <th>annotation.args</th>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -284,10 +305,14 @@ points.</p></dd>
     <dt><code>point.path.args</code></dt><dd><p>A list of additional aesthetic
 arguments passed on to <code>geom_path</code> connecting raw data points and mean
 points.</p></dd>
-    <dt><code>type</code></dt><dd><p>Type of statistic expected (<code>"parametric"</code> or <code>"nonparametric"</code>
-or <code>"robust"</code> or <code>"bayes"</code>).Corresponding abbreviations are also accepted:
-<code>"p"</code> (for parametric), <code>"np"</code> (nonparametric), <code>"r"</code> (robust), or
-<code>"bf"</code>resp.</p></dd>
+    <dt><code>type</code></dt><dd><p>A character specifying the type of statistical approach.
+Four possible options:<ul>
+<li><p><code>"parametric"</code></p></li>
+<li><p><code>"nonparametric"</code></p></li>
+<li><p><code>"robust"</code></p></li>
+<li><p><code>"bayes"</code></p></li>
+</ul>Corresponding abbreviations are also accepted: <code>"p"</code> (for parametric),
+<code>"np"</code> (for nonparametric), <code>"r"</code> (for robust), or <code>"bf"</code> (for Bayesian).</p></dd>
     <dt><code>pairwise.comparisons</code></dt><dd><p>Logical that decides whether pairwise comparisons
 are to be displayed (default: <code>TRUE</code>). Please note that only
 <strong>significant</strong> comparisons will be shown by default. To change this
@@ -295,13 +320,15 @@ behavior, select appropriate option with <code>pairwise.display</code> argument.
 pairwise comparison dataframes are prepared using the
 <code><a href='https://indrajeetpatil.github.io/pairwiseComparisons//reference/pairwise_comparisons.html'>pairwiseComparisons::pairwise_comparisons</a></code> function. For more details
 about pairwise comparisons, see the documentation for that function.</p></dd>
-    <dt><code>pairwise.display</code></dt><dd><p>Decides which pairwise comparisons to display.
-Available options are <code>"significant"</code> (abbreviation accepted: <code>"s"</code>) or
-<code>"non-significant"</code> (abbreviation accepted: <code>"ns"</code>) or
-<code>"everything"</code>/<code>"all"</code>. The default is <code>"significant"</code>. You can use this
-argument to make sure that your plot is not uber-cluttered when you have
-multiple groups being compared and scores of pairwise comparisons being
-displayed.</p></dd>
+    <dt><code>pairwise.display</code></dt><dd><p>Decides <em>which</em> pairwise comparisons to display.
+Available options are:
+<ul>
+<li><p><code>"significant"</code> (abbreviation accepted: <code>"s"</code>)</p></li>
+<li><p><code>"non-significant"</code> (abbreviation accepted: <code>"ns"</code>)</p></li>
+<li><p><code>"all"</code></p></li>
+</ul>You can use this argument to make sure that your plot is not uber-cluttered
+when you have multiple groups being compared and scores of pairwise
+comparisons being displayed.</p></dd>
     <dt><code>p.adjust.method</code></dt><dd><p>Adjustment method for <em>p</em>-values for multiple
 comparisons. Possible methods are: <code>"holm"</code> (default), <code>"hochberg"</code>,
 <code>"hommel"</code>, <code>"bonferroni"</code>, <code>"BH"</code>, <code>"BY"</code>, <code>"fdr"</code>, <code>"none"</code>.</p></dd>
@@ -323,39 +350,41 @@ variable names for <code>x</code> and <code>y</code> will be used.</p></dd>
     <dt><code>caption</code></dt><dd><p>The text for the plot caption.</p></dd>
     <dt><code>subtitle</code></dt><dd><p>The text for the plot subtitle. Will work only if
 <code>results.subtitle = FALSE</code>.</p></dd>
-    <dt><code>sample.size.label</code></dt><dd><p>Logical that decides whether sample size information
-should be displayed for each level of the grouping variable <code>x</code> (Default:
-<code>TRUE</code>).</p></dd>
     <dt><code>k</code></dt><dd><p>Number of digits after decimal point (should be an integer)
 (Default: <code>k = 2L</code>).</p></dd>
-    <dt><code>conf.level</code></dt><dd><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults return
-<code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></dd>
+    <dt><code>conf.level</code></dt><dd><p>Scalar between <code>0</code> and <code>1</code>. If unspecified, the defaults
+return <code>95%</code> confidence/credible intervals (<code>0.95</code>).</p></dd>
     <dt><code>nboot</code></dt><dd><p>Number of bootstrap samples for computing confidence interval
 for the effect size (Default: <code>100</code>).</p></dd>
-    <dt><code>tr</code></dt><dd><p>Trim level for the mean when carrying out <code>robust</code> tests. If you
-get error stating "Standard error cannot be computed because of Winsorized
-variance of 0 (e.g., due to ties). Try to decrease the trimming level.",
-try to play around with the value of <code>tr</code>, which is by default set to
-<code>0.1</code>. Lowering the value might help.</p></dd>
-    <dt><code>centrality.plotting</code></dt><dd><p>Logical that decides whether centrality tendency measure
-is to be displayed as a point with a label (Default: <code>TRUE</code>). Function
-decides which central tendency measure to show depending on the <code>type</code>
-argument (<strong>mean</strong> for parametric, <strong>median</strong> for non-parametric,
-<strong>trimmed mean</strong> for robust, and <strong>MAP estimator</strong> for Bayes).</p></dd>
+    <dt><code>tr</code></dt><dd><p>Trim level for the mean when carrying out <code>robust</code> tests. In case
+of an error, try reducing the value of <code>tr</code>, which is by default set to
+<code>0.2</code>. Lowering the value might help.</p></dd>
+    <dt><code>centrality.plotting</code></dt><dd><p>Logical that decides whether centrality tendency
+measure is to be displayed as a point with a label (Default: <code>TRUE</code>).
+Function decides which central tendency measure to show depending on the
+<code>type</code> argument.
+<ul>
+<li><p><strong>mean</strong> for parametric statistics</p></li>
+<li><p><strong>median</strong> for non-parametric statistics</p></li>
+<li><p><strong>trimmed mean</strong> for robust statistics</p></li>
+<li><p><strong>MAP estimator</strong> for Bayesian statistics</p></li>
+</ul>If you want default centrality parameter, you can specify this using
+<code>centrality.type</code> argument.</p></dd>
+    <dt><code>centrality.type</code></dt><dd><p>Decides which centrality parameter is to be displayed.
+The default is to choose the same as <code>type</code> argument. You can specify this
+to be:
+<ul>
+<li><p><code>"parameteric"</code> (for <strong>mean</strong>)</p></li>
+<li><p><code>"nonparametric"</code> (for <strong>median</strong>)</p></li>
+<li><p><code>robust</code> (for <strong>trimmed mean</strong>)</p></li>
+<li><p><code>bayes</code> (for <strong>MAP estimator</strong>)</p></li>
+</ul>Just as <code>type</code> argument, abbreviations are also accepted.</p></dd>
     <dt><code>centrality.point.args</code></dt><dd><p>A list of additional aesthetic
 arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and
 <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms, which are involved in mean plotting.</p></dd>
     <dt><code>centrality.label.args</code></dt><dd><p>A list of additional aesthetic
 arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and
 <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms, which are involved in mean plotting.</p></dd>
-    <dt><code>notch</code></dt><dd><p>A logical. If <code>FALSE</code> (default), a standard box plot will be
-displayed. If <code>TRUE</code>, a notched box plot will be used. Notches are used to
-compare groups; if the notches of two boxes do not overlap, this suggests
-that the medians are significantly different. In a notched box plot, the
-notches extend <code>1.58 * IQR / sqrt(n)</code>, where IQR: Inter-Quartile Range.
-This gives a roughly <code>95%</code> confidence interval for comparing medians.</p></dd>
-    <dt><code>notchwidth</code></dt><dd><p>For a notched box plot, width of the notch relative to the
-body (default <code>0.5</code>).</p></dd>
     <dt><code>outlier.tagging</code></dt><dd><p>Decides whether outliers should be tagged (Default:
 <code>FALSE</code>).</p></dd>
     <dt><code>outlier.coef</code></dt><dd><p>Coefficient for outlier detection using Tukey's method.
@@ -389,15 +418,6 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
   
 </dl></td>
     </tr>
-    <tr>
-      <th>plotgrid.args</th>
-      <td><p>Additional arguments passed to <code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>annotation.args</th>
-      <td><p>Additional arguments passed to
-<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -415,11 +435,13 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://indrajeetpatil.github.io/ggstatsplot/'>ggstatsplot</a></span><span class='op'>)</span>
 
 <span class='co'># the most basic function call</span>
-<span class='fu'>ggstatsplot</span><span class='fu'>::</span><span class='fu'>grouped_ggwithinstats</span><span class='op'>(</span>
+<span class='fu'>grouped_ggwithinstats</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='va'>VR_dilemma</span>,
   x <span class='op'>=</span> <span class='va'>modality</span>,
   y <span class='op'>=</span> <span class='va'>score</span>,
   grouping.var <span class='op'>=</span> <span class='va'>order</span>,
+  type <span class='op'>=</span> <span class='st'>"np"</span>, <span class='co'># non-parametric test</span>
+  <span class='co'># additional modifications for **each** plot using `ggplot2` functions</span>
   ggplot.component <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>
     breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.1</span><span class='op'>)</span>,
     limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>
@@ -438,11 +460,11 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://sites.google.com/site/indrajeetspatilmorality/'>Indrajeet Patil</a>.</p>
+  <p><p>Developed by <a href="https://sites.google.com/site/indrajeetspatilmorality/" class="external-link">Indrajeet Patil</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -467,6 +489,8 @@ be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> 
 </script>
 
 
+
+  
 
   </body>
 </html>

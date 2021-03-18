@@ -12,16 +12,16 @@ grouped_ggscatterstats(
   grouping.var,
   label.var = NULL,
   label.expression = NULL,
-  title.prefix = NULL,
   output = "plot",
-  ...,
   plotgrid.args = list(),
-  annotation.args = list()
+  annotation.args = list(),
+  ...
 )
 }
 \arguments{
 \item{data}{A dataframe (or a tibble) from which variables specified are to
-be taken. A matrix or tables will \strong{not} be accepted.}
+be taken. Other data types (e.g., matrix,table, array, etc.) will \strong{not}
+be accepted.}
 
 \item{x}{The column in \code{data} containing the explanatory variable to be
 plotted on the \code{x}-axis. Can be entered either as a character string (e.g.,
@@ -35,20 +35,27 @@ be plotted on the \code{y}-axis. Can be entered either as a character string
 bare name \code{x} or as a string \code{"x"}).}
 
 \item{label.var}{Variable to use for points labels. Can be entered either as
-a character string (e.g., \code{"var1"}) or as a bare expression (e.g, \code{var1}).}
+a bare expression (e.g, \code{var1}) or as a string (e.g., \code{"var1"}).}
 
 \item{label.expression}{An expression evaluating to a logical vector that
 determines the subset of data points to label. This argument can be entered
-either as a character string (e.g., \code{"y < 4 & z < 20"}) or as a bare
-expression (e.g., \code{y < 4 & z < 20}).}
+either as a bare expression (e.g., \code{y < 4 & z < 20}) or as a string (e.g.,
+\code{"y < 4 & z < 20"}).}
 
-\item{title.prefix}{Character string specifying the prefix text for the fixed
-plot title (name of each factor level) (Default: \code{NULL}). If \code{NULL}, the
-variable name entered for \code{grouping.var} will be used.}
+\item{output}{Character that describes what is to be returned: can be
+\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
+\code{"subtitle"} will return the expression containing statistical results. If
+you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
+Setting this to \code{"caption"} will return the expression containing details
+about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
+\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
-\item{output}{If \code{"expression"}, will return expression with statistical
-details, while \code{"dataframe"} will return a dataframe containing the
-results.}
+\item{plotgrid.args}{A \code{list} of additional arguments passed to
+\code{patchwork::wrap_plots}, except for \code{guides} argument which is already
+separately specified here.}
+
+\item{annotation.args}{A \code{list} of additional arguments passed to
+\code{patchwork::plot_annotation}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=ggscatterstats]{ggscatterstats}}
@@ -65,12 +72,14 @@ displayed; the default is \code{TRUE}.}
 direction, respectively. Defaults to \code{0} (0\%) of the resolution of the
 data. Note that the jitter should not be specified in the \code{point.args}
 because this information will be passed to two different \code{geom}s: one
-displaying the points and the other displaying the labels for these points.}
+displaying the \strong{points} and the other displaying the *\strong{labels} for
+these points.}
     \item{\code{point.height.jitter}}{Degree of jitter in \code{x} and \code{y}
 direction, respectively. Defaults to \code{0} (0\%) of the resolution of the
 data. Note that the jitter should not be specified in the \code{point.args}
 because this information will be passed to two different \code{geom}s: one
-displaying the points and the other displaying the labels for these points.}
+displaying the \strong{points} and the other displaying the *\strong{labels} for
+these points.}
     \item{\code{marginal.type}}{Type of marginal distribution to be plotted on the axes
 (\code{"histogram"}, \code{"boxplot"}, \code{"density"}, \code{"violin"}, \code{"densigram"}).}
     \item{\code{marginal.size}}{Integer describing the relative size of the marginal
@@ -82,18 +91,25 @@ marginal distributions (default: \code{"#009E73"} (for \code{x}) and \code{"#D55
     \item{\code{yfill}}{Character describing color fill for \code{x} and \code{y} axes
 marginal distributions (default: \code{"#009E73"} (for \code{x}) and \code{"#D55E00"} (for
 \code{y})). Note that the defaults are colorblind-friendly.}
-    \item{\code{type}}{Type of association between paired samples required
-("\code{"parametric"}: Pearson's product moment correlation coefficient" or
-"\code{"nonparametric"}: Spearman's rho" or "\code{"robust"}: percentage bend
-correlation coefficient" or "\code{"bayes"}: Bayes Factor for Pearson's \emph{r}").
-Corresponding abbreviations are also accepted: \code{"p"} (for
-parametric/pearson), \code{"np"} (nonparametric/spearman), \code{"r"} (robust),
-\code{"bf"} (for bayes factor), resp.}
-    \item{\code{conf.level}}{Scalar between \code{0} and \code{1}. If unspecified, the defaults return
-\verb{95\%} confidence/credible intervals (\code{0.95}).}
+    \item{\code{type}}{A character specifying the type of statistical approach.
+Four possible options:
+
+\itemize{
+\item \code{"parametric"}
+\item \code{"nonparametric"}
+\item \code{"robust"}
+\item \code{"bayes"}
+}
+
+Corresponding abbreviations are also accepted: \code{"p"} (for parametric),
+\code{"np"} (for nonparametric), \code{"r"} (for robust), or \code{"bf"} (for Bayesian).}
+    \item{\code{conf.level}}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
+return \verb{95\%} confidence/credible intervals (\code{0.95}).}
     \item{\code{bf.prior}}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
-width to use in calculating Bayes factors.}
-    \item{\code{beta}}{bending constant (Default: \code{0.1}). For more, see \code{\link[WRS2:pbcor]{WRS2::pbcor()}}.}
+width to use in calculating Bayes factors and posterior estimates.}
+    \item{\code{tr}}{Trim level for the mean when carrying out \code{robust} tests. In case
+of an error, try reducing the value of \code{tr}, which is by default set to
+\code{0.2}. Lowering the value might help.}
     \item{\code{k}}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2L}).}
     \item{\code{ggtheme}}{A function, \code{ggplot2} theme name. Default value is
@@ -122,16 +138,12 @@ by \code{ggstatsplot}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
   }}
-
-\item{plotgrid.args}{Additional arguments passed to \code{patchwork::wrap_plots}.}
-
-\item{annotation.args}{Additional arguments passed to
-\code{patchwork::plot_annotation}.}
 }
 \description{
-Grouped scatterplots from \code{ggplot2} combined with marginal
-histograms/boxplots/density plots with statistical details added as a
-subtitle.
+\Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+
+Grouped scatterplots from \code{ggplot2} combined with marginal distribution plots
+with statistical details added as a subtitle.
 }
 \examples{
 # to ensure reproducibility
@@ -139,12 +151,11 @@ set.seed(123)
 library(ggstatsplot)
 
 # basic function call
-ggstatsplot::grouped_ggscatterstats(
+grouped_ggscatterstats(
   data = dplyr::filter(movies_long, genre == "Comedy" | genre == "Drama"),
   x = length,
   y = rating,
-  method = "lm",
-  formula = y ~ x + I(x^3),
+  type = "robust",
   grouping.var = genre
 )
 
@@ -155,7 +166,6 @@ grouped_ggscatterstats(
   x = displ,
   y = hwy,
   grouping.var = cyl,
-  title.prefix = "Cylinder count",
   type = "robust",
   label.var = manufacturer,
   label.expression = hwy > 25 & displ > 2.5,
@@ -164,7 +174,7 @@ grouped_ggscatterstats(
 
 # labeling without expression
 
-ggstatsplot::grouped_ggscatterstats(
+grouped_ggscatterstats(
   data = dplyr::filter(
     .data = movies_long,
     rating == 7,
@@ -176,8 +186,7 @@ ggstatsplot::grouped_ggscatterstats(
   bf.message = FALSE,
   label.var = "title",
   marginal = FALSE,
-  title.prefix = "Genre",
-  caption.text = "All movies have IMDB rating equal to 7."
+  annotation.args = list(caption = "All movies have IMDB rating greater than 7")
 )
 }
 \references{

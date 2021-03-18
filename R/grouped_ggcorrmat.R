@@ -51,19 +51,15 @@
 grouped_ggcorrmat <- function(data,
                               cor.vars = NULL,
                               grouping.var,
-                              title.prefix = NULL,
                               output = "plot",
-                              ...,
                               plotgrid.args = list(),
-                              annotation.args = list()) {
+                              annotation.args = list(),
+                              ...) {
 
   # ========================= preparing dataframe =============================
 
   # create a list of function call to check for label.expression
   param_list <- as.list(match.call())
-
-  # if `title.prefix` is not provided, use the variable `grouping.var` name
-  if (is.null(title.prefix)) title.prefix <- rlang::as_name(rlang::ensym(grouping.var))
 
   # getting the dataframe ready
   if ("cor.vars" %in% names(param_list)) {
@@ -80,7 +76,7 @@ grouped_ggcorrmat <- function(data,
   # creating a list of results
   plotlist_purrr <-
     purrr::pmap(
-      .l = list(data = df, title = paste0(title.prefix, ": ", names(df))),
+      .l = list(data = df, title = names(df)),
       .f = ggstatsplot::ggcorrmat,
       output = output,
       ...
@@ -93,10 +89,11 @@ grouped_ggcorrmat <- function(data,
   if (output == "plot") {
     return(combine_plots(
       plotlist = plotlist_purrr,
+      guides = "keep", # each legend is going to be different
       plotgrid.args = plotgrid.args,
       annotation.args = annotation.args
     ))
   } else {
-    return(dplyr::bind_rows(plotlist_purrr, .id = title.prefix))
+    return(dplyr::bind_rows(plotlist_purrr, .id = rlang::as_name(rlang::ensym(grouping.var))))
   }
 }
