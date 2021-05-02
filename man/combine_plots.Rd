@@ -6,14 +6,21 @@
 \usage{
 combine_plots(
   plotlist,
-  guides = "collect",
   plotgrid.args = list(),
   annotation.args = list(),
+  guides = "collect",
   ...
 )
 }
 \arguments{
 \item{plotlist}{A list containing \code{ggplot} objects.}
+
+\item{plotgrid.args}{A \code{list} of additional arguments passed to
+\code{patchwork::wrap_plots}, except for \code{guides} argument which is already
+separately specified here.}
+
+\item{annotation.args}{A \code{list} of additional arguments passed to
+\code{patchwork::plot_annotation}.}
 
 \item{guides}{A string specifying how guides should be treated in the layout.
 \code{'collect'} will collect guides below to the given nesting level, removing
@@ -24,21 +31,12 @@ default guide "position" with \link[ggplot2:theme]{theme(legend.position=...)}
 while also collecting guides you must apply that change to the overall
 patchwork (see example).}
 
-\item{plotgrid.args}{A \code{list} of additional arguments passed to
-\code{patchwork::wrap_plots}, except for \code{guides} argument which is already
-separately specified here.}
-
-\item{annotation.args}{A \code{list} of additional arguments passed to
-\code{patchwork::plot_annotation}.}
-
 \item{...}{Currently ignored.}
 }
 \value{
 Combined plot with annotation labels
 }
 \description{
-\Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-
 Wrapper around \code{patchwork::wrap_plots} that will return a combined grid of
 plots with annotations.
 }
@@ -67,6 +65,7 @@ p2 <-
 # combining the plot with a title and a caption
 combine_plots(
   plotlist = list(p1, p2),
+  plotgrid.args = list(nrow = 1),
   annotation.args = list(
     tag_levels = "a",
     title = "Dataset: Iris Flower dataset",

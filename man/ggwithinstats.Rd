@@ -236,8 +236,6 @@ about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 \item{...}{Currently ignored.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-
 A combination of box and violin plots along with raw (unjittered) data points
 for within-subjects designs with statistical details included in the plot as
 a subtitle.
@@ -270,12 +268,11 @@ ggwithinstats(
 # more than two groups (anova)
 library(WRS2)
 
-ggstatsplot::ggwithinstats(
+ggwithinstats(
   data = WineTasting,
   x = Wine,
   y = Taste,
-  type = "np", # non-parametric test
-  pairwise.comparisons = TRUE,
+  type = "r",
   outlier.tagging = TRUE,
   outlier.label = Taster
 )

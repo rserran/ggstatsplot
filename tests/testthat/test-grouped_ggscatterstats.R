@@ -15,7 +15,7 @@ test_that(
     # without any labelling
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = iris,
         x = Sepal.Length,
         y = Petal.Width,
@@ -28,16 +28,16 @@ test_that(
 
     # create a smaller dataset
     set.seed(123)
-    df <- dplyr::sample_frac(tbl = ggstatsplot::movies_long, size = 0.25) %>%
+    df <- dplyr::sample_frac(tbl = movies_long, size = 0.25) %>%
       dplyr::filter(
-        .data = ., mpaa %in% c("R", "PG-13"),
+        mpaa %in% c("R", "PG-13"),
         genre %in% c("Drama", "Comedy")
       )
 
     # both quoted
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = df,
         x = length,
         y = rating,
@@ -54,7 +54,7 @@ test_that(
     # both unquoted
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = df,
         x = length,
         y = rating,
@@ -70,7 +70,7 @@ test_that(
     # one quoted, one unquoted
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = df,
         x = length,
         y = rating,
@@ -86,7 +86,7 @@ test_that(
 
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = df,
         x = "length",
         y = "rating",
@@ -103,7 +103,7 @@ test_that(
     # without point labelling
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = df,
         x = "length",
         y = rating,
@@ -119,7 +119,7 @@ test_that(
     # labeling all points (without expression, i.e.)
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = dplyr::sample_frac(tbl = df, size = 0.1),
         x = "length",
         y = rating,
@@ -136,7 +136,7 @@ test_that(
     # checking if ggplot component addition works
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = ggplot2::msleep,
         x = sleep_total,
         y = bodywt,
@@ -162,11 +162,11 @@ test_that(
     skip_on_cran()
 
     # data
-    df <- dplyr::filter(.data = ggstatsplot::movies_long, genre %in% c("Action Drama"))
+    df <- dplyr::filter(.data = movies_long, genre %in% c("Action Drama"))
 
     set.seed(123)
     ls_results <-
-      ggstatsplot::grouped_ggscatterstats(
+      grouped_ggscatterstats(
         data = df,
         x = rating,
         y = "length",
@@ -178,7 +178,7 @@ test_that(
 
     set.seed(123)
     basic_results <-
-      statsExpressions::expr_corr_test(
+      statsExpressions::corr_test(
         data = df,
         x = "rating",
         y = length,

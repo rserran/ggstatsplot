@@ -19,7 +19,7 @@ ggcorrmat(
   bf.prior = 0.707,
   p.adjust.method = "holm",
   pch = "cross",
-  ggcorrplot.args = list(method = "square", outline.color = "black"),
+  ggcorrplot.args = list(method = "square", outline.color = "black", pch.cex = 14),
   package = "RColorBrewer",
   palette = "Dark2",
   colors = c("#E69F00", "white", "#009E73"),
@@ -137,8 +137,6 @@ be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
 \item{...}{Currently ignored.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-
 Correlation matrix plot or a dataframe containing results from pairwise
 correlation tests. The package internally uses \code{ggcorrplot::ggcorrplot} for
 creating the visualization matrix, while the correlation analysis is carried
@@ -148,23 +146,14 @@ out using the \code{correlation::correlation} function.
 \donttest{
 # for reproducibility
 set.seed(123)
+library(ggstatsplot)
 
-# if `cor.vars` not specified, all numeric variables used
-ggstatsplot::ggcorrmat(iris)
-
-# to get the correlation matrix
-# note that the function will run even if the vector with variable names is
-# not of same length as the number of variables
-ggstatsplot::ggcorrmat(
-  data = ggplot2::msleep,
-  type = "robust",
-  cor.vars = sleep_total:bodywt,
-  cor.vars.names = c("total sleep", "REM sleep"),
-  matrix.type = "lower"
-)
-
+# for plot
+if (require("ggcorrplot")) {
+  ggcorrmat(iris)
+}
 # to get the correlation analyses results in a dataframe
-ggstatsplot::ggcorrmat(
+ggcorrmat(
   data = ggplot2::msleep,
   cor.vars = sleep_total:bodywt,
   partial = TRUE,

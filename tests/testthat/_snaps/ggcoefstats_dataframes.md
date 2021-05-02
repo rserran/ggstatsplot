@@ -25,10 +25,10 @@
       1 0.0665 1
       2 0.5420 2
       3 0.0450 3
-                                                                                label
-      1  list(~widehat(italic(beta))==0.07, ~italic(t)(5)==0.16, ~italic(p)=='0.875')
-      2 list(~widehat(italic(beta))==0.54, ~italic(t)(10)==1.33, ~italic(p)=='0.191')
-      3 list(~widehat(italic(beta))==0.04, ~italic(t)(12)==1.24, ~italic(p)=='0.001')
+                                                                                      label
+      1  list(~widehat(italic(beta))=='0.07', ~italic(t)('5')=='0.16', ~italic(p)=='0.875')
+      2 list(~widehat(italic(beta))=='0.54', ~italic(t)('10')=='1.33', ~italic(p)=='0.191')
+      3 list(~widehat(italic(beta))=='0.04', ~italic(t)('12')=='1.24', ~italic(p)=='0.001')
         PANEL group    colour  fill size angle alpha family fontface lineheight hjust
       1     1     1 #1B9E77FF white    3     0    NA               1        1.2   0.5
       2     1     2 #D95F02FF white    3     0    NA               1        1.2   0.5
@@ -69,10 +69,10 @@
       1 0.0665 2
       2 0.5420 1
       3 0.0450 3
-                                                                            label
-      1 list(~widehat(italic(beta))==0.07, ~italic(z)==0.16, ~italic(p)=='0.875')
-      2 list(~widehat(italic(beta))==0.54, ~italic(z)==1.33, ~italic(p)=='0.191')
-      3 list(~widehat(italic(beta))==0.04, ~italic(z)==1.24, ~italic(p)=='0.001')
+                                                                                label
+      1 list(~widehat(italic(beta))=='0.07', ~italic(z)=='0.16', ~italic(p)=='0.875')
+      2 list(~widehat(italic(beta))=='0.54', ~italic(z)=='1.33', ~italic(p)=='0.191')
+      3 list(~widehat(italic(beta))=='0.04', ~italic(z)=='1.24', ~italic(p)=='0.001')
         PANEL group    colour  fill size angle alpha family fontface lineheight hjust
       1     1     2 #1B9E77FF white    3     0    NA               1        1.2   0.5
       2     1     1 #D95F02FF white    3     0    NA               1        1.2   0.5
@@ -149,10 +149,10 @@
       1 0.0665 1
       2 0.5420 2
       3 0.0450 3
-                                                                                 label
-      1 list(~widehat(italic(beta))==0.07, ~italic(t)(Inf)==0.16, ~italic(p)=='0.875')
-      2 list(~widehat(italic(beta))==0.54, ~italic(t)(Inf)==1.33, ~italic(p)=='0.191')
-      3 list(~widehat(italic(beta))==0.04, ~italic(t)(Inf)==1.24, ~italic(p)=='0.001')
+                                                                                label
+      1 list(~widehat(italic(beta))=='0.07', ~italic(t)=='0.16', ~italic(p)=='0.875')
+      2 list(~widehat(italic(beta))=='0.54', ~italic(t)=='1.33', ~italic(p)=='0.191')
+      3 list(~widehat(italic(beta))=='0.04', ~italic(t)=='1.24', ~italic(p)=='0.001')
         PANEL group    colour  fill size angle alpha family fontface lineheight hjust
       1     1     1 #1B9E77FF white    3     0    NA               1        1.2   0.5
       2     1     2 #D95F02FF white    3     0    NA               1        1.2   0.5
@@ -193,10 +193,10 @@
       1 0.0665 1
       2 0.5420 2
       3 0.0450 3
-                                                                                  label
-      1  list(~widehat(italic(beta))==0.066, ~italic(t)(5)==0.158, ~italic(p)=='0.875')
-      2 list(~widehat(italic(beta))==0.542, ~italic(t)(10)==1.330, ~italic(p)=='0.191')
-      3 list(~widehat(italic(beta))==0.045, ~italic(t)(12)==1.240, ~italic(p)=='0.001')
+                                                                                      label
+      1  list(~widehat(italic(beta))=='0.07', ~italic(t)('5')=='0.16', ~italic(p)=='0.875')
+      2 list(~widehat(italic(beta))=='0.54', ~italic(t)('10')=='1.33', ~italic(p)=='0.191')
+      3 list(~widehat(italic(beta))=='0.04', ~italic(t)('12')=='1.24', ~italic(p)=='0.001')
         PANEL group    colour  fill size angle alpha family fontface lineheight hjust
       1     1     1 #1B9E77FF white    3     0    NA               1        1.2   0.5
       2     1     2 #D95F02FF white    3     0    NA               1        1.2   0.5
@@ -237,10 +237,10 @@
       1 0.0665 1
       2 0.5420 2
       3 0.0450 3
-                                                                                  label
-      1  list(~widehat(italic(beta))==0.066, ~italic(t)(5)==0.158, ~italic(p)=='0.875')
-      2 list(~widehat(italic(beta))==0.542, ~italic(t)(10)==1.330, ~italic(p)=='0.191')
-      3 list(~widehat(italic(beta))==0.045, ~italic(t)(12)==1.240, ~italic(p)=='0.001')
+                                                                                      label
+      1  list(~widehat(italic(beta))=='0.07', ~italic(t)('5')=='0.16', ~italic(p)=='0.875')
+      2 list(~widehat(italic(beta))=='0.54', ~italic(t)('10')=='1.33', ~italic(p)=='0.191')
+      3 list(~widehat(italic(beta))=='0.04', ~italic(t)('12')=='1.24', ~italic(p)=='0.001')
         PANEL group    colour  fill size angle alpha family fontface lineheight hjust
       1     1     1 #1B9E77FF white    3     0    NA               1        1.2   0.5
       2     1     2 #D95F02FF white    3     0    NA               1        1.2   0.5
@@ -257,6 +257,152 @@
       1           FALSE         FALSE
       2           FALSE         FALSE
       3           FALSE         FALSE
+      
+      
+
+---
+
+    Code
+      list(pb1$plot$labels, pb2$plot$labels, pb3$plot$labels, pb4$plot$labels, pb5$
+        plot$labels)
+    Output
+      [[1]]
+      [[1]]$x
+      [1] "regression coefficient"
+      
+      [[1]]$y
+      [1] "term"
+      
+      [[1]]$title
+      NULL
+      
+      [[1]]$subtitle
+      NULL
+      
+      [[1]]$caption
+      NULL
+      
+      [[1]]$xintercept
+      [1] "xintercept"
+      
+      [[1]]$xmin
+      [1] "conf.low"
+      
+      [[1]]$xmax
+      [1] "conf.high"
+      
+      [[1]]$label
+      [1] "label"
+      
+      
+      [[2]]
+      [[2]]$x
+      [1] "regression coefficient"
+      
+      [[2]]$y
+      [1] "term"
+      
+      [[2]]$title
+      NULL
+      
+      [[2]]$subtitle
+      NULL
+      
+      [[2]]$caption
+      NULL
+      
+      [[2]]$xintercept
+      [1] "xintercept"
+      
+      [[2]]$xmin
+      [1] "conf.low"
+      
+      [[2]]$xmax
+      [1] "conf.high"
+      
+      [[2]]$label
+      [1] "label"
+      
+      
+      [[3]]
+      [[3]]$x
+      [1] "regression coefficient"
+      
+      [[3]]$y
+      [1] "term"
+      
+      [[3]]$title
+      NULL
+      
+      [[3]]$subtitle
+      NULL
+      
+      [[3]]$caption
+      NULL
+      
+      [[3]]$xintercept
+      [1] "xintercept"
+      
+      [[3]]$xmin
+      [1] "conf.low"
+      
+      [[3]]$xmax
+      [1] "conf.high"
+      
+      
+      [[4]]
+      [[4]]$x
+      [1] "location"
+      
+      [[4]]$y
+      NULL
+      
+      [[4]]$title
+      NULL
+      
+      [[4]]$subtitle
+      NULL
+      
+      [[4]]$caption
+      NULL
+      
+      [[4]]$xintercept
+      [1] "xintercept"
+      
+      [[4]]$xmin
+      [1] "conf.low"
+      
+      [[4]]$xmax
+      [1] "conf.high"
+      
+      
+      [[5]]
+      [[5]]$x
+      [1] "regression coefficient"
+      
+      [[5]]$y
+      [1] "term"
+      
+      [[5]]$title
+      NULL
+      
+      [[5]]$subtitle
+      NULL
+      
+      [[5]]$caption
+      NULL
+      
+      [[5]]$xintercept
+      [1] "xintercept"
+      
+      [[5]]$xmin
+      [1] "conf.low"
+      
+      [[5]]$xmax
+      [1] "conf.high"
+      
+      [[5]]$label
+      [1] "label"
       
       
 

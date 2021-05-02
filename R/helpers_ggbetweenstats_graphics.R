@@ -10,7 +10,7 @@
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom rlang !! enquo ensym exec
 #' @importFrom parameters describe_distribution
-#' @importFrom insight standardize_names
+#' @importFrom insight standardize_names format_value
 #' @importFrom dplyr select group_by matches mutate rowwise group_modify arrange ungroup
 #' @importFrom rlang !! enquo ensym :=
 #' @importFrom tidyr drop_na
@@ -43,9 +43,17 @@ centrality_ggrepel <- function(plot,
                                tr = 0.2,
                                k = 2L,
                                centrality.path = FALSE,
-                               centrality.path.args = list(color = "red", size = 1, alpha = 0.5),
+                               centrality.path.args = list(
+                                 color = "red",
+                                 size = 1,
+                                 alpha = 0.5
+                               ),
                                centrality.point.args = list(size = 5, color = "darkred"),
-                               centrality.label.args = list(size = 3, nudge_x = 0.4, segment.linetype = 4),
+                               centrality.label.args = list(
+                                 size = 3,
+                                 nudge_x = 0.4,
+                                 segment.linetype = 4
+                               ),
                                ...) {
   # creating the dataframe
   centrality_df <- centrality_data(data, {{ x }}, {{ y }}, type = type, tr = tr, k = k)
@@ -124,7 +132,7 @@ centrality_data <- function(data, x, y, type = "parametric", tr = 0.2, k = 2L, .
     ) %>%
     dplyr::ungroup() %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(label = paste0("list(~widehat(mu)[", centrality, "]=='", format_num(estimate, k), "')")) %>%
+    dplyr::mutate(label = paste0("list(~widehat(mu)[", centrality, "]=='", format_value(estimate, k), "')")) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(n_label = paste0({{ x }}, "\n(n = ", .prettyNum(n), ")")) %>%
     dplyr::arrange({{ x }}) %>%
@@ -307,10 +315,9 @@ aesthetic_addon <- function(plot,
 #'   additional columns: `isanoutlier` and `outlier` denoting which observation
 #'   are outliers and their corresponding labels.
 #'
-#' @importFrom rlang enquo ensym
-#' @importFrom stats quantile
 #' @importFrom dplyr group_by mutate ungroup
-#'
+#' @importFrom ipmisc %$%
+#' @importFrom performance check_outliers
 #'
 #' @examples
 #' # adding column for outlier and a label for that outlier
@@ -324,19 +331,13 @@ aesthetic_addon <- function(plot,
 #'   dplyr::arrange(outlier)
 #' @noRd
 
-# function body
+# add a logical column indicating whether a point is or isn't an outlier
 outlier_df <- function(data, x, y, outlier.label, outlier.coef = 1.5, ...) {
-  # defining function to detect outliers based on interquartile range
-  check_outlier <- function(var, coef = 1.5) {
-    quantiles <- stats::quantile(x = var, probs = c(0.25, 0.75), na.rm = TRUE)
-    IQR <- quantiles[2] - quantiles[1]
-    (var < (quantiles[1] - coef * IQR)) | (var > (quantiles[2] + coef * IQR))
-  }
-
-  # add a logical column indicating whether a point is or is not an outlier
-  dplyr::group_by(.data = data, {{ x }}) %>%
+  dplyr::group_by(data, {{ x }}) %>%
     dplyr::mutate(
-      isanoutlier = ifelse(check_outlier({{ y }}, outlier.coef), TRUE, FALSE),
+      isanoutlier = ifelse((.) %$% as.vector(performance::check_outliers({{ y }},
+        method = "iqr", threshold = list("iqr" = outlier.coef)
+      )), TRUE, FALSE),
       outlier = ifelse(isanoutlier, {{ outlier.label }}, NA)
     ) %>%
     dplyr::ungroup(.)
@@ -351,15 +352,15 @@ outlier_df <- function(data, x, y, outlier.label, outlier.coef = 1.5, ...) {
 #' @param element Which expression is needed (`"subtitle"` or `"caption"`)
 #' @param ... Arguments passed to respective subtitle helper functions.
 #'
-#' @importFrom statsExpressions expr_t_twosample expr_oneway_anova
+#' @importFrom statsExpressions two_sample_test oneway_anova
 #' @importFrom rlang exec
 #'
 #' @noRd
 
 function_switch <- function(test, element, ...) {
   # which function?
-  if (test == "t") .f <- statsExpressions::expr_t_twosample
-  if (test == "anova") .f <- statsExpressions::expr_oneway_anova
+  if (test == "t") .f <- statsExpressions::two_sample_test
+  if (test == "anova") .f <- statsExpressions::oneway_anova
 
   # evaluate it
   suppressWarnings(suppressMessages(rlang::exec(.fn = .f, ...)))

@@ -8,7 +8,7 @@ test_that(
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::gghistostats(
+      gghistostats(
         data = dplyr::starwars,
         x = height,
         xlab = "character height",
@@ -31,7 +31,7 @@ test_that(
     # checking subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_t_onesample(
+      statsExpressions::one_sample_test(
         data = dplyr::starwars,
         x = height,
         type = "p",
@@ -41,7 +41,7 @@ test_that(
     # checking caption
     set.seed(123)
     p_cap <-
-      statsExpressions::expr_t_onesample(
+      statsExpressions::one_sample_test(
         data = dplyr::starwars,
         x = height,
         type = "bayes",
@@ -67,7 +67,7 @@ test_that(
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::gghistostats(
+      gghistostats(
         data = ggplot2::mpg,
         x = cty,
         xlab = "city miles per gallon",
@@ -161,7 +161,7 @@ test_that(
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::gghistostats(
+      gghistostats(
         data = mtcars,
         x = wt,
         binwidth = 0.5,
@@ -176,7 +176,7 @@ test_that(
     # checking subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_t_onesample(
+      statsExpressions::one_sample_test(
         data = mtcars,
         x = wt,
         test.value = 2.5,
@@ -204,7 +204,7 @@ test_that(
     # plot
     set.seed(123)
     p1 <-
-      ggstatsplot::gghistostats(
+      gghistostats(
         data = ggplot2::msleep,
         x = awake,
         binwidth = 1,
@@ -251,7 +251,7 @@ test_that(
     # should output a list of length 3
     set.seed(123)
     p_sub <-
-      ggstatsplot::gghistostats(
+      gghistostats(
         data = ggplot2::msleep,
         x = brainwt,
         type = "np",
@@ -261,7 +261,7 @@ test_that(
 
     set.seed(123)
     sub <-
-      statsExpressions::expr_t_onesample(
+      statsExpressions::one_sample_test(
         data = ggplot2::msleep,
         x = brainwt,
         type = "np",

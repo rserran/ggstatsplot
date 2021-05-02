@@ -4,8 +4,6 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-#'
 #' Grouped scatterplots from `ggplot2` combined with marginal distribution plots
 #' with statistical details added as a subtitle.
 #'
@@ -30,13 +28,17 @@
 #' set.seed(123)
 #' library(ggstatsplot)
 #'
+#' # skipping marginal distributions so that the examples run fast
+#'
 #' # basic function call
 #' grouped_ggscatterstats(
 #'   data = dplyr::filter(movies_long, genre == "Comedy" | genre == "Drama"),
 #'   x = length,
 #'   y = rating,
 #'   type = "robust",
-#'   grouping.var = genre
+#'   grouping.var = genre,
+#'   marginal = FALSE,
+#'   ggplot.component = list(ggplot2::geom_rug(sides = "b"))
 #' )
 #'
 #' # using labeling
@@ -47,6 +49,7 @@
 #'   y = hwy,
 #'   grouping.var = cyl,
 #'   type = "robust",
+#'   marginal = FALSE,
 #'   label.var = manufacturer,
 #'   label.expression = hwy > 25 & displ > 2.5,
 #'   ggplot.component = ggplot2::scale_y_continuous(sec.axis = ggplot2::dup_axis())
@@ -66,7 +69,7 @@
 #'   bf.message = FALSE,
 #'   label.var = "title",
 #'   marginal = FALSE,
-#'   annotation.args = list(caption = "All movies have IMDB rating greater than 7")
+#'   annotation.args = list(tag_levels = "a")
 #' )
 #' @export
 
@@ -93,7 +96,7 @@ grouped_ggscatterstats <- function(data,
   # ==================== creating a list of plots =======================
 
   # creating a list of plots using `pmap`
-  plotlist_purrr <-
+  p_ls <-
     purrr::pmap(
       .l = list(data = df, title = names(df)),
       .f = ggstatsplot::ggscatterstats,
@@ -107,9 +110,8 @@ grouped_ggscatterstats <- function(data,
     )
 
   # combining the list of plots into a single plot
-  if (output == "plot") {
-    return(combine_plots(plotlist_purrr, plotgrid.args = plotgrid.args, annotation.args = annotation.args))
-  } else {
-    return(plotlist_purrr) # subtitle list
-  }
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }

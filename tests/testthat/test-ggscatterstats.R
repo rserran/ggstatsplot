@@ -1,3 +1,5 @@
+
+
 # pearson's r with NAs ---------------------------------------------
 
 test_that(
@@ -8,14 +10,14 @@ test_that(
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = "bodywt",
+        y = "sleep_cycle",
         label.var = "name",
-        label.expression = bodywt > 2000,
+        label.expression = sleep_cycle > 0.3,
         xlab = "sleep (total)",
-        ylab = "body weight",
+        ylab = "sleep cycle",
         type = "p",
         xfill = "red",
         yfill = "orange",
@@ -29,39 +31,33 @@ test_that(
 
     # check data
     set.seed(123)
-    expect_snapshot(pb$data)
+    expect_snapshot(list(pb$data[[1]], head(pb$data[[2]]), pb$data[[3]]))
 
     # subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_corr_test(
-        data = ggplot2::msleep,
+      statsExpressions::corr_test(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = "sleep_total",
-        y = bodywt,
+        y = sleep_cycle,
         type = "p"
       )$expression[[1]]
 
     # subtitle
     set.seed(123)
     p_cap <-
-      statsExpressions::expr_corr_test(
-        data = ggplot2::msleep,
+      statsExpressions::corr_test(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = "sleep_total",
-        y = bodywt,
+        y = sleep_cycle,
         top.text = "ggplot2 dataset",
         type = "bayes"
       )$expression[[1]]
 
     # checking plot labels
     expect_identical(pb$plot$labels$caption, p_cap)
-    expect_identical(pb$plot$labels$title, "Mammalian sleep")
     expect_identical(pb$plot$labels$subtitle, p_subtitle)
-    expect_identical(pb$plot$labels$x, "sleep (total)")
-    expect_identical(pb$plot$labels$y, "body weight")
-    expect_identical(
-      pb$data[[3]]$label,
-      c("Asian elephant", "African elephant")
-    )
+    expect_snapshot(within(pb$plot$labels, rm(subtitle, caption)))
   }
 )
 
@@ -75,11 +71,10 @@ test_that(
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = "sleep_total",
-        y = bodywt,
-        centrality.parameter = "none",
+        y = sleep_cycle,
         type = "np",
         conf.level = 0.99,
         marginal = FALSE
@@ -90,42 +85,41 @@ test_that(
 
     # check data
     set.seed(123)
-    expect_snapshot(pb$data)
+    expect_snapshot(pb$data[[1]])
 
     # subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_corr_test(
-        data = ggplot2::msleep,
+      statsExpressions::corr_test(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = bodywt,
+        y = sleep_cycle,
         type = "np",
         conf.level = 0.99
       )$expression[[1]]
 
     # testing data and annotations
     expect_identical(pb$plot$labels$subtitle, p_subtitle)
-    expect_null(pb$plot$labels$caption, NULL)
+    expect_snapshot(within(pb$plot$labels, rm(subtitle)))
   }
 )
 
 
-# percentage bend with NAs ---------------------------------------------
+# winsorized Pearson with NAs ---------------------------------------------
 
 test_that(
-  desc = "checking ggscatterstats - without NAs - percentage bend",
+  desc = "checking ggscatterstats - without NAs - winsorized Pearson",
   code = {
     skip_on_cran()
 
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = bodywt,
+        y = sleep_cycle,
         type = "r",
-        centrality.parameter = "mean",
         conf.level = 0.90,
         point.args = list(color = "red", size = 5),
         marginal = FALSE
@@ -134,10 +128,10 @@ test_that(
     # subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_corr_test(
-        data = ggplot2::msleep,
+      statsExpressions::corr_test(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = bodywt,
+        y = sleep_cycle,
         type = "r",
         conf.level = 0.90
       )$expression[[1]]
@@ -146,9 +140,10 @@ test_that(
 
     # check data
     set.seed(123)
-    expect_snapshot(pb$data)
+    expect_snapshot(pb$data[[1]])
 
     expect_identical(pb$plot$labels$subtitle, p_subtitle)
+    expect_snapshot(within(pb$plot$labels, rm(subtitle)))
   }
 )
 
@@ -158,16 +153,17 @@ test_that(
   desc = "bayes factor plus class of object",
   code = {
     skip_on_cran()
+    skip_if_not_installed("ggExtra")
 
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = bodywt,
+        y = sleep_cycle,
         xlab = "total sleep",
-        ylab = "body weight",
+        ylab = "sleep cycle",
         title = "mammalian sleep dataset",
         caption = "source: ggplot2 package",
         type = "bayes",
@@ -177,10 +173,10 @@ test_that(
     # subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_corr_test(
-        data = ggplot2::msleep,
+      statsExpressions::corr_test(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = bodywt,
+        y = sleep_cycle,
         type = "bayes"
       )$expression[[1]]
 
@@ -199,7 +195,7 @@ test_that(
     )
     expect_identical(
       enframe(p$grobs[[13]]$children)$value[[1]][[1]],
-      "body weight"
+      "sleep cycle"
     )
     expect_identical(
       enframe(p$grobs[[22]]$children)$value[[1]][[1]],
@@ -218,8 +214,8 @@ test_that(
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
         y = sleep_cycle,
         label.expression = "sleep_total > 17",
@@ -236,7 +232,8 @@ test_that(
 
     # check data
     set.seed(123)
-    expect_snapshot(pb$data)
+    expect_snapshot(list(pb$data[[1]], head(pb$data[[2]]), pb$data[[3]]))
+    expect_snapshot(pb$plot$labels)
 
     # both quoted
     expect_s3_class(p, "gg")
@@ -252,8 +249,8 @@ test_that(
 
     # both quoted
     expect_true(inherits(
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
         y = sleep_cycle,
         label.expression = "sleep_total > 17",
@@ -266,8 +263,8 @@ test_that(
 
     # both unquoted
     expect_true(inherits(
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
         y = sleep_cycle,
         label.expression = sleep_total > 17,
@@ -280,8 +277,8 @@ test_that(
 
     # label.expression not specified
     expect_true(inherits(
-      ggstatsplot::ggscatterstats(
-        data = dplyr::sample_frac(ggplot2::msleep, 0.1),
+      ggscatterstats(
+        data = dplyr::sample_frac(dplyr::filter(ggplot2::msleep, conservation == "lc"), 0.1),
         x = sleep_total,
         y = sleep_cycle,
         label.expression = NULL,
@@ -300,14 +297,15 @@ test_that(
   desc = "with marginals",
   code = {
     skip_on_cran()
+    skip_if_not_installed("ggExtra")
 
     # creating the plot
     set.seed(123)
     p <-
-      ggstatsplot::ggscatterstats(
-        data = ggplot2::msleep,
+      ggscatterstats(
+        data = dplyr::filter(ggplot2::msleep, conservation == "lc"),
         x = sleep_total,
-        y = bodywt,
+        y = sleep_cycle,
         margins = "y",
         results.subtitle = FALSE
       )
@@ -329,7 +327,7 @@ test_that(
     # creating the messages
     set.seed(123)
     p_sub <-
-      ggstatsplot::ggscatterstats(
+      ggscatterstats(
         data = dplyr::starwars,
         x = mass,
         y = height,
@@ -339,7 +337,7 @@ test_that(
       )
 
     fun_sub <-
-      statsExpressions::expr_corr_test(
+      statsExpressions::corr_test(
         data = dplyr::starwars,
         x = mass,
         y = height,

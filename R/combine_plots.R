@@ -3,8 +3,6 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-#'
 #' Wrapper around `patchwork::wrap_plots` that will return a combined grid of
 #' plots with annotations.
 #'
@@ -50,6 +48,7 @@
 #' # combining the plot with a title and a caption
 #' combine_plots(
 #'   plotlist = list(p1, p2),
+#'   plotgrid.args = list(nrow = 1),
 #'   annotation.args = list(
 #'     tag_levels = "a",
 #'     title = "Dataset: Iris Flower dataset",
@@ -61,15 +60,10 @@
 
 # function body
 combine_plots <- function(plotlist,
-                          guides = "collect",
                           plotgrid.args = list(),
                           annotation.args = list(),
+                          guides = "collect",
                           ...) {
-  rlang::exec(
-    .fn = patchwork::wrap_plots,
-    !!!plotlist,
-    guides = guides,
-    !!!plotgrid.args
-  ) +
-    rlang::exec(.fn = patchwork::plot_annotation, !!!annotation.args)
+  rlang::exec(patchwork::wrap_plots, !!!plotlist, guides = guides, !!!plotgrid.args) +
+    rlang::exec(patchwork::plot_annotation, !!!annotation.args)
 }

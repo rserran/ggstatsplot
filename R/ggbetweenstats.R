@@ -4,8 +4,6 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-#'
 #' A combination of box and violin plots along with jittered data points for
 #' between-subjects designs with statistical details included in the plot as a
 #' subtitle.
@@ -106,15 +104,14 @@
 #'   `ggrepel::geom_label_repel` geoms, which are involved in mean plotting.
 #' @param  ggsignif.args A list of additional aesthetic
 #'   arguments to be passed to `ggsignif::geom_signif`.
-#' @inheritParams statsExpressions::expr_oneway_anova
-#' @inheritParams statsExpressions::expr_t_twosample
-#' @inheritParams statsExpressions::expr_t_onesample
+#' @inheritParams statsExpressions::oneway_anova
+#' @inheritParams statsExpressions::two_sample_test
+#' @inheritParams statsExpressions::one_sample_test
 #'
 #' @import ggplot2
 #'
 #' @importFrom dplyr select group_by arrange mutate
 #' @importFrom ggrepel geom_label_repel
-#' @importFrom stats t.test oneway.test
 #' @importFrom rlang enquo as_name !! as_string
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom paletteer scale_color_paletteer_d scale_fill_paletteer_d
@@ -134,29 +131,25 @@
 #' library(ggstatsplot)
 #'
 #' # simple function call with the defaults
-#' ggstatsplot::ggbetweenstats(
+#' ggbetweenstats(
 #'   data = mtcars,
 #'   x = am,
-#'   y = mpg,
-#'   title = "Fuel efficiency by type of car transmission",
-#'   caption = "Transmission (0 = automatic, 1 = manual)"
+#'   y = mpg
 #' )
 #'
 #' # more detailed function call
-#' ggstatsplot::ggbetweenstats(
-#'   data = datasets::morley,
+#' ggbetweenstats(
+#'   data = morley,
 #'   x = Expt,
 #'   y = Speed,
-#'   type = "nonparametric",
+#'   type = "robust",
 #'   plot.type = "box",
 #'   xlab = "The experiment number",
 #'   ylab = "Speed-of-light measurement",
 #'   pairwise.comparisons = TRUE,
 #'   p.adjust.method = "fdr",
 #'   outlier.tagging = TRUE,
-#'   outlier.label = Run,
-#'   ggtheme = ggplot2::theme_grey(),
-#'   ggstatsplot.layer = FALSE
+#'   outlier.label = Run
 #' )
 #' }
 #' @export
@@ -247,7 +240,7 @@ ggbetweenstats <- function(data,
   if (isTRUE(results.subtitle)) {
     # preparing the Bayes factor message
     if (type == "parametric" && isTRUE(bf.message)) {
-      caption_df <-
+      caption_df <- tryCatch(
         function_switch(
           test = test,
           # arguments relevant for expression helper functions
@@ -259,13 +252,15 @@ ggbetweenstats <- function(data,
           top.text = caption,
           paired = FALSE,
           k = k
-        )
+        ),
+        error = function(e) NULL
+      )
 
-      caption <- caption_df$expression[[1]]
+      caption <- if (!is.null(caption_df)) caption_df$expression[[1]]
     }
 
     # extracting the subtitle using the switch function
-    subtitle_df <-
+    subtitle_df <- tryCatch(
       function_switch(
         test = test,
         # arguments relevant for expression helper functions
@@ -281,9 +276,11 @@ ggbetweenstats <- function(data,
         nboot = nboot,
         conf.level = conf.level,
         k = k
-      )
+      ),
+      error = function(e) NULL
+    )
 
-    subtitle <- subtitle_df$expression[[1]]
+    subtitle <- if (!is.null(subtitle_df)) subtitle_df$expression[[1]]
   }
 
   # return early if anything other than plot

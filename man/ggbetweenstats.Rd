@@ -235,8 +235,6 @@ about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 \item{...}{Currently ignored.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-
 A combination of box and violin plots along with jittered data points for
 between-subjects designs with statistical details included in the plot as a
 subtitle.
@@ -248,29 +246,25 @@ set.seed(123)
 library(ggstatsplot)
 
 # simple function call with the defaults
-ggstatsplot::ggbetweenstats(
+ggbetweenstats(
   data = mtcars,
   x = am,
-  y = mpg,
-  title = "Fuel efficiency by type of car transmission",
-  caption = "Transmission (0 = automatic, 1 = manual)"
+  y = mpg
 )
 
 # more detailed function call
-ggstatsplot::ggbetweenstats(
-  data = datasets::morley,
+ggbetweenstats(
+  data = morley,
   x = Expt,
   y = Speed,
-  type = "nonparametric",
+  type = "robust",
   plot.type = "box",
   xlab = "The experiment number",
   ylab = "Speed-of-light measurement",
   pairwise.comparisons = TRUE,
   p.adjust.method = "fdr",
   outlier.tagging = TRUE,
-  outlier.label = Run,
-  ggtheme = ggplot2::theme_grey(),
-  ggstatsplot.layer = FALSE
+  outlier.label = Run
 )
 }
 }

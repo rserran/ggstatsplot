@@ -1,4 +1,33 @@
-# ggstatsplot 0.7.1.9000
+# ggstatsplot 0.7.2.9000
+
+MAJOR CHANGES
+
+  - To reduce the dependency load, `ggcorrplot` moves from `Imports` to
+    `Suggests`.
+
+MINOR CHANGES
+
+  - The `pch` size for `ggcorrmat` has been increased to 14 (#579) to increase
+    its visibility compared to the correlation value text.
+
+# ggstatsplot 0.7.2
+
+MAJOR CHANGES
+
+  - To reduce the dependency load, `ggExtra` moves from `Imports` to
+    `Suggests`.
+
+  - All functions are more *robust* in the sense that when statistical analysis
+    fails, they will return only the plots with no subtitles/captions. This
+    helps avoid difficult-to-diagnose edge case failures when the primary
+    functions are used in `grouped_` functions (e.g., #559). The `ggpiestats`
+    and `ggbarstats` functions always behaved this way, but the rest of the
+    functions now also mimic this behavior. 
+
+MINOR CHANGES
+
+  - The `ggcoefstats` labels do not contain degrees of freedom when they are not
+    available instead of displaying `Inf`.
 
 # ggstatsplot 0.7.1
 

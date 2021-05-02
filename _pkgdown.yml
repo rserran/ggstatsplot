@@ -1,15 +1,12 @@
 url: https://indrajeetpatil.github.io/ggstatsplot/
 
 template:
+  package: preferably
   ganalytics: "UA-46037435-2"
   params:
     docsearch:
       api_key: 44345fbe359c5496fbc3955c513333d1
       index_name: ggstatsplot
-    bootswatch: lumen
-
-development:
-  mode: unreleased
 
 authors:
   Indrajeet Patil:
@@ -100,12 +97,12 @@ articles:
     desc: Salad of various things
     contents:
     - additional
-    - web_only/session_info
-    - web_only/gallery
-    - web_only/effsize_interpretation
     - web_only/faq
     - web_only/purrr_examples
+    - web_only/principles
     - web_only/other_resources
+    - web_only/effsize_interpretation
+    - web_only/session_info
 
   - title: Development-focused
     navbar: Development-focused

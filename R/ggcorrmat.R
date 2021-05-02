@@ -3,8 +3,6 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-#'
 #' Correlation matrix plot or a dataframe containing results from pairwise
 #' correlation tests. The package internally uses `ggcorrplot::ggcorrplot` for
 #' creating the visualization matrix, while the correlation analysis is carried
@@ -42,7 +40,7 @@
 #'   any of the following arguments since they are already internally being
 #'   used: `corr`, `method`, `p.mat`, `sig.level`, `ggtheme`, `colors`, `lab`,
 #'   `pch`, `legend.title`, `digits`.
-#' @inheritParams statsExpressions::expr_corr_test
+#' @inheritParams statsExpressions::corr_test
 #' @inheritParams ggbetweenstats
 #' @inheritParams theme_ggstatsplot
 #' @inheritParams ggcorrplot::ggcorrplot
@@ -50,7 +48,6 @@
 #'
 #' @import ggplot2
 #'
-#' @importFrom ggcorrplot ggcorrplot
 #' @importFrom dplyr select matches
 #' @importFrom purrr is_bare_numeric keep
 #' @importFrom rlang exec !!!
@@ -68,23 +65,14 @@
 #' \donttest{
 #' # for reproducibility
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
-#' # if `cor.vars` not specified, all numeric variables used
-#' ggstatsplot::ggcorrmat(iris)
-#'
-#' # to get the correlation matrix
-#' # note that the function will run even if the vector with variable names is
-#' # not of same length as the number of variables
-#' ggstatsplot::ggcorrmat(
-#'   data = ggplot2::msleep,
-#'   type = "robust",
-#'   cor.vars = sleep_total:bodywt,
-#'   cor.vars.names = c("total sleep", "REM sleep"),
-#'   matrix.type = "lower"
-#' )
-#'
+#' # for plot
+#' if (require("ggcorrplot")) {
+#'   ggcorrmat(iris)
+#' }
 #' # to get the correlation analyses results in a dataframe
-#' ggstatsplot::ggcorrmat(
+#' ggcorrmat(
 #'   data = ggplot2::msleep,
 #'   cor.vars = sleep_total:bodywt,
 #'   partial = TRUE,
@@ -108,7 +96,11 @@ ggcorrmat <- function(data,
                       bf.prior = 0.707,
                       p.adjust.method = "holm",
                       pch = "cross",
-                      ggcorrplot.args = list(method = "square", outline.color = "black"),
+                      ggcorrplot.args = list(
+                        method = "square",
+                        outline.color = "black",
+                        pch.cex = 14
+                      ),
                       package = "RColorBrewer",
                       palette = "Dark2",
                       colors = c("#E69F00", "white", "#009E73"),
@@ -169,7 +161,6 @@ ggcorrmat <- function(data,
       ci = conf.level,
       bayesian = ifelse(type == "bayes", TRUE, FALSE),
       bayesian_prior = bf.prior,
-      bayesian_test = c("pd", "rope", "bf"),
       tr = tr,
       partial = partial,
       partial_bayesian = ifelse(type == "bayes" && isTRUE(partial), TRUE, FALSE),
@@ -217,6 +208,7 @@ ggcorrmat <- function(data,
   }
 
   # plotting the correlalogram
+  if (!requireNamespace("ggcorrplot")) stop("Package 'ggcorrplot' needs to be installed.")
   plot <-
     rlang::exec(
       .f = ggcorrplot::ggcorrplot,
@@ -248,13 +240,13 @@ ggcorrmat <- function(data,
             " < ",
             sig.level,
             " (Adjustment: ",
-            adj_text,
+            adj.text,
             ")"
           )
         ),
         env = list(
           sig.level = sig.level,
-          adj_text = pairwiseComparisons::p_adjust_text(p.adjust.method),
+          adj.text = pairwiseComparisons::p_adjust_text(p.adjust.method),
           top.text = caption
         )
       )

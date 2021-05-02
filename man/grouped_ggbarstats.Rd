@@ -135,8 +135,6 @@ be entered as a \code{ggplot2} function or a list of \code{ggplot2} functions.}
   }}
 }
 \description{
-\Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-
 Helper function for \code{ggstatsplot::ggbarstats} to apply this function across
 multiple levels of a given factor and combining the resulting plots using
 \code{ggstatsplot::combine_plots}.
@@ -145,16 +143,17 @@ multiple levels of a given factor and combining the resulting plots using
 \donttest{
 # for reproducibility
 set.seed(123)
+library(ggstatsplot)
 
 # let's create a smaller dataframe
 diamonds_short <- ggplot2::diamonds \%>\%
-  dplyr::filter(.data = ., cut \%in\% c("Very Good", "Ideal")) \%>\%
-  dplyr::filter(.data = ., clarity \%in\% c("SI1", "SI2", "VS1", "VS2")) \%>\%
+  dplyr::filter(cut \%in\% c("Very Good", "Ideal")) \%>\%
+  dplyr::filter(clarity \%in\% c("SI1", "SI2", "VS1", "VS2")) \%>\%
   dplyr::sample_frac(tbl = ., size = 0.05)
 
 # plot
 # let's skip statistical analysis
-ggstatsplot::grouped_ggbarstats(
+grouped_ggbarstats(
   data = diamonds_short,
   x = color,
   y = clarity,

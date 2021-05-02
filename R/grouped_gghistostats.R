@@ -4,7 +4,7 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+#'
 #'
 #' Helper function for `ggstatsplot::gghistostats` to apply this function
 #' across multiple levels of a given factor and combining the resulting plots
@@ -28,18 +28,15 @@
 #' \donttest{
 #' # for reproducibility
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # plot
-#' ggstatsplot::grouped_gghistostats(
+#' grouped_gghistostats(
 #'   data = iris,
 #'   x = Sepal.Length,
 #'   test.value = 5,
 #'   grouping.var = Species,
 #'   bar.fill = "orange",
-#'   ggplot.component = list(
-#'     ggplot2::scale_x_continuous(breaks = seq(3, 9, 1), limits = (c(3, 9))),
-#'     ggplot2::scale_y_continuous(breaks = seq(0, 25, 5), limits = (c(0, 25)))
-#'   ),
 #'   plotgrid.args = list(nrow = 1),
 #'   annotation.args = list(tag_levels = "i"),
 #' )
@@ -75,11 +72,11 @@ grouped_gghistostats <- function(data,
 
   # getting the dataframe ready
   df <-
-    dplyr::select(.data = data, {{ grouping.var }}, {{ x }}) %>%
+    dplyr::select(data, {{ grouping.var }}, {{ x }}) %>%
     grouped_list(grouping.var = {{ grouping.var }})
 
   # creating a list of plots
-  plotlist_purrr <-
+  p_ls <-
     purrr::pmap(
       .l = list(data = df, title = names(df)),
       .f = ggstatsplot::gghistostats,
@@ -91,9 +88,8 @@ grouped_gghistostats <- function(data,
     )
 
   # combining the list of plots into a single plot
-  if (output == "plot") {
-    return(combine_plots(plotlist_purrr, plotgrid.args = plotgrid.args, annotation.args = annotation.args))
-  } else {
-    return(plotlist_purrr) # subtitle list
-  }
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }

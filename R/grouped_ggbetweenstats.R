@@ -4,8 +4,6 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
-#'
 #' Helper function for `ggstatsplot::ggbetweenstats` to apply this function
 #' across multiple levels of a given factor and combining the resulting plots
 #' using `ggstatsplot::combine_plots`.
@@ -30,20 +28,20 @@
 #' \donttest{
 #' # to get reproducible results from bootstrapping
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # the most basic function call
-#' ggstatsplot::grouped_ggbetweenstats(
+#' grouped_ggbetweenstats(
 #'   data = dplyr::filter(ggplot2::mpg, drv != "4"),
 #'   x = year,
 #'   y = hwy,
-#'   grouping.var = drv,
-#'   conf.level = 0.99
+#'   grouping.var = drv
 #' )
 #'
 #' # modifying individual plots using `ggplot.component` argument
-#' ggstatsplot::grouped_ggbetweenstats(
+#' grouped_ggbetweenstats(
 #'   data = dplyr::filter(
-#'     ggstatsplot::movies_long,
+#'     movies_long,
 #'     genre %in% c("Action", "Comedy"),
 #'     mpaa %in% c("R", "PG")
 #'   ),
@@ -80,7 +78,7 @@ grouped_ggbetweenstats <- function(data,
 
   # ============== creating a list of plots using `pmap`=======================
 
-  plotlist_purrr <-
+  p_ls <-
     purrr::pmap(
       .l = list(data = df, title = names(df)),
       .f = ggstatsplot::ggbetweenstats,
@@ -93,9 +91,8 @@ grouped_ggbetweenstats <- function(data,
     )
 
   # combining the list of plots into a single plot
-  if (output == "plot") {
-    return(combine_plots(plotlist_purrr, plotgrid.args = plotgrid.args, annotation.args = annotation.args))
-  } else {
-    return(plotlist_purrr) # subtitle list
-  }
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }

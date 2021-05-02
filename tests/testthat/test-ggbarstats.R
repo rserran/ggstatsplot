@@ -34,7 +34,7 @@ test_that(
     # subtitle
     set.seed(123)
     p_subtitle <-
-      statsExpressions::expr_contingency_tab(
+      statsExpressions::contingency_table(
         data = as.data.frame(Titanic),
         x = "Sex",
         y = "Survived",
@@ -44,12 +44,10 @@ test_that(
     # check data
     set.seed(123)
     expect_snapshot(pb$data)
+    expect_snapshot(within(pb$plot$labels, rm(subtitle)))
 
     # checking plot labels
     expect_identical(pb$plot$labels$subtitle, p_subtitle)
-    expect_identical(pb$plot$labels$caption, NULL)
-    expect_identical(pb$plot$labels$x, "Passenger sex")
-    expect_identical(pb$plot$labels$y, "proportion")
   }
 )
 
@@ -67,7 +65,6 @@ test_that(
         data = mtcars,
         x = vs,
         y = "cyl",
-        bf.message = TRUE,
         label = "both",
         package = "wesanderson",
         palette = "Royal2",
@@ -120,49 +117,9 @@ test_that(
     # check data
     set.seed(123)
     expect_snapshot(pb$data)
-
-    expect_equal(
-      pb$plot$labels,
-      list(
-        x = "am",
-        y = NULL,
-        title = NULL,
-        subtitle = NULL,
-        caption = NULL,
-        fill = "cyl",
-        label = ".label",
-        group = "cyl"
-      )
-    )
+    expect_snapshot(pb$plot$labels)
   }
 )
-
-# without enough data ---------------------------------------------------------
-
-test_that(
-  desc = "checking if functions work without enough data",
-  code = {
-    skip_on_cran()
-    set.seed(123)
-
-    # creating a dataframe
-    df <- tibble::tribble(
-      ~x, ~y,
-      "one", "one"
-    )
-
-    # should not work
-    expect_s3_class(
-      suppressWarnings(ggbarstats(
-        data = df,
-        x = x,
-        y = y
-      )),
-      "ggplot"
-    )
-  }
-)
-
 
 # expression output --------------------------------------------------
 
@@ -188,7 +145,7 @@ test_that(
 
     set.seed(123)
     stats_output <-
-      statsExpressions::expr_contingency_tab(
+      statsExpressions::contingency_table(
         data = df,
         x = race,
         y = marital,
@@ -210,7 +167,7 @@ test_that(
     # caption output
     set.seed(123)
     p_cap_exp <-
-      statsExpressions::expr_contingency_tab(
+      statsExpressions::contingency_table(
         data = df,
         x = "race",
         y = marital,

@@ -94,32 +94,36 @@ if (getRversion() < "4.1" && require("vdiffr")) {
 
     ## ----ggscatterstats-------------------------------
 
-    set.seed(123)
-    vdiffr::expect_doppelganger(
-      title = "ggscatterstats works",
-      fig = ggscatterstats(mtcars, wt, mpg)
-    )
+    if (require("ggExtra")) {
+      set.seed(123)
+      vdiffr::expect_doppelganger(
+        title = "ggscatterstats works",
+        fig = ggscatterstats(mtcars, wt, mpg)
+      )
 
-    set.seed(123)
-    vdiffr::expect_doppelganger(
-      title = "grouped_ggscatterstats works",
-      fig = grouped_ggscatterstats(mtcars, wt, mpg, grouping.var = am)
-    )
+      set.seed(123)
+      vdiffr::expect_doppelganger(
+        title = "grouped_ggscatterstats works",
+        fig = grouped_ggscatterstats(mtcars, wt, mpg, grouping.var = am)
+      )
+    }
 
     ## ----ggcorrmat------------------------------------
 
-    set.seed(123)
-    vdiffr::expect_doppelganger(
-      title = "ggcorrmat works",
-      fig = ggcorrmat(iris)
-    )
+    if (require("ggcorrplot")) {
+      set.seed(123)
+      vdiffr::expect_doppelganger(
+        title = "ggcorrmat works",
+        fig = ggcorrmat(iris)
+      )
 
 
-    set.seed(123)
-    vdiffr::expect_doppelganger(
-      title = "grouped_ggcorrmat works",
-      fig = grouped_ggcorrmat(iris, grouping.var = Species)
-    )
+      set.seed(123)
+      vdiffr::expect_doppelganger(
+        title = "grouped_ggcorrmat works",
+        fig = grouped_ggcorrmat(iris, grouping.var = Species)
+      )
+    }
 
     ## ----ggpiestats-----------------------------------
 

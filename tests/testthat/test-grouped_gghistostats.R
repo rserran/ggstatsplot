@@ -8,7 +8,7 @@ test_that(
     # when arguments are entered as bare expressions
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_gghistostats(
+      grouped_gghistostats(
         data = ggplot2::msleep,
         x = brainwt,
         grouping.var = vore,
@@ -24,7 +24,7 @@ test_that(
     # when arguments are entered as character
     set.seed(123)
     expect_true(inherits(
-      ggstatsplot::grouped_gghistostats(
+      grouped_gghistostats(
         data = ggplot2::msleep,
         x = "brainwt",
         grouping.var = "vore",
@@ -54,7 +54,7 @@ test_that(
 
     set.seed(123)
     ls_results <-
-      ggstatsplot::grouped_gghistostats(
+      grouped_gghistostats(
         data = df,
         x = brainwt,
         grouping.var = vore,
@@ -64,7 +64,7 @@ test_that(
 
     set.seed(123)
     basic_results <-
-      statsExpressions::expr_t_onesample(
+      statsExpressions::one_sample_test(
         data = df,
         x = brainwt,
         test.value = 0.25

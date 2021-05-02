@@ -3,7 +3,7 @@
 #'
 #' @description
 #'
-#' \Sexpr[results=rd, stage=render]{rlang:::lifecycle("maturing")}
+#'
 #'
 #' Helper function for `ggstatsplot::ggbarstats` to apply this function across
 #' multiple levels of a given factor and combining the resulting plots using
@@ -30,16 +30,17 @@
 #' \donttest{
 #' # for reproducibility
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # let's create a smaller dataframe
 #' diamonds_short <- ggplot2::diamonds %>%
-#'   dplyr::filter(.data = ., cut %in% c("Very Good", "Ideal")) %>%
-#'   dplyr::filter(.data = ., clarity %in% c("SI1", "SI2", "VS1", "VS2")) %>%
+#'   dplyr::filter(cut %in% c("Very Good", "Ideal")) %>%
+#'   dplyr::filter(clarity %in% c("SI1", "SI2", "VS1", "VS2")) %>%
 #'   dplyr::sample_frac(tbl = ., size = 0.05)
 #'
 #' # plot
 #' # let's skip statistical analysis
-#' ggstatsplot::grouped_ggbarstats(
+#' grouped_ggbarstats(
 #'   data = diamonds_short,
 #'   x = color,
 #'   y = clarity,
@@ -70,7 +71,7 @@ grouped_ggbarstats <- function(data,
   # ================ creating a list of return objects ========================
 
   # creating a list of plots using `pmap`
-  plotlist_purrr <-
+  p_ls <-
     purrr::pmap(
       .l = list(data = df, title = names(df)),
       .f = ggstatsplot::ggbarstats,
@@ -83,9 +84,8 @@ grouped_ggbarstats <- function(data,
     )
 
   # combining the list of plots into a single plot
-  if (output == "plot") {
-    return(combine_plots(plotlist_purrr, plotgrid.args = plotgrid.args, annotation.args = annotation.args))
-  } else {
-    return(plotlist_purrr) # subtitle list
-  }
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }
