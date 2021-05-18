@@ -4,7 +4,6 @@
 test_that(
   desc = "checking ggcorrmat - without NAs - pearson's r",
   code = {
-    skip_on_cran()
     skip_if_not_installed("ggcorrplot")
 
     # creating the plot
@@ -44,7 +43,6 @@ test_that(
 test_that(
   desc = "checking ggcorrmat - without NAs - robust r",
   code = {
-    skip_on_cran()
     skip_if_not_installed("ggcorrplot")
 
     # creating the plot
@@ -71,7 +69,6 @@ test_that(
 test_that(
   desc = "checking ggcorrmat - with NAs - robust r - partial",
   code = {
-    skip_on_cran()
     skip_if_not_installed("ggcorrplot")
     skip_on_ci()
 
@@ -103,7 +100,6 @@ test_that(
 test_that(
   desc = "checking ggcorrmat - with NAs - spearman's rho",
   code = {
-    skip_on_cran()
     skip_if_not_installed("ggcorrplot")
 
     # creating the plot
@@ -138,16 +134,17 @@ test_that(
 test_that(
   desc = "checking Bayesian pearson (with NA)",
   code = {
-    skip_on_cran()
     skip_if_not_installed("ggcorrplot")
 
     set.seed(123)
-    p <- suppressWarnings(ggcorrmat(ggplot2::msleep, type = "bayes"))
+    p <- suppressWarnings(ggcorrmat(dplyr::select(ggplot2::msleep, brainwt, bodywt),
+      type = "bayes"
+    ))
     pb <- ggplot2::ggplot_build(p)
 
     # check data
     set.seed(123)
-    expect_snapshot(pb$data)
+    # expect_snapshot(pb$data)
     expect_snapshot(p$labels)
   }
 )
@@ -157,17 +154,17 @@ test_that(
 test_that(
   desc = "checking all dataframe outputs",
   code = {
+    skip_on_os("windows")
     skip_on_cran()
-    skip_if_not_installed("ggcorrplot")
+    options(tibble.width = Inf, tibble.print_max = 50)
     skip_on_ci()
     skip_on_appveyor()
     skip_on_travis()
-    skip_on_covr()
 
     set.seed(123)
-    expect_snapshot(suppressWarnings(purrr::pmap_dfr(
+    expect_snapshot(suppressWarnings(purrr::pmap(
       .l = list(
-        data = list(ggplot2::msleep),
+        data = list(dplyr::select(ggplot2::msleep, brainwt, sleep_rem, bodywt)),
         type = list("p", "p", "np", "np", "r", "r", "bf", "bayes"),
         output = list("dataframe"),
         partial = list(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE)

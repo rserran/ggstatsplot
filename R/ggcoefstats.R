@@ -103,7 +103,7 @@
 #' @importFrom parameters model_parameters standardize_names
 #' @importFrom performance model_performance
 #'
-#' @references
+#' @details For more details, see:
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
 #'
 #'
@@ -149,7 +149,11 @@ ggcoefstats <- function(x,
                         point.args = list(size = 3, color = "blue"),
                         errorbar.args = list(height = 0),
                         vline = TRUE,
-                        vline.args = list(size = 1, linetype = "dashed"),
+                        vline.args = list(
+                          size = 1,
+                          linetype = "dashed",
+                          xintercept = 0
+                        ),
                         stats.labels = TRUE,
                         stats.label.color = NULL,
                         stats.label.args = list(size = 3, direction = "y"),
@@ -188,15 +192,14 @@ ggcoefstats <- function(x,
     if (effsize == "omega") omega_squared <- "partial"
 
     # converting model object to a tidy dataframe
-    tidy_df <-
-      parameters::model_parameters(
-        model = x,
-        eta_squared = eta_squared,
-        omega_squared = omega_squared,
-        ci = conf.level,
-        verbose = FALSE,
-        ...
-      ) %>%
+    tidy_df <- parameters::model_parameters(
+      model = x,
+      eta_squared = eta_squared,
+      omega_squared = omega_squared,
+      ci = conf.level,
+      verbose = FALSE,
+      ...
+    ) %>%
       parameters::standardize_names(style = "broom") %>%
       dplyr::rename_all(~ gsub("omega2.|eta2.", "", .x))
 
@@ -317,15 +320,14 @@ ggcoefstats <- function(x,
     # if glance is not available, inform the user
     if (!is.null(glance_df) && all(c("aic", "bic") %in% names(glance_df))) {
       # preparing caption with model diagnostics
-      caption <-
-        substitute(
-          expr = atop(displaystyle(top.text), expr = paste("AIC = ", AIC, ", BIC = ", BIC)),
-          env = list(
-            top.text = caption,
-            AIC = format_value(glance_df$aic[[1]], 0L),
-            BIC = format_value(glance_df$bic[[1]], 0L)
-          )
+      caption <- substitute(
+        expr = atop(displaystyle(top.text), expr = paste("AIC = ", AIC, ", BIC = ", BIC)),
+        env = list(
+          top.text = caption,
+          AIC = format_value(glance_df$aic[[1]], 0L),
+          BIC = format_value(glance_df$bic[[1]], 0L)
         )
+      )
     }
   }
 
@@ -341,13 +343,12 @@ ggcoefstats <- function(x,
 
     # results from Bayesian random-effects meta-analysis (only for parametric)
     if (meta.type == "parametric" && isTRUE(bf.message)) {
-      caption_df <-
-        statsExpressions::meta_analysis(
-          top.text = caption,
-          type = "bayes",
-          data = tidy_df,
-          k = k
-        )
+      caption_df <- statsExpressions::meta_analysis(
+        top.text = caption,
+        type = "bayes",
+        data = tidy_df,
+        k = k
+      )
 
       caption <- caption_df$expression[[1]]
     }
@@ -359,13 +360,12 @@ ggcoefstats <- function(x,
   tidy_df %<>% dplyr::mutate(term = as.factor(term), .rowid = dplyr::row_number())
 
   # sorting factor levels
-  new_order <-
-    switch(sort,
-      "none" = order(tidy_df$.rowid, decreasing = FALSE),
-      "ascending" = order(tidy_df$estimate, decreasing = FALSE),
-      "descending" = order(tidy_df$estimate, decreasing = TRUE),
-      order(tidy_df$.rowid, decreasing = FALSE)
-    )
+  new_order <- switch(sort,
+    "none" = order(tidy_df$.rowid, decreasing = FALSE),
+    "ascending" = order(tidy_df$estimate, decreasing = FALSE),
+    "descending" = order(tidy_df$estimate, decreasing = TRUE),
+    order(tidy_df$.rowid, decreasing = FALSE)
+  )
 
   # sorting `term` factor levels according to new sorting order
   tidy_df %<>%
@@ -378,39 +378,24 @@ ggcoefstats <- function(x,
   # palette check is necessary only if output is a plot
   if (output == "plot") {
     # setting up the basic architecture
-    plot <- ggplot2::ggplot(data = tidy_df, mapping = ggplot2::aes(x = estimate, y = term))
+    plot <- ggplot2::ggplot(tidy_df, mapping = ggplot2::aes(estimate, term))
 
     # if needed, adding the vertical line
-    if (isTRUE(vline)) {
-      # adding the line geom
-      plot <- plot +
-        rlang::exec(
-          .fn = ggplot2::geom_vline,
-          xintercept = 0,
-          na.rm = TRUE,
-          !!!vline.args
-        )
-    }
+    if (isTRUE(vline)) plot <- plot + rlang::exec(ggplot2::geom_vline, !!!vline.args)
 
     # if the confidence intervals are to be displayed on the plot
     if (isTRUE(conf.int)) {
       plot <- plot +
         rlang::exec(
-          .fn = ggplot2::geom_errorbarh,
+          ggplot2::geom_errorbarh,
           data = tidy_df,
           mapping = ggplot2::aes(xmin = conf.low, xmax = conf.high),
-          na.rm = TRUE,
           !!!errorbar.args
         )
     }
 
     # changing the point aesthetics
-    plot <- plot +
-      rlang::exec(
-        .fn = ggplot2::geom_point,
-        na.rm = TRUE,
-        !!!point.args
-      )
+    plot <- plot + rlang::exec(ggplot2::geom_point, !!!point.args)
 
     # ========================= ggrepel labels ================================
 
@@ -430,8 +415,7 @@ ggcoefstats <- function(x,
       palette_message(package, palette, length(tidy_df$term))
 
       # computing the number of colors in a given palette
-      palette_df <-
-        as_tibble(paletteer::palettes_d_names) %>%
+      palette_df <- as_tibble(paletteer::palettes_d_names) %>%
         dplyr::filter(package == !!package, palette == !!palette) %>%
         dplyr::select(length)
 
@@ -440,12 +424,11 @@ ggcoefstats <- function(x,
 
       # if user has not specified colors, then use a color palette
       if (is.null(stats.label.color)) {
-        stats.label.color <-
-          paletteer::paletteer_d(
-            palette = paste0(package, "::", palette),
-            n = length(tidy_df$term),
-            type = "discrete"
-          )
+        stats.label.color <- paletteer::paletteer_d(
+          palette = paste0(package, "::", palette),
+          n = length(tidy_df$term),
+          type = "discrete"
+        )
       }
 
       # adding labels
@@ -454,7 +437,6 @@ ggcoefstats <- function(x,
           .fn = ggrepel::geom_label_repel,
           data = tidy_df,
           mapping = ggplot2::aes(x = estimate, y = term, label = label),
-          na.rm = TRUE,
           show.legend = FALSE,
           parse = TRUE,
           min.segment.length = 0,

@@ -311,16 +311,22 @@ levels of the grouping variable. We will see how this can be done using the
 See the associated vignette here:
 <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/purrr_examples.html>
 
+# Summary of graphics
+
+graphical element | `geom_` used | argument for further modification
+--------- | ------- | --------------------------
+correlation matrix | `ggcorrplot::ggcorrplot` | `ggcorrplot.args`
+
 # Summary of tests
 
-Following tests are carried out for each type of analyses-
+**Hypothesis testing** and **Effect size estimation**
 
-Type | Test | CI? | partial? | Function used
------------ | ------------------------- | --- | --- | -----
-Parametric | Pearson's correlation coefficient | ✅ | ✅ | `correlation::correlation`
-Non-parametric | Spearman's rank correlation coefficient | ✅ | ✅ | `correlation::correlation`
-Robust | Winsorized Pearson correlation coefficient | ✅ | ✅ | `correlation::correlation`
-Bayesian | Pearson's correlation coefficient | <font color="green">Yes</font> | ✅ | `correlation::correlation`
+Type | Test | CI? | Function used
+----------- | ------------------------- | --- | -----
+Parametric | Pearson's correlation coefficient | ✅ | `correlation::correlation`
+Non-parametric | Spearman's rank correlation coefficient | ✅ | `correlation::correlation`
+Robust | Winsorized Pearson correlation coefficient | ✅ | `correlation::correlation`
+Bayesian | Pearson's correlation coefficient | ✅ | `correlation::correlation`
 
 # Suggestions
 

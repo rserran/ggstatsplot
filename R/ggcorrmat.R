@@ -58,7 +58,7 @@
 #' @seealso \code{\link{grouped_ggcorrmat}} \code{\link{ggscatterstats}}
 #'   \code{\link{grouped_ggscatterstats}}
 #'
-#' @references
+#' @details For more details, see:
 #' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html}
 #'
 #' @examples
@@ -112,7 +112,7 @@ ggcorrmat <- function(data,
                       caption = NULL,
                       ...) {
 
-  # ======================= dataframe ========================================
+  # --------------------------------- data -----------------------------------
 
   # creating a dataframe out of the entered variables
   if (missing(cor.vars)) {
@@ -131,48 +131,44 @@ ggcorrmat <- function(data,
     }
   }
 
-  # ============================ checking r.method =======================
+  # ---------------------------- statistics -----------------------------------
 
   # if any of the abbreviations have been entered, change them
   type <- ipmisc::stats_type_switch(type)
 
   # see which method was used to specify type of correlation
   # create unique name for each method
-  r.method.text <-
-    switch(
-      EXPR = type,
-      "parametric" = "Pearson",
-      "nonparametric" = "Spearman",
-      "robust" = "Pearson (Winsorized)",
-      "bayes" = "Pearson (Bayesian)"
-    )
+  r.method.text <- switch(
+    EXPR = type,
+    "parametric" = "Pearson",
+    "nonparametric" = "Spearman",
+    "robust" = "Pearson (Winsorized)",
+    "bayes" = "Pearson (Bayesian)"
+  )
 
   # is it a partial correlation?
-  corr.nature <- ifelse(isTRUE(partial), "correlation (partial):", "correlation:")
-
-  # ===================== statistics ========================================
+  r.type <- ifelse(isTRUE(partial), "correlation (partial):", "correlation:")
 
   # creating a dataframe of results
-  stats_df <-
-    statsExpressions::correlation(
-      data = df,
-      method = ifelse(type == "nonparametric", "spearman", "pearson"),
-      p_adjust = p.adjust.method,
-      ci = conf.level,
-      bayesian = ifelse(type == "bayes", TRUE, FALSE),
-      bayesian_prior = bf.prior,
-      tr = tr,
-      partial = partial,
-      partial_bayesian = ifelse(type == "bayes" && isTRUE(partial), TRUE, FALSE),
-      winsorize = ifelse(type == "robust", tr, FALSE)
-    )
+  stats_df <- statsExpressions::correlation(
+    data = df,
+    method = ifelse(type == "nonparametric", "spearman", "pearson"),
+    p_adjust = p.adjust.method,
+    ci = conf.level,
+    bayesian = ifelse(type == "bayes", TRUE, FALSE),
+    bayesian_prior = bf.prior,
+    tr = tr,
+    partial = partial,
+    partial_bayesian = ifelse(type == "bayes" && isTRUE(partial), TRUE, FALSE),
+    winsorize = ifelse(type == "robust", tr, FALSE)
+  )
 
   # early stats return
   if (output != "plot") {
     return(as_tibble(parameters::standardize_names(stats_df, "broom")))
   }
 
-  # ========================== plot =========================================
+  # -------------------------------- plot -----------------------------------
 
   # creating the basic plot
   # if user has not specified colors, then use a color palette
@@ -187,69 +183,61 @@ ggcorrmat <- function(data,
 
   # legend title with information about correlation type and sample
   if (isFALSE(any(is.na(df))) || isTRUE(partial)) {
-    legend.title <-
-      bquote(atop(
-        atop(scriptstyle(bold("sample sizes:")), italic(n) ~ "=" ~ .(.prettyNum(stats_df$n_Obs[[1]]))),
-        atop(scriptstyle(bold(.(corr.nature))), .(r.method.text))
-      ))
+    legend.title <- bquote(atop(
+      atop(scriptstyle(bold("sample sizes:")), italic(n) ~ "=" ~ .(.prettyNum(stats_df$n_Obs[[1]]))),
+      atop(scriptstyle(bold(.(r.type))), .(r.method.text))
+    ))
   } else {
     # creating legend with sample size info
-    legend.title <-
-      bquote(atop(
+    legend.title <- bquote(atop(
+      atop(
+        atop(scriptstyle(bold("sample sizes:")), italic(n)[min] ~ "=" ~ .(.prettyNum(min(stats_df$n_Obs)))),
         atop(
-          atop(scriptstyle(bold("sample sizes:")), italic(n)[min] ~ "=" ~ .(.prettyNum(min(stats_df$n_Obs)))),
-          atop(
-            italic(n)[mode] ~ "=" ~ .(.prettyNum(getmode(stats_df$n_Obs))),
-            italic(n)[max] ~ "=" ~ .(.prettyNum(max(stats_df$n_Obs)))
-          )
-        ),
-        atop(scriptstyle(bold(.(corr.nature))), .(r.method.text))
-      ))
+          italic(n)[mode] ~ "=" ~ .(.prettyNum(getmode(stats_df$n_Obs))),
+          italic(n)[max] ~ "=" ~ .(.prettyNum(max(stats_df$n_Obs)))
+        )
+      ),
+      atop(scriptstyle(bold(.(r.type))), .(r.method.text))
+    ))
   }
 
+  # installed?
+  insight::check_if_installed("ggcorrplot")
+
   # plotting the correlalogram
-  if (!requireNamespace("ggcorrplot")) stop("Package 'ggcorrplot' needs to be installed.")
-  plot <-
-    rlang::exec(
-      .f = ggcorrplot::ggcorrplot,
-      corr = as.matrix(dplyr::select(stats_df, dplyr::matches("^parameter|^r"))),
-      p.mat = as.matrix(dplyr::select(stats_df, dplyr::matches("^parameter|^p"))),
-      sig.level = ifelse(type == "bayes", Inf, sig.level),
-      ggtheme = ggtheme,
-      colors = colors,
-      type = matrix.type,
-      lab = TRUE,
-      pch = pch,
-      legend.title = legend.title,
-      digits = k,
-      !!!ggcorrplot.args
-    )
+  plot <- rlang::exec(
+    ggcorrplot::ggcorrplot,
+    corr = as.matrix(dplyr::select(stats_df, dplyr::matches("^parameter|^r"))),
+    p.mat = as.matrix(dplyr::select(stats_df, dplyr::matches("^parameter|^p"))),
+    sig.level = ifelse(type == "bayes", Inf, sig.level),
+    ggtheme = ggtheme,
+    colors = colors,
+    type = matrix.type,
+    lab = TRUE,
+    pch = pch,
+    legend.title = legend.title,
+    digits = k,
+    !!!ggcorrplot.args
+  )
 
   # =========================== labels ==================================
 
   # preparing the `pch` caption
   if ((pch == "cross" || pch == 4) && type != "bayes") {
-    caption <-
-      substitute(
-        atop(
-          displaystyle(top.text),
-          expr = paste(
-            bold("X"),
-            " = non-significant at ",
-            italic("p"),
-            " < ",
-            sig.level,
-            " (Adjustment: ",
-            adj.text,
-            ")"
-          )
-        ),
-        env = list(
-          sig.level = sig.level,
-          adj.text = pairwiseComparisons::p_adjust_text(p.adjust.method),
-          top.text = caption
+    caption <- substitute(
+      atop(
+        displaystyle(top.text),
+        expr = paste(
+          bold("X"), " = non-significant at ",
+          italic("p"), " < ", sig.level, " (Adjustment: ", adj.text, ")"
         )
+      ),
+      env = list(
+        sig.level = sig.level,
+        adj.text = pairwiseComparisons::p_adjust_text(p.adjust.method),
+        top.text = caption
       )
+    )
   }
 
   # adding text details to the plot

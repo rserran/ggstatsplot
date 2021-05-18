@@ -177,9 +177,9 @@ grouped_ggscatterstats(
   grouping.var = am,
   results.subtitle = FALSE,
   ggplot.component = list(ggplot2::scale_y_continuous(
-      breaks = seq(50, 350, 50),
-      limits = (c(50, 350))
-    ))
+    breaks = seq(50, 350, 50),
+    limits = (c(50, 350))
+  ))
 )
 ```
 
@@ -305,20 +305,12 @@ ggbetweenstats(mtcars, cyl, wt, pairwise.comparisons = FALSE) +
 
 # 12. How to access dataframe with results from pairwise comparisons?
 
+Behind the scenes, `ggstatsplot` uses `pairwiseComparisons` package. Thus, you
+can use it to extract actual dataframes used in `ggstatsplot` functions.
+
 ```{r}
 library(ggstatsplot)
 library(ggplot2)
-
-# way-1
-
-p <- ggbetweenstats(mtcars, cyl, wt)
-
-pb <- ggplot_build(p)
-
-pb$plot$plot_env$df_pairwise
-
-# way-2
-
 library(pairwiseComparisons)
 
 pairwise_comparisons(mtcars, cyl, wt)
@@ -593,7 +585,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output$plot <- renderPlot({
-    ggbetweenstats(iris, !! input$x , !! input$y)
+    ggbetweenstats(iris, !!input$x, !!input$y)
   })
 }
 

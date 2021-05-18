@@ -1,7 +1,7 @@
 Type: Package
 Package: ggstatsplot
 Title: 'ggplot2' Based Plots with Statistical Details
-Version: 0.7.2.9000
+Version: 0.8.0
 Authors@R: 
     person(given = "Indrajeet",
            family = "Patil",
@@ -26,12 +26,13 @@ Depends:
     R (>= 3.6.0)
 Imports:
     dplyr,
+    effectsize (>= 0.4.4-2),
     ggplot2,
     ggrepel,
     ggsignif,
-    insight (>= 0.13.2),
-    ipmisc,
-    pairwiseComparisons,
+    insight (>= 0.14.0),
+    ipmisc (>= 6.0.2),
+    pairwiseComparisons (>= 3.1.5),
     paletteer,
     parameters (>= 0.13.0),
     patchwork,
@@ -39,7 +40,7 @@ Imports:
     purrr,
     rlang,
     stats,
-    statsExpressions (>= 1.0.0),
+    statsExpressions (>= 1.0.1.9000),
     tidyr,
     utils
 Suggests:
@@ -57,12 +58,16 @@ Suggests:
     tibble,
     vdiffr,
     WRS2
+Remotes:
+    easystats/effectsize,
+    IndrajeetPatil/statsExpressions
 VignetteBuilder: 
     knitr
-Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate",
     "pkgapi::api_roclet"))
 RoxygenNote: 7.1.1.9001
+Config/testthat/edition: 3
+Config/testthat/parallel: true

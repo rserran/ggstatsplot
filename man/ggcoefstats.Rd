@@ -26,7 +26,7 @@ ggcoefstats(
   point.args = list(size = 3, color = "blue"),
   errorbar.args = list(height = 0),
   vline = TRUE,
-  vline.args = list(size = 1, linetype = "dashed"),
+  vline.args = list(size = 1, linetype = "dashed", xintercept = 0),
   stats.labels = TRUE,
   stats.label.color = NULL,
   stats.label.args = list(size = 3, direction = "y"),
@@ -157,6 +157,10 @@ Plot with the regression coefficients' point estimates as dots with
 confidence interval whiskers and other statistical details included as
 labels.
 }
+\details{
+For more details, see:
+\url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
+}
 \note{
 \strong{Important}: In case you want to carry out meta-analysis using this
 function, it assumes that you have already downloaded the needed package
@@ -188,7 +192,4 @@ ggcoefstats(x = mod, output = "tidy")
 # to get a glance summary
 ggcoefstats(x = mod, output = "glance")
 }
-}
-\references{
-\url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
 }

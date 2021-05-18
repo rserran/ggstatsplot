@@ -19,14 +19,13 @@ ggdotplotstats(
   bf.message = TRUE,
   effsize.type = "g",
   conf.level = 0.95,
-  nboot = 100,
   tr = 0.2,
-  k = 2,
+  k = 2L,
   results.subtitle = TRUE,
   point.args = list(color = "black", size = 3, shape = 16),
   centrality.plotting = TRUE,
   centrality.type = type,
-  centrality.line.args = list(color = "blue", size = 1),
+  centrality.line.args = list(color = "blue", size = 1, linetype = "dashed"),
   ggplot.component = NULL,
   ggtheme = ggplot2::theme_bw(),
   ggstatsplot.layer = TRUE,
@@ -56,9 +55,7 @@ variable names for \code{x} and \code{y} will be used.}
 
 \item{caption}{The text for the plot caption.}
 
-\item{type}{A character specifying the type of statistical approach.
-Four possible options:
-
+\item{type}{A character specifying the type of statistical approach:
 \itemize{
 \item \code{"parametric"}
 \item \code{"nonparametric"}
@@ -66,14 +63,17 @@ Four possible options:
 \item \code{"bayes"}
 }
 
-Corresponding abbreviations are also accepted: \code{"p"} (for parametric),
-\code{"np"} (for nonparametric), \code{"r"} (for robust), or \code{"bf"} (for Bayesian).}
+You can specify just the initial letter.}
 
 \item{test.value}{A number indicating the true value of the mean (Default:
 \code{0}).}
 
 \item{bf.prior}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
-width to use in calculating Bayes factors and posterior estimates.}
+width to use in calculating Bayes factors and posterior estimates. In
+addition to numeric arguments, several named values are also recognized:
+\code{"medium"}, \code{"wide"}, and \code{"ultrawide"}, corresponding to \emph{r} scale values
+of 1/2, sqrt(2)/2, and 1, respectively. In case of an ANOVA, this value
+corresponds to scale for fixed effects.}
 
 \item{bf.message}{Logical that decides whether to display Bayes Factor in
 favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
@@ -84,9 +84,6 @@ argument can be \code{"d"} (for Cohen's \emph{d}) or \code{"g"} (for Hedge's \em
 
 \item{conf.level}{Confidence/Credible Interval (CI) level. Default to \code{0.95}
 (\verb{95\%}).}
-
-\item{nboot}{Number of bootstrap samples for computing confidence interval
-for the effect size (Default: \code{100}).}
 
 \item{tr}{Trim level for the mean when carrying out \code{robust} tests. In case
 of an error, try reducing the value of \code{tr}, which is by default set to
@@ -159,7 +156,11 @@ about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
 }
 \description{
 A dot chart (as described by William S. Cleveland) with statistical details
-from one-sample test included in the plot as a subtitle.
+from one-sample test details.
+}
+\details{
+For more details, see:
+\url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html}
 }
 \examples{
 \donttest{
@@ -178,9 +179,6 @@ ggdotplotstats(
   )
 )
 }
-}
-\references{
-\url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html}
 }
 \seealso{
 \code{\link{grouped_gghistostats}}, \code{\link{gghistostats}},

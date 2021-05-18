@@ -1,14 +1,25 @@
-# ggstatsplot 0.7.2.9000
+# ggstatsplot 0.8.0
+
+N.B. All statistical analysis in `ggstatsplot` is carried out in
+`statsExpressions`. Thus, to see changes related to statistical expressions,
+read the `NEWS` for that package:
+<https://indrajeetpatil.github.io/statsExpressions/news/index.html>
 
 MAJOR CHANGES
 
   - To reduce the dependency load, `ggcorrplot` moves from `Imports` to
     `Suggests`.
 
+  - The `bar.fill` argument in `gghistostats` is retired in favor of the new
+    `bin.args` argument that can be used to pass aesthetic arguments to
+    `ggplot2::stat_bin`.
+
 MINOR CHANGES
 
   - The `pch` size for `ggcorrmat` has been increased to 14 (#579) to increase
     its visibility compared to the correlation value text.
+
+  - `ggwithinstats` gains `point.args` to change `geom_point`.
 
 # ggstatsplot 0.7.2
 
@@ -22,7 +33,7 @@ MAJOR CHANGES
     helps avoid difficult-to-diagnose edge case failures when the primary
     functions are used in `grouped_` functions (e.g., #559). The `ggpiestats`
     and `ggbarstats` functions always behaved this way, but the rest of the
-    functions now also mimic this behavior. 
+    functions now also mimic this behavior.
 
 MINOR CHANGES
 
