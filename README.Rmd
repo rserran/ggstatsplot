@@ -57,44 +57,10 @@ details, which makes data exploration simpler and faster.
 
 # Installation
 
-To get the latest, stable `CRAN` release:
-
-```{r installationCRAN, eval = FALSE}
-install.packages("ggstatsplot")
-```
-
-You can get the **development** version of the package from `GitHub`.
-
-If you are in hurry and want to reduce the time of installation,
-prefer-
-
-```{r installation1, eval = FALSE}
-# needed package to download from GitHub repo
-install.packages("remotes")
-
-# downloading the package from GitHub (needs `remotes` package to be installed)
-remotes::install_github(
-  repo = "IndrajeetPatil/ggstatsplot", # package path on GitHub
-  dependencies = FALSE, # assumes you have already installed needed packages
-  quick = TRUE # skips docs, demos, and vignettes
-)
-```
-
-If time is not a constraint-
-
-```{r installation2, eval = FALSE}
-remotes::install_github(
-  repo = "IndrajeetPatil/ggstatsplot", # package path on GitHub
-  dependencies = TRUE, # installs packages which ggstatsplot depends on
-  upgrade_dependencies = TRUE # updates any out of date dependencies
-)
-```
-
-To see what new changes (and bug fixes) have been made to the package since the
-last release on `CRAN`, you can check the detailed log of changes here:
-<https://indrajeetpatil.github.io/ggstatsplot/news/index.html>
-
-# Troubleshooting
+Type | Source | Command
+---|---|---
+Release | CRAN | `install.packages("ggstatsplot")`
+Development | GitHub | `remotes::install_github("IndrajeetPatil/ggstatsplot")`
 
 Linux users may encounter some installation problems. In particular, the
 `ggstatsplot` package depends on the `PMCMRplus` package.
@@ -363,8 +329,7 @@ ggwithinstats(
   y = Taste,
   title = "Wine tasting",
   caption = "Data source: `WRS2` R package",
-  ggtheme = ggthemes::theme_fivethirtyeight(),
-  ggstatsplot.layer = FALSE
+  ggtheme = ggthemes::theme_fivethirtyeight()
 )
 ```
 
@@ -495,8 +460,7 @@ gghistostats(
   caption = substitute(paste(italic("Source: "), "Mammalian sleep data set")),
   test.value = 12, # default value is 0
   binwidth = 1, # binwidth value (experiment)
-  ggtheme = hrbrthemes::theme_ipsum_tw(), # choosing a different theme
-  ggstatsplot.layer = FALSE # turn off ggstatsplot theme layer
+  ggtheme = hrbrthemes::theme_ipsum_tw()
 )
 ```
 
@@ -722,7 +686,7 @@ ggscatterstats(
   title = "Movie budget and IMDB rating (action)", # title text for the plot
   caption = expression(paste(italic("Note"), ": IMDB stands for Internet Movie DataBase")),
   ggtheme = hrbrthemes::theme_ipsum_ps(), # choosing a different theme
-  ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
+  # turn off `ggstatsplot` theme layer
   marginal.type = "boxplot", # type of marginal distribution to be displayed
   xfill = "pink", # color fill for x-axis marginal distribution
   yfill = "#009E73" # color fill for y-axis marginal distribution
@@ -1034,8 +998,7 @@ grouped_ggbarstats(
   grouping.var = vs,
   package = "wesanderson",
   palette = "Darjeeling2",
-  ggtheme = ggthemes::theme_tufte(base_size = 12),
-  ggstatsplot.layer = FALSE
+  ggtheme = ggthemes::theme_tufte(base_size = 12)
 )
 ```
 
@@ -1149,8 +1112,7 @@ ggcoefstats(
   title = "Car performance predicted by transmission & cylinder count",
   subtitle = "Source: 1974 Motor Trend US magazine",
   exclude.intercept = TRUE,
-  ggtheme = hrbrthemes::theme_ipsum_ps(),
-  ggstatsplot.layer = FALSE
+  ggtheme = hrbrthemes::theme_ipsum_ps()
 ) + # note the order in which the labels are entered
   ggplot2::scale_y_discrete(labels = c("transmission", "cylinders", "interaction")) +
   ggplot2::labs(x = "regression coefficient", y = NULL)
@@ -1210,21 +1172,22 @@ Bayes | Meta-analysis via Bayesian random-effects models | $\beta$ | ✅ | `meta
 For a more exhaustive account of this function, see the associated vignette-
 <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html>
 
-## `combine_plots`
+## Extracting dataframes with statistical details
 
-The full power of `ggstatsplot` can be leveraged with a functional programming
-package like [`purrr`](https://purrr.tidyverse.org/) that replaces `for` loops
-with code that is both more succinct and easier to read and, therefore, `purrr`
-should be preferrred `r emo::ji("heart_eyes_cat")`.
+`ggstatsplot` also offers a convenience function to extract dataframes with
+statistical details that are used to create expressions displayed in
+`ggstatsplot` plots.
 
-In such cases, `ggstatsplot` contains a helper function `combine_plots` to
-combine multiple plots, which can be useful for combining a list of plots
-produced with `purrr`. This is a wrapper around `patchwork::wrap_plots` and lets
-you combine multiple plots and add a combination of title, caption, and
-annotation texts with suitable defaults.
+```{r extract_stats}
+set.seed(123)
 
-For examples (both with `plyr` and `purrr`), see the associated vignette-
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/combine_plots.html>
+# a list of tibbles containing statistical analysis summaries
+ggbetweenstats(mtcars, cyl, mpg) %>%
+  extract_stats()
+```
+
+Note that all of this analysis is carried out by `statsExpressions`
+package: <https://indrajeetpatil.github.io/statsExpressions/>
 
 ## Using `ggstatsplot` statistical details with custom plots
 

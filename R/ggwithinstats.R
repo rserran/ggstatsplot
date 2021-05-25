@@ -101,8 +101,7 @@ ggwithinstats <- function(data,
                           outlier.label.args = list(size = 3),
                           violin.args = list(width = 0.5, alpha = 0.2),
                           ggsignif.args = list(textsize = 3, tip_length = 0.01),
-                          ggtheme = ggplot2::theme_bw(),
-                          ggstatsplot.layer = TRUE,
+                          ggtheme = ggstatsplot::theme_ggstatsplot(),
                           package = "RColorBrewer",
                           palette = "Dark2",
                           ggplot.component = NULL,
@@ -271,7 +270,7 @@ ggwithinstats <- function(data,
 
   if (isTRUE(pairwise.comparisons) && test == "anova") {
     # creating dataframe with pairwise comparison results
-    df_mcp <- pairwiseComparisons::pairwise_comparisons(
+    mpc_df <- pairwiseComparisons::pairwise_comparisons(
       data = data,
       x = {{ x }},
       y = {{ y }},
@@ -285,7 +284,7 @@ ggwithinstats <- function(data,
     # adding the layer for pairwise comparisons
     plot <- ggsignif_adder(
       plot = plot,
-      df_mcp = df_mcp,
+      mpc_df = mpc_df,
       data = data,
       x = {{ x }},
       y = {{ y }},
@@ -297,7 +296,7 @@ ggwithinstats <- function(data,
     if (type != "bayes") {
       caption <- pairwiseComparisons::pairwise_caption(
         caption,
-        unique(df_mcp$test.details),
+        unique(mpc_df$test.details),
         pairwise.display
       )
     }
@@ -315,7 +314,6 @@ ggwithinstats <- function(data,
     subtitle = subtitle,
     caption = caption,
     ggtheme = ggtheme,
-    ggstatsplot.layer = ggstatsplot.layer,
     package = package,
     palette = palette,
     ggplot.component = ggplot.component

@@ -5,6 +5,15 @@ N.B. All statistical analysis in `ggstatsplot` is carried out in
 read the `NEWS` for that package:
 <https://indrajeetpatil.github.io/statsExpressions/news/index.html>
 
+There is finally a publication for `ggstatsplot` package! 🎉
+
+<https://joss.theoj.org/papers/10.21105/joss.03167>
+
+NEW FUNCTIONS
+
+  - Adds `extract_stats` function to extract dataframes containing statistical
+    details.
+
 MAJOR CHANGES
 
   - To reduce the dependency load, `ggcorrplot` moves from `Imports` to
@@ -14,12 +23,21 @@ MAJOR CHANGES
     `bin.args` argument that can be used to pass aesthetic arguments to
     `ggplot2::stat_bin`.
 
+  - `ggstatsplot.layer` argument has been retired. If the user _chooses_ a
+    certain `ggplot2` theme, it means they _want_ that theme, and not
+    `ggstatsplot`'s varnish on it. So the previous behavior was undesirable.
+    This is a backward compatible change, so the plots should not look
+    different.
+
 MINOR CHANGES
 
   - The `pch` size for `ggcorrmat` has been increased to 14 (#579) to increase
     its visibility compared to the correlation value text.
 
   - `ggwithinstats` gains `point.args` to change `geom_point`.
+
+  - Minor change to `ggcorrmat` legend title - content in parentheses is now
+    shown outside of it.
 
 # ggstatsplot 0.7.2
 

@@ -104,6 +104,11 @@
 #'   `ggrepel::geom_label_repel` geoms, which are involved in mean plotting.
 #' @param  ggsignif.args A list of additional aesthetic
 #'   arguments to be passed to `ggsignif::geom_signif`.
+#' @param ggtheme A `ggplot2` theme. Default value is
+#'   `ggstatsplot::theme_ggstatsplot()`. Any of the `ggplot2` themes (e.g.,
+#'   `ggplot2::theme_bw()`), or themes from extension packages are allowed
+#'   (e.g., `ggthemes::theme_fivethirtyeight()`, `hrbrthemes::theme_ipsum_ps()`,
+#'   etc.).
 #' @inheritParams statsExpressions::oneway_anova
 #' @inheritParams statsExpressions::two_sample_test
 #' @inheritParams statsExpressions::one_sample_test
@@ -131,11 +136,7 @@
 #' library(ggstatsplot)
 #'
 #' # simple function call with the defaults
-#' ggbetweenstats(
-#'   data = mtcars,
-#'   x = am,
-#'   y = mpg
-#' )
+#' ggbetweenstats(mtcars, am, mpg)
 #'
 #' # more detailed function call
 #' ggbetweenstats(
@@ -180,7 +181,12 @@ ggbetweenstats <- function(data,
                            centrality.plotting = TRUE,
                            centrality.type = type,
                            centrality.point.args = list(size = 5, color = "darkred"),
-                           centrality.label.args = list(size = 3, nudge_x = 0.4, segment.linetype = 4),
+                           centrality.label.args = list(
+                             size = 3,
+                             nudge_x = 0.4,
+                             segment.linetype = 4,
+                             min.segment.length = 0
+                           ),
                            outlier.tagging = FALSE,
                            outlier.label = NULL,
                            outlier.coef = 1.5,
@@ -195,8 +201,7 @@ ggbetweenstats <- function(data,
                            ),
                            violin.args = list(width = 0.5, alpha = 0.2),
                            ggsignif.args = list(textsize = 3, tip_length = 0.01),
-                           ggtheme = ggplot2::theme_bw(),
-                           ggstatsplot.layer = TRUE,
+                           ggtheme = ggstatsplot::theme_ggstatsplot(),
                            package = "RColorBrewer",
                            palette = "Dark2",
                            ggplot.component = NULL,
@@ -400,7 +405,7 @@ ggbetweenstats <- function(data,
 
   if (isTRUE(pairwise.comparisons) && test == "anova") {
     # creating dataframe with pairwise comparison results
-    df_mcp <- pairwiseComparisons::pairwise_comparisons(
+    mpc_df <- pairwiseComparisons::pairwise_comparisons(
       data = data,
       x = {{ x }},
       y = {{ y }},
@@ -415,7 +420,7 @@ ggbetweenstats <- function(data,
     # adding the layer for pairwise comparisons
     plot <- ggsignif_adder(
       plot = plot,
-      df_mcp = df_mcp,
+      mpc_df = mpc_df,
       data = data,
       x = {{ x }},
       y = {{ y }},
@@ -427,7 +432,7 @@ ggbetweenstats <- function(data,
     if (type != "bayes") {
       caption <- pairwiseComparisons::pairwise_caption(
         caption,
-        unique(df_mcp$test.details),
+        unique(mpc_df$test.details),
         pairwise.display
       )
     }
@@ -445,7 +450,6 @@ ggbetweenstats <- function(data,
     subtitle = subtitle,
     caption = caption,
     ggtheme = ggtheme,
-    ggstatsplot.layer = ggstatsplot.layer,
     package = package,
     palette = palette,
     ggplot.component = ggplot.component

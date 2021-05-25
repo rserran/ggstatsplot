@@ -15,7 +15,6 @@ test_that(
         type = "p",
         title = "Iris dataset",
         subtitle = "By Edgar Anderson",
-        ggstatsplot.layer = FALSE,
         sig.level = 0.001,
         matrix.type = "full",
         p.adjust.method = "fdr",
@@ -34,7 +33,7 @@ test_that(
     # check data
     set.seed(123)
     expect_snapshot(pb$data)
-    expect_snapshot(p$labels)
+    expect_snapshot(list(p$labels, pb$plot$plot_env$legend.title))
   }
 )
 
@@ -60,7 +59,7 @@ test_that(
     # check data
     set.seed(123)
     expect_snapshot(pb$data)
-    expect_snapshot(p$labels)
+    expect_snapshot(list(p$labels, pb$plot$plot_env$legend.title))
   }
 )
 
@@ -91,7 +90,7 @@ test_that(
     # check data
     set.seed(123)
     expect_snapshot(pb$data)
-    expect_snapshot(p$labels)
+    expect_snapshot(list(p$labels, pb$plot$plot_env$legend.title))
   }
 )
 
@@ -125,7 +124,7 @@ test_that(
     # check data
     set.seed(123)
     expect_snapshot(pb$data)
-    expect_snapshot(p$labels)
+    expect_snapshot(list(p$labels, pb$plot$plot_env$legend.title))
   }
 )
 
@@ -145,7 +144,7 @@ test_that(
     # check data
     set.seed(123)
     # expect_snapshot(pb$data)
-    expect_snapshot(p$labels)
+    expect_snapshot(list(p$labels, pb$plot$plot_env$legend.title))
   }
 )
 
@@ -156,9 +155,8 @@ test_that(
   code = {
     skip_on_os("windows")
     skip_on_cran()
-    options(tibble.width = Inf, tibble.print_max = 50)
+    options(tibble.width = Inf)
     skip_on_ci()
-    skip_on_appveyor()
     skip_on_travis()
 
     set.seed(123)

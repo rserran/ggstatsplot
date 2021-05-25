@@ -84,32 +84,38 @@
 ---
 
     Code
-      p$labels
+      list(p$labels, pb$plot$plot_env$legend.title)
     Output
-      $xlab
+      [[1]]
+      [[1]]$xlab
       NULL
       
-      $ylab
+      [[1]]$ylab
       NULL
       
-      $title
+      [[1]]$title
       [1] "Iris dataset"
       
-      $subtitle
+      [[1]]$subtitle
       [1] "By Edgar Anderson"
       
-      $caption
+      [[1]]$caption
       atop(displaystyle(NULL), expr = paste(bold("X"), " = non-significant at ", 
           italic("p"), " < ", 0.001, " (Adjustment: ", "FDR", ")"))
       
-      $fill
+      [[1]]$fill
       [1] "value"
       
-      $x
+      [[1]]$x
       [1] "Var1"
       
-      $y
+      [[1]]$y
       [1] "Var2"
+      
+      
+      [[2]]
+      atop(atop(scriptstyle(bold("sample sizes:")), italic(n) ~ "=" ~ 
+          "150"), atop(scriptstyle(bold("correlation:")), "Pearson"))
       
 
 # checking ggcorrmat - without NAs - robust r
@@ -269,32 +275,39 @@
 ---
 
     Code
-      p$labels
+      list(p$labels, pb$plot$plot_env$legend.title)
     Output
-      $xlab
+      [[1]]
+      [[1]]$xlab
       NULL
       
-      $ylab
+      [[1]]$ylab
       NULL
       
-      $title
+      [[1]]$title
       NULL
       
-      $subtitle
+      [[1]]$subtitle
       NULL
       
-      $caption
+      [[1]]$caption
       atop(displaystyle(NULL), expr = paste(bold("X"), " = non-significant at ", 
           italic("p"), " < ", 0.05, " (Adjustment: ", "Holm", ")"))
       
-      $fill
+      [[1]]$fill
       [1] "value"
       
-      $x
+      [[1]]$x
       [1] "Var1"
       
-      $y
+      [[1]]$y
       [1] "Var2"
+      
+      
+      [[2]]
+      atop(atop(scriptstyle(bold("sample sizes:")), italic(n) ~ "=" ~ 
+          "11"), atop(scriptstyle(bold("correlation (partial):")), 
+          "Winsorized Pearson"))
       
 
 # checking ggcorrmat - with NAs - robust r - partial
@@ -390,31 +403,38 @@
 ---
 
     Code
-      p$labels
+      list(p$labels, pb$plot$plot_env$legend.title)
     Output
-      $caption
+      [[1]]
+      [[1]]$caption
       NULL
       
-      $xlab
+      [[1]]$xlab
       NULL
       
-      $ylab
+      [[1]]$ylab
       NULL
       
-      $title
+      [[1]]$title
       NULL
       
-      $subtitle
+      [[1]]$subtitle
       NULL
       
-      $fill
+      [[1]]$fill
       [1] "value"
       
-      $x
+      [[1]]$x
       [1] "Var1"
       
-      $y
+      [[1]]$y
       [1] "Var2"
+      
+      
+      [[2]]
+      atop(atop(scriptstyle(bold("sample sizes:")), italic(n) ~ "=" ~ 
+          "30"), atop(scriptstyle(bold("correlation (partial):")), 
+          "Winsorized Pearson"))
       
 
 # checking ggcorrmat - with NAs - spearman's rho
@@ -503,62 +523,76 @@
 ---
 
     Code
-      p$labels
+      list(p$labels, pb$plot$plot_env$legend.title)
     Output
-      $xlab
+      [[1]]
+      [[1]]$xlab
       NULL
       
-      $ylab
+      [[1]]$ylab
       NULL
       
-      $title
+      [[1]]$title
       NULL
       
-      $subtitle
+      [[1]]$subtitle
       NULL
       
-      $caption
+      [[1]]$caption
       atop(displaystyle(NULL), expr = paste(bold("X"), " = non-significant at ", 
           italic("p"), " < ", 0.01, " (Adjustment: ", "Hommel", ")"))
       
-      $fill
+      [[1]]$fill
       [1] "value"
       
-      $x
+      [[1]]$x
       [1] "Var1"
       
-      $y
+      [[1]]$y
       [1] "Var2"
+      
+      
+      [[2]]
+      atop(atop(atop(scriptstyle(bold("sample sizes:")), italic(n)[min] ~ 
+          "=" ~ "32"), atop(italic(n)[mode] ~ "=" ~ "32", italic(n)[max] ~ 
+          "=" ~ "83")), atop(scriptstyle(bold("correlation:")), "Spearman"))
       
 
 # checking Bayesian pearson (with NA)
 
     Code
-      p$labels
+      list(p$labels, pb$plot$plot_env$legend.title)
     Output
-      $xlab
+      [[1]]
+      [[1]]$xlab
       NULL
       
-      $ylab
+      [[1]]$ylab
       NULL
       
-      $title
+      [[1]]$title
       NULL
       
-      $subtitle
+      [[1]]$subtitle
       NULL
       
-      $caption
+      [[1]]$caption
       NULL
       
-      $fill
+      [[1]]$fill
       [1] "value"
       
-      $x
+      [[1]]$x
       [1] "Var1"
       
-      $y
+      [[1]]$y
       [1] "Var2"
+      
+      
+      [[2]]
+      atop(atop(atop(scriptstyle(bold("sample sizes:")), italic(n)[min] ~ 
+          "=" ~ "56"), atop(italic(n)[mode] ~ "=" ~ "56", italic(n)[max] ~ 
+          "=" ~ "56")), atop(scriptstyle(bold("correlation:")), "Bayesian Pearson"))
       
 
 # checking all dataframe outputs
@@ -648,12 +682,12 @@
       3       59 5.86e- 3 Winsorized Pearson correlation    61
       
       [[7]]
-      # A tibble: 3 x 15
-        parameter1 parameter2 estimate conf.level conf.low conf.high std.dev    pd
-        <chr>      <chr>         <dbl>      <dbl>    <dbl>     <dbl>   <dbl> <dbl>
-      1 brainwt    sleep_rem   -0.0908       0.95   -0.306     0.147   0.141 0.740
-      2 brainwt    bodywt       0.454        0.95    0.267     0.623   0.113 1    
-      3 sleep_rem  bodywt      -0.0956       0.95   -0.322     0.116   0.139 0.756
+      # A tibble: 3 x 14
+        parameter1 parameter2 estimate conf.level conf.low conf.high    pd
+        <chr>      <chr>         <dbl>      <dbl>    <dbl>     <dbl> <dbl>
+      1 brainwt    sleep_rem   -0.0911       0.95   -0.306     0.147 0.740
+      2 brainwt    bodywt       0.461        0.95    0.267     0.623 1    
+      3 sleep_rem  bodywt      -0.0959       0.95   -0.322     0.116 0.756
         rope.percentage prior.distribution prior.location prior.scale bayes.factor
                   <dbl> <chr>                       <dbl>       <dbl>        <dbl>
       1         0.430   beta                         1.41        1.41        0.269
@@ -666,12 +700,12 @@
       3 Bayesian Pearson correlation    48
       
       [[8]]
-      # A tibble: 3 x 15
-        parameter1 parameter2 estimate conf.level conf.low conf.high std.dev    pd
-        <chr>      <chr>         <dbl>      <dbl>    <dbl>     <dbl>   <dbl> <dbl>
-      1 brainwt    sleep_rem    -0.201       0.95   -0.402    0.0248  0.135  0.928
-      2 brainwt    bodywt        0.924       0.95    0.894    0.955   0.0203 1    
-      3 sleep_rem  bodywt       -0.306       0.95   -0.481   -0.129   0.114  0.990
+      # A tibble: 3 x 14
+        parameter1 parameter2 estimate conf.level conf.low conf.high    pd
+        <chr>      <chr>         <dbl>      <dbl>    <dbl>     <dbl> <dbl>
+      1 brainwt    sleep_rem    -0.205       0.95   -0.402    0.0248 0.928
+      2 brainwt    bodywt        0.926       0.95    0.894    0.955  1    
+      3 sleep_rem  bodywt       -0.310       0.95   -0.481   -0.129  0.990
         rope.percentage prior.distribution prior.location prior.scale bayes.factor
                   <dbl> <chr>                       <dbl>       <dbl>        <dbl>
       1          0.212  beta                         1.41        1.41     6.54e- 1
