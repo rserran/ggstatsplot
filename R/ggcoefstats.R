@@ -24,8 +24,6 @@
 #'   Bayesian meta-analysis assuming that the effect size *d* varies across
 #'   studies with standard deviation *t* (i.e., a random-effects analysis)
 #'   should be displayed in caption. Defaults to `TRUE`.
-#' @param xlab,ylab Labels for `x`- and `y`- axis variables, respectively
-#'   (Defaults: `"regression coefficient"` and `"term"`).
 #' @param subtitle The text for the plot subtitle. The input to this argument
 #'   will be ignored if `meta.analytic.effect` is set to `TRUE`.
 #' @param point.args Additional arguments that will be passed to
@@ -37,7 +35,7 @@
 #'   (Default: `0.95`).
 #' @param effsize Character describing the effect size to be displayed: `"eta"`
 #'   (default) or `"omega"`. This argument is relevant only for models objects
-#'   of class `aov`, `anova`, `aovlist`, `"Gam"`, and `"manova"`.
+#'   with *F*-statistic.
 #' @param meta.analytic.effect Logical that decides whether subtitle for
 #'   meta-analysis via linear (mixed-effects) models (default: `FALSE`). If
 #'   `TRUE`, input to argument `subtitle` will be ignored. This will be mostly
@@ -81,15 +79,15 @@
 #'
 #' @note
 #'
-#' **Important**: In case you want to carry out meta-analysis using this
+#' 1. In case you want to carry out meta-analysis using this
 #' function, it assumes that you have already downloaded the needed package
 #' (`metafor`, `metaplus`, or `metaBMA`) for meta-analysis.
 #'
-#' 1. All rows of regression estimates where either of the following
+#' 2. All rows of regression estimates where either of the following
 #'   quantities is `NA` will be removed if labels are requested: `estimate`,
 #'   `statistic`, `p.value`.
 #'
-#' 2. Given the rapid pace at which new methods are added to these packages, it
+#' 3. Given the rapid pace at which new methods are added to these packages, it
 #'   is recommended that you install the GitHub versions of `parameters` and
 #'   `performance` in order to make most of this function.
 #'
@@ -140,8 +138,8 @@ ggcoefstats <- function(x,
                         meta.type = "parametric",
                         bf.message = TRUE,
                         sort = "none",
-                        xlab = "regression coefficient",
-                        ylab = "term",
+                        xlab = NULL,
+                        ylab = NULL,
                         title = NULL,
                         subtitle = NULL,
                         caption = NULL,
@@ -151,8 +149,7 @@ ggcoefstats <- function(x,
                         vline = TRUE,
                         vline.args = list(
                           size = 1,
-                          linetype = "dashed",
-                          xintercept = 0
+                          linetype = "dashed"
                         ),
                         stats.labels = TRUE,
                         stats.label.color = NULL,
@@ -214,14 +211,9 @@ ggcoefstats <- function(x,
         tidy_df %<>% dplyr::mutate(df.error = dplyr::last(df))
       }
 
-      # renaming the `xlab` according to the estimate chosen
-      xlab <- paste("partial", " ", effsize, "-squared", sep = "")
-
       # final cleanup
       tidy_df %<>%
-        dplyr::filter(!is.na(statistic)) %>%
-        dplyr::select(-dplyr::matches("sq$")) %>%
-        dplyr::mutate(estimate.type = xlab) %>%
+        dplyr::mutate(effectsize = paste0("partial ", effsize, "-squared")) %>%
         dplyr::ungroup()
     }
   }
@@ -259,7 +251,6 @@ ggcoefstats <- function(x,
   if (any(duplicated(dplyr::select(tidy_df, term)))) {
     tidy_df %<>%
       tidyr::unite(
-        data = .,
         col = "term",
         dplyr::matches("term|variable|parameter|method|curve|response|component|contrast|group"),
         remove = TRUE,
@@ -300,7 +291,6 @@ ggcoefstats <- function(x,
     # adding a column with labels using custom function
     tidy_df %<>%
       ggcoefstats_label_maker(
-        tidy_df = .,
         statistic = substring(tolower(statistic), 1, 1),
         k = k,
         effsize = effsize
@@ -314,21 +304,18 @@ ggcoefstats <- function(x,
     # creating glance dataframe
     glance_df <- performance::model_performance(x, verbose = FALSE)
 
-    # rename to `broom` convention
-    if (!is.null(glance_df)) glance_df %<>% parameters::standardize_names(style = "broom")
-
     # no meta-analysis in this context
     meta.analytic.effect <- FALSE
 
     # if glance is not available, inform the user
-    if (!is.null(glance_df) && all(c("aic", "bic") %in% names(glance_df))) {
+    if (!is.null(glance_df) && all(c("AIC", "BIC") %in% names(glance_df))) {
       # preparing caption with model diagnostics
       caption <- substitute(
         expr = atop(displaystyle(top.text), expr = paste("AIC = ", AIC, ", BIC = ", BIC)),
         env = list(
           top.text = caption,
-          AIC = format_value(glance_df$aic[[1]], 0L),
-          BIC = format_value(glance_df$bic[[1]], 0L)
+          AIC = format_value(glance_df$AIC[[1]], 0L),
+          BIC = format_value(glance_df$BIC[[1]], 0L)
         )
       )
     }
@@ -347,9 +334,9 @@ ggcoefstats <- function(x,
     # results from Bayesian random-effects meta-analysis (only for parametric)
     if (meta.type == "parametric" && isTRUE(bf.message)) {
       caption_df <- statsExpressions::meta_analysis(
+        data = tidy_df,
         top.text = caption,
         type = "bayes",
-        data = tidy_df,
         k = k
       )
 
@@ -384,7 +371,7 @@ ggcoefstats <- function(x,
     plot <- ggplot2::ggplot(tidy_df, mapping = ggplot2::aes(estimate, term))
 
     # if needed, adding the vertical line
-    if (isTRUE(vline)) plot <- plot + rlang::exec(ggplot2::geom_vline, !!!vline.args)
+    if (isTRUE(vline)) plot <- plot + rlang::exec(ggplot2::geom_vline, xintercept = 0, !!!vline.args)
 
     # if the confidence intervals are to be displayed on the plot
     if (isTRUE(conf.int)) {
@@ -412,26 +399,14 @@ ggcoefstats <- function(x,
         ))
       }
 
-      # ========================== palette check =================================
+      # palette check ----------------------
 
-      # if no. of factor levels is greater than the default palette color count
-      palette_message(package, palette, length(tidy_df$term))
-
-      # computing the number of colors in a given palette
-      palette_df <- as_tibble(paletteer::palettes_d_names) %>%
-        dplyr::filter(package == !!package, palette == !!palette) %>%
-        dplyr::select(length)
-
-      # if insufficient number of colors are available in a given palette
-      if (palette_df$length[[1]] < length(tidy_df$term)) stats.label.color <- "black"
-
-      # if user has not specified colors, then use a color palette
-      if (is.null(stats.label.color)) {
-        stats.label.color <- paletteer::paletteer_d(
-          palette = paste0(package, "::", palette),
-          n = length(tidy_df$term),
-          type = "discrete"
-        )
+      # has user specified if a specific color for the label?
+      # if not, use a palette, assuming enough no. of colors are available
+      if (is.null(stats.label.color) && palette_message(package, palette, length(tidy_df$term))) {
+        stats.label.color <- paletteer::paletteer_d(paste0(package, "::", palette), length(tidy_df$term))
+      } else {
+        stats.label.color <- "black"
       }
 
       # adding labels
@@ -452,8 +427,8 @@ ggcoefstats <- function(x,
     # adding other labels to the plot
     plot <- plot +
       ggplot2::labs(
-        x = xlab,
-        y = ylab,
+        x = xlab %||% "estimate",
+        y = ylab %||% "term",
         caption = caption,
         subtitle = subtitle,
         title = title

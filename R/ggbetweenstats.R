@@ -323,7 +323,7 @@ ggbetweenstats <- function(data,
     plot <- plot +
       # add all outliers in
       ggplot2::geom_point(
-        data = dplyr::filter(.data = data, isanoutlier),
+        data = dplyr::filter(data, isanoutlier),
         size = 3,
         stroke = 0,
         alpha = 0.7,
@@ -429,13 +429,11 @@ ggbetweenstats <- function(data,
     )
 
     # preparing the caption for pairwise comparisons test
-    if (type != "bayes") {
-      caption <- pairwiseComparisons::pairwise_caption(
-        caption,
-        unique(mpc_df$test.details),
-        pairwise.display
-      )
-    }
+    caption <- pairwiseComparisons::pairwise_caption(
+      caption,
+      unique(mpc_df$test.details),
+      ifelse(type == "bayes", "all", pairwise.display)
+    )
   }
 
   # ------------------------ annotations and themes -------------------------

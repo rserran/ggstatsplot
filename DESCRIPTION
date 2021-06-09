@@ -26,21 +26,20 @@ Depends:
     R (>= 3.6.0)
 Imports:
     dplyr,
-    effectsize (>= 0.4.4-2),
     ggplot2,
     ggrepel,
     ggsignif,
-    insight (>= 0.14.0),
+    insight (>= 0.14.1),
     ipmisc (>= 6.0.2),
     pairwiseComparisons (>= 3.1.5),
     paletteer,
-    parameters (>= 0.13.0),
+    parameters (>= 0.14.0),
     patchwork,
     performance,
     purrr,
     rlang,
     stats,
-    statsExpressions (>= 1.0.1.9000),
+    statsExpressions (>= 1.1.0),
     tidyr,
     utils
 Suggests:
@@ -58,9 +57,6 @@ Suggests:
     tibble,
     vdiffr,
     WRS2
-Remotes:
-    easystats/effectsize,
-    IndrajeetPatil/statsExpressions
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

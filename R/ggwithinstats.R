@@ -238,7 +238,7 @@ ggwithinstats <- function(data,
     plot <- plot +
       rlang::exec(
         .fn = ggrepel::geom_label_repel,
-        data = dplyr::filter(.data = data, isanoutlier),
+        data = dplyr::filter(data, isanoutlier),
         mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, label = outlier.label),
         show.legend = FALSE,
         min.segment.length = 0,
@@ -293,13 +293,11 @@ ggwithinstats <- function(data,
     )
 
     # preparing the caption for pairwise comparisons test
-    if (type != "bayes") {
-      caption <- pairwiseComparisons::pairwise_caption(
-        caption,
-        unique(mpc_df$test.details),
-        pairwise.display
-      )
-    }
+    caption <- pairwiseComparisons::pairwise_caption(
+      caption,
+      unique(mpc_df$test.details),
+      ifelse(type == "bayes", "all", pairwise.display)
+    )
   }
 
   # ------------------------ annotations and themes -------------------------

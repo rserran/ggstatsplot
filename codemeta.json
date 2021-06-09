@@ -20,7 +20,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
+  "runtimePlatform": "R Under development (unstable) (2021-05-17 r80314)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -237,19 +237,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "effectsize",
-      "name": "effectsize",
-      "version": ">= 0.4.4-2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://github.com/easystats/effectsize"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
       "provider": {
@@ -288,7 +275,7 @@
       "@type": "SoftwareApplication",
       "identifier": "insight",
       "name": "insight",
-      "version": ">= 0.14.0",
+      "version": ">= 0.14.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -339,7 +326,7 @@
       "@type": "SoftwareApplication",
       "identifier": "parameters",
       "name": "parameters",
-      "version": ">= 0.13.0",
+      "version": ">= 0.14.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -405,14 +392,14 @@
       "@type": "SoftwareApplication",
       "identifier": "statsExpressions",
       "name": "statsExpressions",
-      "version": ">= 1.0.1.9000",
+      "version": ">= 1.1.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://github.com/IndrajeetPatil/statsExpressions"
+      "sameAs": "https://CRAN.R-project.org/package=statsExpressions"
     },
     {
       "@type": "SoftwareApplication",
@@ -458,7 +445,8 @@
     "statistical-measures",
     "robust-statistics",
     "non-parametric-statistics",
-    "meta-analysis"
+    "meta-analysis",
+    "hypothesis-testing"
   ],
   "citation": [
     {
@@ -471,17 +459,20 @@
           "familyName": "Patil"
         }
       ],
-      "name": "Visualizations with statistical details: The 'ggstatsplot' approach",
-      "identifier": "10.31234/osf.io/p7mku",
-      "url": "https://psyarxiv.com/p7mku/",
-      "@id": "https://doi.org/10.31234/osf.io/p7mku",
-      "sameAs": "https://doi.org/10.31234/osf.io/p7mku",
+      "name": "{Visualizations with statistical details: The {'ggstatsplot'} approach}",
+      "identifier": "10.21105/joss.03167",
+      "url": "https://doi.org/10.21105/joss.03167",
+      "pagination": "3167",
+      "@id": "https://doi.org/10.21105/joss.03167",
+      "sameAs": "https://doi.org/10.21105/joss.03167",
       "isPartOf": {
         "@type": "PublicationIssue",
+        "issueNumber": "61",
         "datePublished": "2021",
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
-          "name": "PsyArxiv"
+          "volumeNumber": "6",
+          "name": "{Journal of Open Source Software}"
         }
       }
     }
@@ -496,6 +487,6 @@
     }
   ],
   "funder": {},
-  "fileSize": "12802.804KB",
+  "fileSize": "0KB",
   "readme": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/README.md"
 }

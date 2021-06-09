@@ -112,18 +112,19 @@ centrality_data <- function(data,
   # ------------------------ dataframe -------------------------------------
 
   # creating the dataframe
-  data %>%
-    dplyr::select({{ x }}, {{ y }}) %>%
+  dplyr::select(data, {{ x }}, {{ y }}) %>%
     tidyr::drop_na(.) %>%
     dplyr::mutate({{ x }} := droplevels(as.factor({{ x }}))) %>%
     dplyr::group_by({{ x }}) %>%
     dplyr::group_modify(
       .f = ~ parameters::standardize_names(
-        data = as.data.frame(suppressWarnings(parameters::describe_distribution(
+        data = parameters::describe_distribution(
           x = .,
           centrality = centrality,
-          threshold = tr
-        ))),
+          threshold = tr,
+          #verbose = FALSE,
+          ci = 0.95 # TODO: https://github.com/easystats/bayestestR/issues/429
+        ),
         style = "broom"
       )
     ) %>%
@@ -133,7 +134,9 @@ centrality_data <- function(data,
     dplyr::ungroup() %>%
     dplyr::mutate(n_label = paste0({{ x }}, "\n(n = ", .prettyNum(n), ")")) %>%
     dplyr::arrange({{ x }}) %>%
-    dplyr::select({{ x }}, !!as.character(rlang::ensym(y)) := estimate, dplyr::matches("label"))
+    dplyr::select({{ x }}, !!as.character(rlang::ensym(y)) := estimate,
+      n_obs = n, dplyr::everything()
+    )
 }
 
 #' @title Adding `geom_signif` to `ggplot`
@@ -158,12 +161,11 @@ centrality_data <- function(data,
 #'   geom_boxplot()
 #'
 #' # dataframe with pairwise comparison test results
-#' df_pair <-
-#'   pairwiseComparisons::pairwise_comparisons(
-#'     data = iris,
-#'     x = Species,
-#'     y = Sepal.Length
-#'   )
+#' df_pair <- pairwiseComparisons::pairwise_comparisons(
+#'   data = iris,
+#'   x = Species,
+#'   y = Sepal.Length
+#' )
 #'
 #' # adding a geom for pairwise comparisons
 #' ggstatsplot:::ggsignif_adder(
@@ -176,10 +178,10 @@ centrality_data <- function(data,
 #' @noRd
 
 ggsignif_adder <- function(plot,
-                           mpc_df,
                            data,
                            x,
                            y,
+                           mpc_df,
                            pairwise.display = "significant",
                            ggsignif.args = list(textsize = 3, tip_length = 0.01),
                            ...) {
@@ -242,6 +244,7 @@ ggsignif_xy <- function(x, y) {
   # creating a vector of positions for the `ggsignif` lines
   seq(y_start, y_end, length.out = n_comparions)
 }
+
 
 #' @title Making aesthetic modifications to the plot
 #' @name aesthetic_addon
@@ -360,16 +363,20 @@ function_switch <- function(test, element, ...) {
 
 # function body
 palette_message <- function(package, palette, min_length) {
-  # computing the number of colors in a given palette
-  palette_length <- paletteer::palettes_d_names %>%
-    dplyr::filter(package == !!package, palette == !!palette) %$%
-    length[[1]]
+  # computing the palette length
+  dplyr::filter(paletteer::palettes_d_names, package == !!package, palette == !!palette) %$%
+    length[[1]] -> pl
 
-  # if insufficient number of colors are available in a given palette
-  if (palette_length < min_length) {
+  # check if insufficient number of colors are available in a given palette
+  pl_message <- ifelse(pl < min_length, FALSE, TRUE)
+
+  # inform the user
+  if (isFALSE(pl_message)) {
     message(cat(
       "Warning: Number of labels is greater than default palette color count.\n",
       "Try using another color `palette` (and/or `package`).\n"
     ))
   }
+
+  invisible(pl_message)
 }

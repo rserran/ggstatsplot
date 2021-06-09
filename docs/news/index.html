@@ -245,18 +245,21 @@
 <h1 class="page-header" data-toc-text="0.8.0">
 <a href="#ggstatsplot-080" class="anchor" aria-hidden="true"></a>ggstatsplot 0.8.0<small> Unreleased </small></h1>
 <p>N.B. All statistical analysis in <code>ggstatsplot</code> is carried out in <code>statsExpressions</code>. Thus, to see changes related to statistical expressions, read the <code>NEWS</code> for that package: <a href="https://indrajeetpatil.github.io/statsExpressions/news/index.html" class="external-link uri">https://indrajeetpatil.github.io/statsExpressions/news/index.html</a></p>
-<p>There is finally a publication for <code>ggstatsplot</code> package! 🎉</p>
-<p><a href="https://joss.theoj.org/papers/10.21105/joss.03167" class="external-link uri">https://joss.theoj.org/papers/10.21105/joss.03167</a></p>
 <p>NEW FUNCTIONS</p>
 <ul><li>Adds <code>extract_stats</code> function to extract dataframes containing statistical details.</li>
 </ul><p>MAJOR CHANGES</p>
-<ul><li><p>To reduce the dependency load, <code>ggcorrplot</code> moves from <code>Imports</code> to <code>Suggests</code>.</p></li>
+<ul><li><p>There is finally a publication for <code>ggstatsplot</code> package! <a href="https://joss.theoj.org/papers/10.21105/joss.03167" class="external-link uri">https://joss.theoj.org/papers/10.21105/joss.03167</a></p></li>
+<li><p>The <code>ggcoefstats</code> function defaults to <code>NULL</code> for <code>xlab</code> and <code>ylab</code> arguments, which lets users change these labels if they wish to do so. Additionally, the x-axis label, if not specified, now defaults to <code>"estimate"</code>. Whether this estimate corresponds to regression coefficient or effect size like partial eta-squared should be clear from the label itself.</p></li>
+<li><p>To reduce the dependency load, <code>ggcorrplot</code> moves from <code>Imports</code> to <code>Suggests</code>.</p></li>
 <li><p>The <code>bar.fill</code> argument in <code>gghistostats</code> is retired in favor of the new <code>bin.args</code> argument that can be used to pass aesthetic arguments to <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">ggplot2::stat_bin</a></code>.</p></li>
 <li><p><code>ggstatsplot.layer</code> argument has been retired. If the user <em>chooses</em> a certain <code>ggplot2</code> theme, it means they <em>want</em> that theme, and not <code>ggstatsplot</code>’s varnish on it. So the previous behavior was undesirable. This is a backward compatible change, so the plots should not look different.</p></li>
 </ul><p>MINOR CHANGES</p>
 <ul><li><p>The <code>pch</code> size for <code>ggcorrmat</code> has been increased to 14 (<a href='https://github.com/IndrajeetPatil/ggstatsplot/issues/579'>#579</a>) to increase its visibility compared to the correlation value text.</p></li>
 <li><p><code>ggwithinstats</code> gains <code>point.args</code> to change <code>geom_point</code>.</p></li>
 <li><p>Minor change to <code>ggcorrmat</code> legend title - content in parentheses is now shown outside of it.</p></li>
+</ul><p>BUG FIXES</p>
+<ul><li>
+<code>ggcoefstats</code> didn’t work when statistic for the given model was chi-squared. This has been fixed.</li>
 </ul></div>
     <div id="ggstatsplot-072" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.2">
@@ -387,7 +390,7 @@
 </ol></li>
 <li><p>The <code>normality_message</code> and <code>bartlett_message</code> helper functions have been removed. This is because model assumption checks don’t really fall under the purview of this package. There are excellent visualization tools out there for model assumption checks (<code>ggResidpanel</code>, <code>performance</code>, <code>DHARMa</code>, <code>olsrr</code>, etc.), which should be preferred over unhelpful messages with only <em>p</em>-values that these functions were printing. For what it’s worth, the functions where these messages were displayed (<code>ggbetweenstats</code> or <code>ggwithinstats</code>) feature visualizations rich enough and defaults sensible enough that most of the time one can either assess these assumptions from the plots or need not worry about them.</p></li>
 </ul><p>MAJOR CHANGES</p>
-<ul><li><p><code>ggcoefstats</code> has been refactored to reflect that <code><a href="https://indrajeetpatil.github.io/broomExtra//reference/tidy_parameters.html" class="external-link">broomExtra::tidy_parameters</a></code> now defaults to <code>parameters</code> package instead of <code>broom</code>. It also loses the following vestigial arguments: <code>p.adjust.method</code> and <code>coefficient.type</code>.</p></li>
+<ul><li><p><code>ggcoefstats</code> has been refactored to reflect that <code>broomExtra::tidy_parameters</code> now defaults to <code>parameters</code> package instead of <code>broom</code>. It also loses the following vestigial arguments: <code>p.adjust.method</code> and <code>coefficient.type</code>.</p></li>
 <li><p>Reverts aligning title and subtitle with the plot and not the axes, since it looked pretty ugly (esp., <code>ggcoefstats</code>) and was causing problems for labels.</p></li>
 <li><p><code>factor.levels</code> (for <code>ggpiestats</code>) and <code>labels.legend</code> (for <code>ggbarstats</code>) are deprecated. If users would like to changes the names for factor levels, this should be done outside of <code>ggstatsplot</code>.</p></li>
 <li><p>The non-parametric post hoc test for between-subjects design has been changed from Dwass-Steel-Crichtlow-Fligner test to Dunn test.</p></li>
