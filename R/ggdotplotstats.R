@@ -17,7 +17,7 @@
 #' @importFrom statsExpressions one_sample_test
 #'
 #' @details For more details, see:
-#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html}
+#' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html>
 #'
 #' @seealso \code{\link{grouped_gghistostats}}, \code{\link{gghistostats}},
 #'  \code{\link{grouped_ggdotplotstats}}
@@ -77,7 +77,7 @@ ggdotplotstats <- function(data,
                            ...) {
 
   # convert entered stats type to a standard notation
-  type <- ipmisc::stats_type_switch(type)
+  type <- statsExpressions::stats_type_switch(type)
 
   # ensure the variables work quoted or unquoted
   c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
@@ -169,7 +169,7 @@ ggdotplotstats <- function(data,
     plot <- histo_labeller(
       plot,
       x = data %>% dplyr::pull({{ x }}),
-      type = ipmisc::stats_type_switch(centrality.type),
+      type = statsExpressions::stats_type_switch(centrality.type),
       tr = tr,
       k = k,
       centrality.line.args = centrality.line.args

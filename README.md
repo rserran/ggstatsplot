@@ -3,13 +3,12 @@
 
 # `ggstatsplot`: `ggplot2` Based Plots with Statistical Details
 
-| Package                                                                                                                                    | Status                                                                                                                                                                                       | Usage                                                                                                                                             | GitHub                                                                                                                                                          | Miscellaneous                                                                                                                                                         |
-|--------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)              | [![Travis Build Status](https://travis-ci.org/IndrajeetPatil/ggstatsplot.svg?branch=master)](https://travis-ci.org/IndrajeetPatil/ggstatsplot)                                               | [![Daily downloads badge](https://cranlogs.r-pkg.org/badges/last-day/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)     | [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/IndrajeetPatil/ggstatsplot/issues) | [![lints](https://github.com/IndrajeetPatil/ggstatsplot/workflows/lint/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                                     |
-| [![CRAN Checks](https://cranchecks.info/badges/summary/ggstatsplot)](https://cran.r-project.org/web/checks/check_results_ggstatsplot.html) | [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/IndrajeetPatil/ggstatsplot?branch=master&svg=true)](https://ci.appveyor.com/project/IndrajeetPatil/ggstatsplot) | [![Weekly downloads badge](https://cranlogs.r-pkg.org/badges/last-week/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)   | [![status](https://tinyverse.netlify.com/badge/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)                                                    | [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.6.0-6666ff.svg)](https://cran.r-project.org/)                                                            |
-| [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)                 | [![R build status](https://github.com/IndrajeetPatil/ggstatsplot/workflows/R-CMD-check/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                                            | [![Monthly downloads badge](https://cranlogs.r-pkg.org/badges/last-month/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![CoC](https://img.shields.io/badge/CoC-v2.0%20adopted-ff69b4.svg)](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html)                     | [![CodeFactor](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot/badge)](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot) |
-| [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                               | [![Coverage Status](https://coveralls.io/repos/github/IndrajeetPatil/ggstatsplot/badge.svg?branch=master)](https://coveralls.io/github/IndrajeetPatil/ggstatsplot?branch=master)             | [![Total downloads badge](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)  | [![Github Stars](https://img.shields.io/github/stars/IndrajeetPatil/ggstatsplot.svg?style=social&label=Github)](https://github.com/IndrajeetPatil/ggstatsplot)  | [![code size](https://img.shields.io/github/languages/code-size/IndrajeetPatil/ggstatsplot.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                       |
-| [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)                           | [![Codecov](https://codecov.io/gh/IndrajeetPatil/ggstatsplot/branch/master/graph/badge.svg)](https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master)                                 | [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167)                                       | [![Last-changedate](https://img.shields.io/badge/last%20change-2021--06--09-yellowgreen.svg)](https://github.com/IndrajeetPatil/ggstatsplot/commits/master)     | [![GitHub last commit](https://img.shields.io/github/last-commit/IndrajeetPatil/ggstatsplot.svg)](https://github.com/IndrajeetPatil/ggstatsplot/commits/master)       |
+| Package                                                                                                                                    | Status                                                                                                                                                       | Usage                                                                                                                                             | GitHub                                                                                                                                                         | Miscellaneous                                                                                                                                                         |
+|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)              | [![R build status](https://github.com/IndrajeetPatil/ggstatsplot/workflows/R-CMD-check/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)            | [![Daily downloads badge](https://cranlogs.r-pkg.org/badges/last-day/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)     | [![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/IndrajeetPatil/ggstatsplot/issues)        | [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)                                                      |
+| [![CRAN Checks](https://cranchecks.info/badges/summary/ggstatsplot)](https://cran.r-project.org/web/checks/check_results_ggstatsplot.html) | [![lints](https://github.com/IndrajeetPatil/ggstatsplot/workflows/lint/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                            | [![Weekly downloads badge](https://cranlogs.r-pkg.org/badges/last-week/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)   | [![status](https://tinyverse.netlify.com/badge/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)                                                   | [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.6.0-6666ff.svg)](https://cran.r-project.org/)                                                            |
+| [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)                 | [![Codecov](https://codecov.io/gh/IndrajeetPatil/ggstatsplot/branch/master/graph/badge.svg)](https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master) | [![Monthly downloads badge](https://cranlogs.r-pkg.org/badges/last-month/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![CoC](https://img.shields.io/badge/CoC-v2.0%20adopted-ff69b4.svg)](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html)                    | [![CodeFactor](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot/badge)](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot) |
+| [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                               | [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167)                                                  | [![Total downloads badge](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)  | [![Github Stars](https://img.shields.io/github/stars/IndrajeetPatil/ggstatsplot.svg?style=social&label=Github)](https://github.com/IndrajeetPatil/ggstatsplot) | [![code size](https://img.shields.io/github/languages/code-size/IndrajeetPatil/ggstatsplot.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                       |
 
 # Raison d’être <img src="man/figures/logo.png" align="right" width="360" />
 
@@ -95,10 +94,6 @@ To see the detailed documentation for each function in the stable
     <https://indrajeetpatil.github.io/ggstatsplot_slides/slides/ggstatsplot_presentation.html#1>
 
 -   Vignettes: <https://indrajeetpatil.github.io/ggstatsplot/articles/>
-
-To see the documentation relevant for the **development** version of the
-package, see the dedicated website for `ggstatplot`, which is updated
-after every new commit: <https://indrajeetpatil.github.io/ggstatsplot/>.
 
 # Summary of available plots
 
@@ -1322,7 +1317,7 @@ ggbetweenstats(mtcars, cyl, mpg) %>%
 #> 1    0.475     0.853 Omega2     ncp         F                 <language>
 #> 
 #> $caption_data
-#> # A tibble: 6 x 19
+#> # A tibble: 6 x 20
 #>   term  estimate conf.level conf.low conf.high    pd rope.percentage
 #>   <chr>    <dbl>      <dbl>    <dbl>     <dbl> <dbl>           <dbl>
 #> 1 mu      20.5         0.95  19.3        21.9  1              0     
@@ -1339,22 +1334,22 @@ ggbetweenstats(mtcars, cyl, mpg) %>%
 #> 4 cauchy                          0       0.707 conditional 3008850.
 #> 5 cauchy                          0       0.707 extra       3008850.
 #> 6 cauchy                          0       0.707 extra       3008850.
-#>   method                             r2 std.dev r2.conf.level r2.conf.low
-#>   <chr>                           <dbl>   <dbl>         <dbl>       <dbl>
-#> 1 Bayes factors for linear models 0.714  0.0503          0.95       0.574
-#> 2 Bayes factors for linear models 0.714  0.0503          0.95       0.574
-#> 3 Bayes factors for linear models 0.714  0.0503          0.95       0.574
-#> 4 Bayes factors for linear models 0.714  0.0503          0.95       0.574
-#> 5 Bayes factors for linear models 0.714  0.0503          0.95       0.574
-#> 6 Bayes factors for linear models 0.714  0.0503          0.95       0.574
-#>   r2.conf.high expression
-#>          <dbl> <list>    
-#> 1        0.788 <language>
-#> 2        0.788 <language>
-#> 3        0.788 <language>
-#> 4        0.788 <language>
-#> 5        0.788 <language>
-#> 6        0.788 <language>
+#>   method                          log_e_bf10    r2 std.dev r2.conf.level
+#>   <chr>                                <dbl> <dbl>   <dbl>         <dbl>
+#> 1 Bayes factors for linear models       14.9 0.714  0.0503          0.95
+#> 2 Bayes factors for linear models       14.9 0.714  0.0503          0.95
+#> 3 Bayes factors for linear models       14.9 0.714  0.0503          0.95
+#> 4 Bayes factors for linear models       14.9 0.714  0.0503          0.95
+#> 5 Bayes factors for linear models       14.9 0.714  0.0503          0.95
+#> 6 Bayes factors for linear models       14.9 0.714  0.0503          0.95
+#>   r2.conf.low r2.conf.high expression
+#>         <dbl>        <dbl> <list>    
+#> 1       0.574        0.788 <language>
+#> 2       0.574        0.788 <language>
+#> 3       0.574        0.788 <language>
+#> 4       0.574        0.788 <language>
+#> 5       0.574        0.788 <language>
+#> 6       0.574        0.788 <language>
 #> 
 #> $pairwise_comparisons_data
 #> # A tibble: 3 x 11
@@ -1483,12 +1478,9 @@ time-constrained presentation settings, e.g. conference talks.)
 
 # `ggstatsverse`: Components of `ggstatsplot`
 
-To make the maintenance and development of `ggstatsplot` more
-manageable, it is being broken into smaller pieces. Currently, the
-package internally relies on the following packages that manage
-different aspects of statistical analyses:
-
-<img src="man/figures/ggstatsverse.jpg" />
+To make the maintenance and development of `ggstatsplot`, the package
+internally relies on the following packages that manage different
+aspects of statistical analyses:
 
 ## `statsExpressions`
 
@@ -1507,14 +1499,6 @@ comparisons displayed in `ggbetweenstats` and `ggwithinstats` functions.
 
 For more exhaustive documentation for this package, see:
 <https://indrajeetpatil.github.io/pairwiseComparisons/>
-
-## `ipmisc`
-
-The `ipmisc` package contains the data wrangling/cleaning functions and
-a few other miscellaneous functions.
-
-For more exhaustive documentation for this package, see:
-<https://indrajeetpatil.github.io/ipmisc/>
 
 # Extensions
 
@@ -1544,12 +1528,6 @@ Cushman at Harvard University; Iyad Rahwan at Max Planck Institute for
 Human Development) who patiently supported me spending hundreds (?) of
 hours working on this package rather than what I was paid to do. 😁
 
-# Code coverage
-
-As the code stands right now, here is the code coverage for all primary
-functions involved:
-<https://codecov.io/gh/IndrajeetPatil/ggstatsplot/tree/master/R>
-
 # Contributing
 
 I’m happy to receive bug reports, suggestions, questions, and (most of
@@ -1563,20 +1541,11 @@ order of commitment):
 
 -   Read and correct any inconsistencies in the
     [documentation](https://indrajeetpatil.github.io/ggstatsplot/)
-
 -   Raise issues about bugs or wanted features
-
 -   Review code
-
 -   Add new functionality (in the form of new plotting functions or
     helpers for preparing subtitles)
 
 Please note that this project is released with a [Contributor Code of
 Conduct](https://github.com/IndrajeetPatil/ggstatsplot/blob/master/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
-
-# Session Information
-
-For reproducibility purposes, the details about the session information
-in which this document was rendered, see-
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/session_info.html>

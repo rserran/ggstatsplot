@@ -115,7 +115,10 @@
           bold("Games-Howell test"), "; Comparisons shown: ", bold("only non-significant")))
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 # check mcp displays - non-significant
@@ -249,7 +252,10 @@
           "; Comparisons shown: ", bold("only non-significant")))
       
       [[1]]$label
-      [1] "label"
+      [1] "expression"
+      
+      [[1]]$alt
+      [1] ""
       
       
       [[2]]
@@ -273,7 +279,10 @@
           "; Comparisons shown: ", bold("only significant")))
       
       [[2]]$label
-      [1] "label"
+      [1] "expression"
+      
+      [[2]]$alt
+      [1] ""
       
       
 
@@ -362,7 +371,10 @@
           "; Comparisons shown: ", bold("all")))
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 # check robust test display - FDR-corrected
@@ -441,7 +453,10 @@
           "; Comparisons shown: ", bold("only significant")))
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 # check bayesian test display
@@ -529,7 +544,10 @@
           "; Comparisons shown: ", bold("all")))
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 # additional test
@@ -606,7 +624,10 @@
           "; Comparisons shown: ", bold("only significant")))
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 ---
@@ -634,6 +655,9 @@
           "; Comparisons shown: ", bold("only significant")))
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 

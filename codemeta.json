@@ -14,13 +14,13 @@
   ],
   "issueTracker": "https://github.com/IndrajeetPatil/ggstatsplot/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.8.0",
+  "version": "0.8.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R Under development (unstable) (2021-05-17 r80314)",
+  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -169,6 +169,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "survival",
+      "name": "survival",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=survival"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -239,6 +251,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
+      "version": ">= 3.3.4",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -286,29 +299,16 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "ipmisc",
-      "name": "ipmisc",
-      "version": ">= 6.0.2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ipmisc"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "pairwiseComparisons",
       "name": "pairwiseComparisons",
-      "version": ">= 3.1.5",
+      "version": ">= 3.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=pairwiseComparisons"
+      "sameAs": "https://github.com/IndrajeetPatil/pairwiseComparisons"
     },
     {
       "@type": "SoftwareApplication",
@@ -326,14 +326,14 @@
       "@type": "SoftwareApplication",
       "identifier": "parameters",
       "name": "parameters",
-      "version": ">= 0.14.0",
+      "version": ">= 0.14.0.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=parameters"
+      "sameAs": "https://github.com/easystats/parameters"
     },
     {
       "@type": "SoftwareApplication",
@@ -392,14 +392,14 @@
       "@type": "SoftwareApplication",
       "identifier": "statsExpressions",
       "name": "statsExpressions",
-      "version": ">= 1.1.0",
+      "version": ">= 1.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=statsExpressions"
+      "sameAs": "https://github.com/IndrajeetPatil/statsExpressions"
     },
     {
       "@type": "SoftwareApplication",
@@ -420,7 +420,7 @@
     }
   ],
   "releaseNotes": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/NEWS.md",
-  "contIntegration": ["https://travis-ci.org/IndrajeetPatil/ggstatsplot", "https://ci.appveyor.com/project/IndrajeetPatil/ggstatsplot", "https://coveralls.io/github/IndrajeetPatil/ggstatsplot?branch=master", "https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master"],
+  "contIntegration": "https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master",
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html", "https://www.repostatus.org/#active", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html", "https://lifecycle.r-lib.org/articles/stages.html"],
   "keywords": [
     "ggplot-extension",
@@ -487,6 +487,6 @@
     }
   ],
   "funder": {},
-  "fileSize": "0KB",
+  "fileSize": "10412.673KB",
   "readme": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/README.md"
 }

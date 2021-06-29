@@ -185,6 +185,9 @@
       $label
       [1] "outlier.label"
       
+      $alt
+      [1] ""
+      
 
 # basic plotting works - more than two groups
 
@@ -355,6 +358,9 @@
       $label
       [1] "outlier.label"
       
+      $alt
+      [1] ""
+      
 
 # checking subtitle outputs - without NAs
 
@@ -381,7 +387,10 @@
       [1] ".rowid"
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 ---
@@ -409,7 +418,10 @@
       [1] ".rowid"
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 ---
@@ -436,7 +448,10 @@
       [1] ".rowid"
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 ---
@@ -463,7 +478,10 @@
       [1] ".rowid"
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 
 # ggplot component addition works
@@ -494,6 +512,9 @@
       [1] ".rowid"
       
       $label
-      [1] "label"
+      [1] "expression"
+      
+      $alt
+      [1] ""
       
 

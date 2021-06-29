@@ -79,9 +79,9 @@
 #'
 #' @note
 #'
-#' 1. In case you want to carry out meta-analysis using this
-#' function, it assumes that you have already downloaded the needed package
-#' (`metafor`, `metaplus`, or `metaBMA`) for meta-analysis.
+#' 1. In case you want to carry out meta-analysis, you will be asked to install
+#'    the needed packages (`metafor`, `metaplus`, or `metaBMA`) for meta-analysis
+#'    (if unavailable).
 #'
 #' 2. All rows of regression estimates where either of the following
 #'   quantities is `NA` will be removed if labels are requested: `estimate`,
@@ -93,16 +93,16 @@
 #'
 #' @import ggplot2
 #' @importFrom rlang exec !!! !!
-#' @importFrom dplyr select mutate matches across row_number last group_by ungroup
+#' @importFrom dplyr select mutate matches across row_number
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom tidyr unite
 #' @importFrom insight is_model find_statistic format_value
-#' @importFrom statsExpressions meta_analysis
+#' @importFrom statsExpressions meta_analysis tidy_model_expressions
 #' @importFrom parameters model_parameters standardize_names
 #' @importFrom performance model_performance
 #'
 #' @details For more details, see:
-#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
+#' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html>
 #'
 #'
 #' @examples
@@ -162,28 +162,17 @@ ggcoefstats <- function(x,
                         palette = "Dark2",
                         ggtheme = ggstatsplot::theme_ggstatsplot(),
                         ...) {
-  # ============================= dataframe ===============================
+  # dataframe -------------------------
 
   if (isFALSE(insight::is_model(x))) {
     # set tidy_df to entered dataframe
     tidy_df <- as_tibble(x)
 
     # check that `statistic` is specified
-    if (rlang::is_null(statistic)) {
-      # inform the user
-      if (output == "plot" && isTRUE(stats.labels)) {
-        message(cat(
-          "Note: The argument `statistic` must be specified.\n",
-          "Skipping labels with statistical details.\n"
-        ))
-      }
-
-      # skip labels
-      stats.labels <- FALSE
-    }
+    if (is.null(statistic)) stats.labels <- FALSE
   }
 
-  # =========================== tidy it ====================================
+  # tidy it -------------------------
 
   if (isTRUE(insight::is_model(x))) {
     # which effect size?
@@ -198,45 +187,22 @@ ggcoefstats <- function(x,
       omega_squared = omega_squared,
       ci = conf.level,
       verbose = FALSE,
+      table_wide = TRUE,
       ...
     ) %>%
       parameters::standardize_names(style = "broom") %>%
       dplyr::rename_all(~ gsub("omega2.|eta2.", "", .x))
 
     # anova objects need further cleaning
-    if (class(x)[[1]] %in% c("aov", "aovlist", "anova", "Gam", "manova", "maov")) {
-      if (dim(dplyr::filter(tidy_df, term == "Residuals"))[[1]] > 0L) {
-        if ("group" %in% names(tidy_df)) tidy_df %<>% group_by(group)
-        # creating a new column for residual degrees of freedom
-        tidy_df %<>% dplyr::mutate(df.error = dplyr::last(df))
-      }
-
-      # final cleanup
-      tidy_df %<>%
-        dplyr::mutate(effectsize = paste0("partial ", effsize, "-squared")) %>%
-        dplyr::ungroup()
-    }
+    if (all(c("df", "df.error") %in% names(tidy_df))) tidy_df %<>% mutate(effectsize = paste0("partial ", effsize, "-squared"))
   }
 
-  # =================== tidy dataframe cleanup ================================
+
+  # tidy dataframe cleanup -------------------------
 
   # check for the one necessary column
-  if (rlang::is_null(tidy_df) || !"estimate" %in% names(tidy_df)) {
-    stop(message(cat(
-      "Error: The tidy dataframe *must* contain column called 'estimate'.\n",
-      "Check the tidy output using argument `output = 'tidy'`."
-    )),
-    call. = FALSE
-    )
-  }
-
-  # remove NAs
-  if (isTRUE(stats.labels)) {
-    tidy_df %<>%
-      dplyr::filter(dplyr::across(
-        .cols = c(dplyr::matches("estimate|statistic|std.error|p.value")),
-        .fns = ~ !is.na(.)
-      ))
+  if (is.null(tidy_df) || !"estimate" %in% names(tidy_df)) {
+    stop("The tidy dataframe *must* contain 'estimate' column.", call. = FALSE)
   }
 
   # create a new term column if it's not present
@@ -244,7 +210,7 @@ ggcoefstats <- function(x,
     tidy_df %<>% dplyr::mutate(term = paste("term", dplyr::row_number(), sep = "_"))
   }
 
-  # ================ check for duplicate terms and columns ===================
+  # check for duplicate terms and columns -------------------------
 
   # a check if there are repeated terms
   # needed for maov, lqm, lqmm, etc. kind of objects
@@ -259,48 +225,68 @@ ggcoefstats <- function(x,
   }
 
   # halt if there are still repeated terms
-  if (any(duplicated(dplyr::select(tidy_df, term)))) {
-    message("Error: All elements in the column `term` should be unique.")
-    return(invisible(tidy_df))
-  }
+  if (any(duplicated(tidy_df$term))) stop("Elements in `term` column must be unique.")
 
   # if `parameters` output doesn't contain p-value or statistic column
   if (sum(c("p.value", "statistic") %in% names(tidy_df)) != 2L) stats.labels <- FALSE
 
-  # =========================== CIs and intercepts ===========================
+  # CIs and intercepts -------------------------
 
   # if `parameters` output doesn't contain CI
   if (!"conf.low" %in% names(tidy_df)) {
     # add NAs so that only dots will be shown
-    tidy_df %<>% dplyr::mutate(conf.low = NA_character_, conf.high = NA_character_)
+    tidy_df %<>% dplyr::mutate(conf.low = NA, conf.high = NA)
 
     # stop displaying whiskers
     conf.int <- FALSE
   }
 
   # whether to show model intercept
-  if (isTRUE(exclude.intercept)) tidy_df %<>% dplyr::filter(!grepl("(Intercept)", term, TRUE))
+  if (exclude.intercept) tidy_df %<>% filter(!grepl("(Intercept)", term, TRUE))
 
-  # ========================== preparing label ================================
+  # preparing label -------------------------
 
   # adding a column with labels to be used with `ggrepel`
-  if (isTRUE(stats.labels)) {
-    # in case a dataframe was entered, `x` and `tidy_df` are going to be same
-    if (isTRUE(insight::is_model(x))) statistic <- insight::find_statistic(x)
+  if (stats.labels) {
+    # extract statistic for a model
+    if (insight::is_model(x)) statistic <- insight::find_statistic(x)
 
-    # adding a column with labels using custom function
+    # remove NAs
     tidy_df %<>%
-      ggcoefstats_label_maker(
-        statistic = substring(tolower(statistic), 1, 1),
-        k = k,
-        effsize = effsize
-      )
+      dplyr::filter(dplyr::across(
+        .cols = c(dplyr::matches("estimate|statistic|std.error|p.value")),
+        .fns = ~ !is.na(.)
+      )) %>%
+      statsExpressions::tidy_model_expressions(statistic, k, effsize)
+
+    # only significant p-value labels are shown
+    if (only.significant && "p.value" %in% names(tidy_df)) {
+      tidy_df %<>% dplyr::mutate(label = ifelse(p.value >= 0.05, NA, label))
+    }
   }
 
-  # ========================== summary caption ================================
+  # sorting -------------------------
+
+  # whether the term need to be arranged in any specified order
+  tidy_df %<>% dplyr::mutate(term = as.factor(term), .rowid = dplyr::row_number())
+
+  # sorting factor levels
+  new_order <- switch(sort,
+    "ascending" = order(tidy_df$estimate, decreasing = FALSE),
+    "descending" = order(tidy_df$estimate, decreasing = TRUE),
+    order(tidy_df$.rowid, decreasing = FALSE)
+  )
+
+  # sorting `term` factor levels according to new sorting order
+  tidy_df %<>%
+    dplyr::mutate(term = as.character(term)) %>%
+    dplyr::mutate(term = factor(x = term, levels = term[new_order])) %>%
+    dplyr::select(-.rowid)
+
+  # summary caption -------------------------
 
   # for non-dataframe objects
-  if (isTRUE(insight::is_model(x))) {
+  if (insight::is_model(x)) {
     # creating glance dataframe
     glance_df <- performance::model_performance(x, verbose = FALSE)
 
@@ -322,9 +308,9 @@ ggcoefstats <- function(x,
   }
 
   # running meta-analysis
-  if (isTRUE(meta.analytic.effect)) {
+  if (meta.analytic.effect) {
     # standardizing type of statistics name
-    meta.type <- ipmisc::stats_type_switch(meta.type)
+    meta.type <- statsExpressions::stats_type_switch(meta.type)
 
     # results from frequentist random-effects meta-analysis
     subtitle_df <- statsExpressions::meta_analysis(tidy_df, type = meta.type, k = k)
@@ -334,47 +320,26 @@ ggcoefstats <- function(x,
     # results from Bayesian random-effects meta-analysis (only for parametric)
     if (meta.type == "parametric" && isTRUE(bf.message)) {
       caption_df <- statsExpressions::meta_analysis(
-        data = tidy_df,
-        top.text = caption,
+        tidy_df,
         type = "bayes",
-        k = k
+        k = k,
+        top.text = caption
       )
 
       caption <- caption_df$expression[[1]]
     }
   }
 
-  # ========================== sorting ===================================
-
-  # whether the term need to be arranged in any specified order
-  tidy_df %<>% dplyr::mutate(term = as.factor(term), .rowid = dplyr::row_number())
-
-  # sorting factor levels
-  new_order <- switch(sort,
-    "none" = order(tidy_df$.rowid, decreasing = FALSE),
-    "ascending" = order(tidy_df$estimate, decreasing = FALSE),
-    "descending" = order(tidy_df$estimate, decreasing = TRUE),
-    order(tidy_df$.rowid, decreasing = FALSE)
-  )
-
-  # sorting `term` factor levels according to new sorting order
-  tidy_df %<>%
-    dplyr::mutate(term = as.character(term)) %>%
-    dplyr::mutate(term = factor(x = term, levels = term[new_order])) %>%
-    dplyr::select(-.rowid)
-
-  # ========================== basic plot ===================================
+  # basic plot -------------------------
 
   # palette check is necessary only if output is a plot
   if (output == "plot") {
     # setting up the basic architecture
-    plot <- ggplot2::ggplot(tidy_df, mapping = ggplot2::aes(estimate, term))
-
-    # if needed, adding the vertical line
-    if (isTRUE(vline)) plot <- plot + rlang::exec(ggplot2::geom_vline, xintercept = 0, !!!vline.args)
+    plot <- ggplot2::ggplot(tidy_df, mapping = ggplot2::aes(estimate, term)) +
+      rlang::exec(ggplot2::geom_point, !!!point.args)
 
     # if the confidence intervals are to be displayed on the plot
-    if (isTRUE(conf.int)) {
+    if (conf.int) {
       plot <- plot +
         rlang::exec(
           ggplot2::geom_errorbarh,
@@ -384,25 +349,14 @@ ggcoefstats <- function(x,
         )
     }
 
-    # changing the point aesthetics
-    plot <- plot + rlang::exec(ggplot2::geom_point, !!!point.args)
+    # if needed, adding the vertical line
+    if (vline) plot <- plot + rlang::exec(ggplot2::geom_vline, xintercept = 0, !!!vline.args)
 
-    # ========================= ggrepel labels ================================
+    # ggrepel labels -------------------------
 
     # adding the labels
-    if (isTRUE(stats.labels)) {
-      # only significant p-value labels are shown
-      if (isTRUE(only.significant) && "p.value" %in% names(tidy_df)) {
-        tidy_df %<>% dplyr::mutate(label = dplyr::case_when(
-          p.value >= 0.05 ~ NA_character_,
-          TRUE ~ label
-        ))
-      }
-
-      # palette check ----------------------
-
-      # has user specified if a specific color for the label?
-      # if not, use a palette, assuming enough no. of colors are available
+    if (stats.labels) {
+      # use a palette, assuming enough no. of colors are available
       if (is.null(stats.label.color) && palette_message(package, palette, length(tidy_df$term))) {
         stats.label.color <- paletteer::paletteer_d(paste0(package, "::", palette), length(tidy_df$term))
       } else {
@@ -422,7 +376,7 @@ ggcoefstats <- function(x,
         )
     }
 
-    # ========================== annotations =============================
+    # annotations -------------------------
 
     # adding other labels to the plot
     plot <- plot +
@@ -437,7 +391,7 @@ ggcoefstats <- function(x,
       ggplot2::theme(plot.caption = ggplot2::element_text(size = 10))
   }
 
-  # =========================== output =====================================
+  # output -------------------------
 
   # what needs to be returned?
   switch(output,

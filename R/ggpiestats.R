@@ -47,7 +47,7 @@
 #' @importFrom statsExpressions contingency_table
 #'
 #' @details For more details, see:
-#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html}
+#' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html>
 #'
 #' @examples
 #' \donttest{
@@ -97,7 +97,7 @@ ggpiestats <- function(data,
                        output = "plot",
                        ...) {
   # convert entered stats type to a standard notation
-  type <- ipmisc::stats_type_switch(type)
+  type <- statsExpressions::stats_type_switch(type)
 
   # ensure the variables work quoted or unquoted
   x <- rlang::ensym(x)

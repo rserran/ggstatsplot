@@ -37,7 +37,7 @@
 #' @importFrom statsExpressions one_sample_test
 #'
 #' @details For more details, see:
-#' \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/gghistostats.html}
+#' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/gghistostats.html>
 #'
 #' @examples
 #' # for reproducibility
@@ -91,7 +91,7 @@ gghistostats <- function(data,
                          ...) {
 
   # convert entered stats type to a standard notation
-  type <- ipmisc::stats_type_switch(type)
+  type <- statsExpressions::stats_type_switch(type)
 
   # --------------------------------- data -----------------------------------
 
@@ -170,7 +170,7 @@ gghistostats <- function(data,
         name = "proportion"
       )
     ) +
-    ggplot2::guides(fill = FALSE)
+    ggplot2::guides(fill = "none")
 
   # if normal curve overlay  needs to be displayed
   if (isTRUE(normal.curve)) {
@@ -190,7 +190,7 @@ gghistostats <- function(data,
     plot <- histo_labeller(
       plot,
       x = x_vec,
-      type = ipmisc::stats_type_switch(centrality.type),
+      type = statsExpressions::stats_type_switch(centrality.type),
       tr = tr,
       k = k,
       centrality.line.args = centrality.line.args

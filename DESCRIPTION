@@ -1,7 +1,7 @@
 Type: Package
 Package: ggstatsplot
 Title: 'ggplot2' Based Plots with Statistical Details
-Version: 0.8.0
+Version: 0.8.0.9000
 Authors@R: 
     person(given = "Indrajeet",
            family = "Patil",
@@ -26,20 +26,19 @@ Depends:
     R (>= 3.6.0)
 Imports:
     dplyr,
-    ggplot2,
+    ggplot2 (>= 3.3.4),
     ggrepel,
     ggsignif,
     insight (>= 0.14.1),
-    ipmisc (>= 6.0.2),
-    pairwiseComparisons (>= 3.1.5),
+    pairwiseComparisons (>= 3.2.0),
     paletteer,
-    parameters (>= 0.14.0),
+    parameters (>= 0.14.0.1),
     patchwork,
     performance,
     purrr,
     rlang,
     stats,
-    statsExpressions (>= 1.1.0),
+    statsExpressions (>= 1.2.0),
     tidyr,
     utils
 Suggests:
@@ -53,10 +52,15 @@ Suggests:
     metafor,
     rmarkdown,
     spelling,
+    survival,
     testthat,
     tibble,
     vdiffr,
     WRS2
+Remotes:
+    easystats/parameters,
+    IndrajeetPatil/statsExpressions,
+    IndrajeetPatil/pairwiseComparisons
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
