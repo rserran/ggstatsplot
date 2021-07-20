@@ -58,27 +58,24 @@
 #' @seealso \code{\link{grouped_ggcorrmat}} \code{\link{ggscatterstats}}
 #'   \code{\link{grouped_ggscatterstats}}
 #'
-#' @details For more details, see:
+#' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html>
 #'
 #' @examples
-#' \donttest{
 #' # for reproducibility
 #' set.seed(123)
 #' library(ggstatsplot)
 #'
-#' # for plot
-#' if (require("ggcorrplot")) {
-#'   ggcorrmat(iris)
-#' }
-#' # to get the correlation analyses results in a dataframe
+#' # to get a plot (assumes that `ggcorrplot` is installed)
+#' if (require("ggcorrplot")) ggcorrmat(iris)
+#'
+#' # to get a dataframe
 #' ggcorrmat(
 #'   data = ggplot2::msleep,
 #'   cor.vars = sleep_total:bodywt,
 #'   partial = TRUE,
 #'   output = "dataframe"
 #' )
-#' }
 #' @export
 
 # defining the function
@@ -111,7 +108,7 @@ ggcorrmat <- function(data,
                       caption = NULL,
                       ...) {
 
-  # --------------------------------- data -----------------------------------
+  # dataframe -----------------------------------
 
   # creating a dataframe out of the entered variables
   if (missing(cor.vars)) {
@@ -130,7 +127,7 @@ ggcorrmat <- function(data,
     }
   }
 
-  # ---------------------------- statistics -----------------------------------
+  # statistical analysis ------------------------------------------
 
   # if any of the abbreviations have been entered, change them
   type <- statsExpressions::stats_type_switch(type)
@@ -158,7 +155,7 @@ ggcorrmat <- function(data,
     return(as_tibble(parameters::standardize_names(stats_df, "broom")))
   }
 
-  # -------------------------------- plot -----------------------------------
+  # plot -------------------------------------
 
   # in case of NAs, compute minimum and maximum sample sizes of pairs
   # also compute mode
@@ -206,7 +203,7 @@ ggcorrmat <- function(data,
     !!!ggcorrplot.args
   )
 
-  # =========================== labels ==================================
+  # annotations ------------------------------------------
 
   # preparing the `pch` caption
   if ((pch == "cross" || pch == 4) && type != "bayes") {

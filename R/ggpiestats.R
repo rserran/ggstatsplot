@@ -2,9 +2,6 @@
 #' @name ggpiestats
 #'
 #' @description
-#'
-#'
-#'
 #' Pie charts for categorical data with statistical details included in the plot
 #' as a subtitle.
 #'
@@ -46,23 +43,20 @@
 #' @importFrom tidyr uncount drop_na
 #' @importFrom statsExpressions contingency_table
 #'
-#' @details For more details, see:
+#' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html>
 #'
 #' @examples
 #' \donttest{
 #' # for reproducibility
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # one sample goodness of fit proportion test
-#' ggstatsplot::ggpiestats(ggplot2::msleep, vore)
+#' ggpiestats(mtcars, vs)
 #'
 #' # association test (or contingency table analysis)
-#' ggstatsplot::ggpiestats(
-#'   data = mtcars,
-#'   x = vs,
-#'   y = cyl
-#' )
+#' ggpiestats(mtcars, vs, cyl)
 #' }
 #' @export
 
@@ -96,6 +90,8 @@ ggpiestats <- function(data,
                        ggplot.component = NULL,
                        output = "plot",
                        ...) {
+  # dataframe ------------------------------------------
+
   # convert entered stats type to a standard notation
   type <- statsExpressions::stats_type_switch(type)
 
@@ -106,8 +102,6 @@ ggpiestats <- function(data,
   # one-way or two-way table?
   test <- ifelse(!rlang::quo_is_null(rlang::enquo(y)), "two.way", "one.way")
 
-  # =============================== dataframe ================================
-
   # creating a dataframe
   data %<>%
     dplyr::select({{ x }}, {{ y }}, .counts = {{ counts }}) %>%
@@ -117,62 +111,48 @@ ggpiestats <- function(data,
   if (".counts" %in% names(data)) data %<>% tidyr::uncount(weights = .counts)
 
   # x and y need to be a factor; also drop the unused levels of the factors
-  data %<>% dplyr::mutate(dplyr::across(dplyr::everything(), ~ droplevels(as.factor(.x))))
+  data %<>% dplyr::mutate(dplyr::across(.fns = ~ droplevels(as.factor(.x))))
 
   # x
-  x_levels <- nlevels(data %>% dplyr::pull({{ x }}))[[1]]
+  x_levels <- nlevels(data %>% dplyr::pull({{ x }}))
 
   # y
+  if (test == "one.way") y_levels <- 0L
   if (test == "two.way") {
-    y_levels <- nlevels(data %>% dplyr::pull({{ y }}))[[1]]
-
-    # TO DO: until one-way table is supported by `BayesFactor`
-    if (y_levels == 1L) bf.message <- FALSE
-  } else {
-    y_levels <- 0L
+    y_levels <- nlevels(data %>% dplyr::pull({{ y }}))
+    if (y_levels == 1L) bf.message <- FALSE # TODO: one-way table in `BayesFactor`
   }
+
 
   # faceting is happening only if both vars have more than one levels
   facet <- ifelse(y_levels > 1L, TRUE, FALSE)
-  if ((x_levels == 1L && isTRUE(facet)) || type == "bayes") proportion.test <- FALSE
+  if ((x_levels == 1L && facet) || type == "bayes") proportion.test <- FALSE
 
-  # -------------------------- statistical analysis --------------------------
+  # statistical analysis ------------------------------------------
 
   # if subtitle with results is to be displayed
-  if (isTRUE(results.subtitle)) {
-    subtitle_df <- tryCatch(
-      expr = statsExpressions::contingency_table(
-        data = data,
-        x = {{ x }},
-        y = {{ y }},
-        type = type,
-        k = k,
-        paired = paired,
-        ratio = ratio,
-        conf.level = conf.level
-      ),
-      error = function(e) NULL
+  if (results.subtitle) {
+    # relevant arguments for statistical tests
+    .f.args <- list(
+      data = data,
+      x = {{ x }},
+      y = {{ y }},
+      conf.level = conf.level,
+      k = k,
+      paired = paired,
+      ratio = ratio,
+      sampling.plan = sampling.plan,
+      fixed.margin = fixed.margin,
+      prior.concentration = prior.concentration,
+      top.text = caption
     )
 
+    subtitle_df <- eval_f(contingency_table, !!!.f.args, type = type)
     if (!is.null(subtitle_df)) subtitle <- subtitle_df$expression[[1]]
 
     # preparing Bayes Factor caption
     if (type != "bayes" && isTRUE(bf.message) && isFALSE(paired)) {
-      caption_df <- tryCatch(
-        expr = statsExpressions::contingency_table(
-          data = data,
-          x = {{ x }},
-          y = {{ y }},
-          type = "bayes",
-          k = k,
-          top.text = caption,
-          sampling.plan = sampling.plan,
-          fixed.margin = fixed.margin,
-          prior.concentration = prior.concentration
-        ),
-        error = function(e) NULL
-      )
-
+      caption_df <- eval_f(contingency_table, !!!.f.args, type = "bayes")
       if (!is.null(caption_df)) caption <- caption_df$expression[[1]]
     }
   }
@@ -185,7 +165,7 @@ ggpiestats <- function(data,
     ))
   }
 
-  # =================================== plot =================================
+  # plot ------------------------------------------
 
   # dataframe with summary labels
   descriptive_df <- descriptive_df(data, {{ x }}, {{ y }}, label, perc.k)
@@ -206,8 +186,8 @@ ggpiestats <- function(data,
     )
 
   # whether labels need to be repelled
-  if (isTRUE(label.repel)) .fn <- ggrepel::geom_label_repel
-  if (isFALSE(label.repel)) .fn <- ggplot2::geom_label
+  if (label.repel) .fn <- ggrepel::geom_label_repel
+  if (!label.repel) .fn <- ggplot2::geom_label
 
   # adding label with percentages and/or counts
   suppressWarnings(suppressMessages(p <- p +
@@ -222,7 +202,7 @@ ggpiestats <- function(data,
     )))
 
   # if facet_wrap *is* happening
-  if (isTRUE(facet)) p <- p + ggplot2::facet_wrap(facets = dplyr::vars({{ y }}))
+  if (facet) p <- p + ggplot2::facet_wrap(facets = dplyr::vars({{ y }}))
 
   # polar coordinates plus formatting
   p <- p +
@@ -237,10 +217,10 @@ ggpiestats <- function(data,
     ) +
     ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(color = NA)))
 
-  # ================ sample size + proportion test labels =================
+  # sample size + proportion test ------------------------------------------
 
   # adding labels with proportion tests
-  if (isTRUE(facet) && isTRUE(proportion.test)) {
+  if (facet && proportion.test) {
     p <- p +
       rlang::exec(
         ggplot2::geom_text,
@@ -252,9 +232,8 @@ ggpiestats <- function(data,
       )
   }
 
-  # =========================== putting all together ========================
+  # annotations ------------------------------------------
 
-  # preparing the plot
   p +
     ggplot2::labs(
       x = NULL,

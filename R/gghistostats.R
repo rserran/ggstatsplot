@@ -36,7 +36,7 @@
 #' @importFrom stats dnorm
 #' @importFrom statsExpressions one_sample_test
 #'
-#' @details For more details, see:
+#' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/gghistostats.html>
 #'
 #' @examples
@@ -90,57 +90,44 @@ gghistostats <- function(data,
                          output = "plot",
                          ...) {
 
-  # convert entered stats type to a standard notation
-  type <- statsExpressions::stats_type_switch(type)
+  # data -----------------------------------
 
-  # --------------------------------- data -----------------------------------
-
-  # to ensure that x will be read irrespective of whether it is quoted or unquoted
+  # cover both quoted or unquoted arguments
   x <- rlang::ensym(x)
 
   # if dataframe is provided
-  df <- tidyr::drop_na(dplyr::select(data, {{ x }}))
+  data <- tidyr::drop_na(dplyr::select(data, {{ x }}))
 
   # if binwidth not specified
-  x_vec <- df %>% dplyr::pull({{ x }})
+  x_vec <- data %>% dplyr::pull({{ x }})
   if (is.null(binwidth)) binwidth <- (max(x_vec) - min(x_vec)) / sqrt(length(x_vec))
 
-  # --------------------- subtitle/caption preparation ------------------------
+  # statistical analysis ------------------------------------------
 
   if (isTRUE(results.subtitle)) {
-    # preparing the subtitle with statistical results
-    subtitle_df <- tryCatch(
-      statsExpressions::one_sample_test(
-        data = df,
-        x = {{ x }},
-        type = type,
-        test.value = test.value,
-        bf.prior = bf.prior,
-        effsize.type = effsize.type,
-        conf.level = conf.level,
-        tr = tr,
-        k = k
-      ),
-      error = function(e) NULL
+    # convert entered stats type to a standard notation
+    type <- statsExpressions::stats_type_switch(type)
+
+    # relevant arguments for statistical tests
+    .f.args <- list(
+      data = data,
+      x = {{ x }},
+      test.value = test.value,
+      effsize.type = effsize.type,
+      conf.level = conf.level,
+      k = k,
+      tr = tr,
+      bf.prior = bf.prior,
+      top.text = caption
     )
 
+    # preparing the subtitle with statistical results
+    subtitle_df <- eval_f(one_sample_test, !!!.f.args, type = type)
     subtitle <- if (!is.null(subtitle_df)) subtitle_df$expression[[1]]
 
     # preparing the BF message
     if (type == "parametric" && isTRUE(bf.message)) {
-      caption_df <- tryCatch(
-        statsExpressions::one_sample_test(
-          data = df,
-          x = {{ x }},
-          type = "bayes",
-          test.value = test.value,
-          bf.prior = bf.prior,
-          top.text = caption,
-          k = k
-        ),
-        error = function(e) NULL
-      )
-
+      caption_df <- eval_f(one_sample_test, !!!.f.args, type = "bayes")
       caption <- if (!is.null(caption_df)) caption_df$expression[[1]]
     }
   }
@@ -153,10 +140,10 @@ gghistostats <- function(data,
     ))
   }
 
-  # ============================= plot ====================================
+  # plot -----------------------------------
 
   # adding axes info
-  plot <- ggplot2::ggplot(df, mapping = ggplot2::aes(x = {{ x }})) +
+  plot <- ggplot2::ggplot(data, mapping = ggplot2::aes(x = {{ x }})) +
     rlang::exec(
       ggplot2::stat_bin,
       mapping = ggplot2::aes(y = ..count.., fill = ..count..),
@@ -165,7 +152,7 @@ gghistostats <- function(data,
     ) +
     ggplot2::scale_y_continuous(
       sec.axis = ggplot2::sec_axis(
-        trans = ~ . / nrow(df),
+        trans = ~ . / nrow(data),
         labels = function(x) paste0(x * 100, "%"),
         name = "proportion"
       )
@@ -183,7 +170,7 @@ gghistostats <- function(data,
       )
   }
 
-  # ---------------- centrality tagging -------------------------------------
+  # centrality plotting -------------------------------------
 
   # using custom function for adding labels
   if (isTRUE(centrality.plotting)) {

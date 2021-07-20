@@ -54,7 +54,7 @@
 #' @seealso \code{\link{grouped_ggscatterstats}}, \code{\link{ggcorrmat}},
 #' \code{\link{grouped_ggcorrmat}}
 #'
-#' @details For more details, see:
+#' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html>
 #'
 #' @note
@@ -128,10 +128,7 @@ ggscatterstats <- function(data,
                            output = "plot",
                            ...) {
 
-  # convert entered stats type to a standard notation
-  type <- statsExpressions::stats_type_switch(type)
-
-  #---------------------- variable names --------------------------------
+  # data ---------------------------------------
 
   # ensure the arguments work quoted or unquoted
   c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
@@ -144,44 +141,36 @@ ggscatterstats <- function(data,
     point.labelling <- FALSE
   }
 
-  #----------------------- dataframe ---------------------------------------
-
   # preparing the dataframe
   data %<>% dplyr::filter(!is.na({{ x }}), !is.na({{ y }}))
 
-  #----------------------- creating results subtitle ------------------------
+  # statistical analysis ------------------------------------------
 
   # adding a subtitle with statistical results
   if (isTRUE(results.subtitle)) {
-    # no need to use `tryCatch` because `correlation` already does this
+    # convert entered stats type to a standard notation
+    type <- statsExpressions::stats_type_switch(type)
 
-    # preparing the BF message for null hypothesis support
-    if (type == "parametric" && isTRUE(bf.message)) {
-      caption_df <- statsExpressions::corr_test(
-        data = data,
-        x = {{ x }},
-        y = {{ y }},
-        type = "bayes",
-        bf.prior = bf.prior,
-        top.text = caption,
-        k = k
-      )
-
-      caption <- caption_df$expression[[1]]
-    }
-
-    # extracting the subtitle using the switch function
-    subtitle_df <- statsExpressions::corr_test(
+    # relevant arguments for statistical tests
+    .f.args <- list(
       data = data,
       x = {{ x }},
       y = {{ y }},
-      tr = tr,
-      type = type,
       conf.level = conf.level,
-      k = k
+      k = k,
+      tr = tr,
+      bf.prior = bf.prior,
+      top.text = caption
     )
 
-    subtitle <- subtitle_df$expression[[1]]
+    subtitle_df <- eval_f(corr_test, !!!.f.args, type = type)
+    subtitle <- if (!is.null(subtitle_df)) subtitle_df$expression[[1]]
+
+    # preparing the BF message for null hypothesis support
+    if (type == "parametric" && isTRUE(bf.message)) {
+      caption_df <- eval_f(corr_test, !!!.f.args, type = "bayes")
+      caption <- if (!is.null(caption_df)) caption_df$expression[[1]]
+    }
   }
 
   # quit early if only subtitle is needed
@@ -192,9 +181,18 @@ ggscatterstats <- function(data,
     ))
   }
 
-  #---------------------------- user expression -------------------------
+  # plot ------------------------------------------
 
-  # check labeling variable has been entered
+  # creating jittered positions
+  pos <- ggplot2::position_jitter(width = point.width.jitter, height = point.height.jitter)
+
+  # preparing the scatterplot
+  plot <- ggplot2::ggplot(data, mapping = ggplot2::aes({{ x }}, {{ y }})) +
+    rlang::exec(ggplot2::geom_point, position = pos, !!!point.args) +
+    rlang::exec(ggplot2::geom_smooth, level = conf.level, !!!smooth.line.args)
+
+  # point labels --------------------------------
+
   if (isTRUE(point.labelling)) {
     # is expression provided?
     if (!rlang::quo_is_null(rlang::enquo(label.expression))) {
@@ -220,22 +218,8 @@ ggscatterstats <- function(data,
     } else {
       label_data <- data
     }
-  }
 
-  # --------------------------------- basic plot ---------------------------
-
-  # creating jittered positions
-  pos <- ggplot2::position_jitter(width = point.width.jitter, height = point.height.jitter)
-
-  # preparing the scatterplot
-  plot <- ggplot2::ggplot(data, mapping = ggplot2::aes({{ x }}, {{ y }})) +
-    rlang::exec(ggplot2::geom_point, position = pos, !!!point.args) +
-    rlang::exec(ggplot2::geom_smooth, level = conf.level, !!!smooth.line.args)
-
-  #-------------------- adding point labels --------------------------------
-
-  # using geom_repel_label
-  if (isTRUE(point.labelling)) {
+    # using geom_repel_label
     plot <- plot +
       rlang::exec(
         .fn = ggrepel::geom_label_repel,
@@ -248,7 +232,7 @@ ggscatterstats <- function(data,
       )
   }
 
-  #-------------------------- annotations -------------------------------------
+  # annotations -------------------------------------
 
   # annotations
   plot <- plot +
@@ -262,7 +246,7 @@ ggscatterstats <- function(data,
     ggtheme +
     ggplot.component
 
-  #------------------------- ggMarginal  ---------------------------------
+  # ggMarginal  ---------------------------------------------
 
   # adding marginal distributions
   if (isTRUE(marginal)) {

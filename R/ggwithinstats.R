@@ -33,7 +33,7 @@
 #' @importFrom pairwiseComparisons pairwise_comparisons pairwise_caption
 #' @importFrom dplyr select mutate row_number group_by ungroup anti_join
 #'
-#' @details For more details, see:
+#' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html>
 #'
 #' @examples
@@ -108,16 +108,14 @@ ggwithinstats <- function(data,
                           output = "plot",
                           ...) {
 
-  # convert entered stats type to a standard notation
-  type <- statsExpressions::stats_type_switch(type)
+  # data -----------------------------------
 
   # ensure the variables work quoted or unquoted
   c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
-  outlier.label <- if (!rlang::quo_is_null(rlang::enquo(outlier.label))) {
-    rlang::ensym(outlier.label)
-  }
+  if (!quo_is_null(enquo(outlier.label))) rlang::ensym(outlier.label)
 
-  # --------------------------------- data -----------------------------------
+  # convert entered stats type to a standard notation
+  type <- statsExpressions::stats_type_switch(type)
 
   # creating a dataframe
   data %<>%
@@ -140,60 +138,36 @@ ggwithinstats <- function(data,
       outlier.label = outlier.label
     )
 
-  # --------------------- subtitle/caption preparation ------------------------
+  # statistical analysis ------------------------------------------
 
-  # figure out which test to run based on the no. of levels of the independent variable
+  # test to run; depends on the no. of levels of the independent variable
   test <- ifelse(nlevels(data %>% dplyr::pull({{ x }}))[[1]] < 3, "t", "anova")
 
-  # these analyses do require latest Github version of Bayes Factor
-  if (type %in% c("parametric", "bayes") && test == "anova" &&
-    utils::packageVersion("BayesFactor") < "0.9.12-4.3") {
-    if (type == "parametric") bf.message <- FALSE else results.subtitle <- FALSE
-  }
-
   if (isTRUE(results.subtitle)) {
-    # preparing the bayes factor message
-    if (type == "parametric" && isTRUE(bf.message)) {
-      caption_df <- tryCatch(
-        function_switch(
-          test = test,
-          # arguments relevant for expression helper functions
-          data = data,
-          x = rlang::as_string(x),
-          y = rlang::as_string(y),
-          type = "bayes",
-          bf.prior = bf.prior,
-          top.text = caption,
-          paired = TRUE,
-          k = k
-        ),
-        error = function(e) NULL
-      )
-
-      caption <- if (!is.null(caption_df)) caption_df$expression[[1]]
-    }
-
-    # extracting the subtitle using the switch function
-    subtitle_df <- tryCatch(
-      function_switch(
-        test = test,
-        # arguments relevant for expression helper functions
-        data = data,
-        x = rlang::as_string(x),
-        y = rlang::as_string(y),
-        paired = TRUE,
-        type = type,
-        effsize.type = effsize.type,
-        bf.prior = bf.prior,
-        tr = tr,
-        nboot = nboot,
-        conf.level = conf.level,
-        k = k
-      ),
-      error = function(e) NULL
+    # relevant arguments for statistical tests
+    .f.args <- list(
+      data = data,
+      x = rlang::as_string(x),
+      y = rlang::as_string(y),
+      effsize.type = effsize.type,
+      conf.level = conf.level,
+      k = k,
+      tr = tr,
+      paired = TRUE,
+      bf.prior = bf.prior,
+      nboot = nboot,
+      top.text = caption
     )
 
+    .f <- function_switch(test)
+    subtitle_df <- eval_f(.f, !!!.f.args, type = type)
     subtitle <- if (!is.null(subtitle_df)) subtitle_df$expression[[1]]
+
+    # preparing the Bayes factor message
+    if (type == "parametric" && isTRUE(bf.message)) {
+      caption_df <- eval_f(.f, !!!.f.args, type = "bayes")
+      caption <- if (!is.null(caption_df)) caption_df$expression[[1]]
+    }
   }
 
   # return early if anything other than plot
@@ -204,10 +178,10 @@ ggwithinstats <- function(data,
     ))
   }
 
-  # --------------------------------- basic plot ------------------------------
+  # plot -------------------------------------------
 
   # plot
-  plot <- ggplot2::ggplot(data, mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, group = .rowid)) +
+  plot <- ggplot2::ggplot(data, ggplot2::aes(x = {{ x }}, y = {{ y }}, group = .rowid)) +
     rlang::exec(ggplot2::geom_point, ggplot2::aes(color = {{ x }}), !!!point.args) +
     ggplot2::geom_boxplot(
       mapping = ggplot2::aes({{ x }}, {{ y }}),
@@ -216,18 +190,18 @@ ggwithinstats <- function(data,
       alpha = 0.5
     ) +
     rlang::exec(
-      .fn = ggplot2::geom_violin,
+      ggplot2::geom_violin,
       mapping = ggplot2::aes({{ x }}, {{ y }}),
       inherit.aes = FALSE,
       !!!violin.args
     )
 
   # add a connecting path only if there are only two groups
-  if (test != "anova" && isTRUE(point.path)) {
+  if (test != "anova" && point.path) {
     plot <- plot + rlang::exec(ggplot2::geom_path, !!!point.path.args)
   }
 
-  # ---------------------------- outlier labeling -----------------------------
+  # outlier labeling -----------------------------
 
   # If `outlier.label` is not provided, outlier labels will just be values of
   # the `y` vector. If the outlier tag has been provided, just use the dataframe
@@ -238,7 +212,7 @@ ggwithinstats <- function(data,
     plot <- plot +
       rlang::exec(
         .fn = ggrepel::geom_label_repel,
-        data = dplyr::filter(data, isanoutlier),
+        data = ~ dplyr::filter(.x, isanoutlier),
         mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, label = outlier.label),
         show.legend = FALSE,
         min.segment.length = 0,
@@ -247,7 +221,7 @@ ggwithinstats <- function(data,
       )
   }
 
-  # ---------------- centrality tagging -------------------------------------
+  # centrality tagging -------------------------------------
 
   # add labels for mean values
   if (isTRUE(centrality.plotting)) {
@@ -266,7 +240,7 @@ ggwithinstats <- function(data,
     )
   }
 
-  # ggsignif labels -----------------------------------------------------------
+  # ggsignif labels -------------------------------------
 
   if (isTRUE(pairwise.comparisons) && test == "anova") {
     # creating dataframe with pairwise comparison results
@@ -300,7 +274,7 @@ ggwithinstats <- function(data,
     )
   }
 
-  # ------------------------ annotations and themes -------------------------
+  # annotations -------------------------
 
   # specifying annotations and other aesthetic aspects for the plot
   aesthetic_addon(

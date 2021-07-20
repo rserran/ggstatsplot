@@ -29,13 +29,10 @@
 #' \donttest{
 #' # for reproducibility
 #' set.seed(123)
+#' library(ggstatsplot)
 #'
 #' # association test (or contingency table analysis)
-#' ggstatsplot::ggbarstats(
-#'   data = mtcars,
-#'   x = vs,
-#'   y = cyl
-#' )
+#' ggbarstats(mtcars, vs, cyl)
 #' }
 #' @export
 
@@ -70,13 +67,14 @@ ggbarstats <- function(data,
                        ggplot.component = NULL,
                        output = "plot",
                        ...) {
+
+  # dataframe ------------------------------------------
+
   # convert entered stats type to a standard notation
   type <- statsExpressions::stats_type_switch(type)
 
   # make sure both quoted and unquoted arguments are allowed
   c(x, y) %<-% c(rlang::ensym(x), rlang::ensym(y))
-
-  # =============================== dataframe ================================
 
   # creating a dataframe
   data %<>%
@@ -93,43 +91,31 @@ ggbarstats <- function(data,
   if (nlevels(data %>% dplyr::pull({{ y }})) == 1L) c(bf.message, proportion.test) %<-% c(FALSE, FALSE)
   if (type == "bayes") proportion.test <- FALSE
 
-  # -------------------------- statistical analysis --------------------------
+  # statistical analysis ------------------------------------------
 
   # if subtitle with results is to be displayed
   if (isTRUE(results.subtitle)) {
-    subtitle_df <- tryCatch(
-      expr = statsExpressions::contingency_table(
-        data = data,
-        x = {{ x }},
-        y = {{ y }},
-        type = type,
-        k = k,
-        paired = paired,
-        ratio = ratio,
-        conf.level = conf.level
-      ),
-      error = function(e) NULL
+    # relevant arguments for statistical tests
+    .f.args <- list(
+      data = data,
+      x = {{ x }},
+      y = {{ y }},
+      conf.level = conf.level,
+      k = k,
+      paired = paired,
+      ratio = ratio,
+      sampling.plan = sampling.plan,
+      fixed.margin = fixed.margin,
+      prior.concentration = prior.concentration,
+      top.text = caption
     )
 
+    subtitle_df <- eval_f(contingency_table, !!!.f.args, type = type)
     if (!is.null(subtitle_df)) subtitle <- subtitle_df$expression[[1]]
 
     # preparing Bayes Factor caption
     if (type != "bayes" && isTRUE(bf.message) && isFALSE(paired)) {
-      caption_df <- tryCatch(
-        expr = statsExpressions::contingency_table(
-          data = data,
-          x = {{ x }},
-          y = {{ y }},
-          type = "bayes",
-          k = k,
-          top.text = caption,
-          sampling.plan = sampling.plan,
-          fixed.margin = fixed.margin,
-          prior.concentration = prior.concentration
-        ),
-        error = function(e) NULL
-      )
-
+      caption_df <- eval_f(contingency_table, !!!.f.args, type = "bayes")
       if (!is.null(caption_df)) caption <- caption_df$expression[[1]]
     }
   }
@@ -142,7 +128,7 @@ ggbarstats <- function(data,
     ))
   }
 
-  # =================================== plot =================================
+  # plot ------------------------------------------
 
   # dataframe with summary labels
   descriptive_df <- descriptive_df(data, {{ x }}, {{ y }}, label, perc.k)
@@ -177,7 +163,7 @@ ggbarstats <- function(data,
     ggplot2::guides(fill = ggplot2::guide_legend(title = legend.title %||% rlang::as_name(x))) +
     paletteer::scale_fill_paletteer_d(paste0(package, "::", palette), name = "")
 
-  # ================ sample size and proportion test labels ===================
+  # sample size + proportion test ------------------------------------------
 
   # adding significance labels to bars for proportion tests
   if (isTRUE(proportion.test)) {
@@ -199,7 +185,7 @@ ggbarstats <- function(data,
       size = 4
     )
 
-  # =========================== putting all together ========================
+  # annotations ------------------------------------------
 
   # preparing the plot
   p +
