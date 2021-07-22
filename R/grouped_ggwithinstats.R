@@ -52,18 +52,14 @@ grouped_ggwithinstats <- function(data,
                                   annotation.args = list(),
                                   ...) {
 
-  # dataframe ------------------------------------------
-
   # creating a dataframe
-  df <- dplyr::select(data, {{ grouping.var }}, {{ x }}, {{ y }}, {{ outlier.label }}) %>%
-    grouped_list(grouping.var = {{ grouping.var }})
+  data %<>% grouped_list(grouping.var = {{ grouping.var }})
 
-  # creating a list of return objects ----------------------------
-
+  # creating a list of return objects
   p_ls <- purrr::pmap(
-    .l = list(data = df, title = names(df)),
+    .l = list(data = data, title = names(data)),
     .f = ggstatsplot::ggwithinstats,
-    # put common parameters here
+    # common parameters
     x = {{ x }},
     y = {{ y }},
     outlier.label = {{ outlier.label }},

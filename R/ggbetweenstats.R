@@ -281,7 +281,7 @@ ggbetweenstats <- function(data,
   # first add only the points which are *not* outliers
   plot <- ggplot2::ggplot(data, mapping = ggplot2::aes({{ x }}, {{ y }})) +
     rlang::exec(
-      .fn = ggplot2::geom_point,
+      ggplot2::geom_point,
       data = ~ dplyr::filter(.x, !isanoutlier),
       ggplot2::aes(color = {{ x }}),
       !!!point.args
@@ -357,7 +357,6 @@ ggbetweenstats <- function(data,
         .fn = ggrepel::geom_label_repel,
         data = ~ dplyr::filter(.x, isanoutlier),
         mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, label = outlier.label),
-        show.legend = FALSE,
         min.segment.length = 0,
         inherit.aes = FALSE,
         !!!outlier.label.args

@@ -7,7 +7,20 @@ read the `NEWS` for that package:
 
 MAJOR CHANGES
 
-  - Gets rid of `ipmisc` dependency.
+  - For plotting marginal distributions in `ggscatterstats`, `ggstatsplot` now
+    relies on `ggside` package instead of `ggExtra`. This was done to remove a
+    glaring inconsistency in the API. All functions in `ggstatsplot` produced
+    `ggplot` objects and could be further modified with `ggplot2` functions,
+    except `ggscatterstats`, which led to a lot of confusion among users (e.g.
+    #28). This change gets rid of this inconsistency. But it comes at a cost:
+    there is no more `marginal.type` argument that lets you change the type of
+    marginal distribution graphic and the densigram (density plus histogram,
+    i.e.) is the only possible option. Note that this is **not** a breaking
+    change. Your past code will continue to work but it will now always produce
+    a densigram instead of other marginal graphic you might have chosen.
+    Additionally, the densigrams will look slightly different due to differences
+    in how these packages compute density plots for marginal distributions (for
+    more, see: <https://github.com/jtlandis/ggside/issues/18>).
 
 MINOR CHANGES
 
@@ -15,6 +28,17 @@ MINOR CHANGES
     create a grid of plots, it is highly recommended that you use `patchwork`
     package directly and not this wrapper around it which is mostly useful with
     `ggstatsplot` plots.
+
+  - `ggscatterstats` labeling arguments accept only unquoted inputs now, and not
+    quoted or string inputs. Allowing this was a bad design choice in the past
+    since most functions in `ggstatsplot`, inspired by `tidyverse`, expect
+    unquoted (`x`) - and not quoted (`"x"`) - arguments. So this function was
+    the odd one out.
+
+  - Gets rid of `ipmisc` dependency.
+
+  - Removes `movies_wide` dataset, which was virtually identical to
+    `movies_long` dataset and was not used anywhere in the package.
 
 # ggstatsplot 0.8.0
 

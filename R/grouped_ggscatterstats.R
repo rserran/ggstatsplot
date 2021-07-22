@@ -37,7 +37,6 @@
 #'   y = rating,
 #'   type = "robust",
 #'   grouping.var = genre,
-#'   marginal = FALSE,
 #'   ggplot.component = list(ggplot2::geom_rug(sides = "b"))
 #' )
 #'
@@ -49,7 +48,6 @@
 #'   y = hwy,
 #'   grouping.var = cyl,
 #'   type = "robust",
-#'   marginal = FALSE,
 #'   label.var = manufacturer,
 #'   label.expression = hwy > 25 & displ > 2.5,
 #'   ggplot.component = ggplot2::scale_y_continuous(sec.axis = ggplot2::dup_axis())
@@ -68,7 +66,6 @@
 #'   grouping.var = genre,
 #'   bf.message = FALSE,
 #'   label.var = "title",
-#'   marginal = FALSE,
 #'   annotation.args = list(tag_levels = "a")
 #' )
 #' @export
@@ -84,20 +81,12 @@ grouped_ggscatterstats <- function(data,
                                    plotgrid.args = list(),
                                    annotation.args = list(),
                                    ...) {
-
-  # dataframe ------------------------------------------
-
-  # ensure the grouping variable works quoted or unquoted
-  label.var <- if (!rlang::quo_is_null(rlang::enquo(label.var))) rlang::ensym(label.var)
-
   # getting the dataframe ready
-  df <- grouped_list(data = data, grouping.var = {{ grouping.var }})
-
-  # creating a list of return objects ----------------------------
+  data %<>% grouped_list({{ grouping.var }})
 
   # creating a list of plots using `pmap`
   p_ls <- purrr::pmap(
-    .l = list(data = df, title = names(df)),
+    .l = list(data = data, title = names(data)),
     .f = ggstatsplot::ggscatterstats,
     # put common parameters here
     x = {{ x }},

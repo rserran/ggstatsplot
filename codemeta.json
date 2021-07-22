@@ -51,6 +51,7 @@
       "@type": "SoftwareApplication",
       "identifier": "afex",
       "name": "afex",
+      "version": ">= 1.0-0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -85,15 +86,16 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "ggExtra",
-      "name": "ggExtra",
+      "identifier": "ggside",
+      "name": "ggside",
+      "version": ">= 0.1.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=ggExtra"
+      "sameAs": "https://CRAN.R-project.org/package=ggside"
     },
     {
       "@type": "SoftwareApplication",
@@ -219,6 +221,7 @@
       "@type": "SoftwareApplication",
       "identifier": "WRS2",
       "name": "WRS2",
+      "version": ">= 1.1-3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -288,14 +291,14 @@
       "@type": "SoftwareApplication",
       "identifier": "insight",
       "name": "insight",
-      "version": ">= 0.14.1",
+      "version": ">= 0.14.2.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=insight"
+      "sameAs": "https://github.com/easystats/insight"
     },
     {
       "@type": "SoftwareApplication",
@@ -351,13 +354,14 @@
       "@type": "SoftwareApplication",
       "identifier": "performance",
       "name": "performance",
+      "version": ">= 0.7.3.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=performance"
+      "sameAs": "https://github.com/easystats/performance"
     },
     {
       "@type": "SoftwareApplication",
@@ -487,6 +491,6 @@
     }
   ],
   "funder": {},
-  "fileSize": "10456.71KB",
+  "fileSize": "6714.233KB",
   "readme": "https://github.com/IndrajeetPatil/ggstatsplot/blob/master/README.md"
 }
