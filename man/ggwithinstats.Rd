@@ -2,8 +2,7 @@
 % Please edit documentation in R/ggwithinstats.R
 \name{ggwithinstats}
 \alias{ggwithinstats}
-\title{Box/Violin plots for group or condition comparisons in
-within-subjects (or repeated measures) designs.}
+\title{Box/Violin plots for within-subjects (or repeated measures) comparisons}
 \usage{
 ggwithinstats(
   data,
@@ -39,6 +38,7 @@ ggwithinstats(
   outlier.label = NULL,
   outlier.coef = 1.5,
   outlier.label.args = list(size = 3),
+  boxplot.args = list(width = 0.2, alpha = 0.5),
   violin.args = list(width = 0.5, alpha = 0.2),
   ggsignif.args = list(textsize = 3, tip_length = 0.01),
   ggtheme = ggstatsplot::theme_ggstatsplot(),
@@ -202,6 +202,9 @@ Quartile) \code{outlier.coef} times the Inter-Quartile Range (IQR) (Default:
 
 \item{outlier.label.args}{A list of additional aesthetic arguments to be
 passed to \code{ggrepel::geom_label_repel} for outlier label plotting.}
+
+\item{boxplot.args}{A list of additional aesthetic arguments passed on to
+\code{geom_boxplot}.}
 
 \item{violin.args}{A list of additional aesthetic arguments to be passed to
 the \code{geom_violin}.}

@@ -1,5 +1,4 @@
-#' @title Box/Violin plots for group or condition comparisons in
-#'   between-subjects designs.
+#' @title Box/Violin plots for between-subjects comparisons
 #' @name ggbetweenstats
 #'
 #' @description
@@ -180,7 +179,10 @@ ggbetweenstats <- function(data,
                            tr = 0.2,
                            centrality.plotting = TRUE,
                            centrality.type = type,
-                           centrality.point.args = list(size = 5, color = "darkred"),
+                           centrality.point.args = list(
+                             size = 5,
+                             color = "darkred"
+                           ),
                            centrality.label.args = list(
                              size = 3,
                              nudge_x = 0.4,
@@ -199,8 +201,14 @@ ggbetweenstats <- function(data,
                              size = 3,
                              stroke = 0
                            ),
-                           violin.args = list(width = 0.5, alpha = 0.2),
-                           ggsignif.args = list(textsize = 3, tip_length = 0.01),
+                           violin.args = list(
+                             width = 0.5,
+                             alpha = 0.2
+                           ),
+                           ggsignif.args = list(
+                             textsize = 3,
+                             tip_length = 0.01
+                           ),
                            ggtheme = ggstatsplot::theme_ggstatsplot(),
                            package = "RColorBrewer",
                            palette = "Dark2",
@@ -238,7 +246,7 @@ ggbetweenstats <- function(data,
   # statistical analysis ------------------------------------------
 
   # test to run; depends on the no. of levels of the independent variable
-  test <- ifelse(nlevels(data %>% dplyr::pull({{ x }}))[[1]] < 3, "t", "anova")
+  test <- ifelse(nlevels(data %>% dplyr::pull({{ x }})) < 3, "t", "anova")
 
   if (isTRUE(results.subtitle)) {
     # relevant arguments for statistical tests
@@ -279,21 +287,21 @@ ggbetweenstats <- function(data,
   # plot -----------------------------------
 
   # first add only the points which are *not* outliers
-  plot <- ggplot2::ggplot(data, mapping = ggplot2::aes({{ x }}, {{ y }})) +
-    rlang::exec(
+  plot <- ggplot2::ggplot(data, mapping = aes({{ x }}, {{ y }})) +
+    exec(
       ggplot2::geom_point,
       data = ~ dplyr::filter(.x, !isanoutlier),
-      ggplot2::aes(color = {{ x }}),
+      aes(color = {{ x }}),
       !!!point.args
     )
 
   # if outliers are not being tagged, then add the points that were previously left out
   if (isFALSE(outlier.tagging)) {
     plot <- plot +
-      rlang::exec(
+      exec(
         ggplot2::geom_point,
         data = ~ dplyr::filter(.x, isanoutlier),
-        ggplot2::aes(color = {{ x }}),
+        aes(color = {{ x }}),
         !!!point.args
       )
   }
@@ -329,7 +337,7 @@ ggbetweenstats <- function(data,
 
     # add a boxplot
     suppressWarnings(plot <- plot +
-      rlang::exec(
+      exec(
         .fn = .f,
         width = 0.3,
         alpha = 0.2,
@@ -341,7 +349,7 @@ ggbetweenstats <- function(data,
 
   # add violin geom
   if (plot.type %in% c("violin", "boxviolin")) {
-    plot <- plot + rlang::exec(ggplot2::geom_violin, !!!violin.args)
+    plot <- plot + exec(ggplot2::geom_violin, !!!violin.args)
   }
 
   # outlier labeling -----------------------------
@@ -353,10 +361,10 @@ ggbetweenstats <- function(data,
   # applying the labels to tagged outliers with `ggrepel`
   if (isTRUE(outlier.tagging)) {
     plot <- plot +
-      rlang::exec(
+      exec(
         .fn = ggrepel::geom_label_repel,
         data = ~ dplyr::filter(.x, isanoutlier),
-        mapping = ggplot2::aes(x = {{ x }}, y = {{ y }}, label = outlier.label),
+        mapping = aes(x = {{ x }}, y = {{ y }}, label = outlier.label),
         min.segment.length = 0,
         inherit.aes = FALSE,
         !!!outlier.label.args
@@ -431,4 +439,87 @@ ggbetweenstats <- function(data,
     palette = palette,
     ggplot.component = ggplot.component
   )
+}
+
+
+#' @title Violin plots for group or condition comparisons in between-subjects
+#'   designs repeated across all levels of a grouping variable.
+#' @name grouped_ggbetweenstats
+#'
+#' @description
+#'
+#' Helper function for `ggstatsplot::ggbetweenstats` to apply this function
+#' across multiple levels of a given factor and combining the resulting plots
+#' using `ggstatsplot::combine_plots`.
+#'
+#' @inheritParams ggbetweenstats
+#' @inheritParams grouped_list
+#' @inheritParams combine_plots
+#' @inheritDotParams ggbetweenstats -title
+#'
+#' @import ggplot2
+#'
+#' @importFrom purrr pmap
+#'
+#' @seealso \code{\link{ggbetweenstats}}, \code{\link{ggwithinstats}},
+#'  \code{\link{grouped_ggwithinstats}}
+#'
+#' @inherit ggbetweenstats return references
+#'
+#' @examples
+#' \donttest{
+#' # to get reproducible results from bootstrapping
+#' set.seed(123)
+#' library(ggstatsplot)
+#'
+#' # the most basic function call
+#' grouped_ggbetweenstats(
+#'   data = dplyr::filter(ggplot2::mpg, drv != "4"),
+#'   x = year,
+#'   y = hwy,
+#'   grouping.var = drv
+#' )
+#'
+#' # modifying individual plots using `ggplot.component` argument
+#' grouped_ggbetweenstats(
+#'   data = dplyr::filter(
+#'     movies_long,
+#'     genre %in% c("Action", "Comedy"),
+#'     mpaa %in% c("R", "PG")
+#'   ),
+#'   x = genre,
+#'   y = rating,
+#'   grouping.var = mpaa,
+#'   results.subtitle = FALSE,
+#'   ggplot.component = ggplot2::scale_y_continuous(
+#'     breaks = seq(1, 9, 1),
+#'     limits = (c(1, 9))
+#'   )
+#' )
+#' }
+#' @export
+
+# defining the function
+grouped_ggbetweenstats <- function(data,
+                                   ...,
+                                   grouping.var,
+                                   output = "plot",
+                                   plotgrid.args = list(),
+                                   annotation.args = list()) {
+
+  # creating a dataframe
+  data %<>% grouped_list(grouping.var = {{ grouping.var }})
+
+  # creating a list of return objects
+  p_ls <- purrr::pmap(
+    .l = list(data = data, title = names(data), output = output),
+    .f = ggstatsplot::ggbetweenstats,
+    ...
+  )
+
+  # combining the list of plots into a single plot
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }

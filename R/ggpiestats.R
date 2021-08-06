@@ -177,9 +177,9 @@ ggpiestats <- function(data,
   palette_message(package, palette, min_length = x_levels)
 
   # creating the basic plot
-  p <- ggplot2::ggplot(descriptive_df, mapping = ggplot2::aes(x = "", y = perc)) +
+  p <- ggplot2::ggplot(descriptive_df, mapping = aes(x = "", y = perc)) +
     ggplot2::geom_col(
-      mapping = ggplot2::aes(fill = {{ x }}),
+      mapping = aes(fill = {{ x }}),
       position = "fill",
       color = "black",
       width = 1
@@ -191,9 +191,9 @@ ggpiestats <- function(data,
 
   # adding label with percentages and/or counts
   suppressWarnings(suppressMessages(p <- p +
-    rlang::exec(
+    exec(
       .fn,
-      mapping = ggplot2::aes(label = .label, group = {{ x }}),
+      mapping = aes(label = .label, group = {{ x }}),
       position = ggplot2::position_fill(vjust = 0.5),
       min.segment.length = 0,
       fill = "white",
@@ -222,10 +222,10 @@ ggpiestats <- function(data,
   # adding labels with proportion tests
   if (facet && proportion.test) {
     p <- p +
-      rlang::exec(
+      exec(
         ggplot2::geom_text,
         data = onesample_df,
-        mapping = ggplot2::aes(label = .label, x = 1.65, y = 0.5),
+        mapping = aes(label = .label, x = 1.65, y = 0.5),
         position = ggplot2::position_fill(vjust = 1),
         size = 2.8,
         parse = TRUE
@@ -244,4 +244,63 @@ ggpiestats <- function(data,
     ) +
     ggplot2::guides(fill = ggplot2::guide_legend(title = legend.title %||% rlang::as_name(x))) +
     ggplot.component
+}
+
+
+#' @title Grouped pie charts with statistical tests
+#' @name grouped_ggpiestats
+#' @description Helper function for `ggstatsplot::ggpiestats` to apply this
+#'   function across multiple levels of a given factor and combining the
+#'   resulting plots using `ggstatsplot::combine_plots`.
+#'
+#' @inheritParams ggpiestats
+#' @inheritParams grouped_ggbetweenstats
+#' @inheritDotParams ggpiestats -title
+#'
+#' @importFrom purrr pmap
+#'
+#' @seealso \code{\link{ggbarstats}}, \code{\link{ggpiestats}},
+#'  \code{\link{grouped_ggbarstats}}
+#'
+#' @inherit ggpiestats return references
+#' @inherit ggpiestats return details
+#' @inherit ggpiestats return return
+#'
+#' @examples
+#' \donttest{
+#' set.seed(123)
+#' library(ggstatsplot)
+#'
+#' # grouped one-sample proportion test
+#' grouped_ggpiestats(
+#'   data = mtcars,
+#'   grouping.var = am,
+#'   x = cyl
+#' )
+#' }
+#' @export
+
+# defining the function
+grouped_ggpiestats <- function(data,
+                               ...,
+                               grouping.var,
+                               output = "plot",
+                               plotgrid.args = list(),
+                               annotation.args = list()) {
+
+  # creating a dataframe
+  data %<>% grouped_list(grouping.var = {{ grouping.var }})
+
+  # creating a list of return objects
+  p_ls <- purrr::pmap(
+    .l = list(data = data, title = names(data), output = output),
+    .f = ggstatsplot::ggpiestats,
+    ...
+  )
+
+  # combining the list of plots into a single plot
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }

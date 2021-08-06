@@ -378,7 +378,7 @@ graphical element | `geom_` used | argument for further modification
 --------- | ------- | --------------------------
 raw data | `ggplot2::geom_point` | `point.args`
 point path | `ggplot2::geom_path` | `point.path.args`
-box plot | `ggplot2::geom_boxplot` | ❌
+box plot | `ggplot2::geom_boxplot` | `boxplot.args`
 density plot | `ggplot2::geom_violin` | `violin.args`
 centrality measure point | `ggplot2::geom_point` | `centrality.point.args`
 centrality measure point path | `ggplot2::geom_path` | `centrality.path.args`
@@ -1098,10 +1098,10 @@ also supported by `ggcoefstats`. For example-
 `mixor`, `mjoint`, `mle2`, `mlm`, `multinom`, `mvord`, `negbin`, `negbinmfx`,
 `negbinirr`, `nlmerMod`, `nlrq`, `nlreg`, `nls`, `orcutt`, `orm`, `plm`,
 `poissonmfx`, `poissonirr`, `polr`, `probitmfx`, `ridgelm`, `riskRegression`,
-`rjags`, `rlm`, `rlmerMod`, `robmixglm`, `rq`, `rqs`, `rqss`, `rrvglm`, `scam`,
-`selection`, `semLm`, `semLme`, `slm`, `speedglm`, `speedlm`, `stanfit`,
-`stanreg`, `summary.lm`, `survreg`, `svyglm`, `svy_vglm`, `svyolr`, `tobit`,
-`truncreg`, `varest`, `vgam`, `vglm`, `wbgee`, `wblm`, `zeroinfl`, etc.
+`rjags`, `rlm`, `rlmerMod`, `robmixglm`, `rq`, `rqs`, `rqss`, `rrvglm`, `Sarlm`,
+`scam`, `selection`, `semLm`, `semLme`, `slm`, `speedglm`, `speedlm`, `stanfit`,
+`stanreg`, `summary.lm`, `survreg`, `systemfit`, `svyglm`, `svy_vglm`, `svyolr`,
+`tobit`, `truncreg`, `varest`, `vgam`, `vglm`, `wbgee`, `wblm`, `zeroinfl`, etc.
 
 Although not shown here, this function can also be used to carry out parametric,
 robust, and Bayesian random-effects meta-analysis.

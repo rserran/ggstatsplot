@@ -185,9 +185,9 @@ ggscatterstats <- function(data,
   pos <- ggplot2::position_jitter(width = point.width.jitter, height = point.height.jitter)
 
   # preparing the scatterplot
-  plot <- ggplot2::ggplot(data, mapping = ggplot2::aes({{ x }}, {{ y }})) +
-    rlang::exec(ggplot2::geom_point, position = pos, !!!point.args) +
-    rlang::exec(ggplot2::geom_smooth, level = conf.level, !!!smooth.line.args)
+  plot <- ggplot2::ggplot(data, mapping = aes({{ x }}, {{ y }})) +
+    exec(ggplot2::geom_point, position = pos, !!!point.args) +
+    exec(ggplot2::geom_smooth, level = conf.level, !!!smooth.line.args)
 
   # point labels --------------------------------
 
@@ -203,10 +203,10 @@ ggscatterstats <- function(data,
 
     # display points labels using `geom_repel_label`
     plot <- plot +
-      rlang::exec(
+      exec(
         .fn = ggrepel::geom_label_repel,
         data = label_data,
-        mapping = ggplot2::aes(label = {{ label.var }}),
+        mapping = aes(label = {{ label.var }}),
         min.segment.length = 0,
         position = pos,
         !!!point.label.args
@@ -234,14 +234,111 @@ ggscatterstats <- function(data,
 
     # adding marginal distributions
     plot <- plot +
-      rlang::exec(ggside::geom_xsidehistogram, mapping = aes(y = after_stat(count)), !!!xsidehistogram.args) +
-      rlang::exec(ggside::geom_ysidehistogram, mapping = aes(x = after_stat(count)), !!!ysidehistogram.args) +
-      rlang::exec(ggside::geom_xsidedensity, mapping = aes(y = after_stat(count)), !!!xsidedensity.args) +
-      rlang::exec(ggside::geom_ysidedensity, mapping = aes(x = after_stat(count)), !!!ysidedensity.args) +
+      exec(ggside::geom_xsidehistogram, mapping = aes(y = after_stat(count)), !!!xsidehistogram.args) +
+      exec(ggside::geom_ysidehistogram, mapping = aes(x = after_stat(count)), !!!ysidehistogram.args) +
+      exec(ggside::geom_xsidedensity, mapping = aes(y = after_stat(count)), !!!xsidedensity.args) +
+      exec(ggside::geom_ysidedensity, mapping = aes(x = after_stat(count)), !!!ysidedensity.args) +
       ggside::scale_ysidex_continuous() +
       ggside::scale_xsidey_continuous()
   }
 
   # return the final plot
   plot
+}
+
+
+#' @title Scatterplot with marginal distributions for all levels of a grouping
+#'   variable
+#' @name grouped_ggscatterstats
+#'
+#' @description
+#'
+#' Grouped scatterplots from `ggplot2` combined with marginal distribution plots
+#' with statistical details added as a subtitle.
+#'
+#' @inheritParams ggscatterstats
+#' @inheritParams grouped_ggbetweenstats
+#' @inheritDotParams ggscatterstats -title
+#'
+#' @import ggplot2
+#'
+#' @importFrom dplyr select
+#' @importFrom rlang as_name enexpr ensym
+#' @importFrom purrr pmap
+#'
+#' @seealso \code{\link{ggscatterstats}}, \code{\link{ggcorrmat}},
+#' \code{\link{grouped_ggcorrmat}}
+#'
+#' @inherit ggscatterstats return references
+#' @inherit ggscatterstats return details
+#'
+#' @examples
+#' # to ensure reproducibility
+#' set.seed(123)
+#' library(ggstatsplot)
+#'
+#' # skipping marginal distributions so that the examples run fast
+#'
+#' # basic function call
+#' grouped_ggscatterstats(
+#'   data = dplyr::filter(movies_long, genre == "Comedy" | genre == "Drama"),
+#'   x = length,
+#'   y = rating,
+#'   type = "robust",
+#'   grouping.var = genre,
+#'   ggplot.component = list(ggplot2::geom_rug(sides = "b"))
+#' )
+#'
+#' # using labeling
+#' # (also show how to modify basic plot from within function call)
+#' grouped_ggscatterstats(
+#'   data = dplyr::filter(ggplot2::mpg, cyl != 5),
+#'   x = displ,
+#'   y = hwy,
+#'   grouping.var = cyl,
+#'   type = "robust",
+#'   label.var = manufacturer,
+#'   label.expression = hwy > 25 & displ > 2.5,
+#'   ggplot.component = ggplot2::scale_y_continuous(sec.axis = ggplot2::dup_axis())
+#' )
+#'
+#' # labeling without expression
+#'
+#' grouped_ggscatterstats(
+#'   data = dplyr::filter(
+#'     movies_long,
+#'     rating == 7,
+#'     genre %in% c("Drama", "Comedy")
+#'   ),
+#'   x = budget,
+#'   y = length,
+#'   grouping.var = genre,
+#'   bf.message = FALSE,
+#'   label.var = "title",
+#'   annotation.args = list(tag_levels = "a")
+#' )
+#' @export
+
+# defining the function
+grouped_ggscatterstats <- function(data,
+                                   ...,
+                                   grouping.var,
+                                   output = "plot",
+                                   plotgrid.args = list(),
+                                   annotation.args = list()) {
+  # getting the dataframe ready
+  data %<>% grouped_list({{ grouping.var }})
+
+  # creating a list of plots using `pmap`
+  p_ls <- purrr::pmap(
+    .l = list(data = data, title = names(data), output = output),
+    .f = ggstatsplot::ggscatterstats,
+    ...
+  )
+
+  # combining the list of plots into a single plot
+  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
+
+  # return the object
+  p_ls
 }

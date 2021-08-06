@@ -51,8 +51,8 @@ if (getRversion() >= "4.1") {
         title = "grouped_ggwithinstats works",
         fig = grouped_ggwithinstats(
           data = dplyr::filter(bugs_long, condition %in% c("HDHF", "LDLF")),
-          x = condition,
-          y = desire,
+          condition,
+          desire,
           grouping.var = gender
         )
       )
@@ -69,7 +69,7 @@ if (getRversion() >= "4.1") {
     set.seed(123)
     vdiffr::expect_doppelganger(
       title = "grouped_gghistostats works",
-      fig = grouped_gghistostats(mtcars, wt, test.value = 3, grouping.var = am)
+      fig = grouped_gghistostats(mtcars, x = wt, test.value = 3, grouping.var = am)
     )
 
     ## ----ggdotplotstats-------------------------------
@@ -88,8 +88,10 @@ if (getRversion() >= "4.1") {
     vdiffr::expect_doppelganger(
       title = "grouped_ggdotplotstats works",
       fig = grouped_ggdotplotstats(dplyr::filter(ggplot2::mpg, cyl %in% c("4", "6")),
-        cty, manufacturer,
-        test.value = 15, grouping.var = cyl
+        cty,
+        manufacturer,
+        test.value = 15,
+        grouping.var = cyl
       )
     )
 
@@ -99,7 +101,7 @@ if (getRversion() >= "4.1") {
       set.seed(123)
       vdiffr::expect_doppelganger(
         title = "ggscatterstats works",
-        fig = ggscatterstats(mtcars, wt, mpg)
+        fig = ggscatterstats(mtcars, x = wt, y = mpg)
       )
 
       set.seed(123)

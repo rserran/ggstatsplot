@@ -229,7 +229,7 @@ grouping variable." />
     <div class="page-header">
     <h1>Violin plots for group or condition comparisons in within-subjects
 designs repeated across all levels of a grouping variable.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/grouped_ggwithinstats.R'><code>R/grouped_ggwithinstats.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/IndrajeetPatil/ggstatsplot/blob/master/R/ggwithinstats.R'><code>R/ggwithinstats.R</code></a></small>
     <div class="hidden name"><code>grouped_ggwithinstats.Rd</code></div>
     </div>
 
@@ -240,14 +240,11 @@ grouping variable.</p>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>grouped_ggwithinstats</span><span class='op'>(</span>
   <span class='va'>data</span>,
-  <span class='va'>x</span>,
-  <span class='va'>y</span>,
+  <span class='va'>...</span>,
   <span class='va'>grouping.var</span>,
-  outlier.label <span class='op'>=</span> <span class='cn'>NULL</span>,
   output <span class='op'>=</span> <span class='st'>"plot"</span>,
   plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
-  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
-  <span class='va'>...</span>
+  annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -258,52 +255,6 @@ grouping variable.</p>
       <td><p>A dataframe (or a tibble) from which variables specified are to
 be taken. Other data types (e.g., matrix,table, array, etc.) will <strong>not</strong>
 be accepted.</p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>The grouping (or independent) variable from the dataframe <code>data</code>. In
-case of a repeated measures or within-subjects design, if <code>subject.id</code>
-argument is not available or not explicitly specified, the function assumes
-that the data has already been sorted by such an id by the user and creates
-an internal identifier. So if your data is <strong>not</strong> sorted, the results
-<em>can</em> be inaccurate when there are more than two levels in <code>x</code> and there
-are <code>NA</code>s present. The data is expected to be sorted by user in
-subject-1,subject-2, ..., pattern.</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>The response (or outcome or dependent) variable from the
-dataframe <code>data</code>.</p></td>
-    </tr>
-    <tr>
-      <th>grouping.var</th>
-      <td><p>A single grouping variable.</p></td>
-    </tr>
-    <tr>
-      <th>outlier.label</th>
-      <td><p>Label to put on the outliers that have been tagged. This
-<strong>can't</strong> be the same as <code>x</code> argument.</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>Character that describes what is to be returned: can be
-<code>"plot"</code> (default) or <code>"subtitle"</code> or <code>"caption"</code>. Setting this to
-<code>"subtitle"</code> will return the expression containing statistical results. If
-you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
-Setting this to <code>"caption"</code> will return the expression containing details
-about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
-<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>plotgrid.args</th>
-      <td><p>A <code>list</code> of additional arguments passed to
-<code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>, except for <code>guides</code> argument which is already
-separately specified here.</p></td>
-    </tr>
-    <tr>
-      <th>annotation.args</th>
-      <td><p>A <code>list</code> of additional arguments passed to
-<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -326,6 +277,18 @@ points.</p></dd>
     <dt><code>point.path.args</code></dt><dd><p>A list of additional aesthetic
 arguments passed on to <code>geom_path</code> connecting raw data points and mean
 points.</p></dd>
+    <dt><code>boxplot.args</code></dt><dd><p>A list of additional aesthetic arguments passed on to
+<code>geom_boxplot</code>.</p></dd>
+    <dt><code>x</code></dt><dd><p>The grouping (or independent) variable from the dataframe <code>data</code>. In
+case of a repeated measures or within-subjects design, if <code>subject.id</code>
+argument is not available or not explicitly specified, the function assumes
+that the data has already been sorted by such an id by the user and creates
+an internal identifier. So if your data is <strong>not</strong> sorted, the results
+<em>can</em> be inaccurate when there are more than two levels in <code>x</code> and there
+are <code>NA</code>s present. The data is expected to be sorted by user in
+subject-1,subject-2, ..., pattern.</p></dd>
+    <dt><code>y</code></dt><dd><p>The response (or outcome or dependent) variable from the
+dataframe <code>data</code>.</p></dd>
     <dt><code>type</code></dt><dd><p>A character specifying the type of statistical approach:
 <ul>
 <li><p><code>"parametric"</code></p></li>
@@ -409,6 +372,8 @@ arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference
 the <code>geom_point</code> displaying the raw data.</p></dd>
     <dt><code>outlier.tagging</code></dt><dd><p>Decides whether outliers should be tagged (Default:
 <code>FALSE</code>).</p></dd>
+    <dt><code>outlier.label</code></dt><dd><p>Label to put on the outliers that have been tagged. This
+<strong>can't</strong> be the same as <code>x</code> argument.</p></dd>
     <dt><code>outlier.coef</code></dt><dd><p>Coefficient for outlier detection using Tukey's method.
 With Tukey's method, outliers are below (1st Quartile) or above (3rd
 Quartile) <code>outlier.coef</code> times the Inter-Quartile Range (IQR) (Default:
@@ -436,6 +401,31 @@ variants of all primary functions. Default is <code>NULL</code>. The argument sh
 be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> functions.</p></dd>
   
 </dl></td>
+    </tr>
+    <tr>
+      <th>grouping.var</th>
+      <td><p>A single grouping variable.</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>Character that describes what is to be returned: can be
+<code>"plot"</code> (default) or <code>"subtitle"</code> or <code>"caption"</code>. Setting this to
+<code>"subtitle"</code> will return the expression containing statistical results. If
+you have set <code>results.subtitle = FALSE</code>, then this will return a <code>NULL</code>.
+Setting this to <code>"caption"</code> will return the expression containing details
+about Bayes Factor analysis, but valid only when <code>type = "parametric"</code> and
+<code>bf.message = TRUE</code>, otherwise this will return a <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>plotgrid.args</th>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/wrap_plots.html'>patchwork::wrap_plots</a></code>, except for <code>guides</code> argument which is already
+separately specified here.</p></td>
+    </tr>
+    <tr>
+      <th>annotation.args</th>
+      <td><p>A <code>list</code> of additional arguments passed to
+<code><a href='https://patchwork.data-imaginist.com/reference/plot_annotation.html'>patchwork::plot_annotation</a></code>.</p></td>
     </tr>
     </table>
 
