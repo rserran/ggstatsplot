@@ -25,10 +25,12 @@ BugReports: https://github.com/IndrajeetPatil/ggstatsplot/issues
 Depends: 
     R (>= 3.6.0)
 Imports:
+    correlation (>= 0.7.0),
+    datawizard (>= 0.2.0),
     dplyr,
     ggplot2 (>= 3.3.5),
     ggrepel,
-    ggsignif,
+    ggsignif (>= 0.6.3),
     insight (>= 0.14.2.1),
     pairwiseComparisons (>= 3.2.0),
     paletteer,
@@ -59,9 +61,12 @@ Suggests:
     WRS2 (>= 1.1-3)
 Remotes:
     easystats/insight,
+    easystats/datawizard,
+    easystats/correlation,
     easystats/parameters,
     easystats/performance,
     IndrajeetPatil/statsExpressions,
+    const-ae/ggsignif,
     IndrajeetPatil/pairwiseComparisons
 VignetteBuilder: 
     knitr

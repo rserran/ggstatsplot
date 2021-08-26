@@ -31,3 +31,27 @@ statsExpressions::as_tibble
 #' @export
 #' @importFrom rlang exec
 rlang::exec
+
+#' @export
+#' @importFrom rlang "!!"
+rlang::`!!`
+
+#' @export
+#' @importFrom rlang "!!!"
+rlang::`!!!`
+
+#' @export
+#' @importFrom rlang "%|%"
+rlang::`%|%`
+
+#' @export
+#' @importFrom rlang "%||%"
+rlang::`%||%`
+
+#' @export
+#' @importFrom rlang ":="
+rlang::`:=`
+
+#' @export
+#' @importFrom datawizard winsorize
+datawizard::winsorize
