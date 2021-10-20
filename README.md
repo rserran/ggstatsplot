@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `ggstatsplot`: `ggplot2` Based Plots with Statistical Details
+# `{ggstatsplot}`: `{ggplot2}` Based Plots with Statistical Details
 
-| Package                                                                                                                                    | Status                                                                                                                                                       | Usage                                                                                                                                             | GitHub                                                                                                                                                         | Miscellaneous                                                                                                                                                         |
-|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [![CRAN\_Release\_Badge](https://www.r-pkg.org/badges/version-ago/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)            | [![R build status](https://github.com/IndrajeetPatil/ggstatsplot/workflows/R-CMD-check/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)            | [![Daily downloads badge](https://cranlogs.r-pkg.org/badges/last-day/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)     | [![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/IndrajeetPatil/ggstatsplot/issues)        | [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)                                                      |
-| [![CRAN Checks](https://cranchecks.info/badges/summary/ggstatsplot)](https://cran.r-project.org/web/checks/check_results_ggstatsplot.html) | [![lints](https://github.com/IndrajeetPatil/ggstatsplot/workflows/lint/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                            | [![Weekly downloads badge](https://cranlogs.r-pkg.org/badges/last-week/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)   | [![status](https://tinyverse.netlify.com/badge/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)                                                   | [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.6.0-6666ff.svg)](https://cran.r-project.org/)                                                            |
-| [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)                 | [![Codecov](https://codecov.io/gh/IndrajeetPatil/ggstatsplot/branch/master/graph/badge.svg)](https://codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master) | [![Monthly downloads badge](https://cranlogs.r-pkg.org/badges/last-month/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![CoC](https://img.shields.io/badge/CoC-v2.0%20adopted-ff69b4.svg)](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html)                    | [![CodeFactor](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot/badge)](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot) |
-| [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                               | [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167)                                                  | [![Total downloads badge](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)  | [![Github Stars](https://img.shields.io/github/stars/IndrajeetPatil/ggstatsplot.svg?style=social&label=Github)](https://github.com/IndrajeetPatil/ggstatsplot) | [![code size](https://img.shields.io/github/languages/code-size/IndrajeetPatil/ggstatsplot.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                       |
+| Package                                                                                                                                    | Status                                                                                                                                                           | Usage                                                                                                                                             | GitHub                                                                                                                                                         | Miscellaneous                                                                                                                                                         |
+|--------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![CRAN_Release_Badge](https://www.r-pkg.org/badges/version-ago/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)              | [![R build status](https://github.com/IndrajeetPatil/ggstatsplot/workflows/R-CMD-check/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                | [![Daily downloads badge](https://cranlogs.r-pkg.org/badges/last-day/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)     | [![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/IndrajeetPatil/ggstatsplot/issues)        | [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)                                                      |
+| [![CRAN Checks](https://cranchecks.info/badges/summary/ggstatsplot)](https://cran.r-project.org/web/checks/check_results_ggstatsplot.html) | [![lints](https://github.com/IndrajeetPatil/ggstatsplot/workflows/lint/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                                | [![Weekly downloads badge](https://cranlogs.r-pkg.org/badges/last-week/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)   | [![status](https://tinyverse.netlify.com/badge/ggstatsplot)](https://CRAN.R-project.org/package=ggstatsplot)                                                   | [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.0-6666ff.svg)](https://cran.r-project.org/)                                                              |
+| [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)                 | [![Codecov](https://codecov.io/gh/IndrajeetPatil/ggstatsplot/branch/master/graph/badge.svg)](https://app.codecov.io/gh/IndrajeetPatil/ggstatsplot?branch=master) | [![Monthly downloads badge](https://cranlogs.r-pkg.org/badges/last-month/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![CoC](https://img.shields.io/badge/CoC-v2.0%20adopted-ff69b4.svg)](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html)                    | [![CodeFactor](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot/badge)](https://www.codefactor.io/repository/github/indrajeetpatil/ggstatsplot) |
+| [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                               | [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167)                                                      | [![Total downloads badge](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)  | [![Github Stars](https://img.shields.io/github/stars/IndrajeetPatil/ggstatsplot.svg?style=social&label=Github)](https://github.com/IndrajeetPatil/ggstatsplot) | [![code size](https://img.shields.io/github/languages/code-size/IndrajeetPatil/ggstatsplot.svg)](https://github.com/IndrajeetPatil/ggstatsplot)                       |
 
 # Raison d’être <img src="man/figures/logo.png" align="right" width="360" />
 
@@ -17,14 +17,14 @@
 > rather … the revelation of the complex.”  
 > - Edward R. Tufte
 
-[`ggstatsplot`](https://indrajeetpatil.github.io/ggstatsplot/) is an
-extension of [`ggplot2`](https://github.com/tidyverse/ggplot2) package
+[`{ggstatsplot}`](https://indrajeetpatil.github.io/ggstatsplot/) is an
+extension of [`{ggplot2}`](https://github.com/tidyverse/ggplot2) package
 for creating graphics with details from statistical tests included in
 the information-rich plots themselves. In a typical exploratory data
 analysis workflow, data visualization and statistical modeling are two
 different phases: visualization informs modeling, and modeling in its
 turn can suggest a different visualization method, and so on and so
-forth. The central idea of `ggstatsplot` is simple: combine these two
+forth. The central idea of `{ggstatsplot}` is simple: combine these two
 phases into one in the form of graphics with statistical details, which
 makes data exploration simpler and faster.
 
@@ -36,10 +36,9 @@ makes data exploration simpler and faster.
 | Development | GitHub | `remotes::install_github("IndrajeetPatil/ggstatsplot")` |
 
 Linux users may encounter some installation problems. In particular, the
-`ggstatsplot` package depends on the `PMCMRplus` package.
+`{ggstatsplot}` package depends on the `PMCMRplus` package.
 
     ERROR: dependencies ‘gmp’, ‘Rmpfr’ are not available for package ‘PMCMRplus’
-    ERROR: dependency ‘pairwiseComparisons’ is not available for package ‘ggstatsplot’
 
 This means that your operating system lacks `gmp` and `Rmpfr` libraries.
 
@@ -112,7 +111,7 @@ analyses:
 | `ggbarstats`     | **bar charts**            | for categorical data                            | [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html) |
 | `ggcoefstats`    | **dot-and-whisker plots** | for regression models and meta-analysis         | [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html) |
 
-In addition to these basic plots, `ggstatsplot` also provides
+In addition to these basic plots, `{ggstatsplot}` also provides
 **`grouped_`** versions (see below) that makes it easy to repeat the
 same analysis for any grouping variable.
 
@@ -146,9 +145,9 @@ Summary of Bayesian analysis
 # Statistical reporting
 
 For **all** statistical tests reported in the plots, the default
-template abides by the [APA](https://my.ilstu.edu/~jhkahn/apastats.html)
-gold standard for statistical reporting. For example, here are results
-from Yuen’s test for trimmed means (robust *t*-test):
+template abides by the gold standard for statistical reporting. For
+example, here are results from Yuen’s test for trimmed means (robust
+*t*-test):
 
 <img src="man/figures/stats_reporting_format.png" align="center" />
 
@@ -161,7 +160,7 @@ across various functions:
 # Primary functions
 
 Here are examples of the main functions currently supported in
-`ggstatsplot`.
+`{ggstatsplot}`.
 
 **Note**: If you are reading this on `GitHub` repository, the
 documentation below is for the **development** version of the package.
@@ -220,7 +219,7 @@ grouped_ggbetweenstats(
   outlier.coef = 2,
   ggsignif.args = list(textsize = 4, tip_length = 0.01),
   p.adjust.method = "bonferroni", # method for adjusting p-values for multiple comparisons
-  # adding new components to `ggstatsplot` default
+  # adding new components to `{ggstatsplot}` default
   ggplot.component = list(ggplot2::scale_y_continuous(sec.axis = ggplot2::dup_axis())),
   caption = substitute(paste(italic("Source"), ": IMDb (Internet Movie Database)")),
   palette = "default_jama",
@@ -245,7 +244,7 @@ Note here that the function can be used to tag outliers!
 | centrality measure label | `ggrepel::geom_label_repel` | `centrality.label.args`           |
 | outlier point            | `ggplot2::stat_boxplot`     | ❌                                 |
 | outlier label            | `ggrepel::geom_label_repel` | `outlier.label.args`              |
-| pairwise comparisons     | `ggsignif::geom_ggsignif`   | `ggsignif.args`                   |
+| pairwise comparisons     | `ggsignif::geom_signif`     | `ggsignif.args`                   |
 
 ### Summary of tests
 
@@ -262,10 +261,10 @@ Note here that the function can be used to tag outliers!
 
 | Type           | No. of groups | Test                                            | Function used          |
 |----------------|---------------|-------------------------------------------------|------------------------|
-| Parametric     | &gt; 2        | Fisher’s or Welch’s one-way ANOVA               | `stats::oneway.test`   |
-| Non-parametric | &gt; 2        | Kruskal–Wallis one-way ANOVA                    | `stats::kruskal.test`  |
-| Robust         | &gt; 2        | Heteroscedastic one-way ANOVA for trimmed means | `WRS2::t1way`          |
-| Bayes Factor   | &gt; 2        | Fisher’s ANOVA                                  | `BayesFactor::anovaBF` |
+| Parametric     | \> 2          | Fisher’s or Welch’s one-way ANOVA               | `stats::oneway.test`   |
+| Non-parametric | \> 2          | Kruskal–Wallis one-way ANOVA                    | `stats::kruskal.test`  |
+| Robust         | \> 2          | Heteroscedastic one-way ANOVA for trimmed means | `WRS2::t1way`          |
+| Bayes Factor   | \> 2          | Fisher’s ANOVA                                  | `BayesFactor::anovaBF` |
 | Parametric     | 2             | Student’s or Welch’s *t*-test                   | `stats::t.test`        |
 | Non-parametric | 2             | Mann–Whitney *U* test                           | `stats::wilcox.test`   |
 | Robust         | 2             | Yuen’s test for trimmed means                   | `WRS2::yuen`           |
@@ -275,10 +274,10 @@ Note here that the function can be used to tag outliers!
 
 | Type           | No. of groups | Effect size                                                                                                                                                                                            | CI? | Function used                                          |
 |----------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----|--------------------------------------------------------|
-| Parametric     | &gt; 2        | ![\\eta\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Ceta_%7Bp%7D%5E2 "\eta_{p}^2"), ![\\omega\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Comega_%7Bp%7D%5E2 "\omega_{p}^2") | ✅   | `effectsize::omega_squared`, `effectsize::eta_squared` |
-| Non-parametric | &gt; 2        | ![\\epsilon\_{ordinal}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Cepsilon_%7Bordinal%7D%5E2 "\epsilon_{ordinal}^2")                                                                          | ✅   | `effectsize::rank_epsilon_squared`                     |
-| Robust         | &gt; 2        | ![\\xi](https://chart.apis.google.com/chart?cht=tx&chl=%5Cxi "\xi") (Explanatory measure of effect size)                                                                                               | ✅   | `WRS2::t1way`                                          |
-| Bayes Factor   | &gt; 2        | ![R\_{posterior}^2](https://chart.apis.google.com/chart?cht=tx&chl=R_%7Bposterior%7D%5E2 "R_{posterior}^2")                                                                                            | ✅   | `performance::r2_bayes`                                |
+| Parametric     | \> 2          | ![\\eta\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Ceta_%7Bp%7D%5E2 "\eta_{p}^2"), ![\\omega\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Comega_%7Bp%7D%5E2 "\omega_{p}^2") | ✅   | `effectsize::omega_squared`, `effectsize::eta_squared` |
+| Non-parametric | \> 2          | ![\\epsilon\_{ordinal}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Cepsilon_%7Bordinal%7D%5E2 "\epsilon_{ordinal}^2")                                                                          | ✅   | `effectsize::rank_epsilon_squared`                     |
+| Robust         | \> 2          | ![\\xi](https://chart.apis.google.com/chart?cht=tx&chl=%5Cxi "\xi") (Explanatory measure of effect size)                                                                                               | ✅   | `WRS2::t1way`                                          |
+| Bayes Factor   | \> 2          | ![R\_{posterior}^2](https://chart.apis.google.com/chart?cht=tx&chl=R_%7Bposterior%7D%5E2 "R_{posterior}^2")                                                                                            | ✅   | `performance::r2_bayes`                                |
 | Parametric     | 2             | Cohen’s *d*, Hedge’s *g*                                                                                                                                                                               | ✅   | `effectsize::cohens_d`, `effectsize::hedges_g`         |
 | Non-parametric | 2             | *r* (rank-biserial correlation)                                                                                                                                                                        | ✅   | `effectsize::rank_biserial`                            |
 | Robust         | 2             | ![\\xi](https://chart.apis.google.com/chart?cht=tx&chl=%5Cxi "\xi") (Explanatory measure of effect size)                                                                                               | ✅   | `WRS2::yuen.effect.ci`                                 |
@@ -383,7 +382,7 @@ grouped_ggwithinstats(
 | centrality measure label      | `ggrepel::geom_label_repel` | `centrality.label.args`           |
 | outlier point                 | `ggplot2::stat_boxplot`     | ❌                                 |
 | outlier label                 | `ggrepel::geom_label_repel` | `outlier.label.args`              |
-| pairwise comparisons          | `ggsignif::geom_ggsignif`   | `ggsignif.args`                   |
+| pairwise comparisons          | `ggsignif::geom_signif`     | `ggsignif.args`                   |
 
 ### Summary of tests
 
@@ -400,10 +399,10 @@ grouped_ggwithinstats(
 
 | Type           | No. of groups | Test                                                              | Function used          |
 |----------------|---------------|-------------------------------------------------------------------|------------------------|
-| Parametric     | &gt; 2        | One-way repeated measures ANOVA                                   | `afex::aov_ez`         |
-| Non-parametric | &gt; 2        | Friedman rank sum test                                            | `stats::friedman.test` |
-| Robust         | &gt; 2        | Heteroscedastic one-way repeated measures ANOVA for trimmed means | `WRS2::rmanova`        |
-| Bayes Factor   | &gt; 2        | One-way repeated measures ANOVA                                   | `BayesFactor::anovaBF` |
+| Parametric     | \> 2          | One-way repeated measures ANOVA                                   | `afex::aov_ez`         |
+| Non-parametric | \> 2          | Friedman rank sum test                                            | `stats::friedman.test` |
+| Robust         | \> 2          | Heteroscedastic one-way repeated measures ANOVA for trimmed means | `WRS2::rmanova`        |
+| Bayes Factor   | \> 2          | One-way repeated measures ANOVA                                   | `BayesFactor::anovaBF` |
 | Parametric     | 2             | Student’s *t*-test                                                | `stats::t.test`        |
 | Non-parametric | 2             | Wilcoxon signed-rank test                                         | `stats::wilcox.test`   |
 | Robust         | 2             | Yuen’s test on trimmed means for dependent samples                | `WRS2::yuend`          |
@@ -413,10 +412,10 @@ grouped_ggwithinstats(
 
 | Type           | No. of groups | Effect size                                                                                                                                                                                            | CI? | Function used                                          |
 |----------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----|--------------------------------------------------------|
-| Parametric     | &gt; 2        | ![\\eta\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Ceta_%7Bp%7D%5E2 "\eta_{p}^2"), ![\\omega\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Comega_%7Bp%7D%5E2 "\omega_{p}^2") | ✅   | `effectsize::omega_squared`, `effectsize::eta_squared` |
-| Non-parametric | &gt; 2        | ![W\_{Kendall}](https://chart.apis.google.com/chart?cht=tx&chl=W_%7BKendall%7D "W_{Kendall}") (Kendall’s coefficient of concordance)                                                                   | ✅   | `effectsize::kendalls_w`                               |
-| Robust         | &gt; 2        | ![\\delta\_{R-avg}^{AKP}](https://chart.apis.google.com/chart?cht=tx&chl=%5Cdelta_%7BR-avg%7D%5E%7BAKP%7D "\delta_{R-avg}^{AKP}") (Algina-Keselman-Penfield robust standardized difference average)    | ✅   | `WRS2::wmcpAKP`                                        |
-| Bayes Factor   | &gt; 2        | ![R\_{Bayesian}^2](https://chart.apis.google.com/chart?cht=tx&chl=R_%7BBayesian%7D%5E2 "R_{Bayesian}^2")                                                                                               | ✅   | `performance::r2_bayes`                                |
+| Parametric     | \> 2          | ![\\eta\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Ceta_%7Bp%7D%5E2 "\eta_{p}^2"), ![\\omega\_{p}^2](https://chart.apis.google.com/chart?cht=tx&chl=%5Comega_%7Bp%7D%5E2 "\omega_{p}^2") | ✅   | `effectsize::omega_squared`, `effectsize::eta_squared` |
+| Non-parametric | \> 2          | ![W\_{Kendall}](https://chart.apis.google.com/chart?cht=tx&chl=W_%7BKendall%7D "W_{Kendall}") (Kendall’s coefficient of concordance)                                                                   | ✅   | `effectsize::kendalls_w`                               |
+| Robust         | \> 2          | ![\\delta\_{R-avg}^{AKP}](https://chart.apis.google.com/chart?cht=tx&chl=%5Cdelta_%7BR-avg%7D%5E%7BAKP%7D "\delta_{R-avg}^{AKP}") (Algina-Keselman-Penfield robust standardized difference average)    | ✅   | `WRS2::wmcpAKP`                                        |
+| Bayes Factor   | \> 2          | ![R\_{Bayesian}^2](https://chart.apis.google.com/chart?cht=tx&chl=R_%7BBayesian%7D%5E2 "R_{Bayesian}^2")                                                                                               | ✅   | `performance::r2_bayes`                                |
 | Parametric     | 2             | Cohen’s *d*, Hedge’s *g*                                                                                                                                                                               | ✅   | `effectsize::cohens_d`, `effectsize::hedges_g`         |
 | Non-parametric | 2             | *r* (rank-biserial correlation)                                                                                                                                                                        | ✅   | `effectsize::rank_biserial`                            |
 | Robust         | 2             | ![\\delta\_{R}^{AKP}](https://chart.apis.google.com/chart?cht=tx&chl=%5Cdelta_%7BR%7D%5E%7BAKP%7D "\delta_{R}^{AKP}") (Algina-Keselman-Penfield robust standardized difference)                        | ✅   | `WRS2::wmcpAKP`                                        |
@@ -482,7 +481,7 @@ grouped_gghistostats(
   normal.curve = TRUE, # superimpose a normal distribution curve
   normal.curve.args = list(color = "red", size = 1),
   ggtheme = ggthemes::theme_tufte(),
-  # modify the defaults from `ggstatsplot` for each plot
+  # modify the defaults from `{ggstatsplot}` for each plot
   ggplot.component = ggplot2::labs(caption = "Source: IMDB.com"),
   plotgrid.args = list(nrow = 1),
   annotation.args = list(title = "Movies budgets for different genres")
@@ -681,13 +680,12 @@ grouped_ggscatterstats(
 
 ### Summary of graphics
 
-| graphical element      | `geom_` used                                                 | argument for further modification            |
-|------------------------|--------------------------------------------------------------|----------------------------------------------|
-| raw data               | `ggplot2::geom_point`                                        | `point.args`                                 |
-| labels for raw data    | `ggrepel::geom_label_repel`                                  | `point.label.args`                           |
-| smooth line            | `ggplot2::geom_smooth`                                       | `smooth.line.args`                           |
-| marginal histograms    | `ggside::geom_xsidehistogram`, `ggside::geom_ysidehistogram` | `xsidehistogram.args`, `ysidehistogram.args` |
-| marginal density plots | `ggside::geom_xsidedensity`, `ggside::geom_ysidedensity`     | `xsidedensity.args`, `ysidedensity.args`     |
+| graphical element   | `geom_` used                                                 | argument for further modification            |
+|---------------------|--------------------------------------------------------------|----------------------------------------------|
+| raw data            | `ggplot2::geom_point`                                        | `point.args`                                 |
+| labels for raw data | `ggrepel::geom_label_repel`                                  | `point.label.args`                           |
+| smooth line         | `ggplot2::geom_smooth`                                       | `smooth.line.args`                           |
+| marginal histograms | `ggside::geom_xsidehistogram`, `ggside::geom_ysidehistogram` | `xsidehistogram.args`, `ysidehistogram.args` |
 
 ### Summary of tests
 
@@ -767,7 +765,7 @@ ggcorrmat(
   type = "bayes",
   output = "dataframe"
 )
-#> # A tibble: 6 × 14
+#> # A tibble: 6 x 14
 #>   parameter1  parameter2  estimate conf.level conf.low conf.high    pd
 #>   <chr>       <chr>          <dbl>      <dbl>    <dbl>     <dbl> <dbl>
 #> 1 sleep_total sleep_rem      0.731       0.95    0.606    0.838  1    
@@ -807,7 +805,7 @@ ggcorrmat(
   partial = TRUE,
   output = "dataframe"
 )
-#> # A tibble: 6 × 14
+#> # A tibble: 6 x 14
 #>   parameter1  parameter2  estimate conf.level conf.low conf.high    pd
 #>   <chr>       <chr>          <dbl>      <dbl>    <dbl>     <dbl> <dbl>
 #> 1 sleep_total sleep_rem    0.0938        0.95   -0.249     0.411 0.704
@@ -953,10 +951,10 @@ grouped_ggpiestats(
 
 **Effect size estimation**
 
-| Type                      | Effect size                                                         | CI? | Function used                    |
-|---------------------------|---------------------------------------------------------------------|-----|----------------------------------|
-| Parametric/Non-parametric | Cramer’s ![V](https://chart.apis.google.com/chart?cht=tx&chl=V "V") | ✅   | `bayestestR::describe_posterior` |
-| Bayesian                  | ❌                                                                   | ❌   | ❌                                |
+| Type                      | Effect size                                                          | CI? | Function used            |
+|---------------------------|----------------------------------------------------------------------|-----|--------------------------|
+| Parametric/Non-parametric | Pearson’s ![C](https://chart.apis.google.com/chart?cht=tx&chl=C "C") | ✅   | `effectsize::pearsons_c` |
+| Bayesian                  | ❌                                                                    | ❌   | ❌                        |
 
 For more, see the `ggpiestats` vignette:
 <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html>
@@ -1057,10 +1055,10 @@ grouped_ggbarstats(
 
 **Effect size estimation**
 
-| Type                      | Effect size                                                         | CI? | Function used                    |
-|---------------------------|---------------------------------------------------------------------|-----|----------------------------------|
-| Parametric/Non-parametric | Cramer’s ![V](https://chart.apis.google.com/chart?cht=tx&chl=V "V") | ✅   | `bayestestR::describe_posterior` |
-| Bayesian                  | ❌                                                                   | ❌   | ❌                                |
+| Type                      | Effect size                                                          | CI? | Function used            |
+|---------------------------|----------------------------------------------------------------------|-----|--------------------------|
+| Parametric/Non-parametric | Pearson’s ![C](https://chart.apis.google.com/chart?cht=tx&chl=C "C") | ✅   | `effectsize::pearsons_c` |
+| Bayesian                  | ❌                                                                    | ❌   | ❌                        |
 
 ## `ggcoefstats`
 
@@ -1093,9 +1091,9 @@ plot that will be invariant across models:
     Akaike’s Information Criterion (**AIC**) and the Bayesian
     Information Criterion (**BIC**) values, the “better” the model is.
 
--   The output of this function will be a `ggplot2` object and, thus, it
-    can be further modified (e.g., change themes, etc.) with `ggplot2`
-    functions.
+-   The output of this function will be a `{ggplot2}` object and, thus,
+    it can be further modified (e.g., change themes, etc.) with
+    `{ggplot2}` functions.
 
 ``` r
 # for reproducibility
@@ -1105,7 +1103,7 @@ set.seed(123)
 mod <- stats::lm(formula = mpg ~ am * cyl, data = mtcars)
 
 # plot
-ggcoefstats(mod)
+ggcoefstats(mod, ggtheme = hrbrthemes::theme_ipsum_ps())
 ```
 
 <img src="man/figures/README-ggcoefstats1-1.png" width="100%" />
@@ -1114,31 +1112,6 @@ ggcoefstats(mod)
 
 ✅ inferential statistics <br> ✅ estimate + CIs <br> ✅ model summary (AIC
 and BIC) <br>
-
-This default plot can be further modified to one’s liking with
-additional arguments (also, let’s use a different model now):
-
-``` r
-# for reproducibility
-set.seed(123)
-
-# model
-mod <- MASS::rlm(formula = mpg ~ am * cyl, data = mtcars)
-
-# plot
-ggcoefstats(
-  x = mod,
-  point.args = list(color = "red", size = 3, shape = 15),
-  title = "Car performance predicted by transmission & cylinder count",
-  subtitle = "Source: 1974 Motor Trend US magazine",
-  exclude.intercept = TRUE,
-  ggtheme = hrbrthemes::theme_ipsum_ps()
-) + # note the order in which the labels are entered
-  ggplot2::scale_y_discrete(labels = c("transmission", "cylinders", "interaction")) +
-  ggplot2::labs(x = "regression coefficient", y = NULL)
-```
-
-<img src="man/figures/README-ggcoefstats2-1.png" width="100%" />
 
 ### Supported models
 
@@ -1200,9 +1173,9 @@ vignette-
 
 ## Extracting dataframes with statistical details
 
-`ggstatsplot` also offers a convenience function to extract dataframes
+`{ggstatsplot}` also offers a convenience function to extract dataframes
 with statistical details that are used to create expressions displayed
-in `ggstatsplot` plots.
+in `{ggstatsplot}` plots.
 
 ``` r
 set.seed(123)
@@ -1211,19 +1184,19 @@ set.seed(123)
 ggbetweenstats(mtcars, cyl, mpg) %>%
   extract_stats()
 #> $subtitle_data
-#> # A tibble: 1 × 13
+#> # A tibble: 1 x 13
 #>   statistic    df df.error    p.value
 #>       <dbl> <dbl>    <dbl>      <dbl>
 #> 1      31.6     2     18.0 0.00000127
-#>   method                                                   estimate conf.level
-#>   <chr>                                                       <dbl>      <dbl>
-#> 1 One-way analysis of means (not assuming equal variances)    0.744       0.95
-#>   conf.low conf.high effectsize conf.method conf.distribution expression
-#>      <dbl>     <dbl> <chr>      <chr>       <chr>             <list>    
-#> 1    0.475     0.853 Omega2     ncp         F                 <language>
+#>   method                                                   effectsize estimate
+#>   <chr>                                                    <chr>         <dbl>
+#> 1 One-way analysis of means (not assuming equal variances) Omega2        0.744
+#>   conf.level conf.low conf.high conf.method conf.distribution expression
+#>        <dbl>    <dbl>     <dbl> <chr>       <chr>             <list>    
+#> 1       0.95    0.531         1 ncp         F                 <language>
 #> 
 #> $caption_data
-#> # A tibble: 6 × 20
+#> # A tibble: 6 x 20
 #>   term  estimate conf.level conf.low conf.high    pd rope.percentage
 #>   <chr>    <dbl>      <dbl>    <dbl>     <dbl> <dbl>           <dbl>
 #> 1 mu      20.5         0.95  19.3        21.9  1              0     
@@ -1258,7 +1231,7 @@ ggbetweenstats(mtcars, cyl, mpg) %>%
 #> 6       0.574        0.788 <language>
 #> 
 #> $pairwise_comparisons_data
-#> # A tibble: 3 × 11
+#> # A tibble: 3 x 11
 #>   group1 group2 statistic   p.value alternative method            distribution
 #>   <chr>  <chr>      <dbl>     <dbl> <chr>       <chr>             <chr>       
 #> 1 4      6          -6.67 0.00110   two.sided   Games-Howell test q           
@@ -1282,18 +1255,18 @@ ggbetweenstats(mtcars, cyl, mpg) %>%
 #> NULL
 ```
 
-Note that all of this analysis is carried out by `statsExpressions`
+Note that all of this analysis is carried out by `{statsExpressions}`
 package: <https://indrajeetpatil.github.io/statsExpressions/>
 
-## Using `ggstatsplot` statistical details with custom plots
+## Using `{ggstatsplot}` statistical details with custom plots
 
-Sometimes you may not like the default plots produced by `ggstatsplot`.
-In such cases, you can use other **custom** plots (from `ggplot2` or
-other plotting packages) and still use `ggstatsplot` functions to
-display results from relevant statistical test.
+Sometimes you may not like the default plots produced by
+`{ggstatsplot}`. In such cases, you can use other **custom** plots (from
+`{ggplot2}` or other plotting packages) and still use `{ggstatsplot}`
+functions to display results from relevant statistical test.
 
 For example, in the following chunk, we will create plot (*ridgeplot*)
-using `ggridges` package and use `ggstatsplot` function for extracting
+using `ggridges` package and use `{ggstatsplot}` function for extracting
 results.
 
 ``` r
@@ -1303,7 +1276,7 @@ library(ggridges)
 library(ggplot2)
 library(ggstatsplot)
 
-# using `ggstatsplot` to get call with statistical results
+# using `{ggstatsplot}` to get call with statistical results
 stats_results <-
   ggbetweenstats(
     data = morley,
@@ -1336,7 +1309,7 @@ ggplot(morley, aes(x = Speed, y = as.factor(Expt), fill = as.factor(Expt))) +
 
 <img src="man/figures/README-ridgeplot-1.png" width="100%" />
 
-# Summary of benefits
+# Summary of benefits of using `{ggstatsplot}`
 
 -   No need to use scores of packages for statistical analysis (e.g.,
     one to get stats, one to get effect sizes, another to get Bayes
@@ -1360,20 +1333,12 @@ ggplot(morley, aes(x = Speed, y = as.factor(Expt), fill = as.factor(Expt))) +
 -   No need to worry about updating figures and statistical details
     separately.
 
-# Syntax simplicity
-
-All functions produce publication-ready plots that require very few
-arguments if one finds the aesthetic and statistical defaults satisfying
-make the syntax much less cognitively demanding and easy to remember.
-
-<img src='man/figures/arguments.png' align="center"/>
-
-# Misconceptions about *ggstatsplot*
+# Misconceptions about `{ggstatsplot}`
 
 This package is…
 
-❌ an alternative to learning `ggplot2`<br> ✅ (The better you know
-`ggplot2`, the more you can modify the defaults to your liking.)
+❌ an alternative to learning `{ggplot2}`<br> ✅ (The better you know
+`{ggplot2}`, the more you can modify the defaults to your liking.)
 
 ❌ meant to be used in talks/presentations<br> ✅ (Default plots can be
 too complicated for effectively communicating results in
@@ -1382,45 +1347,21 @@ time-constrained presentation settings, e.g. conference talks.)
 ❌ the only game in town<br> ✅ (GUI software alternatives:
 [JASP](https://jasp-stats.org/) and [jamovi](https://www.jamovi.org/)).
 
-# `ggstatsverse`: Components of `ggstatsplot`
-
-To make the maintenance and development of `ggstatsplot`, the package
-internally relies on the following packages that manage different
-aspects of statistical analyses:
-
-## `statsExpressions`
-
-The `statsExpressions` package forms the statistical backend that
-processes data and creates expressions containing results from
-statistical tests.
-
-For more exhaustive documentation for this package, see:
-<https://indrajeetpatil.github.io/statsExpressions/>
-
-## `pairwiseComparisons`
-
-The `pairwiseComparisons` package forms the pairwise comparison backend
-for creating results that are used to display *post hoc* multiple
-comparisons displayed in `ggbetweenstats` and `ggwithinstats` functions.
-
-For more exhaustive documentation for this package, see:
-<https://indrajeetpatil.github.io/pairwiseComparisons/>
-
 # Extensions
 
 In case you use the GUI software [`jamovi`](https://www.jamovi.org/),
 you can install a module called
 [`jjstatsplot`](https://github.com/sbalci/jjstatsplot), which is a
-wrapper around `ggstatsplot`.
+wrapper around `{ggstatsplot}`.
 
 # Acknowledgments
 
-I would like to thank all the contributors to `ggstatsplot` who pointed
-out bugs or requested features I hadn’t considered. I would especially
-like to thank other package developers (especially Daniel Lüdecke,
-Dominique Makowski, Mattan S. Ben-Shachar, Patrick Mair, Salvatore
-Mangiafico, etc.) who have patiently and diligently answered my
-relentless number of questions and added feature requests I wanted. I
+I would like to thank all the contributors to `{ggstatsplot}` who
+pointed out bugs or requested features I hadn’t considered. I would
+especially like to thank other package developers (especially Daniel
+Lüdecke, Dominique Makowski, Mattan S. Ben-Shachar, Patrick Mair,
+Salvatore Mangiafico, etc.) who have patiently and diligently answered
+my relentless number of questions and added feature requests I wanted. I
 also want to thank Chuck Powell for his initial contributions to the
 package.
 

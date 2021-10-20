@@ -83,8 +83,7 @@ designs repeated across all levels of a grouping variable. — grouped_ggwithins
 
 <meta property="og:title" content="Violin plots for group or condition comparisons in within-subjects
 designs repeated across all levels of a grouping variable. — grouped_ggwithinstats" />
-<meta property="og:description" content="A combined plot of comparison plot created for levels of a
-grouping variable." />
+<meta property="og:description" content="A combined plot of comparison plot created for levels of a grouping variable." />
 <meta property="og:image" content="https://indrajeetpatil.github.io/ggstatsplot/logo.png" />
 
 
@@ -104,15 +103,9 @@ grouping variable." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -126,13 +119,19 @@ grouping variable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggstatsplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -177,7 +176,7 @@ grouping variable." />
       <a href="../articles/web_only/faq.html">frequently asked questions (FAQ)</a>
     </li>
     <li>
-      <a href="../articles/web_only/purrr_examples.html">using `ggstatsplot` with the `purrr` package</a>
+      <a href="../articles/web_only/purrr_examples.html">using `{ggstatsplot}` with the `purrr` package</a>
     </li>
     <li>
       <a href="../articles/web_only/principles.html">Graphic design and statistical reporting principles</a>
@@ -234,18 +233,17 @@ designs repeated across all levels of a grouping variable.</h1>
     </div>
 
     <div class="ref-description">
-    <p>A combined plot of comparison plot created for levels of a
-grouping variable.</p>
+    <p>A combined plot of comparison plot created for levels of a grouping variable.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>grouped_ggwithinstats</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>grouped_ggwithinstats</span><span class='op'>(</span>
   <span class='va'>data</span>,
   <span class='va'>...</span>,
   <span class='va'>grouping.var</span>,
   output <span class='op'>=</span> <span class='st'>"plot"</span>,
   plotgrid.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   annotation.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -301,7 +299,7 @@ are to be displayed (default: <code>TRUE</code>). Please note that only
 <strong>significant</strong> comparisons will be shown by default. To change this
 behavior, select appropriate option with <code>pairwise.display</code> argument. The
 pairwise comparison dataframes are prepared using the
-<code><a href='https://indrajeetpatil.github.io/pairwiseComparisons//reference/pairwise_comparisons.html'>pairwiseComparisons::pairwise_comparisons</a></code> function. For more details
+<code>pairwise_comparisons</code> function. For more details
 about pairwise comparisons, see the documentation for that function.</p></dd>
     <dt><code>pairwise.display</code></dt><dd><p>Decides <em>which</em> pairwise comparisons to display.
 Available options are:
@@ -363,10 +361,10 @@ to be:
 <li><p><code>bayes</code> (for <strong>MAP estimator</strong>)</p></li>
 </ul>Just as <code>type</code> argument, abbreviations are also accepted.</p></dd>
     <dt><code>centrality.point.args</code></dt><dd><p>A list of additional aesthetic
-arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and
+arguments to be passed to <code>geom_point</code> and
 <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms, which are involved in mean plotting.</p></dd>
     <dt><code>centrality.label.args</code></dt><dd><p>A list of additional aesthetic
-arguments to be passed to <code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>ggplot2::geom_point</a></code> and
+arguments to be passed to <code>geom_point</code> and
 <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>ggrepel::geom_label_repel</a></code> geoms, which are involved in mean plotting.</p></dd>
     <dt><code>point.args</code></dt><dd><p>A list of additional aesthetic arguments to be passed to
 the <code>geom_point</code> displaying the raw data.</p></dd>
@@ -384,9 +382,9 @@ passed to <code><a href='https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html'>g
 the <code>geom_violin</code>.</p></dd>
     <dt><code>ggsignif.args</code></dt><dd><p>A list of additional aesthetic
 arguments to be passed to <code><a href='https://const-ae.github.io/ggsignif//reference/stat_signif.html'>ggsignif::geom_signif</a></code>.</p></dd>
-    <dt><code>ggtheme</code></dt><dd><p>A <code>ggplot2</code> theme. Default value is
-<code><a href='theme_ggstatsplot.html'>ggstatsplot::theme_ggstatsplot()</a></code>. Any of the <code>ggplot2</code> themes (e.g.,
-<code><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>ggplot2::theme_bw()</a></code>), or themes from extension packages are allowed
+    <dt><code>ggtheme</code></dt><dd><p>A <code>{ggplot2}</code> theme. Default value is
+<code><a href='theme_ggstatsplot.html'>ggstatsplot::theme_ggstatsplot()</a></code>. Any of the <code>{ggplot2}</code> themes (e.g.,
+<code><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw()</a></code>), or themes from extension packages are allowed
 (e.g., <code><a href='https://rdrr.io/pkg/ggthemes/man/theme_fivethirtyeight.html'>ggthemes::theme_fivethirtyeight()</a></code>, <code><a href='https://rdrr.io/pkg/hrbrthemes/man/theme_ipsum_ps.html'>hrbrthemes::theme_ipsum_ps()</a></code>,
 etc.).</p></dd>
     <dt><code>package</code></dt><dd><p>Name of the package from which the given palette is to
@@ -396,9 +394,9 @@ be extracted. The available palettes and packages can be checked by running
 be extracted. The available palettes and packages can be checked by running
 <code>View(paletteer::palettes_d_names)</code>.</p></dd>
     <dt><code>ggplot.component</code></dt><dd><p>A <code>ggplot</code> component to be added to the plot prepared
-by <code>ggstatsplot</code>. This argument is primarily helpful for <code>grouped_</code>
+by <code>{ggstatsplot}</code>. This argument is primarily helpful for <code>grouped_</code>
 variants of all primary functions. Default is <code>NULL</code>. The argument should
-be entered as a <code>ggplot2</code> function or a list of <code>ggplot2</code> functions.</p></dd>
+be entered as a <code>{ggplot2}</code> function or a list of <code>{ggplot2}</code> functions.</p></dd>
   
 </dl></td>
     </tr>
@@ -435,27 +433,29 @@ separately specified here.</p></td>
 <code><a href='grouped_ggbetweenstats.html'>grouped_ggbetweenstats</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \donttest{</span></span>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
 <span class='r-in'><span class='co'># to get reproducible results from bootstrapping</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://indrajeetpatil.github.io/ggstatsplot/'>ggstatsplot</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>, warn.conflicts <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># the most basic function call</span></span>
 <span class='r-in'><span class='fu'>grouped_ggwithinstats</span><span class='op'>(</span></span>
-<span class='r-in'>  data <span class='op'>=</span> <span class='va'>VR_dilemma</span>,</span>
-<span class='r-in'>  x <span class='op'>=</span> <span class='va'>modality</span>,</span>
-<span class='r-in'>  y <span class='op'>=</span> <span class='va'>score</span>,</span>
-<span class='r-in'>  grouping.var <span class='op'>=</span> <span class='va'>order</span>,</span>
+<span class='r-in'>  data <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>bugs_long</span>, <span class='va'>condition</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HDHF"</span>, <span class='st'>"HDLF"</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>  x <span class='op'>=</span> <span class='va'>condition</span>,</span>
+<span class='r-in'>  y <span class='op'>=</span> <span class='va'>desire</span>,</span>
+<span class='r-in'>  grouping.var <span class='op'>=</span> <span class='va'>gender</span>,</span>
 <span class='r-in'>  type <span class='op'>=</span> <span class='st'>"np"</span>, <span class='co'># non-parametric test</span></span>
-<span class='r-in'>  <span class='co'># additional modifications for **each** plot using `ggplot2` functions</span></span>
-<span class='r-in'>  ggplot.component <span class='op'>=</span> <span class='fu'>ggplot2</span><span class='fu'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span></span>
-<span class='r-in'>    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.1</span><span class='op'>)</span>,</span>
-<span class='r-in'>    limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='co'># additional modifications for **each** plot using `{ggplot2}` functions</span></span>
+<span class='r-in'>  ggplot.component <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span></span>
+<span class='r-in'>    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>)</span>,</span>
+<span class='r-in'>    limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span><span class='op'>)</span></span>
 <span class='r-in'>  <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-plt'><img src='grouped_ggwithinstats-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'><span class='co'># }</span></span>
-</code></pre></div>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -471,7 +471,7 @@ separately specified here.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9001, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
+  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
 </div>
 
       </footer>
@@ -496,8 +496,6 @@ separately specified here.</p></td>
 </script>
 
 
-
-  
 
   </body>
 </html>

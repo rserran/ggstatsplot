@@ -52,6 +52,7 @@ reference:
   - title: Helper functions
     desc: Statistics and graphics-related helpers in `ggstatsplot`
     contents:
+      - pairwise_comparisons
       - extract_stats
       - starts_with("theme_")
       - starts_with("combine")
@@ -62,7 +63,6 @@ reference:
       - movies_long
       - Titanic_full
       - iris_long
-      - VR_dilemma
       - bugs_wide
       - bugs_long
 
@@ -90,6 +90,7 @@ articles:
     desc: Salad of various things
     contents:
     - additional
+    - web_only/pairwise
     - web_only/faq
     - web_only/purrr_examples
     - web_only/principles
