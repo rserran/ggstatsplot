@@ -27,7 +27,7 @@
 <![endif]-->
 </head>
 <body>
-    <a href="#container" class="visually-hidden-focusable">Skip to contents</a>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
     <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark"><div class="container">
@@ -83,15 +83,14 @@
       </ul>
 </div>
   </div>
-</nav><div class="container template-article" id="container">
+</nav><div class="container template-article">
 
 <div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
+  <main id="main"><div class="page-header">
       <img src="../../logo.png" class="logo" alt=""><h1>Graphic design and statistical reporting principles</h1>
                         <h4 data-toc-skip class="author">Indrajeet Patil</h4>
             
-            <h4 data-toc-skip class="date">2021-11-13</h4>
+            <h4 data-toc-skip class="date">2021-11-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/HEAD/vignettes/web_only/principles.Rmd" class="external-link"><code>vignettes/web_only/principles.Rmd</code></a></small>
       <div class="d-none name"><code>principles.Rmd</code></div>
@@ -179,10 +178,7 @@ Note that assessing differences in mean values between groups has been made easi
   x <span class="op">=</span> <span class="va">genre</span>,
   y <span class="op">=</span> <span class="va">mpaa</span>,
   title <span class="op">=</span> <span class="st">"Distribution of MPAA ratings by film genre"</span>,
-  legend.title <span class="op">=</span> <span class="st">"layout"</span>,
-  caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://rdrr.io/r/grDevices/plotmath.html" class="external-link">italic</a></span><span class="op">(</span><span class="st">"MPAA"</span><span class="op">)</span>, <span class="st">": Motion Picture Association of America"</span>
-  <span class="op">)</span><span class="op">)</span>
+  legend.title <span class="op">=</span> <span class="st">"layout"</span>
 <span class="op">)</span>
 <span class="co">#&gt; Warning: Number of labels is greater than default palette color count.</span>
 <span class="co">#&gt;  Try using another color `palette` (and/or `package`).</span></code></pre></div>
@@ -409,12 +405,8 @@ Wickham, H. (2016). <em>Ggplot2: <span>Elegant Graphics</span> for <span>Data An
 </div>
 </div>
 </div>
-  </div>
- <div class="col-md-3" id="pkgdown-sidebar">
-        <nav id="toc"><h2>On this page</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
