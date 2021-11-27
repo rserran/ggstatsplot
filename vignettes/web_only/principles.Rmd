@@ -40,6 +40,12 @@ knitr::opts_chunk$set(
 
 library(ggstatsplot)
 library(ggplot2)
+
+if (!requireNamespace("PMCMRplus", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  library(PMCMRplus)
+}
 ```
 
 ---
@@ -128,10 +134,7 @@ ggpiestats(
   x = genre,
   y = mpaa,
   title = "Distribution of MPAA ratings by film genre",
-  legend.title = "layout",
-  caption = substitute(paste(
-    italic("MPAA"), ": Motion Picture Association of America"
-  ))
+  legend.title = "layout"
 )
 ```
 

@@ -35,6 +35,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+if (!requireNamespace("PMCMRplus", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  library(PMCMRplus)
+}
+
 library(ggstatsplot)
 ```
 
@@ -511,20 +517,19 @@ results <-
   parameters::standardize_names(style = "broom")
 
 ## creating expression out of these results
-expr_results <-
-  statsExpressions::expr_template(
-    data = results,
-    no.parameters = 0L,
-    statistic.text = quote(italic("T")),
-    effsize.text = quote(widehat(italic(tau))["Kendall"]),
-    n = results$n.obs[[1]]
+df_results <- statsExpressions::add_expression_col(
+    data           = results,
+    no.parameters  = 0L,
+    statistic.text = list(quote(italic("T"))),
+    effsize.text   = list(quote(widehat(italic(tau))["Kendall"])),
+    n              = results$n.obs[[1]]
   )
 
 ## plot (overriding defaults and using custom expression)
 ggscatterstats(
   df, wt, mpg,
   results.subtitle = FALSE,
-  ggplot.component = list(labs(subtitle = expr_results))
+  ggplot.component = list(labs(subtitle = df_results$expression[[1]]))
 )
 ```
 
@@ -535,7 +540,7 @@ No, there is no way to adjust alpha if you use `grouped_` functions (e.g.,
 paper/article/report, what your adjusted alpha is.
 
 So, for example, iif 2 tests are being carried out, the alpha is going to be
-`0.05/2=0.025`. So, when you describe the _Methods_ section, you can mention
+`0.05/2 = 0.025`. So, when you describe the _Methods_ section, you can mention
 that only those tests should be considered significant where `p < 0.025`. Or you
 can even mention this in the caption.
 
@@ -599,6 +604,10 @@ ggbetweenstats(
   ggplot.component = list(theme(plot.subtitle = element_text(size = 20, face = "bold")))
 )
 ```
+
+25. How to display pairwise comparison letter in a plot?
+
+This is not possible out of the box, but see [this](https://github.com/IndrajeetPatil/ggstatsplot/issues/654#issuecomment-948862514) comment.
 
 ## Suggestions
 
