@@ -64,6 +64,9 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="articles/ggstatsplot.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
@@ -151,8 +154,7 @@ Statistical Details<a class="anchor" aria-label="anchor" href="#ggstatsplot-ggpl
 <blockquote>
 <p>“What is to be sought in designs for the display of information is
 the clear portrayal of complexity. Not the complication of the simple;
-rather … the revelation of the complex.”<br>
-- Edward R. Tufte</p>
+rather … the revelation of the complex.” - Edward R. Tufte</p>
 </blockquote>
 <p><a href="https://indrajeetpatil.github.io/ggstatsplot/"><code>{ggstatsplot}</code></a>
 is an extension of <a href="https://github.com/tidyverse/ggplot2" class="external-link"><code>{ggplot2}</code></a>
@@ -195,7 +197,7 @@ faster.</p>
 </table>
 <p>Linux users may encounter some installation problems. In particular,
 the <a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a> package depends on the
-<code>PMCMRplus</code> package.</p>
+<code>{PMCMRplus}</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ERROR<span class="sc">:</span> dependencies ‘gmp’, ‘Rmpfr’ are not available <span class="cf">for</span> package ‘PMCMRplus’</span></code></pre></div>
 <p>This means that your operating system lacks <code>gmp</code> and
 <code>Rmpfr</code> libraries.</p>
@@ -822,14 +824,14 @@ makes it easy to repeat the same operation across a
 <td>No</td>
 <td>Games-Howell test</td>
 <td>✅</td>
-<td><code><a href="https://rdrr.io/r/stats/pairwise.t.test.html" class="external-link">stats::pairwise.t.test</a></code></td>
+<td><code><a href="https://rdrr.io/pkg/PMCMRplus/man/gamesHowellTest.html" class="external-link">PMCMRplus::gamesHowellTest</a></code></td>
 </tr>
 <tr class="even">
 <td>Parametric</td>
 <td>Yes</td>
 <td>Student’s <em>t</em>-test</td>
 <td>✅</td>
-<td><code><a href="https://rdrr.io/pkg/PMCMRplus/man/gamesHowellTest.html" class="external-link">PMCMRplus::gamesHowellTest</a></code></td>
+<td><code><a href="https://rdrr.io/r/stats/pairwise.t.test.html" class="external-link">stats::pairwise.t.test</a></code></td>
 </tr>
 <tr class="odd">
 <td>Non-parametric</td>
@@ -846,10 +848,10 @@ makes it easy to repeat the same operation across a
 <td><code><a href="https://rdrr.io/pkg/WRS2/man/t1way.html" class="external-link">WRS2::lincon</a></code></td>
 </tr>
 <tr class="odd">
-<td>Bayes Factor</td>
-<td>❌</td>
+<td>Bayesian</td>
+<td><code>NA</code></td>
 <td>Student’s <em>t</em>-test</td>
-<td>❌</td>
+<td><code>NA</code></td>
 <td><code><a href="https://rdrr.io/pkg/BayesFactor/man/ttestBF.html" class="external-link">BayesFactor::ttestBF</a></code></td>
 </tr>
 </tbody>
@@ -2840,10 +2842,10 @@ which is a wrapper around <a href="https://indrajeetpatil.github.io/ggstatsplot/
 <a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a> who pointed out bugs or requested features I
 hadn’t considered. I would especially like to thank other package
 developers (especially Daniel Lüdecke, Dominique Makowski, Mattan S.
-Ben-Shachar, Patrick Mair, Salvatore Mangiafico, etc.) who have
-patiently and diligently answered my relentless number of questions and
-added feature requests I wanted. I also want to thank Chuck Powell for
-his initial contributions to the package.</p>
+Ben-Shachar, Brenton Wiernik, Patrick Mair, Salvatore Mangiafico, etc.)
+who have patiently and diligently answered my relentless number of
+questions and added feature requests I wanted. I also want to thank
+Chuck Powell for his initial contributions to the package.</p>
 <p>The hexsticker was generously designed by Sarah Otterstetter (Max
 Planck Institute for Human Development, Berlin). This package has also
 benefited from the larger <code>rstats</code> community on Twitter and
@@ -2933,7 +2935,7 @@ Patil</a>.</p>
 <div class="pkgdown-footer-right">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.1.9000.</p>
+2.0.2.9000.</p>
 </div>
 
     </footer>
