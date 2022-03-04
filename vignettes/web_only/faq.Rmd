@@ -238,14 +238,14 @@ length(df_list)
 ## running correlation analyses between
 ## this will return a *list* of plots
 plot_list <- purrr::pmap(
-    .l = list(
-      data = df_list,
-      x = "displ",
-      y = "hwy",
-      results.subtitle = FALSE
-    ),
-    .f = ggscatterstats
-  )
+  .l = list(
+    data = df_list,
+    x = "displ",
+    y = "hwy",
+    results.subtitle = FALSE
+  ),
+  .f = ggscatterstats
+)
 
 ## arragen the list in a single plot
 combine_plots(
@@ -518,12 +518,12 @@ results <-
 
 ## creating expression out of these results
 df_results <- statsExpressions::add_expression_col(
-    data           = results,
-    no.parameters  = 0L,
-    statistic.text = list(quote(italic("T"))),
-    effsize.text   = list(quote(widehat(italic(tau))["Kendall"])),
-    n              = results$n.obs[[1]]
-  )
+  data           = results,
+  no.parameters  = 0L,
+  statistic.text = list(quote(italic("T"))),
+  effsize.text   = list(quote(widehat(italic(tau))["Kendall"])),
+  n              = results$n.obs[[1]]
+)
 
 ## plot (overriding defaults and using custom expression)
 ggscatterstats(
@@ -617,6 +617,28 @@ met or not. It will just carry out whatever test you ask it to carry out.
 To check these assumptions, you can use a different package called `{performance}`:
 
 <https://easystats.github.io/performance/reference/index.html#check-model-assumptions-or-data-properties>
+
+## 27. I am on Ubuntu and have trouble installing `{PMCMRplus}`?
+
+Linux users may encounter some installation problems. In particular, the
+`{ggstatsplot}` package depends on the `{PMCMRplus}` package.
+
+```r
+ERROR: dependencies ‘gmp’, ‘Rmpfr’ are not available for package ‘PMCMRplus’
+```
+
+This means that your operating system lacks `gmp` and `Rmpfr` libraries.
+
+If you use `Ubuntu`, you can install these dependencies:
+
+```
+sudo apt-get install libgmp3-dev
+sudo apt-get install libmpfr-dev
+```
+
+The following `README` file briefly describes the installation procedure:
+<https://CRAN.R-project.org/package=PMCMRplus/readme/README.html>
+
 
 ## Suggestions
 
