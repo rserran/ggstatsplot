@@ -56,8 +56,6 @@
 #' }
 #' }
 #' @export
-
-# defining the function
 ggwithinstats <- function(data,
                           x,
                           y,
@@ -174,12 +172,11 @@ ggwithinstats <- function(data,
       tr           = tr,
       paired       = TRUE,
       bf.prior     = bf.prior,
-      nboot        = nboot,
-      top.text     = caption
+      nboot        = nboot
     )
 
     # styler: off
-    .f          <- function_switch(test)
+    .f          <- .f_switch(test)
     subtitle_df <- eval_f(.f, !!!.f.args, type = type)
     subtitle    <- if (!is.null(subtitle_df)) subtitle_df$expression[[1]]
     # styler: on
@@ -203,7 +200,6 @@ ggwithinstats <- function(data,
 
   # plot -------------------------------------------
 
-  # plot
   plot <- ggplot(data, aes({{ x }}, {{ y }}, group = .rowid)) +
     exec(geom_point, aes(color = {{ x }}), !!!point.args) +
     exec(geom_boxplot, aes({{ x }}, {{ y }}), inherit.aes = FALSE, !!!boxplot.args) +
@@ -233,7 +229,6 @@ ggwithinstats <- function(data,
 
   # centrality tagging -------------------------------------
 
-  # add labels for mean values
   if (isTRUE(centrality.plotting)) {
     plot <- centrality_ggrepel(
       plot                  = plot,
@@ -253,7 +248,6 @@ ggwithinstats <- function(data,
   # ggsignif labels -------------------------------------
 
   if (isTRUE(pairwise.comparisons) && test == "anova") {
-    # creating dataframe with pairwise comparison results
     mpc_df <- pairwise_comparisons(
       data            = data,
       x               = {{ x }},
@@ -276,18 +270,17 @@ ggwithinstats <- function(data,
       ggsignif.args    = ggsignif.args
     )
 
-    # preparing the caption for pairwise comparisons test
-    caption <- pairwise_caption(
-      caption,
-      bf.message = ifelse(type == "parametric", bf.message, FALSE),
-      unique(mpc_df$test.details),
+    # preparing the secondary label axis to give pairwise comparisons test details
+    seclabel <- pairwise_seclabel(
+      unique(mpc_df$test),
       ifelse(type == "bayes", "all", pairwise.display)
     )
+  } else {
+    seclabel <- NULL
   }
 
   # annotations -------------------------
 
-  # specifying annotations and other aesthetic aspects for the plot
   aesthetic_addon(
     plot             = plot,
     x                = data %>% pull({{ x }}),
@@ -296,6 +289,7 @@ ggwithinstats <- function(data,
     title            = title,
     subtitle         = subtitle,
     caption          = caption,
+    seclabel         = seclabel,
     ggtheme          = ggtheme,
     package          = package,
     palette          = palette,
@@ -343,8 +337,6 @@ ggwithinstats <- function(data,
 #' }
 #' }
 #' @export
-
-# defining the function
 grouped_ggwithinstats <- function(data,
                                   ...,
                                   grouping.var,
@@ -365,6 +357,5 @@ grouped_ggwithinstats <- function(data,
   # combining the list of plots into a single plot
   if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
 
-  # return the object
   p_ls
 }

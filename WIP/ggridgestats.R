@@ -91,11 +91,10 @@ ggridgestats <- function(data,
       k = k,
       tr = tr,
       bf.prior = bf.prior,
-      nboot = nboot,
-      top.text = caption
+      nboot = nboot
     )
 
-    .f <- function_switch(test)
+    .f <- .f_switch(test)
     subtitle_df <- eval_f(.f, !!!.f.args, type = type)
     subtitle <- if (!is.null(subtitle_df)) subtitle_df$expression[[1]]
 
@@ -169,7 +168,7 @@ ggridgestats <- function(data,
       inherit.aes = FALSE,
       parse = TRUE
     ) +
-    ggplot2::scale_y_discrete(labels = c(unique(descriptive_df$n_label))) +
+    ggplot2::scale_y_discrete(labels = c(unique(descriptive_df$n.expression))) +
     ggplot2::coord_flip()
 
   # ggsignif labels -------------------------------------
@@ -201,9 +200,9 @@ ggridgestats <- function(data,
     )
 
     # preparing the caption for pairwise comparisons test
-    caption <- pairwise_caption(
+    caption <- pairwise_seclabel(
       caption,
-      unique(mpc_df$test.details),
+      unique(mpc_df$test),
       ifelse(type == "bayes", "all", pairwise.display)
     )
   }
