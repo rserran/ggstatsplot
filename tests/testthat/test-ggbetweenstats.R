@@ -7,7 +7,7 @@ test_that(
   code = {
     skip_if_not_installed("vdiffr")
     skip_if(getRversion() < "4.1")
-    skip_if(getRversion() >= "4.2")
+
 
     set.seed(123)
     vdiffr::expect_doppelganger(
@@ -51,7 +51,7 @@ test_that(
 
     set.seed(123)
     vdiffr::expect_doppelganger(
-      title = "centrality plotting works with insufficient data",
+      title = "mean shown with scarce data",
       fig = suppressWarnings(ggbetweenstats(
         data = df_small,
         x = group,
@@ -71,7 +71,7 @@ test_that(
   code = {
     skip_if_not_installed("vdiffr")
     skip_if(getRversion() < "4.1")
-    skip_if(getRversion() >= "4.2")
+
 
     set.seed(123)
     vdiffr::expect_doppelganger(

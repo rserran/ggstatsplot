@@ -20,7 +20,7 @@ test_that(
   code = {
     skip_if_not_installed("vdiffr")
     skip_if(getRversion() < "4.1")
-    skip_if(getRversion() >= "4.2")
+
 
     set.seed(123)
     vdiffr::expect_doppelganger(
@@ -76,7 +76,7 @@ test_that(
   code = {
     skip_if_not_installed("vdiffr")
     skip_if(getRversion() < "4.1")
-    skip_if(getRversion() >= "4.2")
+
 
     set.seed(123)
     vdiffr::expect_doppelganger(
@@ -177,7 +177,7 @@ test_that(
   code = {
     skip_if_not_installed("vdiffr")
     skip_if(getRversion() < "4.1")
-    skip_if(getRversion() >= "4.2")
+
 
     # dropped level dataset
     mtcars_small <- dplyr::filter(mtcars, am == "0")
@@ -185,13 +185,13 @@ test_that(
     # TODO: should one-way table results be shown in the subtitle?
     set.seed(123)
     vdiffr::expect_doppelganger(
-      title = "when levels are dropped, the function still works",
+      title = "works with dropped levels",
       fig = ggpiestats(mtcars_small, cyl, am)
     )
 
     set.seed(123)
     vdiffr::expect_doppelganger(
-      title = "when levels are dropped, proportion tests fail but function works",
+      title = "prop test fails with dropped levels",
       fig = ggpiestats(mtcars_small, am, cyl)
     )
   }
