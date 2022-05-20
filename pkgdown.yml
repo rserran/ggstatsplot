@@ -5,6 +5,7 @@ articles:
   additional: additional.html
   ggstatsplot: ggstatsplot.html
   faq: web_only/faq.html
+  ggbarstats: web_only/ggbarstats.html
   ggbetweenstats: web_only/ggbetweenstats.html
   ggcoefstats: web_only/ggcoefstats.html
   ggcorrmat: web_only/ggcorrmat.html
@@ -16,7 +17,7 @@ articles:
   pairwise: web_only/pairwise.html
   principles: web_only/principles.html
   purrr_examples: web_only/purrr_examples.html
-last_built: 2022-05-06T01:10Z
+last_built: 2022-05-20T01:06Z
 urls:
   reference: https://indrajeetpatil.github.io/ggstatsplot/reference
   article: https://indrajeetpatil.github.io/ggstatsplot/articles
