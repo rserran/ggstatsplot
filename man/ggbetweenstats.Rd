@@ -46,7 +46,6 @@ ggbetweenstats(
   package = "RColorBrewer",
   palette = "Dark2",
   ggplot.component = NULL,
-  output = "plot",
   ...
 )
 }
@@ -146,8 +145,9 @@ if \code{bf.message = FALSE}.}
     variance is used to estimate the variance otherwise the Welch
     (or Satterthwaite) approximation to the degrees of freedom is used.}
 
-\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
-return \verb{95\%} confidence/credible intervals (\code{0.95}).}
+\item{conf.level}{Scalar between \code{0} and \code{1} (default: \verb{95\%}
+confidence/credible intervals, \code{0.95}). If \code{NULL}, no confidence intervals
+will be computed.}
 
 \item{nboot}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100L}).}
@@ -236,14 +236,6 @@ by \code{{ggstatsplot}}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{{ggplot2}} function or a list of \code{{ggplot2}} functions.}
 
-\item{output}{Character that describes what is to be returned: can be
-\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results. If
-you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
-Setting this to \code{"caption"} will return the expression containing details
-about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
-
 \item{...}{Currently ignored.}
 }
 \description{
@@ -255,6 +247,25 @@ subtitle.
 For details, see:
 \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html}
 }
+\section{Centrality measures}{
+
+
+
+The table below provides summary about:
+\itemize{
+\item statistical test carried out for inferential statistics
+\item type of effect size estimate and a measure of uncertainty for this estimate
+\item functions used internally to compute these details
+}\tabular{lll}{
+   Type \tab Measure \tab Function used \cr
+   Parametric \tab mean \tab \code{parameters::describe_distribution()} \cr
+   Non-parametric \tab median \tab \code{parameters::describe_distribution()} \cr
+   Robust \tab trimmed mean \tab \code{parameters::describe_distribution()} \cr
+   Bayesian \tab MAP (maximum \emph{a posteriori} probability) estimate \tab \code{parameters::describe_distribution()} \cr
+}
+
+}
+
 \section{Two-sample tests}{
 
 
@@ -409,30 +420,30 @@ Not supported.
 }
 
 \examples{
+\dontshow{if (requireNamespace("PMCMRplus", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
-if (require("PMCMRplus")) {
-  # to get reproducible results from bootstrapping
-  set.seed(123)
-  library(ggstatsplot)
+# for reproducibility
+set.seed(123)
+library(ggstatsplot)
 
-  # simple function call with the defaults
-  ggbetweenstats(mtcars, am, mpg)
+# simple function call with the defaults
+ggbetweenstats(mtcars, am, mpg)
 
-  # more detailed function call
-  ggbetweenstats(
-    data = morley,
-    x = Expt,
-    y = Speed,
-    type = "robust",
-    xlab = "The experiment number",
-    ylab = "Speed-of-light measurement",
-    pairwise.comparisons = TRUE,
-    p.adjust.method = "fdr",
-    outlier.tagging = TRUE,
-    outlier.label = Run
-  )
+# more detailed function call
+ggbetweenstats(
+  morley,
+  x                    = Expt,
+  y                    = Speed,
+  type                 = "robust",
+  xlab                 = "The experiment number",
+  ylab                 = "Speed-of-light measurement",
+  pairwise.comparisons = TRUE,
+  p.adjust.method      = "fdr",
+  outlier.tagging      = TRUE,
+  outlier.label        = Run
+)
 }
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{grouped_ggbetweenstats}}, \code{\link{ggwithinstats}},

@@ -30,7 +30,7 @@ ggwithinstats(
   centrality.point.args = list(size = 5, color = "darkred"),
   centrality.label.args = list(size = 3, nudge_x = 0.4, segment.linetype = 4),
   centrality.path = TRUE,
-  centrality.path.args = list(size = 1, color = "red", alpha = 0.5),
+  centrality.path.args = list(linewidth = 1, color = "red", alpha = 0.5),
   point.args = list(size = 3, alpha = 0.5),
   point.path = TRUE,
   point.path.args = list(alpha = 0.5, linetype = "dashed"),
@@ -45,7 +45,6 @@ ggwithinstats(
   package = "RColorBrewer",
   palette = "Dark2",
   ggplot.component = NULL,
-  output = "plot",
   ...
 )
 }
@@ -136,8 +135,9 @@ if \code{bf.message = FALSE}.}
 \item{k}{Number of digits after decimal point (should be an integer)
 (Default: \code{k = 2L}).}
 
-\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
-return \verb{95\%} confidence/credible intervals (\code{0.95}).}
+\item{conf.level}{Scalar between \code{0} and \code{1} (default: \verb{95\%}
+confidence/credible intervals, \code{0.95}). If \code{NULL}, no confidence intervals
+will be computed.}
 
 \item{nboot}{Number of bootstrap samples for computing confidence interval
 for the effect size (Default: \code{100L}).}
@@ -233,14 +233,6 @@ by \code{{ggstatsplot}}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{{ggplot2}} function or a list of \code{{ggplot2}} functions.}
 
-\item{output}{Character that describes what is to be returned: can be
-\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results. If
-you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
-Setting this to \code{"caption"} will return the expression containing details
-about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
-
 \item{...}{Currently ignored.}
 }
 \description{
@@ -252,6 +244,25 @@ a subtitle.
 For details, see:
 \url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html}
 }
+\section{Centrality measures}{
+
+
+
+The table below provides summary about:
+\itemize{
+\item statistical test carried out for inferential statistics
+\item type of effect size estimate and a measure of uncertainty for this estimate
+\item functions used internally to compute these details
+}\tabular{lll}{
+   Type \tab Measure \tab Function used \cr
+   Parametric \tab mean \tab \code{parameters::describe_distribution()} \cr
+   Non-parametric \tab median \tab \code{parameters::describe_distribution()} \cr
+   Robust \tab trimmed mean \tab \code{parameters::describe_distribution()} \cr
+   Bayesian \tab MAP (maximum \emph{a posteriori} probability) estimate \tab \code{parameters::describe_distribution()} \cr
+}
+
+}
+
 \section{Two-sample tests}{
 
 
@@ -406,31 +417,32 @@ Not supported.
 }
 
 \examples{
+\dontshow{if (requireNamespace("afex", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 # setup
 set.seed(123)
 library(ggstatsplot)
 library(dplyr, warn.conflicts = FALSE)
 
-# two groups (*t*-test)
+# two-samples test
 ggwithinstats(
   data = filter(bugs_long, condition \%in\% c("HDHF", "HDLF")),
   x    = condition,
-  y    = desire
+  y    = desire,
+  type = "np"
 )
 
-# more than two groups (anova)
-library(WRS2)
-
+# ANOVA
 ggwithinstats(
-  data            = WineTasting,
-  x               = Wine,
-  y               = Taste,
-  type            = "r",
+  data            = bugs_long,
+  x               = condition,
+  y               = desire,
+  type            = "robust",
   outlier.tagging = TRUE,
-  outlier.label   = Taster
+  outlier.label   = region
 )
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{grouped_ggbetweenstats}}, \code{\link{ggbetweenstats}},

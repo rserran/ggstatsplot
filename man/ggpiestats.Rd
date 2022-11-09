@@ -32,7 +32,6 @@ ggpiestats(
   package = "RColorBrewer",
   palette = "Dark2",
   ggplot.component = NULL,
-  output = "plot",
   ...
 )
 }
@@ -105,8 +104,9 @@ is equal theoretical proportions across the levels of the nominal variable.
 This means if there are two levels this will be \code{ratio = c(0.5,0.5)} or if
 there are four levels this will be \code{ratio = c(0.25,0.25,0.25,0.25)}, etc.}
 
-\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
-return \verb{95\%} confidence/credible intervals (\code{0.95}).}
+\item{conf.level}{Scalar between \code{0} and \code{1} (default: \verb{95\%}
+confidence/credible intervals, \code{0.95}). If \code{NULL}, no confidence intervals
+will be computed.}
 
 \item{sampling.plan}{Character describing the sampling plan. Possible options
 are \code{"indepMulti"} (independent multinomial; default), \code{"poisson"},
@@ -150,14 +150,6 @@ be extracted. The available palettes and packages can be checked by running
 by \code{{ggstatsplot}}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{{ggplot2}} function or a list of \code{{ggplot2}} functions.}
-
-\item{output}{Character that describes what is to be returned: can be
-\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results. If
-you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
-Setting this to \code{"caption"} will return the expression containing details
-about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
 
 \item{...}{Currently ignored.}
 }

@@ -25,11 +25,10 @@ gghistostats(
   bin.args = list(color = "black", fill = "grey50", alpha = 0.7),
   centrality.plotting = TRUE,
   centrality.type = type,
-  centrality.line.args = list(color = "blue", size = 1, linetype = "dashed"),
+  centrality.line.args = list(color = "blue", linewidth = 1, linetype = "dashed"),
   normal.curve = FALSE,
-  normal.curve.args = list(size = 2),
+  normal.curve.args = list(linewidth = 2),
   ggplot.component = NULL,
-  output = "plot",
   ...
 )
 }
@@ -85,8 +84,9 @@ parametric test} (Default: \code{TRUE}).}
 \item{effsize.type}{Type of effect size needed for \emph{parametric} tests. The
 argument can be \code{"d"} (for Cohen's \emph{d}) or \code{"g"} (for Hedge's \emph{g}).}
 
-\item{conf.level}{Scalar between \code{0} and \code{1}. If unspecified, the defaults
-return \verb{95\%} confidence/credible intervals (\code{0.95}).}
+\item{conf.level}{Scalar between \code{0} and \code{1} (default: \verb{95\%}
+confidence/credible intervals, \code{0.95}). If \code{NULL}, no confidence intervals
+will be computed.}
 
 \item{tr}{Trim level for the mean when carrying out \code{robust} tests. In case
 of an error, try reducing the value of \code{tr}, which is by default set to
@@ -155,14 +155,6 @@ by \code{{ggstatsplot}}. This argument is primarily helpful for \code{grouped_}
 variants of all primary functions. Default is \code{NULL}. The argument should
 be entered as a \code{{ggplot2}} function or a list of \code{{ggplot2}} functions.}
 
-\item{output}{Character that describes what is to be returned: can be
-\code{"plot"} (default) or \code{"subtitle"} or \code{"caption"}. Setting this to
-\code{"subtitle"} will return the expression containing statistical results. If
-you have set \code{results.subtitle = FALSE}, then this will return a \code{NULL}.
-Setting this to \code{"caption"} will return the expression containing details
-about Bayes Factor analysis, but valid only when \code{type = "parametric"} and
-\code{bf.message = TRUE}, otherwise this will return a \code{NULL}.}
-
 \item{...}{Currently ignored.}
 }
 \description{
@@ -186,10 +178,10 @@ The table below provides summary about:
 
 \strong{Hypothesis testing}\tabular{lll}{
    Type \tab Test \tab Function used \cr
-   Parametric \tab One-sample Student's \emph{t}-test \tab \code{stats::t.test} \cr
-   Non-parametric \tab One-sample Wilcoxon test \tab \code{stats::wilcox.test} \cr
-   Robust \tab Bootstrap-\emph{t} method for one-sample test \tab \code{WRS2::trimcibt} \cr
-   Bayesian \tab One-sample Student's \emph{t}-test \tab \code{BayesFactor::ttestBF} \cr
+   Parametric \tab One-sample Student's \emph{t}-test \tab \code{stats::t.test()} \cr
+   Non-parametric \tab One-sample Wilcoxon test \tab \code{stats::wilcox.test()} \cr
+   Robust \tab Bootstrap-\emph{t} method for one-sample test \tab \code{WRS2::trimcibt()} \cr
+   Bayesian \tab One-sample Student's \emph{t}-test \tab \code{BayesFactor::ttestBF()} \cr
 }
 
 

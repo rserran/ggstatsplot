@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -99,6 +99,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggcorrplot",
       "name": "ggcorrplot",
+      "version": ">= 0.1.4",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -111,6 +112,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggside",
       "name": "ggside",
+      "version": ">= 0.2.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -255,7 +257,7 @@
       "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
-      "version": ">= 3.1.4",
+      "version": ">= 3.1.5",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -325,7 +327,7 @@
       "@type": "SoftwareApplication",
       "identifier": "datawizard",
       "name": "datawizard",
-      "version": ">= 0.6.2",
+      "version": ">= 0.6.3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -350,6 +352,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
+      "version": ">= 3.4.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -398,7 +401,7 @@
       "@type": "SoftwareApplication",
       "identifier": "insight",
       "name": "insight",
-      "version": ">= 0.18.5",
+      "version": ">= 0.18.6",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -518,7 +521,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "9566.588KB",
+  "fileSize": "9566.915KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

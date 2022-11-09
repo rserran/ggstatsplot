@@ -65,22 +65,13 @@ gghistostats <- function(data,
                          k = 2L,
                          ggtheme = ggstatsplot::theme_ggstatsplot(),
                          results.subtitle = TRUE,
-                         bin.args = list(
-                           color = "black",
-                           fill = "grey50",
-                           alpha = 0.7
-                         ),
+                         bin.args = list(color = "black", fill = "grey50", alpha = 0.7),
                          centrality.plotting = TRUE,
                          centrality.type = type,
-                         centrality.line.args = list(
-                           color = "blue",
-                           size = 1,
-                           linetype = "dashed"
-                         ),
+                         centrality.line.args = list(color = "blue", linewidth = 1, linetype = "dashed"),
                          normal.curve = FALSE,
-                         normal.curve.args = list(size = 2),
+                         normal.curve.args = list(linewidth = 2),
                          ggplot.component = NULL,
-                         output = "plot",
                          ...) {
   # data -----------------------------------
 
@@ -119,20 +110,12 @@ gghistostats <- function(data,
     }
   }
 
-  # return early if anything other than plot
-  if (output != "plot") {
-    return(switch(output,
-      "caption" = caption,
-      subtitle
-    ))
-  }
-
   # plot -----------------------------------
 
   plot <- ggplot(data, mapping = aes(x = {{ x }})) +
     exec(
       stat_bin,
-      mapping   = aes(y = ..count.., fill = ..count..),
+      mapping   = aes(y = after_stat(count), fill = after_stat(count)),
       binwidth  = binwidth %||% .binwidth(x_vec),
       !!!bin.args
     ) +
@@ -228,7 +211,6 @@ grouped_gghistostats <- function(data,
                                  x,
                                  grouping.var,
                                  binwidth = NULL,
-                                 output = "plot",
                                  plotgrid.args = list(),
                                  annotation.args = list(),
                                  ...) {
@@ -243,15 +225,12 @@ grouped_gghistostats <- function(data,
 
   # creating a list of plots
   p_ls <- purrr::pmap(
-    .l       = list(data = data, title = names(data), output = output),
+    .l       = list(data = data, title = names(data)),
     .f       = ggstatsplot::gghistostats,
     x        = {{ x }},
     binwidth = binwidth %||% .binwidth(x_vec),
     ...
   )
 
-  # combining the list of plots into a single plot
-  if (output == "plot") p_ls <- combine_plots(p_ls, plotgrid.args, annotation.args)
-
-  p_ls
+  combine_plots(p_ls, plotgrid.args, annotation.args)
 }

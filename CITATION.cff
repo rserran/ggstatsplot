@@ -97,9 +97,9 @@ references:
     given-names: Mattan S.
     email: matanshm@post.bgu.ac.il
     orcid: https://orcid.org/0000-0002-4287-4801
-  year: '2022'
-  url: https://CRAN.R-project.org/package=correlation
+  url: https://easystats.github.io/correlation/
   version: '>= 0.8.3'
+  year: '2022'
 - type: software
   title: datawizard
   abstract: 'datawizard: Easy Data Wrangling and Statistical Transformations'
@@ -129,9 +129,9 @@ references:
     given-names: Etienne
     email: etienne.bacher@protonmail.com
     orcid: https://orcid.org/0000-0002-9271-5075
-  url: https://easystats.github.io/datawizard/
-  version: '>= 0.6.2'
   year: '2022'
+  url: https://easystats.github.io/datawizard/
+  version: '>= 0.6.3'
 - type: software
   title: dplyr
   abstract: 'dplyr: A Grammar of Data Manipulation'
@@ -185,6 +185,7 @@ references:
     orcid: https://orcid.org/0000-0002-9415-4582
   year: '2022'
   url: https://CRAN.R-project.org/package=ggplot2
+  version: '>= 3.4.0'
 - type: software
   title: ggrepel
   abstract: 'ggrepel: Automatically Position Non-Overlapping Text Labels with ''ggplot2'''
@@ -260,7 +261,7 @@ references:
     orcid: https://orcid.org/0000-0003-2042-7063
   year: '2022'
   url: https://easystats.github.io/insight/
-  version: '>= 0.18.5'
+  version: '>= 0.18.6'
 - type: software
   title: paletteer
   abstract: 'paletteer: Comprehensive Collection of Color Palettes'
@@ -298,9 +299,9 @@ references:
     given-names: Brenton M.
     email: brenton@wiernik.org
     orcid: https://orcid.org/0000-0001-9560-6336
+  year: '2022'
   url: https://easystats.github.io/parameters/
   version: '>= 0.19.0'
-  year: '2022'
 - type: software
   title: patchwork
   abstract: 'patchwork: The Composer of Plots'
@@ -472,6 +473,7 @@ references:
     email: alboukadel.kassambara@gmail.com
   year: '2022'
   url: https://CRAN.R-project.org/package=ggcorrplot
+  version: '>= 0.1.4'
 - type: software
   title: ggside
   abstract: 'ggside: Side Grammar Graphics'
@@ -483,6 +485,7 @@ references:
     orcid: https://orcid.org/0000-0001-5501-4934
   year: '2022'
   url: https://CRAN.R-project.org/package=ggside
+  version: '>= 0.2.1'
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -656,7 +659,7 @@ references:
     email: hadley@rstudio.com
   year: '2022'
   url: https://CRAN.R-project.org/package=testthat
-  version: '>= 3.1.4'
+  version: '>= 3.1.5'
 - type: software
   title: tibble
   abstract: 'tibble: Simple Data Frames'
