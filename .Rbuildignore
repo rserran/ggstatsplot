@@ -17,10 +17,11 @@
 ^docs$
 ^revdep$
 publication/*
-^codecov\.yml$
+^codecov\.yaml$
 ^\.coveralls\.yml$
 ^\.travis\.yml$
 ^_pkgdown\.yml$
+^_pkgdown\.yaml$
 ^appveyor\.yml$
 ^.gitlab-ci\.yml$
 ^data-raw$
