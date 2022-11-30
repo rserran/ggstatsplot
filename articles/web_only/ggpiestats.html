@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
 <script src="../../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="../../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../../deps/Roboto-0.4.2/font.css" rel="stylesheet">
-<link href="../../deps/JetBrains_Mono-0.4.2/font.css" rel="stylesheet">
+<script src="../../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../../deps/Roboto-0.4.4/font.css" rel="stylesheet">
+<link href="../../deps/JetBrains_Mono-0.4.4/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><meta property="og:title" content="ggpiestats">
@@ -38,7 +38,7 @@
     
     <a class="navbar-brand me-2" href="../../index.html">ggstatsplot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +71,7 @@
     <a class="dropdown-item" href="../../articles/additional.html">Additional vignettes</a>
     <a class="dropdown-item" href="../../articles/web_only/pairwise.html">Pairwise comparisons with `{ggstatsplot}`</a>
     <a class="dropdown-item" href="../../articles/web_only/faq.html">Frequently Asked Questions (FAQ)</a>
-    <a class="dropdown-item" href="../../articles/web_only/purrr_examples.html">using 'ggstatsplot' with the 'purrr' package</a>
+    <a class="dropdown-item" href="../../articles/web_only/purrr_examples.html">Using '{ggstatsplot}' with the '{purrr}' package</a>
     <a class="dropdown-item" href="../../articles/web_only/principles.html">Graphic design and statistical reporting principles</a>
   </div>
 </li>
@@ -106,7 +106,7 @@
                         <h4 data-toc-skip class="author">Indrajeet
 Patil</h4>
             
-            <h4 data-toc-skip class="date">2022-11-09</h4>
+            <h4 data-toc-skip class="date">2022-11-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/HEAD/vignettes/web_only/ggpiestats.Rmd" class="external-link"><code>vignettes/web_only/ggpiestats.Rmd</code></a></small>
       <div class="d-none name"><code>ggpiestats.Rmd</code></div>
@@ -178,10 +178,7 @@ maiden voyage of the ocean liner <em>Titanic</em>, including economic
 status (class), sex, age, and survival.”</p>
 <p>Let’s have a look at the structure of both.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://indrajeetpatil.github.io/ggstatsplot/">ggstatsplot</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># looking at the original data in tabular format</span></span>
+<code class="sourceCode R"><span><span class="co"># looking at the original data in tabular format</span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">Titanic</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  'table' num [1:4, 1:2, 1:2, 1:2] 0 0 35 0 0 0 17 0 118 154 ...</span></span>
 <span><span class="co">#&gt;  - attr(*, "dimnames")=List of 4</span></span>
@@ -214,11 +211,7 @@ did or did not survive. Our initial hypothesis is that it was no
 different than flipping a coin. People had a 50/50 chance of
 surviving.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#  for reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot</span></span>
-<span><span class="fu"><a href="../../reference/ggpiestats.html">ggpiestats</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/ggpiestats.html">ggpiestats</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">Titanic_full</span>,</span>
 <span>  x <span class="op">=</span> <span class="va">Survived</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"Passenger survival on the Titanic"</span>,</span>
@@ -240,10 +233,9 @@ of, or associated with, gender. The test is whether the proportion of
 people who survived was different between the sexes using
 <code>ggpiestats</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
 <span></span>
-<span><span class="co">## plot</span></span>
+<span></span>
 <span><span class="fu"><a href="../../reference/ggpiestats.html">ggpiestats</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">Titanic_full</span>,</span>
 <span>  x <span class="op">=</span> <span class="va">Survived</span>,</span>
@@ -279,11 +271,7 @@ of individual plots into a single plot. Note that the grouping variable
 can be anything: conditions in a given study, groups in a study sample,
 different studies, etc.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot</span></span>
-<span><span class="fu"><a href="../../reference/grouped_ggpiestats.html">grouped_ggpiestats</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/grouped_ggpiestats.html">grouped_ggpiestats</a></span><span class="op">(</span></span>
 <span>  <span class="co"># arguments relevant for `ggpiestats()`</span></span>
 <span>  data <span class="op">=</span> <span class="va">Titanic_full</span>,</span>
 <span>  x <span class="op">=</span> <span class="va">Survived</span>,</span>
@@ -327,10 +315,7 @@ fish they caught in the months of <code>February</code> and
 <code>March</code>. In this data frame, each row corresponds to a unique
 combination of <code>Boat</code> and <code>Month</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># creating a data frame</span></span>
+<code class="sourceCode R"><span><span class="co"># creating a data frame</span></span>
 <span><span class="co"># (this is completely fictional; I don't know first thing about fishing!)</span></span>
 <span><span class="op">(</span></span>
 <span>  <span class="va">fishing</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -417,10 +402,7 @@ results from <strong>McNemar test</strong> in the subtitle.</p>
 <p>(<strong>Note:</strong> If you forget to set
 <code>paired = TRUE</code>, the results will be inaccurate.)</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># create our imaginary data</span></span>
+<code class="sourceCode R"><span><span class="co"># create imaginary data</span></span>
 <span><span class="va">clinical_trial</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">SickBefore</span>, <span class="op">~</span><span class="va">SickAfter</span>, <span class="op">~</span><span class="va">Counts</span>,</span>
 <span>  <span class="st">"No"</span>, <span class="st">"Yes"</span>, <span class="fl">4</span>,</span>
@@ -429,7 +411,6 @@ results from <strong>McNemar test</strong> in the subtitle.</p>
 <span>  <span class="st">"No"</span>, <span class="st">"No"</span>, <span class="fl">92</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="../../reference/ggpiestats.html">ggpiestats</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">clinical_trial</span>,</span>
 <span>  x <span class="op">=</span> <span class="va">SickAfter</span>,</span>
@@ -449,190 +430,11 @@ the 38 who started out sick that number has reduced to just 13 or 34%
 which is a marked improvement.</p>
 </div>
 <div class="section level2">
-<h2 id="summary-of-graphics">Summary of graphics<a class="anchor" aria-label="anchor" href="#summary-of-graphics"></a>
+<h2 id="summary-of-graphics-and-tests">Summary of graphics and tests<a class="anchor" aria-label="anchor" href="#summary-of-graphics-and-tests"></a>
 </h2>
-<table class="table">
-<colgroup>
-<col width="21%">
-<col width="16%">
-<col width="61%">
-</colgroup>
-<thead><tr class="header">
-<th>graphical element</th>
-<th>
-<code>geom_</code> used</th>
-<th>argument for further modification</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>pie slices</td>
-<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">ggplot2::geom_col</a></code></td>
-<td>❌</td>
-</tr>
-<tr class="even">
-<td>descriptive labels</td>
-<td>
-<code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">ggplot2::geom_label</a></code>/<code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html" class="external-link">ggrepel::geom_label_repel</a></code>
-</td>
-<td><code>label.args</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level2">
-<h2 id="summary-of-tests">Summary of tests<a class="anchor" aria-label="anchor" href="#summary-of-tests"></a>
-</h2>
-<p><strong>two-way table</strong></p>
-<p><strong>Hypothesis testing</strong></p>
-<table class="table">
-<colgroup>
-<col width="23%">
-<col width="10%">
-<col width="54%">
-<col width="10%">
-</colgroup>
-<thead><tr class="header">
-<th>Type</th>
-<th>Design</th>
-<th>Test</th>
-<th>Function used</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Parametric/Non-parametric</td>
-<td>Unpaired</td>
-<td>Pearson’s <span class="math inline">\(\chi^2\)</span> test</td>
-<td><code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">stats::chisq.test</a></code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td>Unpaired</td>
-<td>Bayesian Pearson’s <span class="math inline">\(\chi^2\)</span>
-test</td>
-<td><code><a href="https://rdrr.io/pkg/BayesFactor/man/contingencyTableBF.html" class="external-link">BayesFactor::contingencyTableBF</a></code></td>
-</tr>
-<tr class="odd">
-<td>Parametric/Non-parametric</td>
-<td>Paired</td>
-<td>McNemar’s <span class="math inline">\(\chi^2\)</span> test</td>
-<td><code><a href="https://rdrr.io/r/stats/mcnemar.test.html" class="external-link">stats::mcnemar.test</a></code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td>Paired</td>
-<td>❌</td>
-<td>❌</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Effect size estimation</strong></p>
-<table class="table">
-<colgroup>
-<col width="22%">
-<col width="10%">
-<col width="51%">
-<col width="6%">
-<col width="10%">
-</colgroup>
-<thead><tr class="header">
-<th>Type</th>
-<th>Design</th>
-<th>Effect size</th>
-<th>CI?</th>
-<th>Function used</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Parametric/Non-parametric</td>
-<td>Unpaired</td>
-<td>Cramer’s <span class="math inline">\(V\)</span>
-</td>
-<td>✅</td>
-<td><code><a href="https://easystats.github.io/effectsize/reference/phi.html" class="external-link">effectsize::cramers_v</a></code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td>Unpaired</td>
-<td>Cramer’s <span class="math inline">\(V\)</span>
-</td>
-<td>✅</td>
-<td><code><a href="https://easystats.github.io/effectsize/reference/phi.html" class="external-link">effectsize::cramers_v</a></code></td>
-</tr>
-<tr class="odd">
-<td>Parametric/Non-parametric</td>
-<td>Paired</td>
-<td>Cohen’s <span class="math inline">\(g\)</span>
-</td>
-<td>✅</td>
-<td><code><a href="https://easystats.github.io/effectsize/reference/cohens_g.html" class="external-link">effectsize::cohens_g</a></code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td>Paired</td>
-<td>❌</td>
-<td>❌</td>
-<td>❌</td>
-</tr>
-</tbody>
-</table>
-<p><strong>one-way table</strong></p>
-<p><strong>Hypothesis testing</strong></p>
-<table class="table">
-<colgroup>
-<col width="26%">
-<col width="60%">
-<col width="12%">
-</colgroup>
-<thead><tr class="header">
-<th>Type</th>
-<th>Test</th>
-<th>Function used</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Parametric/Non-parametric</td>
-<td>Goodness of fit <span class="math inline">\(\chi^2\)</span>
-test</td>
-<td><code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">stats::chisq.test</a></code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td>Bayesian Goodness of fit <span class="math inline">\(\chi^2\)</span>
-test</td>
-<td>(custom)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Effect size estimation</strong></p>
-<table class="table">
-<colgroup>
-<col width="25%">
-<col width="56%">
-<col width="6%">
-<col width="11%">
-</colgroup>
-<thead><tr class="header">
-<th>Type</th>
-<th>Effect size</th>
-<th>CI?</th>
-<th>Function used</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Parametric/Non-parametric</td>
-<td>Pearson’s <span class="math inline">\(C\)</span>
-</td>
-<td>✅</td>
-<td><code><a href="https://easystats.github.io/effectsize/reference/phi.html" class="external-link">effectsize::pearsons_c</a></code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td>❌</td>
-<td>❌</td>
-<td>❌</td>
-</tr>
-</tbody>
-</table>
+<p>Details about underlying functions used to create graphics and
+statistical tests carried out can be found in the function
+documentation: <a href="https://indrajeetpatil.github.io/ggstatsplot/reference/ggpiestats.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/reference/ggpiestats.html</a></p>
 </div>
 <div class="section level2">
 <h2 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a>
