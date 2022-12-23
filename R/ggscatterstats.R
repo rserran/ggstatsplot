@@ -219,8 +219,7 @@ ggscatterstats <- function(data,
 #' @inherit ggscatterstats return references
 #' @inherit ggscatterstats return details
 #'
-#' @examplesIf requireNamespace("ggside", quietly = TRUE)
-#' \donttest{
+#' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true") && requireNamespace("ggside", quietly = TRUE)
 #' # to ensure reproducibility
 #' set.seed(123)
 #'
@@ -260,23 +259,16 @@ ggscatterstats <- function(data,
 #'   label.var       = "title",
 #'   annotation.args = list(tag_levels = "a")
 #' )
-#' }
 #' @export
 grouped_ggscatterstats <- function(data,
                                    ...,
                                    grouping.var,
                                    plotgrid.args = list(),
                                    annotation.args = list()) {
-  # getting the data frame ready
-  data %<>% .grouped_list({{ grouping.var }})
-
-  # creating a list of plots
-  p_ls <- purrr::pmap(
-    .l = list(data = data, title = names(data)),
+  purrr::pmap(
+    .l = .grouped_list(data, {{ grouping.var }}),
     .f = ggstatsplot::ggscatterstats,
     ...
-  )
-
-
-  combine_plots(p_ls, plotgrid.args, annotation.args)
+  ) %>%
+    combine_plots(plotgrid.args, annotation.args)
 }

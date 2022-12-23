@@ -37,8 +37,7 @@
 #' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html>
 #'
-#' @examplesIf requireNamespace("afex", quietly = TRUE)
-#' \donttest{
+#' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true") && requireNamespace("afex", quietly = TRUE)
 #' # for reproducibility
 #' set.seed(123)
 #' library(dplyr, warn.conflicts = FALSE)
@@ -67,7 +66,6 @@
 #'   outlier.tagging = TRUE,
 #'   outlier.label   = region
 #' )
-#' }
 #' @export
 ggwithinstats <- function(data,
                           x,
@@ -207,7 +205,7 @@ ggwithinstats <- function(data,
   # centrality tagging -------------------------------------
 
   if (isTRUE(centrality.plotting)) {
-    plot <- .centrality_ggrepel(
+    plot <- suppressWarnings(.centrality_ggrepel(
       plot                  = plot,
       data                  = data,
       x                     = {{ x }},
@@ -219,7 +217,7 @@ ggwithinstats <- function(data,
       centrality.path.args  = centrality.path.args,
       centrality.point.args = centrality.point.args,
       centrality.label.args = centrality.label.args
-    )
+    ))
   }
 
   # ggsignif labels -------------------------------------
@@ -293,8 +291,7 @@ ggwithinstats <- function(data,
 #'
 #' @inherit ggwithinstats return references
 #'
-#' @examplesIf requireNamespace("afex", quietly = TRUE)
-#' \donttest{
+#' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true") && requireNamespace("afex", quietly = TRUE)
 #' # for reproducibility
 #' set.seed(123)
 #' library(dplyr, warn.conflicts = FALSE)
@@ -310,22 +307,16 @@ ggwithinstats <- function(data,
 #'   # additional modifications for **each** plot using `{ggplot2}` functions
 #'   ggplot.component = scale_y_continuous(breaks = seq(0, 10, 1), limits = c(0, 10))
 #' )
-#' }
 #' @export
 grouped_ggwithinstats <- function(data,
                                   ...,
                                   grouping.var,
                                   plotgrid.args = list(),
                                   annotation.args = list()) {
-  # creating a data frame
-  data %<>% .grouped_list(grouping.var = {{ grouping.var }})
-
-  # creating a list of return objects
-  p_ls <- purrr::pmap(
-    .l = list(data = data, title = names(data)),
+  purrr::pmap(
+    .l = .grouped_list(data, {{ grouping.var }}),
     .f = ggstatsplot::ggwithinstats,
     ...
-  )
-
-  combine_plots(p_ls, plotgrid.args, annotation.args)
+  ) %>%
+    combine_plots(plotgrid.args, annotation.args)
 }

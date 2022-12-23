@@ -26,8 +26,7 @@
 #' @details For details, see:
 #' <https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html>
 #'
-#' @examples
-#' \donttest{
+#' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
 #' # for reproducibility
 #' set.seed(123)
 #'
@@ -45,7 +44,6 @@
 #'
 #' # extracting details from statistical tests
 #' extract_stats(p)
-#' }
 #' @export
 ggdotplotstats <- function(data,
                            x,
@@ -182,8 +180,7 @@ ggdotplotstats <- function(data,
 #' @inherit ggdotplotstats return references
 #' @inherit ggdotplotstats return details
 #'
-#' @examples
-#' \donttest{
+#' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
 #' # for reproducibility
 #' set.seed(123)
 #' library(dplyr, warn.conflicts = FALSE)
@@ -199,22 +196,16 @@ ggdotplotstats <- function(data,
 #'   grouping.var = cyl,
 #'   test.value   = 15.5
 #' )
-#' }
 #' @export
 grouped_ggdotplotstats <- function(data,
                                    ...,
                                    grouping.var,
                                    plotgrid.args = list(),
                                    annotation.args = list()) {
-  # data frame
-  data %<>% .grouped_list(grouping.var = {{ grouping.var }})
-
-  # creating a list of return objects
-  p_ls <- purrr::pmap(
-    .l = list(data = data, title = names(data)),
+  purrr::pmap(
+    .l = .grouped_list(data, {{ grouping.var }}),
     .f = ggstatsplot::ggdotplotstats,
     ...
-  )
-
-  combine_plots(p_ls, plotgrid.args, annotation.args)
+  ) %>%
+    combine_plots(plotgrid.args, annotation.args)
 }
