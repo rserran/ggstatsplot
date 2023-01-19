@@ -219,6 +219,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "ragg",
+      "name": "ragg",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ragg"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
       "name": "rmarkdown",
       "provider": {
@@ -228,18 +240,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "spelling",
-      "name": "spelling",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=spelling"
     },
     {
       "@type": "SoftwareApplication",
@@ -426,7 +426,7 @@
       "@type": "SoftwareApplication",
       "identifier": "parameters",
       "name": "parameters",
-      "version": ">= 0.20.0",
+      "version": ">= 0.20.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -451,7 +451,7 @@
       "@type": "SoftwareApplication",
       "identifier": "performance",
       "name": "performance",
-      "version": ">= 0.10.1",
+      "version": ">= 0.10.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -464,6 +464,7 @@
       "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
+      "version": ">= 1.0.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -521,7 +522,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "9531.087KB",
+  "fileSize": "9518.993KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
