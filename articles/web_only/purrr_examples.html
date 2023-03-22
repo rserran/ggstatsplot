@@ -106,7 +106,7 @@
                         <h4 data-toc-skip class="author">Indrajeet
 Patil</h4>
             
-            <h4 data-toc-skip class="date">2023-02-22</h4>
+            <h4 data-toc-skip class="date">2023-03-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/IndrajeetPatil/ggstatsplot/blob/HEAD/vignettes/web_only/purrr_examples.Rmd" class="external-link"><code>vignettes/web_only/purrr_examples.Rmd</code></a></small>
       <div class="d-none name"><code>purrr_examples.Rmd</code></div>
@@ -216,7 +216,7 @@ called <code>year_list</code> using <code><a href="https://dplyr.tidyverse.org/r
 <span></span>
 <span></span>
 <span><span class="co">## let's split the data frame and create a list by years of interest</span></span>
-<span><span class="va">year_list</span> <span class="op">&lt;-</span> <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/gapminder/man/gapminder.html" class="external-link">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">year_list</span> <span class="op">&lt;-</span> <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://jennybc.github.io/gapminder/reference/gapminder.html" class="external-link">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1967</span>, <span class="fl">1987</span>, <span class="fl">2007</span><span class="op">)</span>, <span class="va">continent</span> <span class="op">!=</span> <span class="st">"Oceania"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">year</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -236,27 +236,13 @@ present. <code>.f</code> is the function we want to apply (here,
 <code>data = year_list</code>, the <code>x</code> and <code>y</code>
 axes are constant in all three plots so we pass the variable name as a
 string <code>x = "continent"</code>.</p>
-<p>Same with the label we’ll use for outliers where needed. For
-demonstration purposes let’s assume we want the outliers on each plot to
-be a different color. Not actually recommending it just demonstrating
-what’s possible. The rest of the code shows you a wide variety of
-possibilities and we won’t catalog them here.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span></span>
-<span><span class="co">## creating a list of plots</span></span>
+<code class="sourceCode R"><span><span class="co">## creating a list of plots</span></span>
 <span><span class="va">plot_list</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span></span>
 <span>  .l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">year_list</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"continent"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"lifeExp"</span>,</span>
-<span>    outlier.tagging <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    outlier.label <span class="op">=</span> <span class="st">"country"</span>,</span>
-<span>    outlier.label.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="st">"#56B4E9"</span><span class="op">)</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2.5</span>, color <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3.5</span>, color <span class="op">=</span> <span class="st">"#F0E442"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span>,</span>
 <span>    xlab <span class="op">=</span> <span class="st">"Continent"</span>,</span>
 <span>    ylab <span class="op">=</span> <span class="st">"Life expectancy"</span>,</span>
 <span>    title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -278,9 +264,9 @@ possibilities and we won’t catalog them here.</p>
 <span>    package <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"nord"</span>, <span class="st">"ochRe"</span>, <span class="st">"awtools"</span><span class="op">)</span>,</span>
 <span>    palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"aurora"</span>, <span class="st">"parliament"</span>, <span class="st">"bpalette"</span><span class="op">)</span>,</span>
 <span>    ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_stata</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_stata.html" class="external-link">theme_stata</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_fivethirtyeight</span><span class="op">(</span><span class="op">)</span></span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_fivethirtyeight.html" class="external-link">theme_fivethirtyeight</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  .f <span class="op">=</span> <span class="va">ggbetweenstats</span></span>
@@ -321,15 +307,6 @@ provided in ANT dataset in <code>ez</code> package.</p>
 <span>    data <span class="op">=</span> <span class="va">cue_list</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"flank"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"rt"</span>,</span>
-<span>    outlier.tagging <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    outlier.label <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>    outlier.coef <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2.5</span>, <span class="fl">3</span><span class="op">)</span>,</span>
-<span>    outlier.label.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="st">"#56B4E9"</span><span class="op">)</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2.5</span>, color <span class="op">=</span> <span class="st">"#009E73"</span><span class="op">)</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">4</span>, color <span class="op">=</span> <span class="st">"#F0E442"</span><span class="op">)</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span>,</span>
 <span>    xlab <span class="op">=</span> <span class="st">"Flank"</span>,</span>
 <span>    ylab <span class="op">=</span> <span class="st">"Response time"</span>,</span>
 <span>    title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -354,8 +331,8 @@ provided in ANT dataset in <code>ez</code> package.</p>
 <span>    ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      <span class="fu">hrbrthemes</span><span class="fu">::</span><span class="fu">theme_ft_rc</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_solarized</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_gdocs</span><span class="op">(</span><span class="op">)</span></span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_solarized.html" class="external-link">theme_solarized</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_gdocs.html" class="external-link">theme_gdocs</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  .f <span class="op">=</span> <span class="va">ggwithinstats</span></span>
@@ -411,7 +388,7 @@ completely drop NC-17 using <code>dplyr</code>.</p>
 <span>    xfill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"#009E73"</span>, <span class="st">"#999999"</span>, <span class="st">"#0072B2"</span><span class="op">)</span>,</span>
 <span>    yfill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"#CC79A7"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#D55E00"</span><span class="op">)</span>,</span>
 <span>    ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html" class="external-link">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_light</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
@@ -469,8 +446,8 @@ same methodology as the earlier examples.</p>
 <span>    ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_linedraw</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_fivethirtyeight</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span></span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_fivethirtyeight.html" class="external-link">theme_fivethirtyeight</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html" class="external-link">theme_tufte</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  .f <span class="op">=</span> <span class="va">ggcorrmat</span></span>
@@ -496,7 +473,7 @@ same methodology as the earlier examples.</p>
 <code class="sourceCode R"><span><span class="co">## let's split the data frame and create a list by continent</span></span>
 <span><span class="co">## let's leave out Oceania because it has just two data points</span></span>
 <span><span class="va">continent_list</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/gapminder/man/gapminder.html" class="external-link">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://jennybc.github.io/gapminder/reference/gapminder.html" class="external-link">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2007</span>, <span class="va">continent</span> <span class="op">!=</span> <span class="st">"Oceania"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">continent</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -555,7 +532,7 @@ same methodology as the earlier examples.</p>
 <span><span class="co">## let's split the data frame and create a list by continent</span></span>
 <span><span class="co">## let's leave out Oceania because it has just two data points</span></span>
 <span><span class="va">continent_list</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/gapminder/man/gapminder.html" class="external-link">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">gapminder</span><span class="fu">::</span><span class="va"><a href="https://jennybc.github.io/gapminder/reference/gapminder.html" class="external-link">gapminder</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">continent</span> <span class="op">!=</span> <span class="st">"Oceania"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span>f <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">continent</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -590,9 +567,9 @@ same methodology as the earlier examples.</p>
 <span>      <span class="op">)</span>,</span>
 <span>      ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span>base_family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span>,</span>
-<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html" class="external-link">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        <span class="fu">hrbrthemes</span><span class="fu">::</span><span class="fu">theme_ipsum_rc</span><span class="op">(</span>axis_title_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
-<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_hc</span><span class="op">(</span>bgcolor <span class="op">=</span> <span class="st">"darkunica"</span><span class="op">)</span></span>
+<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_hc.html" class="external-link">theme_hc</a></span><span class="op">(</span>bgcolor <span class="op">=</span> <span class="st">"darkunica"</span><span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    .f <span class="op">=</span> <span class="va">ggdotplotstats</span></span>
@@ -645,8 +622,8 @@ same methodology as the earlier examples.</p>
 <span>      ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_grey</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_economist</span><span class="op">(</span><span class="op">)</span></span>
+<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html" class="external-link">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_economist.html" class="external-link">theme_economist</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>      <span class="op">)</span>,</span>
 <span>      proportion.test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>      type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"p"</span>, <span class="st">"p"</span>, <span class="st">"bf"</span>, <span class="st">"p"</span><span class="op">)</span></span>
@@ -702,8 +679,8 @@ same methodology as the earlier examples.</p>
 <span>      ggtheme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_grey</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu">theme_economist</span><span class="op">(</span><span class="op">)</span></span>
+<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html" class="external-link">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_economist.html" class="external-link">theme_economist</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    .f <span class="op">=</span> <span class="va">ggbarstats</span></span>
