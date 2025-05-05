@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
+  "runtimePlatform": "R version 4.5.0 (2025-04-11)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -72,6 +72,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "bayestestR",
+      "name": "bayestestR",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://github.com/easystats/bayestestR"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "BayesFactor",
       "name": "BayesFactor",
       "version": ">= 0.9.12-4.7",
@@ -111,7 +123,7 @@
       "@type": "SoftwareApplication",
       "identifier": "lme4",
       "name": "lme4",
-      "version": ">= 1.1-35.2",
+      "version": ">= 1.1-37",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -225,7 +237,7 @@
       "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
-      "version": ">= 3.2.1",
+      "version": ">= 3.2.3",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -315,7 +327,7 @@
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=datawizard"
+      "sameAs": "https://github.com/easystats/datawizard"
     },
     "4": {
       "@type": "SoftwareApplication",
@@ -347,7 +359,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
-      "version": ">= 3.5.1",
+      "version": ">= 3.5.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -412,7 +424,7 @@
       "@type": "SoftwareApplication",
       "identifier": "insight",
       "name": "insight",
-      "version": ">= 1.1.0",
+      "version": ">= 1.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -438,7 +450,7 @@
       "@type": "SoftwareApplication",
       "identifier": "parameters",
       "name": "parameters",
-      "version": ">= 0.24.2",
+      "version": ">= 0.25.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -490,7 +502,7 @@
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 1.1.5",
+      "version": ">= 1.1.6",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -510,7 +522,7 @@
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=statsExpressions"
+      "sameAs": "https://github.com/IndrajeetPatil/statsExpressions"
     },
     "19": {
       "@type": "SoftwareApplication",
@@ -532,7 +544,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "9269.759KB",
+  "fileSize": "9303.428KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
