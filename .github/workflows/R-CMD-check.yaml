@@ -41,7 +41,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-pandoc@v2
         with:
@@ -54,8 +54,6 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          pak-version: devel
-          upgrade: "TRUE"
           extra-packages: |
             any::rcmdcheck
           needs: check
