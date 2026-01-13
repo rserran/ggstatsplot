@@ -603,7 +603,7 @@ can be further modified, just like any other <code>ggplot</code> object.
 But exception to these are all plots returned by <code>grouped_</code>
 functions, but there is a way to tackle this.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/paletteer" class="external-link">paletteer</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emilhvitfeldt.github.io/paletteer/" class="external-link">paletteer</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../../reference/grouped_ggbetweenstats.html">grouped_ggbetweenstats</a></span><span class="op">(</span></span>
@@ -615,7 +615,7 @@ functions, but there is a way to tackle this.</p>
 <span>  pairwise.display <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  <span class="co"># modify further with `{ggplot2}` functions</span></span>
 <span>  ggplot.component <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu">paletteer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paletteer/man/paletteer_c.html" class="external-link">paletteer_c</a></span><span class="op">(</span><span class="st">"viridis::viridis"</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu">paletteer</span><span class="fu">::</span><span class="fu"><a href="https://emilhvitfeldt.github.io/paletteer/reference/paletteer_c.html" class="external-link">paletteer_c</a></span><span class="op">(</span><span class="st">"viridis::viridis"</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
