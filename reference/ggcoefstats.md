@@ -225,15 +225,15 @@ ggcoefstats(
   Any of the `{ggplot2}` themes (e.g.,
   [`ggplot2::theme_bw()`](https://ggplot2.tidyverse.org/reference/ggtheme.html)),
   or themes from extension packages are allowed (e.g.,
-  `ggthemes::theme_fivethirtyeight()`, `hrbrthemes::theme_ipsum_ps()`,
-  etc.). But note that sometimes these themes will remove some of the
-  details that `{ggstatsplot}` plots typically contains. For example, if
-  relevant,
+  [`ggthemes::theme_fivethirtyeight()`](http://jrnold.github.io/ggthemes/reference/theme_fivethirtyeight.md),
+  `hrbrthemes::theme_ipsum_ps()`, etc.). But note that sometimes these
+  themes will remove some of the details that `{ggstatsplot}` plots
+  typically contains. For example, if relevant,
   [`ggbetweenstats()`](https://indrajeetpatil.github.io/ggstatsplot/reference/ggbetweenstats.md)
   shows details about multiple comparison test as a label on the
   secondary Y-axis. Some themes (e.g.
-  `ggthemes::theme_fivethirtyeight()`) will remove the secondary Y-axis
-  and thus the details as well.
+  [`ggthemes::theme_fivethirtyeight()`](http://jrnold.github.io/ggthemes/reference/theme_fivethirtyeight.md))
+  will remove the secondary Y-axis and thus the details as well.
 
 - ...:
 
