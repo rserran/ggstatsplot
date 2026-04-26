@@ -11,7 +11,7 @@ ggcoefstats(
   conf.level = 0.95,
   digits = 2L,
   exclude.intercept = FALSE,
-  effectsize.type = "eta",
+  effectsize.type = "omega",
   meta.analytic.effect = FALSE,
   meta.type = "parametric",
   bf.message = TRUE,
@@ -30,8 +30,7 @@ ggcoefstats(
   stats.label.color = NULL,
   stats.label.args = list(size = 3, direction = "y", min.segment.length = 0, na.rm =
     TRUE),
-  package = "RColorBrewer",
-  palette = "Dark2",
+  palette = "ggthemes::gdoc",
   ggtheme = ggstatsplot::theme_ggstatsplot(),
   ...
 )
@@ -63,8 +62,8 @@ significant figures (see also \code{\link[=signif]{signif()}}).}
 excluded from the plot (Default: \code{FALSE}).}
 
 \item{effectsize.type}{This is the same as \code{es_type} argument of
-\code{\link[parameters:model_parameters]{parameters::model_parameters()}}. Defaults to \code{"eta"}, and relevant for
-ANOVA-like objects.}
+\code{\link[parameters:model_parameters]{parameters::model_parameters()}}. Defaults to \code{"omega"} (the unbiased
+estimator), and relevant for ANOVA-like objects.}
 
 \item{meta.analytic.effect}{Logical that decides whether subtitle for
 meta-analysis via linear (mixed-effects) models (default: \code{FALSE}). If
@@ -128,9 +127,9 @@ be chosen from the specified \code{package} (Default: \code{"RColorBrewer"}) and
 \item{stats.label.args}{Additional arguments that will be passed to
 \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_label_repel()}}.}
 
-\item{package, palette}{Name of the package from which the given palette is to
-be extracted. The available palettes and packages can be checked by running
-\code{View(paletteer::palettes_d_names)}.}
+\item{palette}{Name of the palette in \code{"package::palette"} format to be used
+for coloring. Passed to \code{\link[paletteer:ggplot2-scales-discrete]{paletteer::scale_color_paletteer_d()}}. Run
+\code{View(paletteer::palettes_d_names)} to see all available options.}
 
 \item{ggtheme}{A \code{{ggplot2}} theme. Default value is
 \code{\link[=theme_ggstatsplot]{theme_ggstatsplot()}}. Any of the \code{{ggplot2}} themes (e.g.,
@@ -175,7 +174,7 @@ it can be further modified (e.g. change themes) with \code{{ggplot2}}.
 }
 \details{
 For details, see:
-\url{https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html}
+\url{https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcoefstats.html}
 }
 \note{
 \enumerate{
@@ -222,10 +221,9 @@ The table below provides summary about:
 }
 
 \examples{
-\dontshow{if (identical(Sys.getenv("NOT_CRAN"), "true") && requireNamespace("lme4", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (identical(Sys.getenv("NOT_CRAN"), "true")) withAutoprint(\{ # examplesIf}
 # for reproducibility
 set.seed(123)
-library(lme4)
 
 # model object
 mod <- lm(formula = mpg ~ cyl * am, data = mtcars)
@@ -239,7 +237,39 @@ p
 # extracting details from statistical tests
 extract_stats(p)
 
+# exclude intercept from the plot
+ggcoefstats(mod, exclude.intercept = TRUE)
+
+# only show significant labels
+ggcoefstats(mod, only.significant = TRUE)
+
+# ANOVA model (F-statistic)
+ggcoefstats(aov(mpg ~ cyl * am, data = mtcars))
+
+# a tidy data frame can also be passed directly (model-free use)
+ggcoefstats(data.frame(term = c("a", "b", "c"), estimate = c(0.5, -0.2, 1.1)))
+
+# without a `term` column (auto-generated)
+ggcoefstats(data.frame(estimate = c(0.5, -0.2, 1.1)))
+
+# tidy data frames can also include stats-label inputs directly
+df_tidy <- parameters::model_parameters(stats::lm(wt ~ am * cyl, mtcars), ci = 0.95)
+names(df_tidy) <- c(
+  "term", "estimate", "std.error", "conf.level", "conf.low",
+  "conf.high", "statistic", "df.error", "p.value"
+)
+df_tidy$p.value[2L] <- 0.42
+
+ggcoefstats(
+  df_tidy,
+  statistic = "t",
+  only.significant = TRUE,
+  stats.label.color = c("firebrick", "grey50", "forestgreen", "navy")
+)
+\dontshow{\}) # examplesIf}
+\dontshow{if (identical(Sys.getenv("NOT_CRAN"), "true") && requireNamespace("lme4", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # further arguments can be passed to `parameters::model_parameters()`
+library(lme4)
 ggcoefstats(lmer(Reaction ~ Days + (Days | Subject), sleepstudy), effects = "fixed")
 \dontshow{\}) # examplesIf}
 }

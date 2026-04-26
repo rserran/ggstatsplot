@@ -119,9 +119,6 @@ ggcorrmat(
   ggtheme = ggplot2::theme_light(), ## selected ggplot2 theme
   ## turn off default ggestatsplot theme overlay
   matrix.type = "lower", ## correlation matrix structure
-  colors = NULL, ## turning off manual specification of colors
-  palette = "category10_d3", ## choosing a color palette
-  package = "ggsci", ## package to which color palette belongs
   title = "Gapminder correlation matrix", ## custom title
   subtitle = "Source: Gapminder Foundation" ## custom subtitle
 )
@@ -196,7 +193,6 @@ ggcorrmat(
   type = "np",
   title = "Relationship between diamond attributes and price",
   subtitle = "Dataset: Diamonds from ggplot2 package",
-  colors = c("#0072B2", "#D55E00", "#CC79A7"),
   pch = "square cross",
   ## additional aesthetic arguments passed to `ggcorrmat()`
   ggcorrplot.args = list(
@@ -218,16 +214,33 @@ As seen here, and unsurprisingly, the strongest predictor of the diamond price
 is its carat value, which a unit of mass equal to 200 mg. In other words, the
 heavier the diamond, the more expensive it is going to be.
 
+## Custom gradient colors
+
+The `colors` argument accepts a character vector of three colors — for
+negative, zero, and positive correlations. Choose a **diverging** palette
+so that the sign of the correlation is immediately visible:
+
+```{r}
+#| label = "ggcorrmat_custom_colors",
+#| fig.height = 8,
+#| fig.width = 8
+
+ggcorrmat(
+  iris,
+  colors = c("#0072B2", "white", "#D55E00")
+)
+```
+
 ## Grouped analysis with `grouped_ggcorrmat`
 
 What if we want to do the same analysis separately for each quality of the
-diamond `cut` (Fair, Good, Very Good, Premium, Ideal)? 
+diamond `cut` (Fair, Good, Very Good, Premium, Ideal)?
 
 `{ggstatsplot}` provides a special helper function for such instances:
 `grouped_ggcorrmat()`. This is merely a wrapper function around
 `combine_plots()`. It applies `ggcorrmat()` across all **levels** of
 a specified **grouping variable** and then combines list of individual plots
-into a single plot. 
+into a single plot.
 
 ```{r}
 #| label = "ggcorrmat7",
@@ -255,7 +268,7 @@ across different levels of a factor/grouping variable.
 ## Data frame
 
 If you want a data frame of (grouped) correlation matrix, use
-`correlation::correlation()` instead. It can also do grouped analysis when 
+`correlation::correlation()` instead. It can also do grouped analysis when
 used with output from `dplyr::group_by()`.
 
 ## Grouped analysis with `ggcorrmat()` + `{purrr}`
@@ -268,12 +281,12 @@ levels of the grouping variable. We will see how this can be done using the
 `{purrr}` package.
 
 See the associated vignette here:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/purrr_examples.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/purrr_examples.html>
 
 ## Summary of graphics and tests
 
 Details about underlying functions used to create graphics and statistical tests carried out can be found in the function documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/gghistostats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggcorrmat.html>
 
 ## Suggestions
 

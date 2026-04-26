@@ -6,7 +6,7 @@
 | Status | Usage | Miscellaneous |
 |----|----|----|
 | [![R build status](https://github.com/IndrajeetPatil/ggstatsplot/workflows/R-CMD-check/badge.svg)](https://github.com/IndrajeetPatil/ggstatsplot) | [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![codecov](https://codecov.io/gh/IndrajeetPatil/ggstatsplot/branch/main/graph/badge.svg?token=ddrxwt0bj8)](https://app.codecov.io/gh/IndrajeetPatil/ggstatsplot) |
-| [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html) | [![Daily downloads](https://cranlogs.r-pkg.org/badges/last-day/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167) |
+| [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) | [![Daily downloads](https://cranlogs.r-pkg.org/badges/last-day/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot) | [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167) |
 
 ## Raison d’être <img src="man/figures/logo.png" alt="ggstatsplot package logo" align="right" width="360" />
 
@@ -14,7 +14,7 @@
 > clear portrayal of complexity. Not the complication of the simple;
 > rather … the revelation of the complex.” - Edward R. Tufte
 
-[`{ggstatsplot}`](https://indrajeetpatil.github.io/ggstatsplot/) is an
+[`{ggstatsplot}`](https://www.indrapatil.com/ggstatsplot/) is an
 extension of [`{ggplot2}`](https://github.com/tidyverse/ggplot2) package
 for creating graphics with details from statistical tests included in
 the information-rich plots themselves. In a typical exploratory data
@@ -89,9 +89,9 @@ To see the detailed documentation for each function in the stable
 
 - [Publication](https://joss.theoj.org/papers/10.21105/joss.03167)
 
-- [Presentation](https://indrajeetpatil.github.io/intro-to-ggstatsplot/#/ggstatsplot-informative-statistical-visualizations)
+- [Presentation](https://www.indrapatil.com/intro-to-ggstatsplot/#/ggstatsplot-informative-statistical-visualizations)
 
-- [Vignettes](https://indrajeetpatil.github.io/ggstatsplot/articles/)
+- [Vignettes](https://www.indrapatil.com/ggstatsplot/articles/)
 
 ## Summary of available plots
 
@@ -130,13 +130,14 @@ supported in this package-
 
 Summary of Bayesian analysis
 
-| Analysis                        | Hypothesis testing | Estimation |
-|:--------------------------------|:-------------------|:-----------|
-| (one/two-sample) *t*-test       | ✅                 | ✅         |
-| one-way ANOVA                   | ✅                 | ✅         |
-| correlation                     | ✅                 | ✅         |
-| (one/two-way) contingency table | ✅                 | ✅         |
-| random-effects meta-analysis    | ✅                 | ✅         |
+| Analysis                     | Hypothesis testing | Estimation |
+|:-----------------------------|:-------------------|:-----------|
+| (one/two-sample) *t*-test    | ✅                 | ✅         |
+| one-way ANOVA                | ✅                 | ✅         |
+| correlation                  | ✅                 | ✅         |
+| (unpaired) contingency table | ✅                 | ✅         |
+| (paired) contingency table   | ✅                 | ❌         |
+| random-effects meta-analysis | ✅                 | ✅         |
 
 ## Statistical reporting
 
@@ -152,7 +153,7 @@ example, here are results from Yuen’s test for trimmed means (robust
 Statistical analysis is carried out by `{statsExpressions}` package, and
 thus a summary table of all the statistical tests currently supported
 across various functions can be found in article for that package:
-<https://indrajeetpatil.github.io/statsExpressions/articles/stats_details.html>
+<https://www.indrapatil.com/statsExpressions/articles/stats_details.html>
 
 ## Primary functions
 
@@ -198,8 +199,7 @@ grouped_ggbetweenstats(
   grouping.var     = genre,
   ggsignif.args    = list(textsize = 4, tip_length = 0.01),
   p.adjust.method  = "bonferroni",
-  palette          = "default_jama",
-  package          = "ggsci",
+  palette          = "ggsci::default_jama",
   plotgrid.args    = list(nrow = 1),
   annotation.args  = list(title = "Differences in movie length by mpaa ratings for different genres")
 )
@@ -210,10 +210,10 @@ grouped_ggbetweenstats(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggbetweenstats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggbetweenstats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbetweenstats.html>
 
 ### `ggwithinstats()`
 
@@ -225,16 +225,22 @@ difference between the plot structure is that now the group means are
 connected by paths to highlight the fact that these data are paired with
 each other.
 
+If your repeated-measures data include an explicit subject identifier,
+it is recommended that you pass it via `subject.id`; rows with missing
+identifiers are ignored for paired grouping and repeated-measures
+statistics.
+
 ``` r
 set.seed(123)
 library(WRS2) ## for data
 library(afex) ## to run ANOVA
 
 ggwithinstats(
-  data    = WineTasting,
-  x       = Wine,
-  y       = Taste,
-  title   = "Wine tasting"
+  data       = WineTasting,
+  x          = Wine,
+  y          = Taste,
+  subject.id = Taster,
+  title      = "Wine tasting"
 )
 ```
 
@@ -259,6 +265,7 @@ grouped_ggwithinstats(
   data            = dplyr::filter(bugs_long, region %in% c("Europe", "North America"), condition %in% c("LDLF", "LDHF")),
   x               = condition,
   y               = desire,
+  subject.id      = subject,
   type            = "np",
   xlab            = "Condition",
   ylab            = "Desire to kill an artrhopod",
@@ -271,10 +278,10 @@ grouped_ggwithinstats(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggwithinstats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggwithinstats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggwithinstats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggwithinstats.html>
 
 ### `gghistostats()`
 
@@ -327,10 +334,10 @@ grouped_gghistostats(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/gghistostats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/gghistostats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/gghistostats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/gghistostats.html>
 
 ### `ggdotplotstats()`
 
@@ -385,10 +392,10 @@ grouped_ggdotplotstats(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggdotplotstats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggdotplotstats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggdotplotstats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggdotplotstats.html>
 
 ### `ggscatterstats()`
 
@@ -440,10 +447,10 @@ grouped_ggscatterstats(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggscatterstats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggscatterstats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggscatterstats.html>
 
 ### `ggcorrmat`
 
@@ -483,11 +490,12 @@ to repeat the same operation across a **single** grouping variable:
 set.seed(123)
 
 grouped_ggcorrmat(
-  data         = dplyr::filter(movies_long, genre %in% c("Action", "Comedy")),
-  type         = "robust",
-  colors       = c("#cbac43", "white", "#550000"),
-  grouping.var = genre,
-  matrix.type  = "lower"
+  data            = dplyr::filter(movies_long, genre %in% c("Action", "Comedy")),
+  type            = "robust",
+  colors          = c("#cbac43", "white", "#550000"),
+  grouping.var    = genre,
+  p.adjust.method = "fdr",
+  matrix.type     = "lower"
 )
 ```
 
@@ -496,10 +504,10 @@ grouped_ggcorrmat(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggcorrmat.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggcorrmat.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcorrmat.html>
 
 ### `ggpiestats()`
 
@@ -520,8 +528,7 @@ ggpiestats(
   data         = mtcars,
   x            = am,
   y            = cyl,
-  package      = "wesanderson",
-  palette      = "Royal1",
+  palette      = "wesanderson::Royal1",
   title        = "Dataset: Motor Trend Car Road Tests",
   legend.title = "Transmission"
 )
@@ -548,8 +555,7 @@ grouped_ggpiestats(
   x            = cyl,
   grouping.var = am,
   label.repel  = TRUE,
-  package      = "ggsci",
-  palette      = "default_ucscgb"
+  palette      = "ggsci::default_ucscgb"
 )
 ```
 
@@ -558,18 +564,18 @@ grouped_ggpiestats(
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggpiestats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggpiestats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggpiestats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggpiestats.html>
 
 ### `ggbarstats()`
 
 In case you are not a fan of pie charts (for very good reasons), you can
-alternatively use `ggbarstats()` function which has a similar syntax.
+alternatively use `ggbarstats()` function which has a similar
+syntax—including support for one-sample goodness-of-fit tests.
 
-N.B. The *p*-values from one-sample proportion test are displayed on top
-of each bar.
+To study an interaction between two categorical variables:
 
 ``` r
 set.seed(123)
@@ -583,7 +589,7 @@ ggbarstats(
   xlab             = "movie genre",
   legend.title     = "MPAA rating",
   ggplot.component = list(ggplot2::scale_x_discrete(guide = ggplot2::guide_axis(n.dodge = 2))),
-  palette          = "Set2"
+  palette          = "RColorBrewer::Set2"
 )
 ```
 
@@ -595,33 +601,32 @@ ggbarstats(
 effect size + CIs <br> ✅ Goodness-of-fit tests <br> ✅ Bayesian
 hypothesis-testing <br> ✅ Bayesian estimation <br>
 
-And, needless to say, there is also a `grouped_` variant of this
-function-
+There is also a `grouped_` variant of this function that makes it easy
+to repeat the same operation across a **single** grouping variable.
+Following example is a case where the theoretical question is about
+proportions for different levels of a single nominal variable:
 
 ``` r
-## setup
 set.seed(123)
 
 grouped_ggbarstats(
   data         = mtcars,
-  x            = am,
-  y            = cyl,
-  grouping.var = vs,
-  package      = "wesanderson",
-  palette      = "Darjeeling2" # ,
-  # ggtheme      = ggthemes::theme_tufte(base_size = 12)
+  x            = cyl,
+  grouping.var = am,
+  label.repel  = TRUE,
+  palette      = "ggsci::default_ucscgb"
 )
 ```
 
-<img src="man/figures/README-ggbarstats2-1.png" alt="Grouped bar charts showing transmission and cylinder association for straight and V-shaped engine configurations" width="100%" />
+<img src="man/figures/README-ggbarstats2-1.png" alt="Grouped bar charts showing cylinder distribution for automatic and manual transmission vehicles" width="100%" />
 
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggbarstats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggbarstats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbarstats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbarstats.html>
 
 ### `ggcoefstats()`
 
@@ -650,10 +655,10 @@ ggcoefstats(mod)
 Details about underlying functions used to create graphics and
 statistical tests carried out can be found in the function
 documentation:
-<https://indrajeetpatil.github.io/ggstatsplot/reference/ggcoefstats.html>
+<https://www.indrapatil.com/ggstatsplot/reference/ggcoefstats.html>
 
 For more, also read the following vignette:
-<https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcoefstats.html>
+<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcoefstats.html>
 
 ### Extracting expressions and data frames with statistical details
 
@@ -749,7 +754,7 @@ extract_stats(p)
 ```
 
 Note that all of this analysis is carried out by `{statsExpressions}`
-package: <https://indrajeetpatil.github.io/statsExpressions/>
+package: <https://www.indrapatil.com/statsExpressions/>
 
 ### Using `{ggstatsplot}` statistical details with custom plots
 
@@ -768,7 +773,7 @@ set.seed(123)
 library(ggplot2)
 
 ## using `{ggstatsplot}` to get expression with statistical results
-stats_results <- ggbetweenstats(morley, Expt, Speed) %>% extract_subtitle()
+stats_results <- ggbetweenstats(morley, Expt, Speed) |> extract_subtitle()
 
 ## creating a custom plot of our choosing
 ggplot(morley, aes(x = as.factor(Expt), y = Speed)) +
@@ -840,7 +845,7 @@ Here are some simple ways in which you can contribute (in the increasing
 order of commitment):
 
 - Read and correct any inconsistencies in the
-  [documentation](https://indrajeetpatil.github.io/ggstatsplot/)
+  [documentation](https://www.indrapatil.com/ggstatsplot/)
 - Raise issues about bugs or wanted features
 - Review code
 - Add new functionality (in the form of new plotting functions or
