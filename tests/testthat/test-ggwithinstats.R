@@ -193,8 +193,29 @@ test_that("subject.id keeps partially observed subjects in the plotting data", {
     )
   )$data[[1L]]
 
-  expect_identical(nrow(point_data), 5L)
+  expect_shape(point_data, nrow = 5L)
   expect_length(unique(point_data$group), 3L)
+})
+
+test_that("incomplete anonymous pairs are excluded from the plotting data", {
+  df_missing <- data.frame(
+    condition = c("A", "A", "A", "B", "B", "B"),
+    score = c(1, 3, 4, 2, NA, 5)
+  )
+
+  built_plot <- ggplot2::ggplot_build(
+    ggwithinstats(
+      data = df_missing,
+      x = condition,
+      y = score,
+      type = "p",
+      pairwise.display = "none",
+      results.subtitle = FALSE
+    )
+  )
+
+  expect_shape(built_plot$data[[1L]], nrow = 4L)
+  expect_setequal(unique(built_plot$plot$data$.rowid), c(1, 3))
 })
 
 test_that("missing subject.id values are excluded from paired grouping", {
@@ -216,7 +237,7 @@ test_that("missing subject.id values are excluded from paired grouping", {
     )
   )$data[[1L]]
 
-  expect_identical(nrow(point_data), 4L)
+  expect_shape(point_data, nrow = 4L)
   expect_false(anyNA(point_data$group))
   expect_setequal(unique(point_data$group), c(1, 2))
 })
