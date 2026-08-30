@@ -2,8 +2,7 @@
 
 0 errors | 0 warnings | 0 notes
 
-- This is a major release (1.0.0) with new features, breaking changes, and bug fixes.
-  See `NEWS.md` for a detailed changelog.
+- This is a patch release (1.1.1). See `NEWS.md` for a detailed changelog.
 
 ## revdepcheck results
 

@@ -1,4 +1,11 @@
-# ggstatsplot 1.0.0.9000
+# ggstatsplot 1.1.1
+
+## MINOR CHANGES
+
+- Pairwise significance brackets are now positioned correctly above outcomes
+  whose values are all negative.
+
+# ggstatsplot 1.1.0
 
 ## MINOR CHANGES
 
@@ -807,7 +814,7 @@ read the `NEWS` for that package:
 
   - For changes related to subtitle details, see changes made in new version of
     `statsExpressions 4.0.0`:
-    <https://CRAN.R-project.org/package=statsExpressions/news/news.html>
+    <https://www.indrapatil.com/statsExpressions/news/index.html>
 
   - `ggbetweenstats` and `ggwithinstats` no longer print dataframes containing
     results from pairwise comparisons tests because this is too cluttering for

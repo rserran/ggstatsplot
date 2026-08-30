@@ -76,6 +76,11 @@ dependency set.
 - Record user-facing compatibility changes in `NEWS.md`; omit routine
   dependency updates and internal lint or CI maintenance.
 
+### Repository skills
+
+- Use `.agents/skills/create-release/SKILL.md` only when asked to prepare,
+  submit, resume, or publish a CRAN release.
+
 ## Testing
 
 - The package uses `testthat` edition 3 with parallel execution.
@@ -84,6 +89,13 @@ dependency set.
   be covered by broader test files rather than a one-to-one filename match.
 - Plot output is covered by `vdiffr` snapshots using
   `expect_doppelganger()` after `vdiffr` is attached by the test helper.
+- Treat broad snapshot diffs after dependency updates as potentially
+  renderer-specific. Before accepting them, compare the old and new dependency
+  builds under the same R and graphics stack and verify whether rendered text,
+  statistics, or geometry actually changed.
+- If both dependency builds reproduce the same SVG changes, restore the
+  repository snapshots instead of committing local renderer churn. Confirm
+  legitimate baseline updates with CI-native output across supported platforms.
 - The top-level test runner executes package tests only with R 4.5 or newer on
   Linux or macOS because graphics and text rendering changed across R versions.
 - Codecov requires 100% project and patch coverage.

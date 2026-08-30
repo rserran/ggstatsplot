@@ -827,7 +827,8 @@ too complicated for effectively communicating results in
 time-constrained presentation settings, e.g. conference talks.)
 
 ❌ the only game in town<br> ✅ (GUI software alternatives:
-[JASP](https://jasp-stats.org/) and [jamovi](https://www.jamovi.org/)).
+[JASP](https://github.com/jasp-stats/jasp-desktop) and
+[jamovi](https://www.jamovi.org/)).
 
 ## Extensions
 
