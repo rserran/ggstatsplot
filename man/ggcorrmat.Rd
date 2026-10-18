@@ -31,15 +31,17 @@ ggcorrmat(
 \arguments{
 \item{data}{A data frame from which variables specified are to be taken.}
 
-\item{cor.vars}{List of variables for which the correlation matrix is to be
-computed and visualized. If \code{NULL} (default), all numeric variables from
-\code{data} will be used.}
+\item{cor.vars}{Variables for which the correlation matrix is to be computed
+and visualized, specified using \code{{tidyselect}} syntax (e.g.,
+\code{c(var1, var2)} or \code{starts_with("Sepal")}). If \code{NULL} (default), all
+numeric variables from \code{data} will be used.}
 
 \item{cor.vars.names}{Optional list of names to be used for \code{cor.vars}. The
 names should be entered in the same order.}
 
 \item{matrix.type}{Character, \code{"upper"} (default), \code{"lower"}, or \code{"full"},
-display full matrix, lower triangular or upper triangular matrix.}
+to display the upper triangular, lower triangular, or full matrix,
+respectively.}
 
 \item{type}{A character specifying the type of statistical approach:
 \itemize{
@@ -49,7 +51,10 @@ display full matrix, lower triangular or upper triangular matrix.}
 \item \code{"bayes"}
 }
 
-You can specify just the initial letter.}
+You can specify just the initial letter (e.g. \code{"np"} or \code{"bf"}). Matching is
+on the initial lowercase letter only, so any other value (including
+capitalized values such as \code{"Bayes"}) falls back to \code{"parametric"} without a
+warning.}
 
 \item{tr}{Trim level for the mean when carrying out \code{robust} tests. In case
 of an error, try reducing the value of \code{tr}, which is by default set to
@@ -66,14 +71,13 @@ value as suffix, e.g. \code{digits = "scientific4"} to have scientific
 notation with 4 decimal places, or \code{digits = "signif5"} for 5
 significant figures (see also \code{\link[=signif]{signif()}}).}
 
-\item{sig.level}{Significance level (Default: \code{0.05}). If the \emph{p}-value in
-\emph{p}-value matrix is bigger than \code{sig.level}, then the corresponding
-correlation coefficient is regarded as insignificant and flagged as such in
-the plot.}
+\item{sig.level}{Significance level (Default: \code{0.05}). If the (adjusted; see
+\code{p.adjust.method}) \emph{p}-value is bigger than \code{sig.level}, then the
+corresponding correlation coefficient is regarded as insignificant and
+flagged as such in the plot. Ignored for \code{type = "bayes"}.}
 
 \item{conf.level}{Scalar between \code{0} and \code{1} (default: \verb{95\%}
-confidence/credible intervals, \code{0.95}). If \code{NULL}, no confidence intervals
-will be computed.}
+confidence/credible intervals, \code{0.95}).}
 
 \item{bf.prior}{A number between \code{0.5} and \code{2} (default \code{0.707}), the prior
 width to use in calculating Bayes factors and posterior estimates. In
@@ -93,12 +97,13 @@ visually obvious.
 Default: \code{c("#EA4335", "white", "#4285F4")} (red–white–blue).}
 
 \item{pch}{Decides the point shape to be used for insignificant correlation
-coefficients (only valid when \code{insig = "pch"}). Default: \code{pch = "cross"}.}
+coefficients. Default: \code{pch = "cross"}. The caption explaining the
+insignificance marker is added only for \code{pch = "cross"} (or \code{4}).}
 
 \item{ggcorrplot.args}{A list of additional (mostly aesthetic) arguments that
 will be passed to \code{\link[ggcorrplot:ggcorrplot]{ggcorrplot::ggcorrplot()}} function. The list should
 avoid any of the following arguments since they are already internally
-being used: \code{corr}, \code{method}, \code{p.mat}, \code{sig.level}, \code{ggtheme}, \code{colors},
+being used: \code{corr}, \code{p.mat}, \code{sig.level}, \code{ggtheme}, \code{colors}, \code{type},
 \code{lab}, \code{pch}, \code{legend.title}, \code{digits}.}
 
 \item{ggtheme}{A \code{{ggplot2}} theme. Default value is
@@ -106,7 +111,7 @@ being used: \code{corr}, \code{method}, \code{p.mat}, \code{sig.level}, \code{gg
 \code{\link[ggplot2:theme_bw]{ggplot2::theme_bw()}}), or themes from extension packages are allowed
 (e.g., \code{ggthemes::theme_fivethirtyeight()}, \code{hrbrthemes::theme_ipsum_ps()},
 etc.). But note that sometimes these themes will remove some of the details
-that \code{{ggstatsplot}} plots typically contains. For example, if relevant,
+that \code{{ggstatsplot}} plots typically contain. For example, if relevant,
 \code{\link[=ggbetweenstats]{ggbetweenstats()}} shows details about multiple comparison test as a
 label on the secondary Y-axis. Some themes (e.g.
 \code{ggthemes::theme_fivethirtyeight()}) will remove the secondary Y-axis and
@@ -119,13 +124,17 @@ be entered as a \code{{ggplot2}} function or a list of \code{{ggplot2}} function
 
 \item{title}{The text for the plot title.}
 
-\item{subtitle}{The text for the plot subtitle. Will work only if
-\code{results.subtitle = FALSE}.}
+\item{subtitle}{The text for the plot subtitle.}
 
-\item{caption}{The text for the plot caption. This argument is relevant only
-if \code{bf.message = FALSE}.}
+\item{caption}{The text for the plot caption. If the insignificance marker
+caption is shown (see \code{pch}), this text is displayed above it.}
 
 \item{...}{Currently ignored.}
+}
+\value{
+A \code{ggplot} object, which can be further modified with \code{{ggplot2}}
+functions. Note that \code{\link[=extract_stats]{extract_stats()}} does not return statistical
+details for this plot; use \code{\link[correlation:correlation]{correlation::correlation()}} instead.
 }
 \description{
 Correlation matrix containing results from pairwise correlation tests.
@@ -134,6 +143,11 @@ If you want a data frame of (grouped) correlation matrix, use
 used with output from \code{\link[dplyr:group_by]{dplyr::group_by()}}.
 }
 \details{
+Missing values are handled using pairwise deletion (each
+correlation uses all complete pairs of observations). If sample sizes then
+differ across pairs, the legend shows their minimum, mode, and maximum.
+Partial correlations use only complete cases.
+
 For details, see:
 \url{https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcorrmat.html}
 }
@@ -148,14 +162,14 @@ For details, see:
 
 
 
-The table below provides summary about:
+Below is a summary of:
 \itemize{
-\item statistical test carried out for inferential statistics
-\item type of effect size estimate and a measure of uncertainty for this estimate
-\item functions used internally to compute these details
+\item the statistical test carried out for inferential statistics
+\item the type of effect size estimate and a measure of uncertainty for this estimate
+\item the functions used internally to compute these details
 }
 
-\strong{Hypothesis testing} and \strong{Effect size estimation}\tabular{llll}{
+\strong{Hypothesis testing and effect size estimation}\tabular{llll}{
    Type \tab Test \tab CI available? \tab Function used \cr
    Parametric \tab Pearson's correlation coefficient \tab Yes \tab \code{correlation::correlation()} \cr
    Non-parametric \tab Spearman's rank correlation coefficient \tab Yes \tab \code{correlation::correlation()} \cr
@@ -167,7 +181,6 @@ The table below provides summary about:
 
 \examples{
 set.seed(123)
-library(ggcorrplot)
 ggcorrmat(iris)
 
 # with data containing NAs (uses pairwise complete observations)

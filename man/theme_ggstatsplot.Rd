@@ -7,14 +7,14 @@
 theme_ggstatsplot()
 }
 \value{
-A \code{ggplot} object.
+A \code{{ggplot2}} theme object.
 }
 \description{
 Common theme used across all plots generated in \code{{ggstatsplot}} and \emph{assumed}
 by the author to be aesthetically pleasing to the user. The theme is a
 wrapper around \code{\link[ggplot2:theme_bw]{ggplot2::theme_bw()}}.
 
-All \code{{ggstatsplot}} functions have a \code{ggtheme} parameter that let you choose
+All \code{{ggstatsplot}} functions have a \code{ggtheme} parameter that lets you choose
 a different theme.
 }
 \examples{

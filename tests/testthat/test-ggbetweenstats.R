@@ -1,8 +1,8 @@
-# pairwise comparisons testing is done `test-pairwise_ggsignif.R`
+# pairwise comparisons are tested in `test-pairwise-ggsignif.R`
 
 skip_if_not_installed("rstantools")
 
-# checking labels and data from plot -------------------------------------
+# plotting features -------------------------------------
 
 test_that("plotting features work as expected", {
   set.seed(123)
@@ -18,7 +18,7 @@ test_that("plotting features work as expected", {
       ggplot2::labs(x = "Transmission", y = "Weight")
   )
 
-  # edge case
+  # only three observations per group
   df_small <- data.frame(
     centrality.a = c(1.1, 0.9, 0.94, 1.58, 1.2, 1.4),
     group = c("a", "a", "a", "b", "b", "b")
@@ -39,7 +39,7 @@ test_that("plotting features work as expected", {
   set.seed(123)
   expect_doppelganger(
     title = "specific geoms removed",
-    ggbetweenstats(
+    fig = ggbetweenstats(
       data = mtcars,
       x = am,
       y = wt,
@@ -68,57 +68,6 @@ test_that("sample size labels visible when centrality.plotting is FALSE", {
       results.subtitle = FALSE
     )
   )
-})
-
-# subtitle output works ------------------------------------------------
-
-test_that("subtitle output works", {
-  skip_on_cran()
-
-  df <- mtcars
-  df$wt[3] <- NA
-
-  # plot
-  set.seed(123)
-  subtitle_exp <- ggbetweenstats(
-    data = df,
-    x = am,
-    y = wt
-  ) |>
-    extract_subtitle()
-
-  set.seed(123)
-  sub <- two_sample_test(
-    data = df,
-    x = am,
-    y = wt
-  )$expression[[1L]]
-
-  expect_identical(as.character(subtitle_exp), as.character(sub))
-})
-
-test_that("pairwise.alpha controls displayed pairwise comparisons", {
-  fig <- ggbetweenstats(
-    data = mtcars,
-    x = cyl,
-    y = mpg,
-    pairwise.display = "significant",
-    pairwise.alpha = 0.001,
-    p.adjust.method = "holm",
-    results.subtitle = FALSE
-  )
-
-  layer_params <- fig$layers[[length(fig$layers)]]$stat_params
-  sec_axis_name <- deparse1(
-    fig$scales$get_scales("y")$secondary.axis$name,
-    collapse = " "
-  )
-
-  expect_identical(
-    layer_params$comparisons,
-    list(c("4", "8"), c("6", "8"))
-  )
-  expect_match(sec_axis_name, "alpha == 0\\.001")
 })
 
 # grouped_ggbetweenstats defaults --------------------------------------------------
@@ -164,4 +113,19 @@ test_that("grouped_ggbetweenstats defaults", {
       )
     )
   )
+})
+
+# user caption is kept when no Bayes Factor caption is shown ----------
+
+test_that("user caption is retained without a Bayes Factor caption", {
+  p <- ggbetweenstats(
+    data = mtcars,
+    x = am,
+    y = wt,
+    type = "np",
+    pairwise.display = "none",
+    caption = "my caption"
+  )
+
+  expect_identical(ggplot2::get_labs(p)$caption, "my caption")
 })

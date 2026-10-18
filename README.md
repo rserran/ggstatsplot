@@ -3,7 +3,8 @@
 
 ## `{ggstatsplot}`: `{ggplot2}` Based Plots with Statistical Details
 
-[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)
+[![Total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ggstatsplot?color=blue)](https://CRAN.R-project.org/package=ggstatsplot)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.03167/status.svg)](https://doi.org/10.21105/joss.03167)
 
@@ -26,7 +27,8 @@ makes data exploration simpler and faster.
 
 ## Installation
 
-Note: This package supports R-devel, the current R release, and the previous R release.
+Note: This package supports R-devel, the current R release, and the
+previous R release.
 
 | Type        | Command                                  |
 |:------------|:-----------------------------------------|
@@ -85,14 +87,22 @@ hours working on this package rather than what I was paid to do. 😁
 
 ## Documentation and Examples
 
-To see the detailed documentation for each function in the stable
-**CRAN** version of the package, see:
+In addition to the examples below, see:
+
+- [Function
+  reference](https://www.indrapatil.com/ggstatsplot/reference/)
+
+- [Articles](https://www.indrapatil.com/ggstatsplot/articles/)
 
 - [Publication](https://joss.theoj.org/papers/10.21105/joss.03167)
 
-- [Presentation](https://www.indrapatil.com/intro-to-ggstatsplot/#/ggstatsplot-informative-statistical-visualizations)
+- [Presentation](https://www.indrapatil.com/intro-to-ggstatsplot/)
 
-- [Vignettes](https://www.indrapatil.com/ggstatsplot/articles/)
+## Getting help
+
+If you find a bug, have a question, or want to suggest a feature, please
+file an issue on GitHub:
+<https://github.com/IndrajeetPatil/ggstatsplot/issues>
 
 ## Summary of available plots
 
@@ -100,8 +110,8 @@ To see the detailed documentation for each function in the stable
 |:---|:---|:---|
 | `ggbetweenstats()` | **violin plots** | for comparisons *between* groups/conditions |
 | `ggwithinstats()` | **violin plots** | for comparisons *within* groups/conditions |
-| `gghistostats()` | **histograms** | for distribution about numeric variable |
-| `ggdotplotstats()` | **dot plots/charts** | for distribution about labeled numeric variable |
+| `gghistostats()` | **histograms** | for distribution of a numeric variable |
+| `ggdotplotstats()` | **dot plots/charts** | for distribution of a labeled numeric variable |
 | `ggscatterstats()` | **scatterplots** | for correlation between two variables |
 | `ggcorrmat()` | **correlation matrices** | for correlations between multiple variables |
 | `ggpiestats()` | **pie charts** | for categorical data |
@@ -109,8 +119,9 @@ To see the detailed documentation for each function in the stable
 | `ggcoefstats()` | **dot-and-whisker plots** | for regression models and meta-analysis |
 
 In addition to these basic plots, `{ggstatsplot}` also provides
-**`grouped_`** versions (see below) that makes it easy to repeat the
-same analysis for any grouping variable.
+**`grouped_`** versions of all of these functions except `ggcoefstats()`
+(see below) that make it easy to repeat the same analysis for any
+grouping variable.
 
 ## Summary of types of statistical analyses
 
@@ -122,23 +133,12 @@ supported in this package-
 | `ggbetweenstats()` | Between group/condition comparisons | ✅ | ✅ | ✅ | ✅ |
 | `ggwithinstats()` | Within group/condition comparisons | ✅ | ✅ | ✅ | ✅ |
 | `gghistostats()`, `ggdotplotstats()` | Distribution of a numeric variable | ✅ | ✅ | ✅ | ✅ |
-| `ggcorrmat` | Correlation matrix | ✅ | ✅ | ✅ | ✅ |
+| `ggcorrmat()` | Correlation matrix | ✅ | ✅ | ✅ | ✅ |
 | `ggscatterstats()` | Correlation between two variables | ✅ | ✅ | ✅ | ✅ |
 | `ggpiestats()`, `ggbarstats()` | Association between categorical variables | ✅ | ✅ | ❌ | ✅ |
 | `ggpiestats()`, `ggbarstats()` | Equal proportions for categorical variable levels | ✅ | ✅ | ❌ | ✅ |
 | `ggcoefstats()` | Regression model coefficients | ✅ | ✅ | ✅ | ✅ |
 | `ggcoefstats()` | Random-effects meta-analysis | ✅ | ❌ | ✅ | ✅ |
-
-Summary of Bayesian analysis
-
-| Analysis                     | Hypothesis testing | Estimation |
-|:-----------------------------|:-------------------|:-----------|
-| (one/two-sample) *t*-test    | ✅                 | ✅         |
-| one-way ANOVA                | ✅                 | ✅         |
-| correlation                  | ✅                 | ✅         |
-| (unpaired) contingency table | ✅                 | ✅         |
-| (paired) contingency table   | ✅                 | ❌         |
-| random-effects meta-analysis | ✅                 | ✅         |
 
 ## Statistical reporting
 
@@ -152,11 +152,17 @@ example, here are results from Yuen’s test for trimmed means (robust
 ## Summary of statistical tests and effect sizes
 
 Statistical analysis is carried out by `{statsExpressions}` package, and
-thus a summary table of all the statistical tests currently supported
-across various functions can be found in article for that package:
+thus a summary table of all the statistical tests and effect sizes
+currently supported across various functions (including which Bayesian
+analyses support hypothesis testing and estimation) can be found in an
+article for that package:
 <https://www.indrapatil.com/statsExpressions/articles/stats_details.html>
 
 ## Primary functions
+
+The examples below show the main plot types and selected customizations.
+See each function reference for its arguments, defaults, and supported
+tests.
 
 ### `ggbetweenstats()`
 
@@ -177,13 +183,6 @@ ggbetweenstats(
 ```
 
 <img src="man/figures/README-ggbetweenstats1-1.png" alt="Violin plot with boxplot overlay showing distribution of sepal length across three Iris species with statistical test results" width="100%" />
-
-**Defaults** return<br>
-
-✅ raw data + distributions <br> ✅ descriptive statistics <br> ✅
-inferential statistics <br> ✅ effect size + CIs <br> ✅ pairwise
-comparisons <br> ✅ Bayesian hypothesis-testing <br> ✅ Bayesian
-estimation <br>
 
 A number of other arguments can be specified to make this plot even more
 informative or change some of the default options. Additionally, there
@@ -208,13 +207,10 @@ grouped_ggbetweenstats(
 
 <img src="man/figures/README-ggbetweenstats2-1.png" alt="Grouped violin plots comparing movie length by MPAA rating for Action and Comedy genres with statistical annotations" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggbetweenstats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbetweenstats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggbetweenstats.html)
+and the [`ggbetweenstats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbetweenstats.html).
 
 ### `ggwithinstats()`
 
@@ -227,17 +223,15 @@ connected by paths to highlight the fact that these data are paired with
 each other.
 
 If your repeated-measures data include an explicit subject identifier,
-it is recommended that you pass it via `subject.id`; rows with missing
-identifiers are ignored for paired grouping and repeated-measures
-statistics.
+it is recommended that you pass it via `subject.id`. Only subjects
+observed in every condition are included in the plot and statistical
+analysis.
 
 ``` r
 set.seed(123)
-library(WRS2) ## for data
-library(afex) ## to run ANOVA
 
 ggwithinstats(
-  data       = WineTasting,
+  data       = WRS2::WineTasting,
   x          = Wine,
   y          = Taste,
   subject.id = Taster,
@@ -247,17 +241,9 @@ ggwithinstats(
 
 <img src="man/figures/README-ggwithinstats1-1.png" alt="Within-subjects violin plot showing wine taste ratings by wine type with paired data paths and statistical results" width="100%" />
 
-**Defaults** return<br>
-
-✅ raw data + distributions <br> ✅ descriptive statistics <br> ✅
-inferential statistics <br> ✅ effect size + CIs <br> ✅ pairwise
-comparisons <br> ✅ Bayesian hypothesis-testing <br> ✅ Bayesian
-estimation <br>
-
-As with the `ggbetweenstats()`, this function also has a `grouped_`
-variant that makes repeating the same analysis across a single grouping
-variable quicker. We will see an example with only repeated
-measurements-
+As with `ggbetweenstats()`, this function also has a `grouped_` variant
+that makes repeating the same analysis across a single grouping variable
+quicker:
 
 ``` r
 set.seed(123)
@@ -269,20 +255,17 @@ grouped_ggwithinstats(
   subject.id      = subject,
   type            = "np",
   xlab            = "Condition",
-  ylab            = "Desire to kill an artrhopod",
+  ylab            = "Desire to kill an arthropod",
   grouping.var    = region
 )
 ```
 
 <img src="man/figures/README-ggwithinstats2-1.png" alt="Grouped within-subjects violin plots showing desire to kill arthropods by condition for Europe and North America" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggwithinstats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggwithinstats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggwithinstats.html)
+and the [`ggwithinstats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggwithinstats.html).
 
 ### `gghistostats()`
 
@@ -303,12 +286,6 @@ gghistostats(
 ```
 
 <img src="man/figures/README-gghistostats1-1.png" alt="Histogram showing distribution of time spent awake in mammals with one-sample test results" width="100%" />
-
-**Defaults** return<br>
-
-✅ counts + proportion for bins<br> ✅ descriptive statistics <br> ✅
-inferential statistics <br> ✅ effect size + CIs <br> ✅ Bayesian
-hypothesis-testing <br> ✅ Bayesian estimation <br>
 
 There is also a `grouped_` variant of this function that makes it easy
 to repeat the same operation across a **single** grouping variable:
@@ -332,13 +309,10 @@ grouped_gghistostats(
 
 <img src="man/figures/README-gghistostats2-1.png" alt="Grouped histograms showing movie budget distributions for Action and Comedy genres with statistical tests" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/gghistostats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/gghistostats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/gghistostats.html)
+and the [`gghistostats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/gghistostats.html).
 
 ### `ggdotplotstats()`
 
@@ -361,15 +335,9 @@ ggdotplotstats(
 
 <img src="man/figures/README-ggdotplotstats1-1.png" alt="Dot plot showing life expectancy distribution across Asian countries with robust one-sample test results" width="100%" />
 
-**Defaults** return<br>
-
-✅descriptives (centrality measure + uncertainty + sample size)<br> ✅
-inferential statistics <br> ✅ effect size + CIs <br> ✅ Bayesian
-hypothesis-testing <br> ✅ Bayesian estimation <br>
-
-As with the rest of the functions in this package, there is also a
-`grouped_` variant of this function to facilitate looping the same
-operation for all levels of a single grouping variable.
+As with most other functions in this package, there is also a `grouped_`
+variant of this function to facilitate looping the same operation for
+all levels of a single grouping variable.
 
 ``` r
 set.seed(123)
@@ -390,13 +358,10 @@ grouped_ggdotplotstats(
 
 <img src="man/figures/README-ggdotplotstats2-1.png" alt="Grouped dot plots showing city miles per gallon by car manufacturer for 4 and 6 cylinder vehicles" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggdotplotstats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggdotplotstats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggdotplotstats.html)
+and the [`ggdotplotstats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggdotplotstats.html).
 
 ### `ggscatterstats()`
 
@@ -416,12 +381,6 @@ ggscatterstats(
 
 <img src="man/figures/README-ggscatterstats1-1.png" alt="Scatterplot with marginal distributions showing relationship between REM sleep and time awake in mammals with correlation results" width="100%" />
 
-**Defaults** return<br>
-
-✅ raw data + distributions <br> ✅ marginal distributions <br> ✅
-inferential statistics <br> ✅ effect size + CIs <br> ✅ Bayesian
-hypothesis-testing <br> ✅ Bayesian estimation <br>
-
 There is also a `grouped_` variant of this function that makes it easy
 to repeat the same operation across a **single** grouping variable.
 
@@ -437,7 +396,7 @@ grouped_ggscatterstats(
   label.expression = length > 200,
   xlab             = "IMDB rating",
   ggtheme          = ggplot2::theme_grey(),
-  ggplot.component = list(ggplot2::scale_x_continuous(breaks = seq(2, 9, 1), limits = (c(2, 9)))),
+  ggplot.component = list(ggplot2::scale_x_continuous(breaks = seq(2, 9, 1), limits = c(2, 9))),
   plotgrid.args    = list(nrow = 1),
   annotation.args  = list(title = "Relationship between movie length and IMDB ratings")
 )
@@ -445,17 +404,14 @@ grouped_ggscatterstats(
 
 <img src="man/figures/README-ggscatterstats2-1.png" alt="Grouped scatterplots showing IMDB rating vs movie length for Action and Comedy genres with correlation annotations" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggscatterstats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggscatterstats.html)
+and the [`ggscatterstats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggscatterstats.html).
 
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggscatterstats.html>
+### `ggcorrmat()`
 
-### `ggcorrmat`
-
-`ggcorrmat` makes a correlalogram (a matrix of correlation coefficients)
+`ggcorrmat()` makes a correlogram (a matrix of correlation coefficients)
 with minimal amount of code. Just sticking to the defaults itself
 produces publication-ready correlation matrices. But, for the sake of
 exploring the available options, let’s change some of the defaults. For
@@ -465,24 +421,19 @@ the appearance of the correlation matrix.
 ``` r
 set.seed(123)
 
-## as a default this function outputs a correlation matrix plot
 ggcorrmat(
   data     = ggplot2::msleep,
   colors   = c("#B2182B", "white", "#4D4D4D"),
-  title    = "Correlalogram for mammals sleep dataset",
+  title    = "Correlogram for mammals sleep dataset",
   subtitle = "sleep units: hours; weight units: kilograms"
 )
 ```
 
 <img src="man/figures/README-ggcorrmat1-1.png" alt="Correlation matrix heatmap for mammals sleep dataset showing pairwise correlations with significance indicators" width="100%" />
 
-**Defaults** return<br>
-
-✅ effect size + significance<br> ✅ careful handling of `NA`s
-
-If there are `NA`s present in the selected variables, the legend will
-display minimum, median, and maximum number of pairs used for
-correlation tests.
+If the number of complete observations differs across pairs of variables
+(e.g., due to `NA`s), the legend displays the minimum, mode, and maximum
+sample sizes used for the correlation tests.
 
 There is also a `grouped_` variant of this function that makes it easy
 to repeat the same operation across a **single** grouping variable:
@@ -502,13 +453,10 @@ grouped_ggcorrmat(
 
 <img src="man/figures/README-ggcorrmat2-1.png" alt="Grouped correlation matrices for Action and Comedy movie genres showing robust correlations" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggcorrmat.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcorrmat.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggcorrmat.html)
+and the [`ggcorrmat()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcorrmat.html).
 
 ### `ggpiestats()`
 
@@ -520,7 +468,7 @@ one categorical variable is entered, results from one-sample proportion
 test (i.e., a chi-squared goodness of fit test) will be displayed as a
 subtitle.
 
-To study an interaction between two categorical variables:
+To study the association between two categorical variables:
 
 ``` r
 set.seed(123)
@@ -537,15 +485,9 @@ ggpiestats(
 
 <img src="man/figures/README-ggpiestats1-1.png" alt="Pie charts showing transmission type distribution across cylinder groups in mtcars data with contingency table analysis" width="100%" />
 
-**Defaults** return<br>
-
-✅ descriptives (frequency + %s) <br> ✅ inferential statistics <br> ✅
-effect size + CIs <br> ✅ Goodness-of-fit tests <br> ✅ Bayesian
-hypothesis-testing <br> ✅ Bayesian estimation <br>
-
 There is also a `grouped_` variant of this function that makes it easy
-to repeat the same operation across a **single** grouping variable.
-Following example is a case where the theoretical question is about
+to repeat the same operation across a **single** grouping variable. The
+following example is a case where the theoretical question is about
 proportions for different levels of a single nominal variable:
 
 ``` r
@@ -562,13 +504,10 @@ grouped_ggpiestats(
 
 <img src="man/figures/README-ggpiestats2-1.png" alt="Grouped pie charts showing cylinder distribution for automatic and manual transmission vehicles" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggpiestats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggpiestats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggpiestats.html)
+and the [`ggpiestats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggpiestats.html).
 
 ### `ggbarstats()`
 
@@ -576,11 +515,10 @@ In case you are not a fan of pie charts (for very good reasons), you can
 alternatively use `ggbarstats()` function which has a similar
 syntax—including support for one-sample goodness-of-fit tests.
 
-To study an interaction between two categorical variables:
+To study the association between two categorical variables:
 
 ``` r
 set.seed(123)
-library(ggplot2)
 
 ggbarstats(
   data             = movies_long,
@@ -596,15 +534,9 @@ ggbarstats(
 
 <img src="man/figures/README-ggbarstats1-1.png" alt="Stacked bar chart showing MPAA ratings distribution by movie genre with chi-squared test results" width="100%" />
 
-**Defaults** return<br>
-
-✅ descriptives (frequency + %s) <br> ✅ inferential statistics <br> ✅
-effect size + CIs <br> ✅ Goodness-of-fit tests <br> ✅ Bayesian
-hypothesis-testing <br> ✅ Bayesian estimation <br>
-
 There is also a `grouped_` variant of this function that makes it easy
-to repeat the same operation across a **single** grouping variable.
-Following example is a case where the theoretical question is about
+to repeat the same operation across a **single** grouping variable. The
+following example is a case where the theoretical question is about
 proportions for different levels of a single nominal variable:
 
 ``` r
@@ -621,13 +553,10 @@ grouped_ggbarstats(
 
 <img src="man/figures/README-ggbarstats2-1.png" alt="Grouped bar charts showing cylinder distribution for automatic and manual transmission vehicles" width="100%" />
 
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggbarstats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbarstats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggbarstats.html)
+and the [`ggbarstats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbarstats.html).
 
 ### `ggcoefstats()`
 
@@ -640,7 +569,6 @@ summary indices are also extracted from
 ``` r
 set.seed(123)
 
-## model
 mod <- stats::lm(formula = mpg ~ am * cyl, data = mtcars)
 
 ggcoefstats(mod)
@@ -648,24 +576,16 @@ ggcoefstats(mod)
 
 <img src="man/figures/README-ggcoefstats1-1.png" alt="Dot-and-whisker plot showing regression coefficients for mpg model with confidence intervals" width="100%" />
 
-**Defaults** return<br>
-
-✅ inferential statistics <br> ✅ estimate + CIs <br> ✅ model summary
-(AIC and BIC) <br>
-
-Details about underlying functions used to create graphics and
-statistical tests carried out can be found in the function
-documentation:
-<https://www.indrapatil.com/ggstatsplot/reference/ggcoefstats.html>
-
-For more, also read the following vignette:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcoefstats.html>
+For details, see the [function
+reference](https://www.indrapatil.com/ggstatsplot/reference/ggcoefstats.html)
+and the [`ggcoefstats()`
+article](https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcoefstats.html).
 
 ### Extracting expressions and data frames with statistical details
 
-`{ggstatsplot}` also offers a convenience function to extract data
-frames with statistical details that are used to create expressions
-displayed in `{ggstatsplot}` plots.
+`{ggstatsplot}` also offers convenience functions to extract the
+expressions displayed in its plots and the data frames with statistical
+details used to create them.
 
 ``` r
 set.seed(123)
@@ -762,14 +682,12 @@ package: <https://www.indrapatil.com/statsExpressions/>
 Sometimes you may not like the default plots produced by
 `{ggstatsplot}`. In such cases, you can use other **custom** plots (from
 `{ggplot2}` or other plotting packages) and still use `{ggstatsplot}`
-functions to display results from relevant statistical test.
+functions to display results from relevant statistical tests.
 
-For example, in the following chunk, we will create our own plot using
-`{ggplot2}` package, and use `{ggstatsplot}` function for extracting
-expression:
+For example, in the following chunk, we create our own plot using
+`{ggplot2}` and use `{ggstatsplot}` to extract the expression:
 
 ``` r
-## loading the needed libraries
 set.seed(123)
 library(ggplot2)
 
@@ -782,8 +700,8 @@ ggplot(morley, aes(x = as.factor(Expt), y = Speed)) +
   labs(
     title = "Michelson-Morley experiments",
     subtitle = stats_results,
-    x = "Speed of light",
-    y = "Experiment number"
+    x = "Experiment number",
+    y = "Speed of light"
   )
 ```
 

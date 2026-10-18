@@ -3,7 +3,7 @@
 #'
 #' @description
 #'
-#' Scatterplots from `{ggplot2}` combined with marginal distributions plots
+#' Scatterplots from `{ggplot2}` combined with marginal distribution plots
 #' with statistical details.
 #'
 #' @section Summary of graphics:
@@ -12,37 +12,36 @@
 #' ```
 #'
 #' @param ... Currently ignored.
-#' @param label.var Variable to use for points labels entered as a symbol (e.g.
+#' @param label.var Variable to use for point labels entered as a symbol (e.g.
 #'   `var1`).
 #' @param label.expression An expression evaluating to a logical vector that
 #'   determines the subset of data points to label (e.g. `y < 4 & z < 20`).
 #'   While using this argument with [`purrr::pmap()`], you will have to provide
-#'   a quoted expression  (e.g. `quote(y < 4 & z < 20)`).
+#'   a quoted expression (e.g. `quote(y < 4 & z < 20)`).
 #' @param point.label.args A list of additional aesthetic arguments to be passed
-#'   to [`ggrepel::geom_label_repel()`]geom used to display the labels.
+#'   to [`ggrepel::geom_label_repel()`] geom used to display the labels.
 #' @param smooth.line.args A list of additional aesthetic arguments to be passed
-#'   to `geom_smooth` geom used to display the regression line.
+#'   to [`ggplot2::geom_smooth()`] geom used to display the regression line. Its
+#'   confidence band uses `conf.level`.
 #' @param marginal Decides whether marginal distributions will be plotted on
-#'   axes using `{ggside}` functions. The default is `TRUE`. The package
-#'   `{ggside}` must already be installed by the user.
-#' @param point.width.jitter,point.height.jitter Degree of jitter in `x` and `y`
-#'   direction, respectively. Defaults to `0` (0%) of the resolution of the
-#'   data. Note that the jitter should not be specified in the `point.args`
+#'   axes using `{ggside}` functions. The default is `TRUE`.
+#' @param point.width.jitter,point.height.jitter Amount of jitter (in data
+#'   units) in `x` and `y` direction, respectively, passed to
+#'   [`ggplot2::position_jitter()`]. Defaults to `0` (no jitter). Note that the
+#'   jitter should not be specified in the `point.args`
 #'   because this information will be passed to two different `geom`s: one
-#'   displaying the **points** and the other displaying the ***labels** for
+#'   displaying the **points** and the other displaying the **labels** for
 #'   these points.
 #' @param xsidehistogram.args,ysidehistogram.args A list of arguments passed to
 #'   respective `geom_`s from the `{ggside}` package to change the marginal
-#'   distribution histograms plots.
+#'   distribution histograms.
 #' @param xsidehistogram.scale,ysidehistogram.scale A list of arguments passed
 #'   to `ggside::scale_xsidey_continuous()` and
 #'   `ggside::scale_ysidex_continuous()`, respectively, to control the
 #'   scale of marginal histograms (e.g., `breaks`, `limits`, `transform`).
 #'   Default is `list()` (no modifications).
 #' @inheritParams statsExpressions::corr_test
-#' @inheritParams theme_ggstatsplot
 #' @inheritParams ggbetweenstats
-#' @inheritParams gghistostats
 #'
 #' @inheritSection statsExpressions::corr_test Correlation analyses
 #'
@@ -51,12 +50,17 @@
 #'
 #' @autoglobal
 #'
-#' @details For details, see:
+#' @inherit ggbetweenstats return
+#'
+#' @details Rows with a missing value in either `x` or `y` are removed before
+#'   plotting and analysis.
+#'
+#' For details, see:
 #' <https://www.indrapatil.com/ggstatsplot/articles/web_only/ggscatterstats.html>
 #'
 #' @note
 #' The plot uses [`ggrepel::geom_label_repel()`] to attempt to keep labels
-#' from over-lapping to the largest degree possible. As a consequence plot
+#' from overlapping to the largest degree possible. As a consequence plot
 #' times will slow down massively (and the plot file will grow in size) if you
 #' have a lot of labels that overlap.
 #'
@@ -145,8 +149,8 @@ ggscatterstats <- function(
       corr_test,
       list(
         data = data,
-        x = {{ x }},
-        y = {{ y }},
+        x = x,
+        y = y,
         conf.level = conf.level,
         digits = digits,
         tr = tr,
@@ -157,8 +161,6 @@ ggscatterstats <- function(
     )
     subtitle <- stats_output$subtitle
     caption <- stats_output$caption %||% caption
-    subtitle_df <- stats_output$subtitle_df
-    caption_df <- stats_output$caption_df
   }
 
   # basic plot ------------------------------------------
@@ -182,7 +184,7 @@ ggscatterstats <- function(
       data <- filter(data, !!enexpr(label.expression))
     }
 
-    # display points labels using `geom_repel_label`
+    # display point labels using `ggrepel::geom_label_repel()`
     plot_scatter <- plot_scatter +
       exec(
         ggrepel::geom_label_repel,
@@ -207,32 +209,33 @@ ggscatterstats <- function(
     ggtheme +
     ggplot.component
 
-  # marginal  ---------------------------------------------
+  # marginal ---------------------------------------------
 
   if (isTRUE(marginal)) {
-    if (!any(c("bins", "binwidth") %in% names(xsidehistogram.args))) {
-      xsidehistogram.args[["bins"]] <- 30L
-    }
-    if (!any(c("bins", "binwidth") %in% names(ysidehistogram.args))) {
-      ysidehistogram.args[["bins"]] <- 30L
-    }
-
     plot_scatter <- plot_scatter +
       .eval_f(
         ggside::geom_xsidehistogram,
         mapping = aes(y = after_stat(count)),
-        !!!xsidehistogram.args
+        !!!.with_default_bins(xsidehistogram.args)
       ) +
       .eval_f(
         ggside::geom_ysidehistogram,
         mapping = aes(x = after_stat(count)),
-        !!!ysidehistogram.args
+        !!!.with_default_bins(ysidehistogram.args)
       ) +
       exec(ggside::scale_ysidex_continuous, !!!ysidehistogram.scale) +
       exec(ggside::scale_xsidey_continuous, !!!xsidehistogram.scale)
   }
 
   plot_scatter
+}
+
+#' @noRd
+.with_default_bins <- function(args) {
+  if (!any(c("bins", "binwidth") %in% names(args))) {
+    args[["bins"]] <- 30L
+  }
+  args
 }
 
 
@@ -254,8 +257,8 @@ ggscatterstats <- function(
 #'
 #' @autoglobal
 #'
-#' @inherit ggscatterstats return references
-#' @inherit ggscatterstats return details
+#' @inherit ggscatterstats details
+#' @inherit grouped_ggbetweenstats return
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
 #' # to ensure reproducibility

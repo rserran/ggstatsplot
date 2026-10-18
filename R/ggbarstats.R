@@ -13,8 +13,14 @@
 #'
 #' @inheritParams ggpiestats
 #' @inheritParams ggbetweenstats
+#' @param label.args Additional aesthetic arguments that will be passed to
+#'   [`ggplot2::geom_label()`].
 #' @param sample.size.label.args Additional aesthetic arguments that will be
 #'   passed to [`ggplot2::geom_text()`].
+#' @param xlab Label for `x` axis. If `NULL` (default), the name of the `y`
+#'   variable is used (no label if `y` is `NULL`), since bars are drawn for
+#'   each level of `y`.
+#' @param ylab Label for `y` axis. If `NULL` (default), no label is shown.
 #'
 #' @inheritSection statsExpressions::contingency_table Contingency table analyses
 #'
@@ -23,7 +29,13 @@
 #' @seealso \code{\link{grouped_ggbarstats}}, \code{\link{ggpiestats}},
 #'  \code{\link{grouped_ggpiestats}}
 #'
-#' @inherit ggpiestats return details
+#' @inherit ggbetweenstats return
+#'
+#' @details Rows with a missing value in `x`, `y`, or `counts` are removed
+#'   before plotting and analysis.
+#'
+#' For details, see:
+#' <https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbarstats.html>
 #'
 #' @autoglobal
 #'
@@ -101,13 +113,7 @@ ggbarstats <- function(
   x_levels <- prep$x_levels
   y_levels <- prep$y_levels
 
-  # nocov start
-  if (test == "two.way" && y_levels == 1L) {
-    bf.message <- FALSE
-    proportion.test <- FALSE
-  }
-  # nocov end
-  if (type == "bayes" || test == "one.way") {
+  if (type == "bayes" || x_levels < 2L || y_levels < 2L) {
     proportion.test <- FALSE
   }
 
@@ -125,18 +131,12 @@ ggbarstats <- function(
       conf.level = conf.level,
       digits = digits,
       ratio = ratio,
-      sampling.plan = "indepMulti",
-      fixed.margin = "rows",
-      prior.concentration = 1,
       x_levels = x_levels,
       y_levels = y_levels,
       p.adjust.method = p.adjust.method
     )
     subtitle <- stats_output$subtitle
     caption <- stats_output$caption %||% caption
-    subtitle_df <- stats_output$subtitle_df
-    caption_df <- stats_output$caption_df
-    mpc_df <- stats_output$mpc_df
   }
 
   # plot ------------------------------------------
@@ -150,7 +150,7 @@ ggbarstats <- function(
   }
 
   # Validate the requested number of discrete colors before plot rendering.
-  paletteer::paletteer_d(palette, nlevels(pull(data, {{ x }})))
+  paletteer::paletteer_d(palette, x_levels)
 
   plotBar <- ggplot(
     descriptive_df,
@@ -160,7 +160,7 @@ ggbarstats <- function(
       aes({{ y }}, perc, fill = {{ x }})
     }
   ) +
-    geom_bar(stat = "identity", position = "fill", color = "black") +
+    geom_col(position = "fill", color = "black") +
     scale_y_continuous(
       labels = ~ insight::format_percent(., digits = 0L),
       breaks = seq(from = 0.0, to = 1.0, by = 0.10),
@@ -217,7 +217,7 @@ ggbarstats <- function(
 
   plotBar +
     labs(
-      x = if (test == "two.way") (xlab %||% as_name(y)) else xlab,
+      x = if (test == "two.way") xlab %||% as_name(y) else xlab,
       y = ylab,
       subtitle = subtitle,
       title = title,
@@ -232,7 +232,7 @@ ggbarstats <- function(
 #' @description
 #'
 #' Helper function for `ggstatsplot::ggbarstats()` to apply this function across
-#' multiple levels of a given factor and combining the resulting plots using
+#' multiple levels of a given factor and combine the resulting plots using
 #' `ggstatsplot::combine_plots()`.
 #'
 #' @inheritParams ggbarstats
@@ -242,9 +242,8 @@ ggbarstats <- function(
 #' @seealso \code{\link{ggbarstats}}, \code{\link{ggpiestats}},
 #'  \code{\link{grouped_ggpiestats}}
 #'
-#' @inherit ggbarstats return references
-#' @inherit ggbarstats return details
-#' @inherit ggbarstats return return
+#' @inherit ggbarstats details
+#' @inherit grouped_ggbetweenstats return
 #'
 #' @autoglobal
 #'

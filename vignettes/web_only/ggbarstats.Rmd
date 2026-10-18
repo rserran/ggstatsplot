@@ -17,23 +17,12 @@ source("../setup.R")
 
 ---
 
-You can cite this package/vignette as:
-
-```{r}
-#| label = "citation",
-#| echo = FALSE,
-#| comment = ""
-citation("ggstatsplot")
-```
-
----
-
-Lifecycle: [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+Lifecycle: [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 
 ## Introduction to `ggbarstats`
 
 The function `ggbarstats` can be used for quick **data
-exploration** and/or to prepare **publication-ready pie charts** to summarize
+exploration** and/or to prepare **publication-ready bar charts** to summarize
 the statistical relationship(s) among one or more categorical variables. We will
 see examples of how to use this function in this vignette.
 
@@ -49,10 +38,6 @@ independent of each other using the contingency table analysis
  - to check if the proportion of observations at each level of a categorical
 variable is equal
 
-**Note:** The following demo uses the pipe operator (`|>`), if you are not
-familiar with this operator, here is a good explanation:
-<http://r4ds.had.co.nz/pipes.html>.
-
 `ggbarstats` works **only** with data organized in data frames or tibbles. It
 will not work with other data structures like base-R tables or matrices. It can
 operate on data frames that are organized with one row per observation or
@@ -61,7 +46,7 @@ examples of both (see examples below).
 
 To help demonstrate how `ggbarstats` can be used with categorical (also known as
 nominal) data, a modified version of the original `Titanic` dataset (from the
-`datasets` library) has been provided in the `{ggstatsplot}` package with the name
+`datasets` package) has been provided in the `{ggstatsplot}` package with the name
 `Titanic_full`. The Titanic Passenger Survival Dataset provides information "on
 the fate of passengers on the fatal maiden voyage of the ocean liner *Titanic*,
 including economic status (class), sex, age, and survival."
@@ -70,7 +55,6 @@ Let's have a look at the structure of both.
 
 ```{r}
 #| label = "titanic1"
-library(dplyr)
 
 # looking at the original data in tabular format
 dplyr::glimpse(Titanic)
@@ -105,8 +89,8 @@ ggbarstats(
 
 **Note:** Equal proportions per category are the default, e.g. 50/50, but you
 can specify any hypothesized ratio you like with `ratio` so if our hypothesis
-was that 80% died and 20% survived we would add `ratio = c(.80,.20)` when we
-entered the code.
+was that 80% died and 20% survived we would add `ratio = c(0.80, 0.20)` when we
+entered the code (the proportions follow the order of the levels of `x`).
 
 ## Independence (or association) with `ggbarstats`
 
@@ -161,35 +145,31 @@ grouped_ggbarstats(
   # arguments relevant for `combine_plots()`
   annotation.args = list(
     title = "Passenger survival on the Titanic by gender and age",
-    caption = "Asterisks denote results from proportion tests; \n***: p < 0.001, ns: non-significant"
+    caption = "Source: Titanic survival dataset"
   ),
   plotgrid.args = list(nrow = 2L)
 )
 ```
 
-The resulting pie charts and statistics make the story clear. For adults gender
-very much matters. Women survived at much higher rates than men. For children
+The resulting bar charts and statistics make the story clear. For adults, gender
+very much matters. Women survived at much higher rates than men. For children,
 gender is not significantly associated with survival and both male and female
 children have a survival rate that is not significantly different from 50/50.
 
 ## Grouped analysis with `ggbarstats` + `{purrr}`
 
-Although `grouped_ggbarstats` provides a quick way to explore the data, it
-leaves much to be desired. For example, we may want to add different captions,
-titles, themes, or palettes for each level of the grouping variable, etc. For
-cases like these, it would be better to use `{purrr}` package.
-
-See the associated vignette here:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/purrr_examples.html>
+For group-specific arguments or multiple grouping variables, see the
+[programmatic plotting article](purrr_examples.html#why-purrr). It explains
+how to split the data, customize each call, and combine the resulting plots.
 
 ## Working with data organized by `counts`
 
 `ggbarstats` can also work with data frame containing counts (aka tabled data),
 i.e., when each row doesn't correspond to a unique observation. For example,
 consider the following notional `fishing` data frame containing data from two
-boats (`A` and `B`) about the number of different types fish they caught in the
+boats (`A` and `B`) about the number of different types of fish they caught in the
 months of `February` and `March`. In this data frame, each row corresponds to a
-unique combination of `Boat` and `Month`.
+unique combination of `Boat`, `Month`, and `Fish`.
 
 ```{r}
 #| label = "ggbarstats7",
@@ -197,31 +177,13 @@ unique combination of `Boat` and `Month`.
 #| fig.width = 9
 
 
-# (this is completely fictional; I don't know first thing about fishing!)
-
-fishing <- tibble::as_tibble(data.frame(
-  Boat = c(rep("B", 4), rep("A", 4), rep("A", 4), rep("B", 4)),
-  Month = c(rep("February", 2), rep("March", 2), rep("February", 2), rep("March", 2)),
-  Fish = c(
-    "Bass",
-    "Catfish",
-    "Cod",
-    "Haddock",
-    "Cod",
-    "Haddock",
-    "Bass",
-    "Catfish",
-    "Bass",
-    "Catfish",
-    "Cod",
-    "Haddock",
-    "Cod",
-    "Haddock",
-    "Bass",
-    "Catfish"
-  ),
+# (this is completely fictional; I don't know the first thing about fishing!)
+fishing <- tibble::tibble(
+  Boat = rep(c("B", "A", "B"), times = c(4, 8, 4)),
+  Month = rep(c("February", "March"), each = 2, times = 4),
+  Fish = rep(c("Bass", "Catfish", "Cod", "Haddock", "Cod", "Haddock", "Bass", "Catfish"), times = 2),
   SumOfCaught = c(25, 20, 35, 40, 40, 25, 30, 42, 40, 30, 33, 26, 100, 30, 20, 20)
-))
+)
 
 fishing
 ```
@@ -243,16 +205,16 @@ ggbarstats(
   counts = SumOfCaught,
   label = "both",
   palette = "ggsci::default_jama",
-  title = "Type fish caught by month",
+  title = "Type of fish caught by month",
   caption = "Source: completely made up",
-  legend.title = "Type fish caught: "
+  legend.title = "Type of fish caught: "
 )
 ```
 
 The results support our hypothesis that the type of fish caught is related to
-the month in which we're fishing. The $\chi^2$ independence test results at
-the top of the plot. In February we catch significantly more Haddock than we
-would hypothesize for an equal distribution. Whereas in March our results
+the month in which we're fishing. The $\chi^2$ independence test results are shown at
+the top of the plot. In February, we catch significantly more Cod than we
+would hypothesize for an equal distribution. Whereas, in March, our results
 indicate there's no strong evidence that the distribution isn't equal.
 
 ## Within-subjects designs
@@ -268,6 +230,10 @@ from **McNemar test** in the subtitle.
 
 (**Note:** If you forget to set `paired = TRUE`, the results will be
 inaccurate.)
+
+Note that, for McNemar's test, `x` and `y` need to have the same levels, and
+each row should correspond to one subject (or, as here, to the count of
+subjects with a given combination of before/after responses).
 
 ```{r}
 #| label = "ggbarstats9",
@@ -295,22 +261,51 @@ ggbarstats(
 )
 ```
 
-The results bode well for our experimental wonder drug. Of the 96 who started
-out healthy only 4% were sick after a month. Ideally, we would have hoped for
-zero but reality is seldom perfect. On the other side of the 38 who started out
-sick that number has reduced to just 13 or 34% which is a marked improvement.
+Of the 96 participants who started out healthy, 4 were sick after a month.
+Of the 38 who started out sick, 13 remained sick. McNemar's test compares the
+discordant responses (4 became sick and 25 recovered). This before/after
+comparison alone does not establish that the treatment caused the change.
 
 ## Summary of graphics and tests
 
-Details about underlying functions used to create graphics and statistical tests carried out can be found in the function documentation:
+```{asis, file="../../man/rmd-fragments/ggbarstats_graphics.Rmd"}
+```
+
+The statistical tests and effect sizes carried out for each `type` are listed
+in the function documentation:
 <https://www.indrapatil.com/ggstatsplot/reference/ggbarstats.html>
+
+## Extracting statistical details
+
+All statistical details shown in the plot are also available as data frames,
+which can be extracted with `extract_stats()`. The returned list contains
+results from the test in the subtitle (`subtitle_data`), the Bayesian test in
+the caption (`caption_data`), the one-sample proportion tests for each level of
+`y` (`one_sample_data`), the counts and percentages shown in the plot
+(`descriptive_data`), and pairwise comparisons (Fisher's exact tests) between
+levels of `x`, which are not shown in the plot (`pairwise_comparisons_data`).
+Pairwise comparisons are computed only for unpaired designs in which both `x`
+and `y` are specified, `x` has more than two levels, and `y` has at least two;
+otherwise, `pairwise_comparisons_data` is `NULL`.
+
+```{r}
+#| label = "extract_stats"
+p <- ggbarstats(Titanic_full, Survived, Sex)
+
+extract_stats(p)$subtitle_data
+
+extract_stats(p)$one_sample_data
+```
+
+For `grouped_ggbarstats()` plots, `extract_stats()` returns one such list for each
+level of the grouping variable.
 
 ## Reporting
 
 ```{asis, file="../../man/md-fragments/reporting.md"}
 ```
 
-For example, let's see the following example:
+For example:
 
 ```{r}
 #| label = "reporting",
@@ -323,7 +318,7 @@ The narrative context (assuming `type = "parametric"`) can complement this plot
 either as a figure caption or in the main text-
 
 > Pearson's $\chi^2$-test of independence revealed that, across 32 automobiles,
-showed that there was a significant association between transmission engine and
+there was a significant association between transmission type and
 number of cylinders. The Bayes Factor for the same analysis revealed that the
 data were `r round(exp(2.82), 2)` times more probable under the alternative
 hypothesis as compared to the null hypothesis. This can be considered strong
@@ -336,3 +331,14 @@ goodness-of-fit test instead of a $\chi^2$-test.
 
 If you find any bugs or have any suggestions/remarks, please file an issue on
 GitHub: <https://github.com/IndrajeetPatil/ggstatsplot/issues>
+
+## Citation {#citation}
+
+You can cite this package/vignette as:
+
+```{r}
+#| label = "citation",
+#| echo = FALSE,
+#| comment = ""
+citation("ggstatsplot")
+```

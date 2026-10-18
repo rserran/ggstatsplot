@@ -1,4 +1,4 @@
-#' @title Dot plot/chart for labeled numeric data.
+#' @title Dot plot/chart for labeled numeric data
 #' @name ggdotplotstats
 #'
 #' @description
@@ -20,9 +20,12 @@
 #' ```
 #'
 #' @param ... Currently ignored.
-#' @param y Label or grouping variable.
+#' @param y Label or grouping variable. Each level of `y` is shown as a single
+#'   dot: if a level has several rows, `x` is summarized using the centrality
+#'   measure for the chosen `type` (see above), and the one-sample test is then
+#'   carried out on these per-level summaries (i.e., the sample size is the
+#'   number of levels of `y`).
 #' @inheritParams gghistostats
-#' @inheritParams ggcoefstats
 #' @inheritParams ggbetweenstats
 #' @inheritParams ggcoefstats
 #'
@@ -33,7 +36,12 @@
 #'
 #' @autoglobal
 #'
-#' @details For details, see:
+#' @inherit ggbetweenstats return
+#'
+#' @details Rows with a missing value in either `x` or `y` are removed before
+#'   plotting and analysis.
+#'
+#' For details, see:
 #' <https://www.indrapatil.com/ggstatsplot/articles/web_only/ggdotplotstats.html>
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
@@ -96,49 +104,40 @@ ggdotplotstats <- function(
 
   data <- .prep_data(data, {{ x }}, {{ y }})
 
-  data <-
-    suppressWarnings(centrality_description(
-      data,
-      {{ y }},
-      {{ x }},
-      type = type,
-      conf.level = conf.level,
-      digits = digits,
-      tr = tr,
-      bf.prior = bf.prior
-    ))
-
-  data <- data |>
+  # summarize `x` for each level of `y`, ordered by the summary value
+  data <- suppressWarnings(centrality_description(
+    data,
+    {{ y }},
+    {{ x }},
+    type = type,
+    conf.level = conf.level,
+    digits = digits,
+    tr = tr,
+    bf.prior = bf.prior
+  )) |>
     arrange({{ x }}) |>
-    mutate(
-      percent_rank = percent_rank({{ x }}),
-      rank = row_number()
-    )
+    mutate(rank = row_number())
 
   # statistical analysis ------------------------------------------
 
   if (results.subtitle) {
-    .f.args <- list(
-      data = data,
-      x = {{ x }},
-      test.value = test.value,
-      alternative = alternative,
-      conf.level = conf.level,
-      digits = digits,
-      tr = tr,
-      bf.prior = bf.prior
+    stats_output <- .subtitle_caption(
+      one_sample_test,
+      list(
+        data = data,
+        x = x,
+        test.value = test.value,
+        alternative = alternative,
+        conf.level = conf.level,
+        digits = digits,
+        tr = tr,
+        bf.prior = bf.prior
+      ),
+      type,
+      bf.message
     )
-
-    stats <- .subtitle_caption(
-      .f = one_sample_test,
-      type = type,
-      bf.message = bf.message,
-      .f.args = .f.args
-    )
-    subtitle <- stats$subtitle
-    caption <- stats$caption %||% caption
-    subtitle_df <- stats$subtitle_df
-    caption_df <- stats$caption_df
+    subtitle <- stats_output$subtitle
+    caption <- stats_output$caption %||% caption
   }
 
   # plot -----------------------------------
@@ -146,7 +145,6 @@ ggdotplotstats <- function(
   plot_dot <- ggplot(data, mapping = aes({{ x }}, y = rank)) +
     exec(geom_point, !!!point.args) +
     scale_y_continuous(
-      name = ylab,
       labels = pull(data, {{ y }}),
       breaks = data$rank,
       sec.axis = dup_axis(
@@ -172,7 +170,7 @@ ggdotplotstats <- function(
     plot_dot <- .histo_labeller(
       plot_dot,
       x = pull(data, {{ x }}),
-      type = extract_stats_type(centrality.type),
+      type = centrality.type,
       tr = tr,
       digits = digits,
       centrality.line.args = centrality.line.args
@@ -194,13 +192,13 @@ ggdotplotstats <- function(
 }
 
 
-#' @title Grouped histograms for distribution of a labeled numeric variable
+#' @title Grouped dot plots/charts for labeled numeric data
 #' @name grouped_ggdotplotstats
 #'
 #' @description
 #'
 #' Helper function for `ggstatsplot::ggdotplotstats()` to apply this function
-#' across multiple levels of a given factor and combining the resulting plots
+#' across multiple levels of a given factor and combine the resulting plots
 #' using `ggstatsplot::combine_plots()`.
 #'
 #' @inheritParams ggdotplotstats
@@ -212,8 +210,8 @@ ggdotplotstats <- function(
 #'
 #' @autoglobal
 #'
-#' @inherit ggdotplotstats return references
-#' @inherit ggdotplotstats return details
+#' @inherit ggdotplotstats details
+#' @inherit grouped_ggbetweenstats return
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
 #' # for reproducibility

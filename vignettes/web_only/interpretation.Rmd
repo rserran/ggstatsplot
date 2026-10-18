@@ -1,7 +1,18 @@
 ---
 title: "Interpretation of Bayes Factors"
-output: html_document
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Interpretation of Bayes Factors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
+`{ggstatsplot}` reports Bayes Factors as $\log_{e}(BF_{01})$: in the caption
+for parametric tests (controlled by `bf.message`), in the subtitle for
+`type = "bayes"`, and on the brackets for Bayesian pairwise comparisons. This
+article explains how to read these values.
 
 Bayes Factors (BFs) are a fundamental tool in Bayesian analysis for comparing two hypotheses: typically the **null hypothesis (H₀)** and the **alternative hypothesis (H₁)**. The Bayes Factor in favor of the null over the alternative is written as **BF₀₁**, which tells you how many times more likely the observed data are under H₀ than under H₁. For example, a BF₀₁ of 5 means the data are 5 times more likely under the null hypothesis. A BF₀₁ of 0.2 (i.e., 1/5) means the data are 5 times more likely under the alternative hypothesis.
 
@@ -37,53 +48,20 @@ Using the natural log also gives a **symmetric scale** centered around 0:
 
 So, a log BF₀₁ of +2 means data support H₀ about as strongly as –2 would support H₁. This makes interpretation intuitive: zero means balanced evidence, and distance from zero indicates strength regardless of direction.
 
-### **Numerical Stability**
+## Interpreting Log Bayes Factors
 
-When computing Bayes Factors from likelihoods or marginal probabilities, the raw numbers can be extremely large or small, which can lead to numerical issues. Taking logs avoids underflow or overflow, since products of small probabilities become sums of manageable log-probabilities (e.g., **log(ab) = log(a) + log(b)**). This makes Bayesian computation more robust in practice.
+A commonly used classification scheme (Lee & Wagenmakers, 2014, adapted from Jeffreys, 1961) labels the strength of evidence as follows:
 
-### **Additivity of Evidence**
+| BF₀₁        | ln(BF₀₁)       | Evidence **for H₀** |
+|-------------|----------------|---------------------|
+| > 100       | > 4.61         | Extreme             |
+| 30 – 100    | 3.40 – 4.61    | Very strong         |
+| 10 – 30     | 2.30 – 3.40    | Strong              |
+| 3 – 10      | 1.10 – 2.30    | Moderate            |
+| 1 – 3       | 0 – 1.10       | Anecdotal           |
+| 1           | 0              | Balanced evidence   |
 
-When combining evidence from multiple sources or experiments, **log Bayes Factors add**:
-
-- ln(BF₀₁ from study 1) + ln(BF₀₁ from study 2) = ln(total BF₀₁)
-
-This makes it easy to combine studies without recalculating everything in raw terms. For example:
-
-- Study 1: BF₀₁ = 3 → ln(BF₀₁) ≈ 1.1
-- Study 2: BF₀₁ = 5 → ln(BF₀₁) ≈ 1.6
-- Combined: ln(BF₀₁ total) ≈ 2.7 → BF₀₁ ≈ 15
-
-This is equivalent to the data being 15 times more likely under H₀ across both studies.
-
-## Interpreting Negative Log Bayes Factors
-
-If you always report **log BF₀₁**, then:
-
-- **Positive ln(BF₀₁)** → Evidence in favor of the null hypothesis
-- **Negative ln(BF₀₁)** → Evidence in favor of the alternative hypothesis
-- **Zero ln(BF₀₁)** → No evidence either way (BF₀₁ = 1)
-
-**Examples:**
-
-| BF₀₁        | ln(BF₀₁)   | Interpretation                           |
-|-------------|------------|------------------------------------------|
-| 100         | 4.61       | Strong evidence **for H₀**               |
-| 10          | 2.30       | Moderate evidence **for H₀**             |
-| 1           | 0          | No preference between H₀ and H₁          |
-| 0.1         | –2.30      | Moderate evidence **for H₁**             |
-| 0.01        | –4.61      | Strong evidence **for H₁**               |
-
-The further the value is from 0, the stronger the evidence—positive values favor the **null**, negative values favor the **alternative**.
-
-## Summary
-
-Using the **natural log of Bayes Factors (ln BF₀₁)** makes Bayesian inference easier to interpret, communicate, and compute:
-
-- **Compresses wide numeric range**
-- **Symmetric scale centered at 0**
-- **Numerically stable for computation**
-- **Additive across studies**
-- **Sign tells you which hypothesis is favored**; **magnitude tells you how strongly**
+The same labels apply to evidence **for H₁** when ln(BF₀₁) is negative (e.g., ln(BF₀₁) between –3.40 and –2.30 is strong evidence for H₁). These labels are only rough guides; the further the value is from 0, the stronger the evidence—positive values favor the **null**, negative values favor the **alternative**.
 
 ## References
 

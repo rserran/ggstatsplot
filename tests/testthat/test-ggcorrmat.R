@@ -1,4 +1,4 @@
-test_that("checking ggcorrmat with entier dataset", {
+test_that("checking ggcorrmat with entire dataset", {
   set.seed(123)
   expect_doppelganger(
     title = "parametric correlation - without NAs",
@@ -10,6 +10,31 @@ test_that("checking ggcorrmat with entier dataset", {
     title = "non-parametric correlation - with NAs",
     fig = ggcorrmat(ggplot2::msleep, type = "np")
   )
+})
+
+test_that("explicit `cor.vars = NULL` uses all numeric variables", {
+  expect_identical(
+    extract_stats(ggcorrmat(anscombe, cor.vars = NULL)),
+    extract_stats(ggcorrmat(anscombe))
+  )
+})
+
+test_that("single sample size is shown when all pairs share the same `n`", {
+  legend_title <- function(data) {
+    ggcorrmat(data)$scales$get_scales("fill")$name
+  }
+  expected <- legend_title(anscombe[-1L, ])
+
+  # missing values in a non-numeric column are not used in any correlation
+  expect_identical(
+    legend_title(dplyr::mutate(anscombe[-1L, ], group = c(NA, letters[1:9]))),
+    expected
+  )
+
+  # missing values in the same row of every numeric column
+  anscombe_na <- anscombe
+  anscombe_na[1L, ] <- NA
+  expect_identical(legend_title(anscombe_na), expected)
 })
 
 # changing defaults -------------------------------------------
@@ -47,18 +72,20 @@ test_that("ggcorrmat works as expected with changed defaults", {
       p.adjust.method = "hommel",
       matrix.type = "upper"
     ) +
-      labs(caption = NULL)
+      ggplot2::labs(caption = NULL)
+  )
+
+  set.seed(123)
+  expect_doppelganger(
+    title = "unadjusted p-values label",
+    fig = ggcorrmat(
+      data = dplyr::select(iris, dplyr::contains("Sepal")),
+      p.adjust.method = "none"
+    )
   )
 })
 
-
-test_that("ggcorrmat with p.adjust.method = 'none' shows unadjusted label", {
-  p <- ggcorrmat(iris, p.adjust.method = "none")
-  caption_expr <- deparse(p$labels$caption)
-  expect_true(any(grepl("unadj", caption_expr, fixed = TRUE)))
-})
-
-# grouped_ggcorrmat output: plot ---------------------------------------------------------------
+# grouped_ggcorrmat output: plot -------------------------------------
 
 test_that("grouped_ggcorrmat plots are as expected", {
   set.seed(123)
@@ -82,7 +109,7 @@ test_that("grouped_ggcorrmat plots are as expected", {
   )
 })
 
-# expected warnings -------------------------------------------
+# expected errors -------------------------------------------
 
 test_that("grouped_ggcorrmat produces error when grouping isn't specified", {
   expect_snapshot(grouped_ggcorrmat(iris), error = TRUE)

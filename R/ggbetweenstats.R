@@ -14,7 +14,7 @@
 #'
 #' @param xlab Label for `x` axis variable. If `NULL` (default),
 #'   variable name for `x` will be used.
-#' @param ylab Labels for `y` axis variable. If `NULL` (default),
+#' @param ylab Label for `y` axis variable. If `NULL` (default),
 #'   variable name for `y` will be used.
 #' @param p.adjust.method Adjustment method for *p*-values for multiple
 #'   comparisons. Possible methods are: `"holm"` (default), `"hochberg"`,
@@ -24,26 +24,31 @@
 #'   - `"significant"` (abbreviation accepted: `"s"`)
 #'   - `"non-significant"` (abbreviation accepted: `"ns"`)
 #'   - `"all"`
+#'   - `"none"`
 #'
 #'   You can use this argument to make sure that your plot is not uber-cluttered
 #'   when you have multiple groups being compared and scores of pairwise
-#'   comparisons being displayed. If set to `"none"`, no pairwise comparisons
-#'   will be displayed.
+#'   comparisons being displayed. Pairwise comparisons are carried out (and
+#'   displayed) only when `x` has three or more levels. For `type = "bayes"`,
+#'   there are no *p*-values, so all comparisons are displayed unless this is
+#'   `"none"`.
 #' @param pairwise.alpha Numeric alpha threshold used to decide which pairwise
 #'   comparisons are displayed when `pairwise.display = "significant"` or
-#'   `pairwise.display = "non-significant"` (Default: `0.05`).
+#'   `pairwise.display = "non-significant"` (Default: `0.05`). It is compared
+#'   against *p*-values adjusted using `p.adjust.method`.
 #' @param bf.message Logical that decides whether to display Bayes Factor in
 #'   favor of the *null* hypothesis. This argument is relevant only **for
 #'   parametric test** (Default: `TRUE`).
 #' @param results.subtitle Decides whether the results of statistical tests are
-#'   to be displayed as a subtitle (Default: `TRUE`). If set to `FALSE`, only
-#'   the plot will be returned.
+#'   to be displayed as a subtitle (Default: `TRUE`). Setting this to `FALSE`
+#'   also skips the automatic Bayes Factor caption. See the individual
+#'   annotation arguments to control other plot details.
 #' @param title The text for the plot title.
 #' @param subtitle The text for the plot subtitle. Will work only if
 #'   `results.subtitle = FALSE`.
-#' @param caption The text for the plot caption. This argument is relevant only
-#'   if `bf.message = FALSE`.
-#' @param centrality.plotting Logical that decides whether centrality tendency
+#' @param caption The text for the plot caption. It will be replaced by the
+#'   Bayes Factor caption whenever that is displayed (see `bf.message`).
+#' @param centrality.plotting Logical that decides whether central tendency
 #'   measure is to be displayed as a point with a label (Default: `TRUE`).
 #'   Function decides which central tendency measure to show depending on the
 #'   `type` argument.
@@ -52,15 +57,15 @@
 #'   - **trimmed mean** for robust statistics
 #'   - **MAP estimator** for Bayesian statistics
 #'
-#'   If you want default centrality parameter, you can specify this using
+#'   If you want a different centrality parameter, you can specify this using
 #'   `centrality.type` argument.
 #' @param centrality.type Decides which centrality parameter is to be displayed.
 #'   The default is to choose the same as `type` argument. You can specify this
 #'   to be:
 #'   - `"parametric"` (for **mean**)
 #'   - `"nonparametric"` (for **median**)
-#'   - `robust` (for **trimmed mean**)
-#'   - `bayes` (for **MAP estimator**)
+#'   - `"robust"` (for **trimmed mean**)
+#'   - `"bayes"` (for **MAP estimator**)
 #'
 #'   Just as `type` argument, abbreviations are also accepted.
 #' @param point.args A list of additional aesthetic arguments to be passed to
@@ -69,34 +74,35 @@
 #'   [`ggplot2::geom_boxplot()`]. By default, the whiskers extend to 1.5 times
 #'   the interquartile range (IQR) from the box (Tukey-style). To customize
 #'   whisker length, you can use the `coef` parameter, e.g.,
-#'   `boxplot.args = list(coef = 3)` for whiskers extending to 3 * IQR, or
-#'   `boxplot.args = list(coef = 0)` to show only the range of the data.
+#'   `boxplot.args = list(coef = 3)` for whiskers extending to the most extreme
+#'   observations within 3 * IQR of the hinges.
 #' @param violin.args A list of additional aesthetic arguments to be passed to
 #'   the [`ggplot2::geom_violin()`].
 #' @param ggplot.component A `ggplot` component to be added to the plot prepared
 #'   by `{ggstatsplot}`. This argument is primarily helpful for `grouped_`
 #'   variants of all primary functions. Default is `NULL`. The argument should
 #'   be entered as a `{ggplot2}` function or a list of `{ggplot2}` functions.
-#' @param palette Name of the palette in `"package::palette"` format to be used
-#'   for coloring. Passed to [paletteer::scale_color_paletteer_d()]. Run
+#' @param palette Name of the discrete palette in `"package::palette"` format
+#'   to be used for coloring (via `{paletteer}`). Run
 #'   `View(paletteer::palettes_d_names)` to see all available options.
 #' @param ... Currently ignored.
-#' @inheritParams theme_ggstatsplot
 #' @param centrality.point.args,centrality.label.args A list of additional aesthetic
 #'   arguments to be passed to [`ggplot2::geom_point()`] and
-#'   [`ggrepel::geom_label_repel()`] geoms, which are involved in mean plotting.
-#' @param  ggsignif.args A list of additional aesthetic
-#'   arguments to be passed to [`ggsignif::geom_signif()`].
+#'   [`ggrepel::geom_label_repel()`] geoms, which are involved in centrality
+#'   plotting.
+#' @param ggsignif.args A list of additional aesthetic arguments to be passed to
+#'   [`ggsignif::geom_signif()`].
 #' @param ggtheme A `{ggplot2}` theme. Default value is
 #'   [`ggstatsplot::theme_ggstatsplot()`]. Any of the `{ggplot2}` themes (e.g.,
 #'   [`ggplot2::theme_bw()`]), or themes from extension packages are allowed
 #'   (e.g., `ggthemes::theme_fivethirtyeight()`, `hrbrthemes::theme_ipsum_ps()`,
 #'   etc.). But note that sometimes these themes will remove some of the details
-#'   that `{ggstatsplot}` plots typically contains. For example, if relevant,
+#'   that `{ggstatsplot}` plots typically contain. For example, if relevant,
 #'   [`ggbetweenstats()`] shows details about multiple comparison test as a
 #'   label on the secondary Y-axis. Some themes (e.g.
 #'   `ggthemes::theme_fivethirtyeight()`) will remove the secondary Y-axis and
 #'   thus the details as well.
+#' @param x The grouping (or independent) variable from `data`.
 #' @inheritParams statsExpressions::oneway_anova
 #' @inheritParams statsExpressions::two_sample_test
 #'
@@ -105,18 +111,15 @@
 #' This function uses statistically justified defaults that are not
 #' user-configurable:
 #'
-#' - **Effect sizes** are always *unbiased* (Hedges' *g* instead of Cohen's
-#'   *d*, omega-squared instead of eta-squared). Unbiased estimators correct
-#'   for the positive bias present in their biased counterparts, especially in
-#'   small samples, and are recommended for meta-analytic work.
+#' - For **parametric tests**, effect sizes use Hedges' *g* for two groups
+#'   and omega-squared for three or more groups. These estimators correct for
+#'   positive bias, which can be especially relevant in small samples.
 #'
 #' - **Welch's *t*-test and one-way test** are used instead of Student's
-#'   versions (i.e., equal variances are not assumed). Welch's test performs as
-#'   well as Student's when variances *are* equal and is substantially more
-#'   accurate when they are not, making it the unconditionally better default.
+#'   versions, so equal variances are not assumed.
 #'
 #' Users who need non-default values for these settings can call
-#' \code{{statsExpressions}} directly.
+#' `{statsExpressions}` directly.
 #'
 #' @inheritSection statsExpressions::centrality_description Centrality measures
 #' @inheritSection statsExpressions::two_sample_test Two-sample tests
@@ -128,7 +131,14 @@
 #'
 #' @autoglobal
 #'
-#' @details For details, see:
+#' @returns A `ggplot` object, which can be further modified with `{ggplot2}`
+#'   functions. Use [`extract_stats()`] to get the statistical details shown in
+#'   the plot as data frames.
+#'
+#' @details Rows with a missing value in either `x` or `y` are removed before
+#'   plotting and analysis, and unused levels of `x` are dropped.
+#'
+#' For details, see:
 #' <https://www.indrapatil.com/ggstatsplot/articles/web_only/ggbetweenstats.html>
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
@@ -230,7 +240,7 @@ ggbetweenstats <- function(
 
   # statistical analysis ------------------------------------------
 
-  test <- ifelse(nlevels(pull(data, {{ x }})) < 3L, "t", "anova")
+  test <- if (nlevels(pull(data, {{ x }})) < 3L) "t" else "anova"
 
   if (results.subtitle) {
     stats_output <- .bw_subtitle_caption(
@@ -248,9 +258,7 @@ ggbetweenstats <- function(
       paired = FALSE
     )
     subtitle <- stats_output$subtitle
-    caption <- stats_output$caption
-    subtitle_df <- stats_output$subtitle_df
-    caption_df <- stats_output$caption_df
+    caption <- stats_output$caption %||% caption
   }
 
   # plot -----------------------------------
@@ -265,8 +273,8 @@ ggbetweenstats <- function(
   .bw_decorate(
     plot = plot_comparison,
     data = data,
-    x = {{ x }},
-    y = {{ y }},
+    x = x,
+    y = y,
     type = type,
     test = test,
     centrality.plotting = centrality.plotting,
@@ -278,13 +286,12 @@ ggbetweenstats <- function(
     pairwise.display = pairwise.display,
     pairwise.alpha = pairwise.alpha,
     pairwise_args = list(
-      data = data,
       paired = FALSE,
       p.adjust.method = p.adjust.method
     ),
     ggsignif.args = ggsignif.args,
-    xlab = xlab %||% as_name(x),
-    ylab = ylab %||% as_name(y),
+    xlab = xlab,
+    ylab = ylab,
     title = title,
     subtitle = subtitle,
     caption = caption,
@@ -296,14 +303,14 @@ ggbetweenstats <- function(
 
 
 #' @title Violin plots for group or condition comparisons in between-subjects
-#'   designs repeated across all levels of a grouping variable.
+#'   designs repeated across all levels of a grouping variable
 #' @name grouped_ggbetweenstats
 #'
 #' @description
 #'
-#' Helper function for `ggstatsplot::ggbetweenstats` to apply this function
-#' across multiple levels of a given factor and combining the resulting plots
-#' using `ggstatsplot::combine_plots`.
+#' Helper function for `ggstatsplot::ggbetweenstats()` to apply this function
+#' across multiple levels of a given factor and combine the resulting plots
+#' using `ggstatsplot::combine_plots()`.
 #'
 #' @inheritParams ggbetweenstats
 #' @inheritParams .grouped_list
@@ -315,7 +322,9 @@ ggbetweenstats <- function(
 #' @seealso \code{\link{ggbetweenstats}}, \code{\link{ggwithinstats}},
 #'  \code{\link{grouped_ggwithinstats}}
 #'
-#' @inherit ggbetweenstats return references
+#' @returns A `patchwork` object combining one plot per level of
+#'   `grouping.var` (see [`combine_plots()`]). Applying [`extract_stats()`] to
+#'   it returns a list with the statistical details for each of these plots.
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
 #' # for reproducibility

@@ -14,14 +14,16 @@
 #' @param ... Currently ignored.
 #' @param binwidth The width of the histogram bins. Can be specified as a
 #'   numeric value, or a function that calculates width from `x`. The default is
-#'   to use the `max(x) - min(x) / sqrt(N)`. You should always check this value
-#'   and explore multiple widths to find the best to illustrate the stories in
-#'   your data.
+#'   to use `(max(x) - min(x)) / sqrt(N)`. If all values of `x` are identical,
+#'   `0.1` (or `abs(x) / 1000`, if larger) is used instead. You should always
+#'   check this value and explore multiple widths to find the one that best
+#'   illustrates the stories in your data.
 #' @param bin.args A list of additional aesthetic arguments to be passed to the
-#'   `stat_bin` used to display the bins. Do not specify `binwidth` argument in
-#'   this list since it has already been specified using the dedicated argument.
+#'   [`ggplot2::stat_bin()`] used to display the bins. Do not specify `binwidth`
+#'   argument in this list since it has already been specified using the
+#'   dedicated argument.
 #' @param centrality.line.args A list of additional aesthetic arguments to be
-#'   passed to the [`ggplot2::geom_line()`] used to display the lines
+#'   passed to the [`ggplot2::geom_vline()`] used to display the lines
 #'   corresponding to the centrality parameter.
 #' @inheritParams statsExpressions::one_sample_test
 #' @inheritParams ggbetweenstats
@@ -33,7 +35,11 @@
 #'
 #' @autoglobal
 #'
-#' @details For details, see:
+#' @inherit ggbetweenstats return
+#'
+#' @details Missing values in `x` are removed before plotting and analysis.
+#'
+#' For details, see:
 #' <https://www.indrapatil.com/ggstatsplot/articles/web_only/gghistostats.html>
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
@@ -93,27 +99,23 @@ gghistostats <- function(
   # statistical analysis ------------------------------------------
 
   if (results.subtitle) {
-    .f.args <- list(
-      data = data,
-      x = {{ x }},
-      test.value = test.value,
-      alternative = alternative,
-      conf.level = conf.level,
-      digits = digits,
-      tr = tr,
-      bf.prior = bf.prior
+    stats_output <- .subtitle_caption(
+      one_sample_test,
+      list(
+        data = data,
+        x = x,
+        test.value = test.value,
+        alternative = alternative,
+        conf.level = conf.level,
+        digits = digits,
+        tr = tr,
+        bf.prior = bf.prior
+      ),
+      type,
+      bf.message
     )
-
-    stats <- .subtitle_caption(
-      .f = one_sample_test,
-      type = type,
-      bf.message = bf.message,
-      .f.args = .f.args
-    )
-    subtitle <- stats$subtitle
-    caption <- stats$caption %||% caption
-    subtitle_df <- stats$subtitle_df
-    caption_df <- stats$caption_df
+    subtitle <- stats_output$subtitle
+    caption <- stats_output$caption %||% caption
   }
 
   # plot -----------------------------------
@@ -140,7 +142,7 @@ gghistostats <- function(
     plot_hist <- .histo_labeller(
       plot_hist,
       x = x_vec,
-      type = extract_stats_type(centrality.type),
+      type = centrality.type,
       tr = tr,
       digits = digits,
       centrality.line.args = centrality.line.args
@@ -164,7 +166,17 @@ gghistostats <- function(
 
 #' @noRd
 .binwidth <- function(x) {
-  (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)) / sqrt(length(x))
+  x <- x[!is.na(x)]
+  x_range <- diff(range(x))
+  if (x_range > 0) {
+    return(x_range / sqrt(length(x)))
+  }
+
+  # nocov start
+  # for zero-range data, use the width that `ggplot2::stat_bin()` falls back
+  # to, scaled up for large values so that bin edges and axes stay resolvable
+  max(0.1, abs(x[[1L]]) / 1000)
+  # nocov end
 }
 
 
@@ -173,12 +185,15 @@ gghistostats <- function(
 #'
 #' @description
 #'
-#' Helper function for `ggstatsplot::gghistostats` to apply this function
-#' across multiple levels of a given factor and combining the resulting plots
-#' using `ggstatsplot::combine_plots`.
+#' Helper function for `ggstatsplot::gghistostats()` to apply this function
+#' across multiple levels of a given factor and combine the resulting plots
+#' using `ggstatsplot::combine_plots()`.
 #'
 #' @inheritParams gghistostats
 #' @inheritParams grouped_ggbetweenstats
+#' @param binwidth The width of the histogram bins (see [`gghistostats()`]). If
+#'   `NULL` (default), it is computed once from the non-missing values of `x` in
+#'   the full data (not per group), so that all plots share the same bin width.
 #' @inheritDotParams gghistostats -title
 #'
 #' @seealso \code{\link{gghistostats}}, \code{\link{ggdotplotstats}},
@@ -186,8 +201,8 @@ gghistostats <- function(
 #'
 #' @autoglobal
 #'
-#' @inherit gghistostats return references
-#' @inherit gghistostats return details
+#' @inherit gghistostats details
+#' @inherit grouped_ggbetweenstats return
 #'
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
 #' # for reproducibility

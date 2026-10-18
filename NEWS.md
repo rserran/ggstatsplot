@@ -1,3 +1,60 @@
+# ggstatsplot 1.1.3.9000
+
+## BUG FIXES
+
+- `ggdotplotstats()` now labels the `y` axis with the name of the `y`
+  variable when `ylab = NULL` (default), as documented. Previously, no `y`
+  axis title was shown unless `ylab` was supplied.
+
+- `ggcorrmat()` now uses all numeric variables when `cor.vars = NULL` is
+  passed explicitly, as documented, instead of failing with an error.
+
+- `ggcorrmat()` now shows a single sample size in the legend whenever all
+  correlation pairs share the same sample size. Previously, missing values in
+  any column, including non-numeric columns not used in the correlations,
+  switched the legend to minimum, mode, and maximum sample sizes.
+
+- `grouped_gghistostats()` now computes its default common bin width from
+  the non-missing values of `x`, as `gghistostats()` does. Previously, missing
+  values were counted in the sample size, making the bins too narrow.
+
+- `ggbarstats()` no longer displays empty proportion test labels above the
+  bars when `x` has only one level, matching `ggpiestats()`.
+
+- `gghistostats()` and `grouped_gghistostats()` now draw the histogram when all
+  values of `x` are identical (including a single observation). Previously, the
+  default bin width was zero, so no bins were drawn.
+
+# ggstatsplot 1.1.3
+
+## BUG FIXES
+
+- `ggwithinstats()` now drops subjects with missing values in any condition
+  from the plot as well when `subject.id` is supplied, so the plotted data,
+  centrality labels, and sample size labels match the statistical results
+  (previously, partially observed subjects were still plotted).
+
+- `ggwithinstats()` now gives an informative error when a `subject.id` value
+  appears more than once within a level of `x`, instead of silently dropping
+  the subtitle or failing deep inside the statistical tests.
+
+- `ggwithinstats()` with `type = "robust"` now reports the correct
+  Algina-Keselman-Penfield effect size and confidence interval in the
+  subtitle (e.g., 0.32 instead of 0.66 for `bugs_long`). This fix comes from
+  `{statsExpressions}`, which previously treated its internal row identifier
+  as an extra condition.
+
+- `ggcoefstats()` no longer errors with `only.significant = TRUE` when no
+  term is significant; the plot is drawn without stats labels instead.
+
+# ggstatsplot 1.1.2
+
+## BUG FIXES
+
+- `ggbetweenstats()` and `ggwithinstats()` no longer discard a user-supplied
+  `caption` when no Bayes Factor caption is displayed (e.g., for
+  non-parametric tests or with `bf.message = FALSE`).
+
 # ggstatsplot 1.1.1
 
 ## MINOR CHANGES

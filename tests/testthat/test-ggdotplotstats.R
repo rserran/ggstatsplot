@@ -14,13 +14,12 @@ test_that("checking default outputs", {
   )
 })
 
-
 # modification with ggplot2 ----------------------------------------------
 
 test_that("modification with ggplot2 works as expected", {
   set.seed(123)
   expect_doppelganger(
-    title = "modification with ggplot2 ",
+    title = "modification with ggplot2",
     fig = suppressMessages(ggdotplotstats(
       data = morley_new,
       x = Speed,
@@ -51,26 +50,25 @@ test_that("subtitle output", {
   ) |>
     extract_subtitle()
 
+  # nonparametric dot plots summarize each level of `y` by its median
   set.seed(123)
-  p_sub_gghist <-
-    morley |>
+  p_sub_gghist <- morley |>
     dplyr::group_by(Expt) |>
-    dplyr::summarise(mean = mean(Speed), .groups = "drop") |>
+    dplyr::summarise(median = median(Speed), .groups = "drop") |>
     gghistostats(
-      x = mean,
+      x = median,
       test.value = 800,
       type = "np"
     ) |>
     extract_subtitle()
 
-  set.seed(123)
   expect_identical(p_sub_ggdot, p_sub_gghist)
 })
 
 # grouped_ggdotplotstats works -----------------------------------------------
 
 test_that("grouped_ggdotplotstats works", {
-  # removing factor level with very few no. of observations
+  # drop the `cyl` level with very few observations
   df <- dplyr::filter(ggplot2::mpg, cyl %in% c("4", "6", "8"))
 
   set.seed(123)
@@ -93,7 +91,7 @@ test_that("grouped_ggdotplotstats works", {
   set.seed(123)
   expect_doppelganger(
     title = "further modification with ggplot works",
-    fig = grouped_ggdotplotstats(
+    fig = suppressMessages(grouped_ggdotplotstats(
       data = df,
       x = cty,
       y = manufacturer,
@@ -104,6 +102,6 @@ test_that("grouped_ggdotplotstats works", {
         sec.axis = ggplot2::dup_axis(name = "percentile score"),
         breaks = seq(0, 12, 2)
       )
-    )
+    ))
   )
 })

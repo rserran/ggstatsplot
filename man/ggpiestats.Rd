@@ -35,19 +35,19 @@ ggpiestats(
 }
 \arguments{
 \item{data}{A data frame (or a tibble) from which variables specified are to
-be taken. Other data types (e.g., matrix,table, array, etc.) will \strong{not}
+be taken. Other data types (e.g., matrix, table, array, etc.) will \strong{not}
 be accepted. Additionally, grouped data frames from \code{{dplyr}} should be
 ungrouped before they are entered as \code{data}.}
 
-\item{x}{The variable to use as the \strong{rows} in the contingency table. Please
-note that if there are empty factor levels in your variable, they will be
-dropped.}
+\item{x}{The variable to use as the \strong{rows} in the contingency table. Note
+that empty factor levels are \emph{not} dropped: they are shown in the legend
+and counted (with zero observations) in the statistical test. Use
+\code{\link[=droplevels]{droplevels()}} beforehand if this is not intended.}
 
 \item{y}{The variable to use as the \strong{columns} in the contingency table.
-Please note that if there are empty factor levels in your variable, they
-will be dropped. Default is \code{NULL}. If \code{NULL}, one-sample proportion test
-(a goodness of fit test) will be run for the \code{x} variable. Otherwise an
-appropriate association test will be run.}
+Default is \code{NULL}. If \code{NULL}, one-sample proportion test (a goodness of fit
+test) will be run for the \code{x} variable. Otherwise an appropriate
+association test will be run.}
 
 \item{counts}{The variable in data containing counts, or \code{NULL} if each row
 represents a single observation.}
@@ -60,24 +60,35 @@ represents a single observation.}
 \item \code{"bayes"}
 }
 
-You can specify just the initial letter.}
+You can specify just the initial letter (e.g. \code{"np"} or \code{"bf"}). Matching is
+on the initial lowercase letter only, so any other value (including
+capitalized values such as \code{"Bayes"}) falls back to \code{"parametric"} without a
+warning.}
 
 \item{paired}{Logical indicating whether data came from a within-subjects or
-repeated measures design study (Default: \code{FALSE}).}
+repeated measures design study (Default: \code{FALSE}). Only relevant for
+two-way tables (i.e., when \code{y} is supplied), and paired designs are only
+supported for frequentist tests (McNemar's test). For a two-way table with
+\code{type = "bayes"}, \code{paired} is ignored and the Bayesian test of
+independence for unpaired data is run instead. For one-way tables
+(\code{y = NULL}), \code{paired} has no effect.}
 
 \item{results.subtitle}{Decides whether the results of statistical tests are
-to be displayed as a subtitle (Default: \code{TRUE}). If set to \code{FALSE}, only
-the plot will be returned.}
+to be displayed as a subtitle (Default: \code{TRUE}). Setting this to \code{FALSE}
+also skips the automatic Bayes Factor caption. See the individual
+annotation arguments to control other plot details.}
 
-\item{label}{Character decides what information needs to be displayed
+\item{label}{Character that decides what information needs to be displayed
 on the label in each pie slice. Possible options are \code{"percentage"}
 (default), \code{"counts"}, \code{"both"}.}
 
 \item{label.args}{Additional aesthetic arguments that will be passed to
-\code{\link[ggplot2:geom_label]{ggplot2::geom_label()}}.}
+\code{\link[ggplot2:geom_label]{ggplot2::geom_label()}} (or \code{\link[ggrepel:geom_label_repel]{ggrepel::geom_label_repel()}} if
+\code{label.repel = TRUE}).}
 
 \item{label.repel}{Whether labels should be repelled using \code{{ggrepel}}
-package. This can be helpful in case of overlapping labels.}
+package. This can be helpful in case of overlapping labels (Default:
+\code{FALSE}).}
 
 \item{digits}{Number of digits for rounding or significant figures. May also
 be \code{"signif"} to return significant figures or \code{"scientific"}
@@ -88,14 +99,17 @@ significant figures (see also \code{\link[=signif]{signif()}}).}
 
 \item{proportion.test}{Decides whether proportion test for \code{x} variable is to
 be carried out for each level of \code{y}. Defaults to \code{results.subtitle}. In
-\code{\link[=ggbarstats]{ggbarstats()}}, only \emph{p}-values from this test will be displayed.}
+\code{\link[=ggbarstats]{ggbarstats()}}, only \emph{p}-values from this test will be displayed. Always
+\code{FALSE} when \code{type = "bayes"}, when \code{y} is \code{NULL}, or when \code{x} has only one
+level.}
 
 \item{digits.perc}{Numeric that decides number of decimal places for
 percentage labels (Default: \code{0L}).}
 
 \item{bf.message}{Logical that decides whether to display Bayes Factor in
-favor of the \emph{null} hypothesis. This argument is relevant only \strong{for
-parametric test} (Default: \code{TRUE}).}
+favor of the \emph{null} hypothesis as a caption. This argument is relevant
+only for non-Bayesian \code{type}s and unpaired designs (\code{paired = FALSE})
+(Default: \code{TRUE}).}
 
 \item{ratio}{A vector of proportions: the expected proportions for the
 proportion test (should sum to \code{1}). Default is \code{NULL}, which means the null
@@ -109,8 +123,7 @@ E.g., \code{ratio = c(0.5, 0.5)} for two levels,
     letter.}
 
 \item{conf.level}{Scalar between \code{0} and \code{1} (default: \verb{95\%}
-confidence/credible intervals, \code{0.95}). If \code{NULL}, no confidence intervals
-will be computed.}
+confidence/credible intervals, \code{0.95}).}
 
 \item{p.adjust.method}{Adjustment method for \emph{p}-values for multiple
 comparisons. Possible methods are: \code{"holm"} (default), \code{"hochberg"},
@@ -121,24 +134,25 @@ comparisons. Possible methods are: \code{"holm"} (default), \code{"hochberg"},
 \item{subtitle}{The text for the plot subtitle. Will work only if
 \code{results.subtitle = FALSE}.}
 
-\item{caption}{The text for the plot caption. This argument is relevant only
-if \code{bf.message = FALSE}.}
+\item{caption}{The text for the plot caption. It will be replaced by the
+Bayes Factor caption whenever that is displayed (see \code{bf.message}).}
 
-\item{legend.title}{Title text for the legend.}
+\item{legend.title}{Title text for the legend. If \code{NULL} (default), the name
+of the \code{x} variable is used.}
 
 \item{ggtheme}{A \code{{ggplot2}} theme. Default value is
 \code{\link[=theme_ggstatsplot]{theme_ggstatsplot()}}. Any of the \code{{ggplot2}} themes (e.g.,
 \code{\link[ggplot2:theme_bw]{ggplot2::theme_bw()}}), or themes from extension packages are allowed
 (e.g., \code{ggthemes::theme_fivethirtyeight()}, \code{hrbrthemes::theme_ipsum_ps()},
 etc.). But note that sometimes these themes will remove some of the details
-that \code{{ggstatsplot}} plots typically contains. For example, if relevant,
+that \code{{ggstatsplot}} plots typically contain. For example, if relevant,
 \code{\link[=ggbetweenstats]{ggbetweenstats()}} shows details about multiple comparison test as a
 label on the secondary Y-axis. Some themes (e.g.
 \code{ggthemes::theme_fivethirtyeight()}) will remove the secondary Y-axis and
 thus the details as well.}
 
-\item{palette}{Name of the palette in \code{"package::palette"} format to be used
-for coloring. Passed to \code{\link[paletteer:scale_color_paletteer_d]{paletteer::scale_color_paletteer_d()}}. Run
+\item{palette}{Name of the discrete palette in \code{"package::palette"} format
+to be used for coloring (via \code{{paletteer}}). Run
 \code{View(paletteer::palettes_d_names)} to see all available options.}
 
 \item{ggplot.component}{A \code{ggplot} component to be added to the plot prepared
@@ -148,11 +162,19 @@ be entered as a \code{{ggplot2}} function or a list of \code{{ggplot2}} function
 
 \item{...}{Currently ignored.}
 }
+\value{
+A \code{ggplot} object, which can be further modified with \code{{ggplot2}}
+functions. Use \code{\link[=extract_stats]{extract_stats()}} to get the statistical details shown in
+the plot as data frames.
+}
 \description{
 Pie charts for categorical data with statistical details included in the plot
 as a subtitle.
 }
 \details{
+Rows with a missing value in \code{x}, \code{y}, or \code{counts} are removed
+before plotting and analysis.
+
 For details, see:
 \url{https://www.indrapatil.com/ggstatsplot/articles/web_only/ggpiestats.html}
 }
@@ -166,15 +188,15 @@ For details, see:
 
 \section{Pairwise comparisons}{
 
-When there is a two-way table and \code{x} has more than two levels, pairwise
-contingency table analyses (Fisher's exact tests) are computed using
-\code{\link[statsExpressions:pairwise_contingency_table]{statsExpressions::pairwise_contingency_table()}}. These pairwise results are \strong{not}
-displayed in the plot because bar and pie charts lack a natural visual
-representation for pairwise significance annotations (unlike box/violin
-plots, which use bracket annotations). Additionally, there is no
-established convention for overlaying pairwise comparisons on pie charts,
-and both \code{ggpiestats()} and \code{ggbarstats()} are designed to remain visually
-congruent. The pairwise results are available as a data frame via
+When there is a two-way table, \code{x} has more than two levels, and
+\code{paired = FALSE}, pairwise contingency table analyses (Fisher's exact tests)
+are computed using \code{\link[statsExpressions:pairwise_contingency_table]{statsExpressions::pairwise_contingency_table()}}. These
+pairwise results are \strong{not} displayed in the plot because bar and pie charts
+lack a natural visual representation for pairwise significance annotations
+(unlike box/violin plots, which use bracket annotations). Additionally, there
+is no established convention for overlaying pairwise comparisons on pie
+charts, and both \code{ggpiestats()} and \code{ggbarstats()} are designed to remain
+visually congruent. The pairwise results are available as a data frame via
 \code{extract_stats(plot)$pairwise_comparisons_data}.
 }
 
@@ -182,13 +204,18 @@ congruent. The pairwise results are available as a data frame via
 
 
 
-The table below provides summary about:
+Below is a summary of:
 \itemize{
-\item statistical test carried out for inferential statistics
-\item type of effect size estimate and a measure of uncertainty for this estimate
-\item functions used internally to compute these details
+\item the statistical test carried out for inferential statistics
+\item the type of effect size estimate and a measure of uncertainty for this estimate
+\item the functions used internally to compute these details
 }
-\subsection{two-way table}{
+
+There are no dedicated non-parametric or robust contingency table analyses.
+\code{type = "nonparametric"} and \code{type = "robust"} are accepted, but run the same
+frequentist tests as \code{type = "parametric"} (the "Parametric/Non-parametric" rows
+below).
+\subsection{Two-way table}{
 
 \strong{Hypothesis testing}\tabular{llll}{
    Type \tab Design \tab Test \tab Function used \cr
@@ -207,9 +234,13 @@ The table below provides summary about:
    Bayesian \tab Paired \tab No \tab No \tab No \cr
 }
 
+
+Paired Bayesian analysis is not supported: for a two-way table with
+\code{type = "bayes"}, the \code{paired} argument is ignored and the unpaired Bayesian
+test is run instead.
 }
 
-\subsection{one-way table}{
+\subsection{One-way table}{
 
 \strong{Hypothesis testing}\tabular{lll}{
    Type \tab Test \tab Function used \cr

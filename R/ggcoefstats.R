@@ -7,9 +7,9 @@
 #' confidence interval whiskers and other statistical details included as
 #' labels.
 #'
-#'  Although the statistical models displayed in the plot may differ based on the
-#'  class of models being investigated, there are few aspects of the plot that will
-#'  be invariant across models:
+#' Although the statistical models displayed in the plot may differ based on the
+#' class of models being investigated, there are a few aspects of the plot that
+#' will be invariant across models:
 #'
 #'   - The dot-whisker plot contains a dot representing the **estimate** and their
 #'     **confidence intervals** (`95%` is the default). The estimate can either be
@@ -19,7 +19,7 @@
 #'     clear up what estimates are being displayed. The confidence intervals can
 #'     sometimes be asymmetric if bootstrapping was used.
 #'
-#'   - The label attached to dot will provide more details from the statistical
+#'   - The label attached to each dot will provide more details from the statistical
 #'     test carried out and it will typically contain estimate, statistic, and
 #'     *p*-value.
 #'
@@ -38,29 +38,40 @@
 #'
 #' @param x A model object to be tidied, or a tidy data frame from a regression
 #'   model. Function internally uses [`parameters::model_parameters()`] to get a
-#'   tidy data frame. If a data frame, it *must* contain at the minimum two
-#'   columns named `term` (names of predictors) and `estimate` (corresponding
-#'   estimates of coefficients or other quantities of interest).
+#'   tidy data frame. If a data frame, it *must* contain a column named
+#'   `estimate` (estimates of coefficients or other quantities of interest). A
+#'   `term` column (names of predictors) is recommended; if absent, terms are
+#'   named `term_1`, `term_2`, etc. Columns `conf.low` and `conf.high` are
+#'   needed for error bars, `statistic` and `p.value` for labels, and
+#'   `std.error` for meta-analysis.
 #' @param statistic Relevant statistic for the model (`"t"`, `"f"`, `"z"`, or
-#'   `"chi"`) in the label. Relevant only if `x` is a *data frame*.
+#'   `"chi"`) in the label. Relevant only if `x` is a *data frame*; if it is
+#'   `NULL` (default), no labels are shown for data frames.
 #' @param effectsize.type This is the same as `es_type` argument of
 #'   [`parameters::model_parameters()`]. Defaults to `"omega"` (the unbiased
 #'   estimator), and relevant for ANOVA-like objects.
 #' @param bf.message Logical that decides whether results from running a
 #'   Bayesian meta-analysis assuming that the effect size *d* varies across
 #'   studies with standard deviation *t* (i.e., a random-effects analysis)
-#'   should be displayed in caption. Defaults to `TRUE`.
+#'   should be displayed in caption. Relevant only if
+#'   `meta.analytic.effect = TRUE` and `meta.type = "parametric"`. Defaults to
+#'   `TRUE`.
 #' @param subtitle The text for the plot subtitle. The input to this argument
 #'   will be ignored if `meta.analytic.effect` is set to `TRUE`.
+#' @param caption The text for the plot caption. It will be replaced by model
+#'   fit indices (AIC and BIC), if available, or by the Bayesian meta-analysis
+#'   results (see `bf.message`).
+#' @param xlab Label for `x` axis. If `NULL` (default), `"estimate"` is used.
+#' @param ylab Label for `y` axis. If `NULL` (default), `"term"` is used.
 #' @param conf.int Logical. Decides whether to display confidence intervals as
 #'   error bars (Default: `TRUE`).
 #' @param conf.level Numeric deciding level of confidence or credible intervals
 #'   (Default: `0.95`).
-#' @param meta.analytic.effect Logical that decides whether subtitle for
-#'   meta-analysis via linear (mixed-effects) models (default: `FALSE`). If
-#'   `TRUE`, input to argument `subtitle` will be ignored. This will be mostly
-#'   relevant if a data frame with estimates and their standard errors is
-#'   entered.
+#' @param meta.analytic.effect Logical that decides whether to display a
+#'   subtitle with results from a meta-analysis via linear (mixed-effects)
+#'   models (default: `FALSE`). If `TRUE`, input to argument `subtitle` will be
+#'   ignored. This will be mostly relevant if a data frame with estimates and
+#'   their standard errors is entered.
 #' @param meta.type Type of statistics used to carry out random-effects
 #'   meta-analysis. If `"parametric"` (default), [`metafor::rma()`] will be
 #'   used. If `"robust"`, [`metaplus::metaplus()`] will be used. If `"bayes"`,
@@ -68,31 +79,30 @@
 #' @param exclude.intercept Logical that decides whether the intercept should be
 #'   excluded from the plot (Default: `FALSE`).
 #' @param errorbar.args Additional arguments that will be passed to
-#'   `geom_errorbar()` geom. Please see documentation for that function
-#'   to know more about these arguments.
-#' @param vline Decides whether to display a vertical line (Default: `"TRUE"`).
+#'   [`ggplot2::geom_errorbar()`] geom. Please see documentation for that
+#'   function to know more about these arguments.
+#' @param vline Decides whether to display a vertical line at `0` (Default:
+#'   `TRUE`).
 #' @param vline.args Additional arguments that will be passed to
-#'   `geom_vline` geom. Please see documentation for that function to
-#'   know more about these arguments.
+#'   [`ggplot2::geom_vline()`] geom. Please see documentation for that function
+#'   to know more about these arguments.
 #' @param sort If `"none"` (default) do not sort, `"ascending"` sort by
 #'   increasing coefficient value, or `"descending"` sort by decreasing
 #'   coefficient value.
 #' @param stats.labels Logical. Decides whether the statistic and *p*-values for
 #'   each coefficient are to be attached to each dot as a text label using
 #'   `{ggrepel}` (Default: `TRUE`).
-#' @param stats.label.color Color for the labels. If set to `NULL`, colors will
-#'   be chosen from the specified `package` (Default: `"RColorBrewer"`) and
-#'   `palette` (Default: `"Dark2"`).
+#' @param stats.label.color Color for the labels: either a single color or a
+#'   vector with one color per term. If set to `NULL` (default), colors will be
+#'   chosen from the specified `palette`.
 #' @param stats.label.args Additional arguments that will be passed to
 #'   [`ggrepel::geom_label_repel()`].
 #' @param only.significant If `TRUE`, only stats labels for significant effects
-#'   is shown (Default: `FALSE`). This can be helpful when a large number of
-#'   regression coefficients are to be displayed in a single plot.
+#'   (*p* < `0.05`) are shown (Default: `FALSE`). This can be helpful when a
+#'   large number of regression coefficients are to be displayed in a single
+#'   plot.
 #' @param ... Additional arguments to tidying method. For more, see
 #'   [`parameters::model_parameters()`].
-#' @inheritParams parameters::model_parameters
-#' @inheritParams theme_ggstatsplot
-#' @inheritParams statsExpressions::meta_analysis
 #' @inheritParams ggbetweenstats
 #'
 #' @inheritSection statsExpressions::meta_analysis Random-effects meta-analysis
@@ -105,13 +115,15 @@
 #'   the needed packages (`{metafor}`, `{metaplus}`, or `{metaBMA}`) if they are
 #'   unavailable.
 #'
-#' 2. All rows of regression estimates where either of the following
-#'   quantities is `NA` will be removed if labels are requested:
-#'   `estimate`, `statistic`, `p.value`.
+#' 2. Rows with a missing `estimate` are always removed. If labels are
+#'   requested, rows where `statistic`, `std.error`, or `p.value` is missing
+#'   are kept but get no label.
 #'
 #' 3. Given the rapid pace at which new methods are added to these packages, it
 #'   is recommended that you install development versions of `{easystats}`
 #'   packages using the `install_latest()` function from `{easystats}`.
+#'
+#' @inherit ggbetweenstats return
 #'
 #' @details For details, see:
 #' <https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcoefstats.html>
@@ -203,14 +215,6 @@ ggcoefstats <- function(
 ) {
   palette <- .validate_palette(palette)
 
-  # model check -------------------------
-
-  # if a data frame is entered then `statistic` is necessary to create labels
-  if (!insight::is_model(x)) {
-    tidy_df <- as_tibble(x)
-    if (is.null(statistic)) stats.labels <- FALSE
-  }
-
   # tidy data frame -------------------------
 
   if (insight::is_model(x)) {
@@ -226,20 +230,23 @@ ggcoefstats <- function(
     )
 
     # anova objects need further cleaning
-    # nolint next: line_length_linter.
     if (all(c("df", "df.error") %in% names(tidy_df))) {
       tidy_df <- mutate(
         tidy_df,
         effectsize = paste0("partial ", effectsize.type, "-squared")
       )
     }
+  } else {
+    tidy_df <- as_tibble(x)
+    # if a data frame is entered then `statistic` is necessary to create labels
+    if (is.null(statistic)) stats.labels <- FALSE
   }
 
   tidy_df <- .preprocess_tidy_data(tidy_df, sort) |>
-    dplyr::filter(!is.na(estimate))
+    filter(!is.na(estimate))
 
   # if tidy data frame doesn't contain p-value or statistic column, no label
-  if (!(all(c("p.value", "statistic") %in% names(tidy_df)))) {
+  if (!all(c("p.value", "statistic") %in% names(tidy_df))) {
     stats.labels <- FALSE
   }
 
@@ -252,7 +259,7 @@ ggcoefstats <- function(
   }
 
   if (exclude.intercept) {
-    tidy_df <- filter(tidy_df, !grepl("(Intercept)", term, TRUE))
+    tidy_df <- filter(tidy_df, !grepl("(Intercept)", term, ignore.case = TRUE))
   }
 
   # label -------------------------
@@ -271,8 +278,7 @@ ggcoefstats <- function(
   glance_df <- performance::model_performance(x, verbose = FALSE) |>
     as_tibble()
 
-  if (!is.null(glance_df) && all(c("AIC", "BIC") %in% names(glance_df))) {
-    # nolint next: line_length_linter.
+  if (all(c("AIC", "BIC") %in% names(glance_df))) {
     glance_df <- mutate(
       glance_df,
       expression = list(parse(
@@ -314,7 +320,6 @@ ggcoefstats <- function(
     plot_coef <- plot_coef +
       exec(
         geom_errorbar,
-        data = tidy_df,
         mapping = aes(xmin = conf.low, xmax = conf.high),
         orientation = "y",
         !!!errorbar.args
@@ -329,6 +334,11 @@ ggcoefstats <- function(
 
   if (stats.labels) {
     tidy_df_labels <- .prepare_stats_label_data(tidy_df, only.significant)
+    # no label layer if no term is left to label (e.g. no significant effects)
+    stats.labels <- nrow(tidy_df_labels) > 0L
+  }
+
+  if (stats.labels) {
     stats.label.color <- .prepare_stats_label_colors(
       tidy_df,
       tidy_df_labels,
@@ -342,7 +352,7 @@ ggcoefstats <- function(
         data = tidy_df_labels,
         mapping = aes(x = estimate, y = term, label = expression),
         parse = TRUE,
-        color = stats.label.color %||% "black",
+        color = stats.label.color,
         !!!stats.label.args
       )
   }
@@ -399,20 +409,16 @@ ggcoefstats <- function(
 
   # `ggplot2` draws discrete y-axis levels from bottom to top, so reverse the
   # factor levels to preserve the data order in the plotted top-to-bottom order.
-  data |> dplyr::mutate(term = forcats::fct_rev(forcats::fct_inorder(term)))
+  mutate(data, term = forcats::fct_rev(forcats::fct_inorder(term)))
 }
 
 #' @noRd
 .prepare_stats_label_data <- function(data, only.significant) {
-  label_data <- data
-
-  if (only.significant && "p.value" %in% names(data)) {
-    label_data <- filter(label_data, p.value < 0.05)
+  if (only.significant) {
+    data <- filter(data, p.value < 0.05)
   }
 
-  label_data <- filter(label_data, lengths(expression) > 0L)
-
-  label_data
+  filter(data, lengths(expression) > 0L)
 }
 
 #' @noRd
@@ -422,15 +428,12 @@ ggcoefstats <- function(
   stats.label.color,
   palette
 ) {
-  label_rows <- data$term %in% label_data$term
-  n_labels <- sum(label_rows)
-
   if (is.null(stats.label.color)) {
-    return(paletteer::paletteer_d(palette, n_labels))
+    return(paletteer::paletteer_d(palette, nrow(label_data)))
   }
 
   if (length(stats.label.color) > 1L) {
-    return(stats.label.color[label_rows])
+    return(stats.label.color[data$term %in% label_data$term])
   }
 
   stats.label.color # nocov

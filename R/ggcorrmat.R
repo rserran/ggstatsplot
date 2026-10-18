@@ -14,22 +14,25 @@
 #'
 #' @param ... Currently ignored.
 #' @param data A data frame from which variables specified are to be taken.
-#' @param cor.vars List of variables for which the correlation matrix is to be
-#'   computed and visualized. If `NULL` (default), all numeric variables from
-#'   `data` will be used.
+#' @param cor.vars Variables for which the correlation matrix is to be computed
+#'   and visualized, specified using `{tidyselect}` syntax (e.g.,
+#'   `c(var1, var2)` or `starts_with("Sepal")`). If `NULL` (default), all
+#'   numeric variables from `data` will be used.
 #' @param cor.vars.names Optional list of names to be used for `cor.vars`. The
 #'   names should be entered in the same order.
 #' @param partial Can be `TRUE` for partial correlations. For Bayesian partial
 #'   correlations, "full" instead of pseudo-Bayesian partial correlations (i.e.,
 #'   Bayesian correlation based on frequentist partialization) are returned.
 #' @param matrix.type Character, `"upper"` (default), `"lower"`, or `"full"`,
-#'   display full matrix, lower triangular or upper triangular matrix.
-#' @param sig.level Significance level (Default: `0.05`). If the *p*-value in
-#'   *p*-value matrix is bigger than `sig.level`, then the corresponding
-#'   correlation coefficient is regarded as insignificant and flagged as such in
-#'   the plot.
+#'   to display the upper triangular, lower triangular, or full matrix,
+#'   respectively.
+#' @param sig.level Significance level (Default: `0.05`). If the (adjusted; see
+#'   `p.adjust.method`) *p*-value is bigger than `sig.level`, then the
+#'   corresponding correlation coefficient is regarded as insignificant and
+#'   flagged as such in the plot. Ignored for `type = "bayes"`.
 #' @param pch Decides the point shape to be used for insignificant correlation
-#'   coefficients (only valid when `insig = "pch"`). Default: `pch = "cross"`.
+#'   coefficients. Default: `pch = "cross"`. The caption explaining the
+#'   insignificance marker is added only for `pch = "cross"` (or `4`).
 #' @param colors A character vector of exactly three colors for the gradient:
 #'   low (negative correlations), mid (zero), and high (positive correlations).
 #'   Must be a **diverging** palette so that the sign of the correlation is
@@ -38,27 +41,35 @@
 #' @param ggcorrplot.args A list of additional (mostly aesthetic) arguments that
 #'   will be passed to [`ggcorrplot::ggcorrplot()`] function. The list should
 #'   avoid any of the following arguments since they are already internally
-#'   being used: `corr`, `method`, `p.mat`, `sig.level`, `ggtheme`, `colors`,
+#'   being used: `corr`, `p.mat`, `sig.level`, `ggtheme`, `colors`, `type`,
 #'   `lab`, `pch`, `legend.title`, `digits`.
+#' @param subtitle The text for the plot subtitle.
+#' @param caption The text for the plot caption. If the insignificance marker
+#'   caption is shown (see `pch`), this text is displayed above it.
 #' @inheritParams statsExpressions::corr_test
 #' @inheritParams ggbetweenstats
-#' @inheritParams theme_ggstatsplot
-#' @inheritParams ggcorrplot::ggcorrplot
-#' @inheritParams ggscatterstats
 #'
 #' @inheritSection statsExpressions::corr_test Correlation analyses
 #'
 #' @autoglobal
 #'
+#' @returns A `ggplot` object, which can be further modified with `{ggplot2}`
+#'   functions. Note that [`extract_stats()`] does not return statistical
+#'   details for this plot; use [`correlation::correlation()`] instead.
+#'
 #' @seealso \code{\link{grouped_ggcorrmat}} \code{\link{ggscatterstats}}
 #'   \code{\link{grouped_ggscatterstats}}
 #'
-#' @details For details, see:
+#' @details Missing values are handled using pairwise deletion (each
+#'   correlation uses all complete pairs of observations). If sample sizes then
+#'   differ across pairs, the legend shows their minimum, mode, and maximum.
+#'   Partial correlations use only complete cases.
+#'
+#' For details, see:
 #' <https://www.indrapatil.com/ggstatsplot/articles/web_only/ggcorrmat.html>
 #'
 #' @examples
 #' set.seed(123)
-#' library(ggcorrplot)
 #' ggcorrmat(iris)
 #'
 #' # with data containing NAs (uses pairwise complete observations)
@@ -95,7 +106,7 @@ ggcorrmat <- function(
   ...
 ) {
   type <- extract_stats_type(type)
-  if (!missing(cor.vars)) {
+  if (!quo_is_null(enquo(cor.vars))) {
     data <- select(data, {{ cor.vars }})
   }
 
@@ -104,7 +115,7 @@ ggcorrmat <- function(
   mpc_df <- correlation::correlation(
     data = data,
     rename = cor.vars.names,
-    method = ifelse(type == "nonparametric", "spearman", "pearson"),
+    method = if (type == "nonparametric") "spearman" else "pearson",
     p_adjust = p.adjust.method,
     ci = conf.level,
     bayesian = type == "bayes",
@@ -112,47 +123,44 @@ ggcorrmat <- function(
     tr = tr,
     partial = partial,
     partial_bayesian = type == "bayes" && partial,
-    winsorize = ifelse(type == "robust", tr, FALSE)
+    winsorize = if (type == "robust") tr else FALSE
   )
 
   # type of correlation and if it is a partial correlation
   r.method.text <- gsub(" correlation", "", unique(mpc_df$Method), fixed = TRUE)
-  r.type <- ifelse(partial, "correlation (partial):", "correlation:")
+  r.type <- if (partial) "correlation (partial):" else "correlation:"
+  r.label <- bquote(atop(scriptstyle(bold(.(r.type))), .(r.method.text)))
 
   # plot ------------------------------------------
 
-  # legend title with information about correlation type and sample size
-  if (!anyNA(data) || partial) {
-    legend.title <- bquote(atop(
-      atop(
-        scriptstyle(bold("sample sizes:")),
-        italic(n) ~ "=" ~ .(.prettyNum(mpc_df$n_Obs[[1L]]))
-      ),
-      atop(scriptstyle(bold(.(r.type))), .(r.method.text))
+  # legend title with information about correlation type and sample size;
+  # a single `n` is shown only when all pairs are based on the same sample size
+  if (length(unique(mpc_df$n_Obs)) == 1L) {
+    n.label <- bquote(atop(
+      scriptstyle(bold("sample sizes:")),
+      italic(n) ~ "=" ~ .(.prettyNum(mpc_df$n_Obs[[1L]]))
     ))
   } else {
-    legend.title <- bquote(atop(
+    n.label <- bquote(atop(
       atop(
-        atop(
-          scriptstyle(bold("sample sizes:")),
-          italic(n)[min] ~ "=" ~ .(.prettyNum(min(mpc_df$n_Obs)))
-        ),
-        atop(
-          italic(n)[mode] ~ "=" ~ .(.prettyNum(datawizard::distribution_mode(
-            mpc_df$n_Obs
-          ))),
-          italic(n)[max] ~ "=" ~ .(.prettyNum(max(mpc_df$n_Obs)))
-        )
+        scriptstyle(bold("sample sizes:")),
+        italic(n)[min] ~ "=" ~ .(.prettyNum(min(mpc_df$n_Obs)))
       ),
-      atop(scriptstyle(bold(.(r.type))), .(r.method.text))
+      atop(
+        italic(n)[mode] ~ "=" ~ .(.prettyNum(datawizard::distribution_mode(
+          mpc_df$n_Obs
+        ))),
+        italic(n)[max] ~ "=" ~ .(.prettyNum(max(mpc_df$n_Obs)))
+      )
     ))
   }
+  legend.title <- bquote(atop(.(n.label), .(r.label)))
 
   plot_corr <- .eval_f(
     ggcorrplot::ggcorrplot,
     corr = as.matrix(select(mpc_df, matches("^parameter|^r"))),
     p.mat = as.matrix(select(mpc_df, matches("^parameter|^p"))),
-    sig.level = ifelse(type == "bayes", Inf, sig.level),
+    sig.level = if (type == "bayes") Inf else sig.level,
     ggtheme = ggtheme,
     colors = colors,
     type = matrix.type,
@@ -208,14 +216,14 @@ ggcorrmat <- function(
 }
 
 
-#' @title Visualization of a correlalogram (or correlation matrix) for all
+#' @title Visualization of a correlogram (or correlation matrix) for all
 #'   levels of a grouping variable
 #' @name grouped_ggcorrmat
 #'
 #' @description
 #'
 #' Helper function for `ggstatsplot::ggcorrmat()` to apply this function across
-#' multiple levels of a given factor and combining the resulting plots using
+#' multiple levels of a given factor and combine the resulting plots using
 #' `ggstatsplot::combine_plots()`.
 #'
 #' @inheritParams ggcorrmat
@@ -227,8 +235,10 @@ ggcorrmat <- function(
 #' @seealso \code{\link{ggcorrmat}}, \code{\link{ggscatterstats}},
 #'   \code{\link{grouped_ggscatterstats}}
 #'
-#' @inherit ggcorrmat return references
-#' @inherit ggcorrmat return details
+#' @inherit ggcorrmat details
+#'
+#' @returns A `patchwork` object combining one plot per level of
+#'   `grouping.var` (see [`combine_plots()`]).
 #'
 #' @examples
 #' set.seed(123)

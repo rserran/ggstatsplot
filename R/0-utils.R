@@ -1,3 +1,5 @@
+# grouped functions built without a `.pre` hook capture `.pre = NULL`, so
+# codetools reports `.pre(...)` as a call to an undefined global function
 utils::globalVariables(".pre")
 
 # nocov start
@@ -57,11 +59,15 @@ utils::globalVariables(".pre")
 #'
 #' @description
 #'
-#' This function splits the data frame into a list, with the length of the list
-#' equal to the factor levels of the grouping variable.
+#' This function splits the data frame by the levels of the grouping variable.
+#' It returns a list with two elements: `data`, a list with one data frame per
+#' level, and `title`, a character vector with the corresponding level names.
 #'
 #' @inheritParams ggbetweenstats
-#' @param grouping.var A single grouping variable.
+#' @param grouping.var A single grouping variable. A separate plot is created
+#'   for each of its levels (in factor level order, or in order of appearance
+#'   for character variables). Rows with a missing value in this variable are
+#'   removed.
 #'
 #' @autoglobal
 #' @examplesIf identical(Sys.getenv("NOT_CRAN"), "true")
@@ -128,10 +134,12 @@ utils::globalVariables(".pre")
 
 #' @noRd
 .extract_expression <- function(data) {
-  purrr::pluck(data, "expression", 1L, .default = NULL)
+  purrr::pluck(data, "expression", 1L)
 }
 
 
+# Callers store the result as `stats_output`, where `extract_stats()` looks up
+# `subtitle_df` and `caption_df`.
 #' @noRd
 .subtitle_caption <- function(
   .f,
@@ -141,18 +149,13 @@ utils::globalVariables(".pre")
   bf.condition = type == "parametric"
 ) {
   subtitle_df <- .eval_f(.f, !!!.f.args, type = type)
-  subtitle <- .extract_expression(subtitle_df)
-  caption_df <- NULL
-  caption <- NULL
-
-  if (bf.condition && bf.message) {
-    caption_df <- .eval_f(.f, !!!.f.args, type = "bayes")
-    caption <- .extract_expression(caption_df)
+  caption_df <- if (bf.condition && bf.message) {
+    .eval_f(.f, !!!.f.args, type = "bayes")
   }
 
   list(
-    subtitle = subtitle,
-    caption = caption,
+    subtitle = .extract_expression(subtitle_df),
+    caption = .extract_expression(caption_df),
     subtitle_df = subtitle_df,
     caption_df = caption_df
   )

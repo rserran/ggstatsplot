@@ -15,22 +15,9 @@ vignette: >
 source("../setup.R")
 ```
 
-```{r}
-#| label = "suggested_pkgs",
-#| include = FALSE
-pkgs <- "ggside"
+---
 
-successfully_loaded <- purrr::map_lgl(pkgs, requireNamespace, quietly = TRUE)
-can_evaluate <- all(successfully_loaded)
-
-if (can_evaluate) {
-  purrr::walk(pkgs, library, character.only = TRUE)
-} else {
-  knitr::opts_chunk$set(eval = FALSE)
-}
-```
-
-Lifecycle: [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+Lifecycle: [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 
 The function `ggscatterstats` is meant to provide a **publication-ready
 scatterplot** with all statistical details included in the plot itself to show
@@ -44,21 +31,17 @@ To begin with, here are some instances where you would want to use
   - to check linear association between two continuous variables
   - to check distribution of two continuous variables
 
-**Note before**: The following demo uses the pipe operator (`|>`), so in case
-you are not familiar with this operator, here is a good explanation:
-<http://r4ds.had.co.nz/pipes.html>
-
 ## Correlation plot with `ggscatterstats`
 
 To illustrate how this function can be used, we will rely on the `ggplot2movies`
 dataset. This dataset provides information about movies scraped from
-[IMDB](https://www.imdb.com/). Specifically, we will be using cleaned version of
+[IMDB](https://www.imdb.com/). Specifically, we will be using a cleaned version of
 this dataset included in the `{ggstatsplot}` package itself.
 
 ```{r}
 #| label = "ggplot2movies1"
 
-## see the selected data (we have data from 1813 movies)
+## see the selected data
 dplyr::glimpse(movies_long)
 ```
 
@@ -67,7 +50,8 @@ questions. For example, let's see if the average IMDB rating for a movie has any
 relationship to its budget. Additionally, let's also see which movies had a high
 budget but low IMDB rating by labeling those data points.
 
-To reduce the processing time, let's only work with 30% of the dataset.
+Note that the marginal histograms are drawn with the `{ggside}` package; set
+`marginal = FALSE` to turn them off.
 
 ```{r}
 #| label = "ggscatterstats1",
@@ -91,18 +75,17 @@ ggscatterstats(
 ```
 
 There is indeed a small, but significant, positive correlation between the
-amount of money studio invests in a movie and the ratings given by the
+amount of money a studio invests in a movie and the ratings given by the
 audiences.
 
 ## Grouped analysis with `grouped_ggscatterstats`
 
-What if we want to do the same analysis do the same analysis for movies with
-different MPAA (Motion Picture Association of America) film ratings (NC-17, PG,
-PG-13, R)?
+What if we want to do the same analysis for movies with different MPAA (Motion
+Picture Association of America) film ratings (PG, PG-13, R)?
 
 `{ggstatsplot}` provides a special helper function for such instances:
-`grouped_ggstatsplot`. This is merely a wrapper function around
-`combine_plots`. It applies `{ggstatsplot}` across all **levels** of
+`grouped_ggscatterstats`. This is merely a wrapper function around
+`combine_plots`. It applies `ggscatterstats` across all **levels** of
 a specified **grouping variable** and then combines list of individual plots
 into a single plot. Note that the grouping variable can be anything: conditions
 in a given study, groups in a study sample, different studies, etc.
@@ -124,7 +107,6 @@ grouped_ggscatterstats(
   label.var = title,
   label.expression = rating < 5 & budget > 80,
   type = "r",
-  # ggtheme = ggthemes::theme_tufte(),
   ## arguments relevant for combine_plots
   annotation.args = list(
     title = "Relationship between movie budget and IMDB rating",
@@ -140,36 +122,39 @@ R-rated movies.
 
 ## Grouped analysis with `ggscatterstats` + `{purrr}`
 
-Although this is a quick and dirty way to explore large amount of data with
-minimal effort, it does come with an important limitation: reduced flexibility.
-For example, if we wanted to add, let's say, a separate type of marginal
-distribution plot for each MPAA rating or if we wanted to use different types of
-correlations across different levels of MPAA ratings (NC-17 has only 6 movies,
-so a robust correlation would be a good idea), this is not possible. But this
-can be easily done using `{purrr}`.
-
-See the associated vignette here:
-<https://www.indrapatil.com/ggstatsplot/articles/web_only/purrr_examples.html>
+For group-specific arguments or multiple grouping variables, see the
+[programmatic plotting article](purrr_examples.html#why-purrr). It explains
+how to split the data, customize each call, and combine the resulting plots.
 
 ## Summary of graphics and tests
 
-Details about underlying functions used to create graphics and statistical tests carried out can be found in the function documentation:
+```{asis, file="../../man/rmd-fragments/ggscatterstats_graphics.Rmd"}
+```
+
+The statistical tests and effect sizes carried out for each `type` are listed
+in the function documentation:
 <https://www.indrapatil.com/ggstatsplot/reference/ggscatterstats.html>
+
+## Extracting statistical details
+
+Use [`extract_stats()`](../../reference/extract_stats.html) to retrieve the
+results as data frames; its reference page describes all returned components,
+including the lists returned for `grouped_` plots.
+
+```{r}
+#| label = "extract_stats"
+p <- ggscatterstats(mtcars, qsec, drat)
+p
+
+extract_stats(p)$subtitle_data
+```
 
 ## Reporting
 
 ```{asis, file="../../man/md-fragments/reporting.md"}
 ```
 
-For example, let's see the following example:
-
-```{r}
-#| label = "reporting"
-ggscatterstats(mtcars, qsec, drat)
-```
-
-The narrative context (assuming `type = "parametric"`) can complement this plot
-either as a figure caption or in the main text-
+For the example above, the narrative context could read:
 
 > Pearson's correlation test revealed that, across 32 cars, a measure of
 acceleration (1/4 mile time; `qsec`) was positively correlated with rear axle
@@ -185,3 +170,14 @@ variables).
 
 If you find any bugs or have any suggestions/remarks, please file an issue on GitHub:
 <https://github.com/IndrajeetPatil/ggstatsplot/issues>
+
+## Citation {#citation}
+
+You can cite this package/vignette as:
+
+```{r}
+#| label = "citation",
+#| echo = FALSE,
+#| comment = ""
+citation("ggstatsplot")
+```

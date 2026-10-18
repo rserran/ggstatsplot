@@ -2,23 +2,37 @@
 #'
 #' @details
 #'
-#' These are convenience functions to extract data frames or expressions with
-#' statistical details that are used to create expressions displayed in
-#' `{ggstatsplot}` plots as subtitle, caption, etc. Note that all of this
-#' analysis is carried out by the `{statsExpressions}`
-#' [package](https://www.indrapatil.com/statsExpressions/). And so if you
-#' are using these functions only to extract data frames, you are better off
-#' using that package.
+#' These helpers retrieve the statistical data frames and expressions retained
+#' by `{ggstatsplot}` plots. If you only need tabular results, call the
+#' underlying analysis functions directly: `{statsExpressions}` for statistical
+#' tests, [`parameters::model_parameters()`] for model coefficients, and
+#' [`performance::model_performance()`] for model fit indices.
 #'
-#' The only exception is the `ggcorrmat()` function. But, if a data frame is
-#' what you want, you shouldn't be using `ggcorrmat()` anyway. You can use
-#' [`correlation::correlation()`] function which provides tidy data frames by
-#' default.
+#' `ggcorrmat()` does not retain statistical data frames, so all elements
+#' returned by `extract_stats()` are `NULL`. Use
+#' [`correlation::correlation()`] to obtain its statistical results as data.
 #'
 #' @returns
 #'
-#' A list of tibbles containing summaries of various statistical analyses.
-#' The exact details included will depend on the function.
+#' For `extract_stats()`, a list with the following elements, each either a
+#' data frame or `NULL` if not relevant for the given plot:
+#'
+#' - `subtitle_data`: results of the test displayed in the subtitle
+#' - `caption_data`: results of the test displayed in the caption (typically,
+#'   the Bayesian test)
+#' - `pairwise_comparisons_data`: results of pairwise comparisons
+#' - `descriptive_data`: counts and percentages (`ggpiestats()` and
+#'   `ggbarstats()`)
+#' - `one_sample_data`: proportion tests for each level of `y`
+#'   (`ggpiestats()` and `ggbarstats()`)
+#' - `tidy_data`: tidy model parameters (`ggcoefstats()`)
+#' - `glance_data`: model performance indices (`ggcoefstats()`)
+#'
+#' For `extract_subtitle()` and `extract_caption()`, the statistical expression
+#' used in the subtitle or caption, respectively (or `NULL` if unavailable).
+#' User-supplied subtitle and caption text is not returned.
+#'
+#' For plots from `grouped_*` functions, a list with one such element per plot.
 #'
 #' @param p A plot from `{ggstatsplot}` package
 #'
@@ -57,10 +71,14 @@ extract_stats <- function(p) .map_plots(p, .extract_stats)
   }
 }
 
-.pluck_plot_env <- function(p, data) purrr::pluck(p, "plot_env", data)
+# Statistical data frames are either bound directly in the plot environment or
+# kept in the `stats_output` list returned by the subtitle/caption helpers.
+.pluck_plot_env <- function(p, data) {
+  purrr::pluck(p, "plot_env", data) %||%
+    purrr::pluck(p, "plot_env", "stats_output", data)
+}
 
 .extract_stats <- function(p) {
-  # styler: off
   structure(
     list(
       subtitle_data = .pluck_plot_env(p, "subtitle_df"),
@@ -73,21 +91,17 @@ extract_stats <- function(p) .map_plots(p, .extract_stats)
     ),
     class = c("ggstatsplot_stats", "list")
   )
-  # styler: on
 }
 
 
 #' @rdname extract_stats
 #' @export
-extract_subtitle <- function(p) .extract_plot_expression(p, "subtitle_data")
+extract_subtitle <- function(p) .extract_plot_expression(p, "subtitle_df")
 
 #' @rdname extract_stats
 #' @export
-extract_caption <- function(p) .extract_plot_expression(p, "caption_data")
+extract_caption <- function(p) .extract_plot_expression(p, "caption_df")
 
 .extract_plot_expression <- function(p, data) {
-  .map_plots(
-    p,
-    \(x) purrr::pluck(.extract_stats(x), data, "expression", 1L)
-  )
+  .map_plots(p, \(x) .extract_expression(.pluck_plot_env(x, data)))
 }

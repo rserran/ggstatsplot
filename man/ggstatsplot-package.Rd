@@ -17,8 +17,6 @@ tests: parametric, nonparametric, robust, and Bayesian versions of
 meta-analysis, and regression analyses.
 }
 \details{
-\code{ggstatsplot}
-
 The main functions are:
 \itemize{
 \item \code{ggbetweenstats()} function to produce information-rich comparison plot
@@ -28,7 +26,7 @@ the statistical tests in the subtitle.
 \emph{within} different groups or conditions with \code{{ggplot2}} and details from
 the statistical tests in the subtitle.
 \item \code{ggscatterstats()} function to produce \code{{ggplot2}} scatterplots along
-with a marginal distribution plots from \code{{ggside}} package and details from
+with marginal distribution plots from \code{{ggside}} package and details from
 the statistical tests in the subtitle.
 \item \code{ggpiestats()} function to produce pie chart with details from the
 statistical tests in the subtitle.
@@ -45,7 +43,7 @@ displayed in the subtitle.
 plots using \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()}}.
 }
 
-References: Patil (2021) \doi{10.21105/joss.03236}.
+References: Patil (2021) \doi{10.21105/joss.03167}.
 
 For more documentation, see the dedicated
 \href{https://www.indrapatil.com/ggstatsplot/}{Website}.
